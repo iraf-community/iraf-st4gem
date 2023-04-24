@@ -1,0 +1,20 @@
+# Update the gfit1d application code in the fitting package library
+# Author: GIARETTA, 28-MAR-1988
+#
+#	Moved from tools to fitting (Busko 12-FEB-1990)
+#
+
+$checkout fitting.a ../
+$update   fitting.a
+$checkin  fitting.a ../
+$exit
+
+fitting.a:
+	gfit1d.x       		<imhdr.h> <pkg/gtools.h> <error.h> \
+				<math/curfit.h> <mach.h> <ctype.h> <fset.h> \
+				<gset.h> <tbset.h> icfit.h\
+				../lib/colnames.h  \
+				../lib/curfitdef.h \
+				../nlfit/nlfit.h
+	cvpowerd.x		dcurfitdef.h
+	;

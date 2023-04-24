@@ -1,0 +1,59 @@
+.help samplepars Jan96 stsdas.analysis.fitting
+.ih
+NAME
+samplepars -- Edit parameters related to data sampling and rejection.
+.ih
+USAGE
+samplepars
+.ih
+DESCRIPTION
+The points to be fit are determined by selecting a sample of data
+specified by the parameter 'sample' and taking either the average or
+median of the number of points specified by the parameter 'naverage'. 
+The type of averaging is selected by the sign of the parameter and the
+number of points is selected by the absolute value of the parameter. 
+
+If 'niterate' is greater than zero the sigma of the residuals between the
+fitted points and the fitted function is computed and those points whose
+residuals are less than LOW_REJECT * sigma or HIGH_REJECT * sigma value
+are excluded from the fit.  Points within a distance of 'grow' pixels of a
+rejected pixel are also excluded from the fit.  The function is then
+refit without the rejected points.  The rejection can be iterated the
+number of times specified by the parameter 'niterate'.  Note a rejection
+value of zero is the same as no rejection. 
+.ih
+PARAMETERS
+.ls (axis = 1) [integer, min=1, max=INDEF]
+Axis onto which to project  if fitting an image section of more than one 
+dimension. It is relative to the full image, and not to the particular
+section being fitted. For instance, when fitting the section
+data[100:*:*], 'axis' can have either a value of 2 or 3. Notice that
+redundant section constructs such as dev$pix[256:256,*] will not work.
+.le
+.ls (sample = *) [string]
+Sample points to use in fit. The default (*) is to set the sample to the 
+full data range. Sub-ranges may be specified by two real numbers 
+separated by a colon. Any number of sub-ranges are allowed, separated by 
+commas or spaces. The numbers must be in the same units as the X-axis.
+.le
+.ls (naverage = 1) [integer]
+Number of points to be used in sample averaging.
+.le
+.ls (low_reject = 0.) [real, min=0., max=INDEF]
+Lower threshold (in sigma) of the fit.  Values below this level will be 
+rejected. 
+.le
+.ls (high_reject = 0.) [real, min=0., max=INDEF]
+Upper threshold (in sigma) of the fit.  Values above this level will be 
+rejected. 
+.le
+.ls (niterate = 1) [integer, min=0, max=INDEF]
+Number of rejection iterations.
+.le
+.ls (grow = 0.) [real, min=0., max=INDEF]
+Rejection growing radius (in pixels).
+.le
+.ih
+SEE ALSO
+gfit1d, nfit1d, ngaussfit
+.endhelp

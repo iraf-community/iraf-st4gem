@@ -1,0 +1,11 @@
+# Pset with error-related parameters
+#
+errcolumn,s,h,"",,,>column name for error column if fitting table
+errtype,s,h,"uniform","uniform|bars|ccd",,>error type
+resample,b,h,no,,,>estimate coefficient errors by resampling ?
+sigma,r,h,INDEF,1.E-10,,>error bar to be applied to all data points
+epadu,r,h,1.,0.,,>ccd gain (electrons per ADU)
+readnoise,r,h,0.,0.,,>ccd read out noise in electrons
+replicas,i,h,15,2,,>number of replications in resampling error estimation
+version,s,h,"15Feb96",,,>date of installation
+mode,s,h,al

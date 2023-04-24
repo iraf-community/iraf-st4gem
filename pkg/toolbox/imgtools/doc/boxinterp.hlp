@@ -1,0 +1,89 @@
+.help boxinterp Jul97 stsdas.toolbox.imgtools
+.ih
+NAME
+boxinterp -- Fill in rectangular areas with values interpolated from the 
+surrounding area.
+.ih
+USAGE
+boxinterp input output coords
+.ih
+DESCRIPTION
+This task takes each image in turn, and for each specified point, fills 
+in a surrounding rectangle with cosmetic smooth values. The fill values 
+are calculated by fitting a bilinear surface to a  square annulus around 
+the point and evaluating it at each replaced pixel. The X,Y sides of the 
+inner rectangle and surrounding rectangle are specified by the user.
+.ih
+PARAMETERS
+.ls input [file name template]
+Input image(s) to be cosmetically smoothed.
+.le
+.ls output [file name template]
+Output image file names. If an output file name is the same as that of 
+the input image, then the file is edited in place. 
+.le
+.ls coords [file name]
+Name of the coordinates file. This may be either a reseau file, a binary 
+table, or an ASCII text file. This task will try to read the file first 
+as a reseau file, then as a table, and then as a text file until it 
+successfully reads the data. If the coordinate file is a table, then the 
+names of the columns to read for the X and Y coordinates are specified 
+by the 'xcol' and 'ycol' parameters, respectively.  If coordinates are 
+passed in a text file, then the numbers must be given as free format X,Y 
+coordinate pairs. INDEF values are ignored, as are points for which the 
+outer surrounding rectangle would not lie entirely within the  image.
+.le
+.ls (innerx = 1) [integer, min=0]
+X side of the inner box to fill. If 'innerx' is even, it will be 
+incremented.
+.le
+.ls (outerx = 5) [integer, min=1]
+X side of the outer box to fill.  If 'outerx' is even, it will be 
+incremented.  The 'outerx' parameter must be greater in value than the
+'innerx' parameter.  If this is not the case, 'outerx' will be set to the value
+of 'innerx' plus 1.
+.le
+.ls (innery = 1) [integer, min=0]
+Y side of the inner box to fill. If 'innery' is even, it will be 
+incremented.
+.le
+.ls (outery = 5) [integer, min=1]
+Y side of the outer box to fill. If 'outery' is even, it will be 
+incremented. The 'outery' parameter must be greater in value than the
+'innery' parameter.  If this is not the case, 'outery' will be set to the value
+of 'innery' plus 1.
+.le
+.ls (entry = * ) [string]
+Entry name to use if coords is a reseau table.
+.le
+.ls (xcol = c1) [string]
+Name of the X column.  This parameter is used if 'coords' is a table. 
+.le
+.ls (ycol = c2) [string]
+Name of the Y column.  This parameter is used if 'coords' is a table. 
+.le
+.ls (verbose = yes) [boolean]
+Print each image pair as processing progresses?
+.le
+.ih
+EXAMPLES
+1. Fill a rectangle of sides 3 x 5, centered at the point 100,200. The 
+fill data will be interpolated using the rectangle of side 7 x 9, 
+excluding the inner rectangle of 3 x 5.
+.nf
+
+	to> boxinterp in out STDIN innerx=3 outerx=7 innery=4 outery=9
+	100 200 
+	EOF
+
+.fi
+.le
+.ih
+BUGS
+.ih
+HELP
+For assistance using this or any other tasks, please contact help@stsci.edu 
+or call the help desk at 410-338-1082.
+.ih
+SEE ALSO
+.endhelp

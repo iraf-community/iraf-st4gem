@@ -1,0 +1,206 @@
+.help gstatistics Aug93  stsdas.toolbox.imgtools
+.ih
+NAME
+gstatistics -- compute and print pixel statistics of image groups
+.ih
+USAGE	
+gstatistics images
+.ih
+DESCRIPTION
+
+This task computes and prints, in tabular form, several statistical quantities,
+either for each individual group, or for an accumulation over a range of 
+groups, of images in the list.  The results for the last image will be saved 
+into corresponding parameters in the pset `gstpar'. The quantities 
+to be printed are those selected by the `fields' parameter, or they may all 
+be selected by setting `fields="doall"'.  The user may choose any or 
+all of the following:  
+
+.nf
+	 doall - all of the statistical quantities
+	  npix - the number of pixels used to do the statistics
+	   min - the minimum pixel value
+	   max - the maximum pixel value
+	   sum - sum over all the pixels
+	  mean - the mean of the pixel distribution
+	stddev - the standard deviation of the pixel distribution
+	 midpt - estimate of the median of the pixel distribution
+	  mode - estimate of the mode of the pixel distribution
+	  skew - the skewness of the pixel distribution
+          kurt - the kurtosis of the pixel distribution
+.fi
+
+A mask can be used to exclude pixels flagged as bad. The parameter, `masks',
+accepts user specified mask files, which can be a file list, a file
+template, or a blank. The default for the `masks' parameter is a blank and
+no masking will be performed. A mask can be either an IRAF mask pixel lists
+file with an extension of ".pl", or a mask image.  For example, the Data 
+Quality Files (DQF) associated with the HST data images can be used 
+as mask images. Masks used in this program will exclusively be considered 
+as boolean. Since the "bad" pixels are flagged by non-zero bits in a DQF image,
+only pixels of an image with a zero value in its DQF file are considered
+as "good". It is, therefore, assumed that an image-type mask is constructed in 
+such a way, that a non-zero mask pixel indicates that the pixel will be 
+rejected, while a zero mask pixel means that the pixel will be used.
+It is, however, conventional in a pixel-list-type mask that
+a non-zero mask pixel means to use that pixel. One may wish to use the task
+`images.imcopy' to copy a pixel-list-type mask into a mask image. 
+
+The parameter `groups' may be used to specify a range of groups. The default
+value of `groups' is set to "*" indicating statistics will be done for
+all groups of images. A group range may be specified by a set of three 
+integers, indicating the beginning group, the ending group, and the increment, 
+e.g., 3-11x2 meaning a range of groups starting from group No. 3 through
+group No. 11 with a step of 2 (note: a default step is 1). 
+Several ranges of groups may be specified as range lists separated by
+a delimiter, i.e., a "," or a blank. This range list, however, 
+will be overridden if the input file(s) itself already includes a group 
+specification. Note that the specification of the `groups' parameter
+will be ignored when a mask is a pixel lists file.
+
+This task will compute all specified statistical quantities either separately
+for individual groups of an image when `g_accum' is set to "no", or 
+accumulatively over all groups specified by the parameter `groups'
+when `g_accum' is set to "yes". The default value of `g_accum' is "no".
+
+
+The image mean, standard deviation, skewness, and kurtosis, are 
+computed using the expressions listed below.  
+
+.nf
+       mean = sum (x1,...,xN) / N
+     dev[i] = x[i] - mean
+   variance = sum {dev[i]**2} / (N-1)
+     stddev = sqrt (variance)
+   skewness = sum {(dev[i] / stddev) ** 3} / N
+   kurtosis = [sum {(dev[i] / stddev) ** 4} / N] - 3
+.fi
+
+The median and mode are computed in three passes through the image.  
+In the first pass the flagged data are excluded, and the mean and 
+extreme values are calculated.  In the 
+second pass the standard deviation, skewness, and kurtosis of the pixels 
+are calculated.  The median then is estimated by integrating the data 
+histogram and computing by interpolation the data value at which 
+half the pixels are below that data value and half are above it.  The 
+mode is estimated by locating the maximum of the data histogram and fitting 
+the peak by parabolic interpolation. While a histogram with the number of bins
+up to one fourth of the number of pixels is used to achieve high accuracy,
+re-binning of the histogram to a relatively low resolution may be
+beneficial for searching the peak of the histogram. A successive
+histograms with a bin width twice as broad as the previous one 
+are used to obtain intermediate results
+of the mode. The re-binning of the histograms is ended when either the
+bin width is greater than 0.01 * standard deviation or the number of bins
+becomes less than one tenth of the number of pixels. The final result
+for the mode is an average of all the intermediate results of the mode.
+
+The desired statistical quantities of the last group of the last 
+image in the list, if `g_accum' is set to "no", are saved 
+into a pset parameter file, `gstpar'.
+When `g_accum' is set to "yes", what is saved in `gstpar' is the
+accumulated statistical quantities. For unspecified fields, the values are
+set to INDEF in the pset `gstpar'. These quantities in `gstpar'
+can be passed to other tasks. 
+
+.ih
+PARAMETERS
+.ls images [string]
+List of images for which pixel statistics are to be computed.
+.le
+.ls (masks = "") [string]
+List of masks which can be either a pixel lists file or a mask image.
+.le
+.ls (groups = *) [string]
+List of ranges of groups in the images
+.le
+.ls (g_accum = no) [boolean]
+Accumulate statistics over groups of an image?
+.le
+.ls (fields = "npix,mean,stddev,min,max")
+The statistical quantities to be computed and printed.
+.le
+.ls (lower = INDEF) [real]
+Use only pixels with values greater than or equal to this limit.
+All pixels are above the default value of INDEF.
+.le
+.ls (upper = INDEF) [real]
+Use only pixels with values less than or equal to this limit.
+All pixels are below the default value of INDEF.
+.le
+.ls (gstpar = [pset])
+Pset name for storing the statistical parameters.
+.le
+.ih
+EXAMPLES
+1. Find the number of pixels, minimum, maximum, and mean  
+of the pixel values in the region [1:20,*] for each group in the image 
+"w2t.c0h".
+
+.nf
+cl> gstat w2t.c0h[1:20,*] masks="" fields="npix,min,max,mean" accum-
+ 
+# Image Statistics for w2t.c0h[1:20,*] 
+# GROUP      NPIX       MIN       MAX      MEAN
+[    1]     16000  -101.148   2609.08   34.8566
+[    2]     16000  -54.3591   15069.2    340.44
+[    3]     16000  -67.8204   8499.35   16.7805
+[    4]     16000   -165.57   18697.3   39.1163
+ 
+.fi
+
+2. Compute the number of "good" pixels, sum, mean, midpt and stddev 
+for dev$pix with "bad" pixels excluded by a mask msk.pl
+
+.nf
+cl> gstat dev$pix masks="msk.pl" fields="npix,sum,mean,midpt,stddev"     
+
+# Image Statistics for dev$pix
+# Bad pixels rejected by mask: msk.pl 
+      NPIX       SUM      MEAN     MIDPT    STDDEV
+      4748   462279.   97.3629   92.9448   37.8867
+cl> 
+
+.fi
+
+3. Compute the number of pixels, skewness and kurtosis for a list of groups
+(groups 2 through 4) as a whole with DQF-flagged pixels excluded.
+
+.nf
+
+cl> gstat w4t.c0h masks="w4t.c1h" groups="2-4" fields="npix,skew,kurt" \
+>>> g_accum+
+ 
+# Image Statistics for w4t.c0h 
+# Accumulated over groups: 2-4 
+# Bad pixels rejected by mask: w4t.c1h
+      NPIX  SKEWNESS  KURTOSIS
+   1801794   16.0679    471.94
+cl> 
+
+.fi
+
+.ih
+TIMING REQUIREMENTS
+On a SPARCStation 2, the task takes 37.92 CPU 
+seconds, and 55 sec of elapsed time, to compute all statistical quantities 
+for a 768 x 768 x 12 image.  These times decrease to 30.45 CPU sec and 
+43 elapsed seconds when a pixel-list-type mask excludes 40% pixels.
+It takes 10.267 CPU seconds and 19 sec of elapsed time to compute
+all statistical quantities for a full 800 x 800 WFPC image with 4 groups.
+Accumulating statistics over groups does not significantly influence the times
+required. Obviously, these times will vary with the type of machine 
+used, the amount of memory available, and other factors.  
+.ih
+REFERENCES
+The gstatistics program was based on the IRAF task imstatistics by Frank
+Valdes of the NOAO/IRAF group and the STSDAS task wstatistics
+by Richard A. Shaw of the STScI/STSDAS group. While the algorithms for 
+calculating statistical quantities in gstatistics are adopted from the 
+imstatistics and wstatistics, the gstatistics can deal with the IRAF (OIF)
+format and the STSDAS (GEIS) format images with masking operations.  
+See the source code for further information.
+.ih
+SEE ALSO
+gstpar, wstatistics, imstatistics, ranges
+.endhelp

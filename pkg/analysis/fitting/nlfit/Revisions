@@ -1,0 +1,137 @@
+
+<Busko 14-OCT-97>
+
+Added Levenberg-Marquardt method.
+
+
+
+<Busko 25-SEP-97>
+
+Added error catching code in user function evaluation.
+
+
+
+<Busko 11-SEP-97>
+
+Revised spectral regions in nl_xunit. 
+
+
+
+<Busko 11-MAR-96>
+
+Added ccd noise model. 
+Modified files: nlfit.h, nlparams.x, nlfit.x
+
+
+
+<Busko 26-FEB-96>
+
+Major modification to include minimization in chi-square instead of r.m.s. 
+A new parameter, "sigma", was defined for the three non-linear tasks. It is 
+used to set the data error bars when none are supplied in the input data. 
+Also added external control for several amoeba parameters.
+Modified files: nlsumsq.x, mlamoeba.x, nlfit.x, nlparams.x, nlinit.x,
+nlfit.h, mkpkg
+
+
+
+<Bushouse 14-MAY-93>
+
+Corrected inappropriate scaling of weights when calculating error estimates for 
+fit coefficients for the case where function=user and errtype=bars. Weights 
+should not be scaled when function=user.       
+Modified files: nlfit.x
+
+
+
+<Busko 27-JUL-91>
+
+Corrected wrong common allocation when working with user function. Increased 
+number of replications in bootstrap resampling.
+Modified files: nlfit.x, nlvector.x.
+
+
+
+<Busko 23-JUL-90>
+
+Modified 2-d Gaussian to include ellipticity and position angle as function 
+parameters.
+Modified files: nlfit.h,nl2dgauss.x,nlscale.x,nleval.x
+
+
+
+<Busko 12-JUL-90>
+
+The library is now able to handle functions of two variables. Added 2-dim 
+Gaussian to the function repertoire.
+Modified files: nleval.x, nlfit.h, nlfit.x, nlinit.x, nlparams.x, nlscale.x, 
+nlsumsq.x, nlvector.x, nlzeval.x, nlxscale.x
+
+
+
+<Busko 08-JUN-90>
+
+Introduced baseline with linear slope in Gaussians and cgauss functions. 
+Both zero point and slope are now an integral part of the function coefficients. 
+"baseline" structure element was eliminated.
+Modified files: nlfit.h,nleval.x,nlscale.x,nlinit.x,nlparams.x
+
+
+
+<Busko 23-MAY-90>	
+
+The user function is now implemented through a parser-interpreter, taken from 
+stsdas$lib/xtools. Also, the constants which control the amount of simplex 
+expansion/contraction can now be user-selected, in case of user function.
+Modified files: nlfit.h, nluserf.com, nluserf.x, nlinit.x, nlparams.x, 
+nlamoeba.x.
+
+
+
+<Busko 5-FEB-90>
+
+New function type: GALPROF (galaxy brigthness profile), and its components, 
+GALBULGE and GALDISK, were added to the library. Parameters that control the 
+amount of simplex expansion/contratction in the amoeba code were fine-tuned 
+for the functional type.
+Modified files: nlfit.h, nleval.x, nlscale.x, nlgalprof.x,nlamoeba.x
+
+
+
+<Busko 30-JUL-89>
+
+New macros were defined, in order to make access to the coefficient, flag 
+and error vectors independent of the physical order of the particular 
+coefficients of each function.
+Modified files: nlamoeba.x, nlscale.x, nleval.x, nlfit.h
+
+
+
+<Busko 20-JUL-89>
+
+New function type CGAUSS (constrained Gaussians) was added to the library.
+Modified files: nlfit.h, nleval.x, nlscale.x, nlamoeba.x
+
+
+
+<Busko 20-JUL-89>
+
+A new routine, nl_scale, was added to the library in order to take care of 
+parameter scaling. This was being done before in nl_vector and nl_eval.
+Modified files: nleval.x,nlvector.x,nlscale.x
+
+
+
+<Busko 24-MAY-89>
+
+Reallocation of x data vector was wrong; the bug manifested itself when using 
+sub-samples from the original data.
+Modified files: nlvector.x
+
+
+
+<Busko 28-APR-89>
+
+Modifications were made in these routines in order to incorporate two new 
+function types: (i)  sum of two black-bodies; (ii) user-specified function. 			Modified files: nleval.x,nlvector.x,nlfit.x,nlfit.h, 
+

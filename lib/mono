@@ -1,0 +1,8 @@
+# Monochrome colormap for psikern output.
+#
+# Each color component is specfied from units of 0. (no color) 
+# to 1. (full color)
+#
+# Index	red	green	blue    name (optional)
+0	1.	1.	1.	white
+1	0.	0.	0.	black

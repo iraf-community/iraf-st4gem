@@ -1,0 +1,27 @@
+# Update the lib subdirectory for the fourier package library.
+# Author: C.D.Biemesderfer, 29-DEC-1987
+
+$checkout fourier.a ../
+$update   fourier.a
+$checkin  fourier.a ../
+$exit
+
+fourier.a:
+	ftcenter.x      	
+	ftcmplx.x
+	fterror.x      		<error.h> ../fterr.h 
+	ftfft.x        		../fourier.h 
+	ftfiles.x      		<imhdr.h> ../fourier.h ../fterr.h 
+	ftfname.x      		
+	ftixcopy.x		<imhdr.h> ../fourier.h
+	ftmalloc.x      	../fourier.h 
+	ftmaps.x        	<imhdr.h> <imset.h> 
+	ftpairs.x      		<imhdr.h> ../fourier.h ../fterr.h
+	ftphase.x      		<mach.h> <math.h> ../fourier.h 
+	ftriprint.x      	<imhdr.h> ../fourier.h 
+	ftstructopen.x		../fourier.h
+	fttrans.x      		<imhdr.h> 
+	ftwcs.x      		<imhdr.h> ../fourier.h 
+	ftwork.x      		../fourier.h 
+	loadct.x       		<imhdr.h> <math.h> ../fourier.h 
+	;

@@ -1,0 +1,1 @@
+./gi.h:define	UNKNOWN	 Memc[($1+IMU-1)*SZ_STRUCT+1]

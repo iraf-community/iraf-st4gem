@@ -1,0 +1,60 @@
+.help hdiff Dec91 stsdas.toolbox.headers
+.ih 
+NAME 
+hdiff -- Display the differences between two image headers.
+.ih 
+USAGE 
+hdiff input1 input2
+.ih 
+DESCRIPTION
+The 'hdiff' task prints the differences between two image headers on
+STDOUT. A line is printed each time a keyword is present in one image
+but not in the other, or when the value of the keyword is different between
+the two headers. If no differences are found, this task produces no
+output. Keyword comments, blank lines, and HISTORY and COMMENT
+keywords are always ignored. All groups will be checked unless a group
+specifier is added to the image name. The hidden parameter 'keywords'
+controls which keywords will be checked for differences. If it is left
+blank, all keywords will be compared.
+.ih
+PARAMETERS
+.ls input1 [image template]
+An image template containing the names of images to compare with those
+named in the second image template.
+.le
+.ls input2 [image template]
+An image template containing the names of images to compare with those
+named in the first image template. The number of images in the first
+and second templates must match and the number of groups in each two
+images compared with each other must match.
+.le
+.ls (keywords = " ") [string]
+A comma- or blank-delimited list of keywords to compare. Keyword names
+are not case sensitive. If the list is blank, all keywords will be
+compared. If the first character in the list is a "@", the rest of the
+string is treated as a file and the keywords are read from that file.
+If the first character in the list is a "~", keywords not in the list
+will be compared.
+.le
+.ih
+EXAMPLES
+1. Compare the keywords 'fchnl', 'nchnls', 'nxsteps', and 'overscan' in the
+images 'y1000.d0h' and 'y1001.d0h':
+.nf
+
+to> hdiff y1000.d0h y1001.d0h key="fchnl,nchnls,nxsteps,overscan"
+.fi
+
+2. Compare all the images in a directory with their data quality masks
+for differences:
+.nf
+
+to> hdiff *.d0h *.%d0h%q0h%
+.fi
+.ih
+BUGS
+.ih
+SEE ALSO
+hselect, hcheck
+
+.endhelp

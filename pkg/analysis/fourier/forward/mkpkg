@@ -1,0 +1,12 @@
+# Update the forward application code in the fourier package library
+# Author: C.D.Biemesderfer, 29-DEC-1987
+
+$checkout fourier.a ../
+$update   fourier.a
+$checkin  fourier.a ../
+$exit
+
+fourier.a:
+	forward.x      		<imhdr.h> ../fourier.h ../fterr.h 
+	ftsmallf.x		<imhdr.h> ../fourier.h
+	;

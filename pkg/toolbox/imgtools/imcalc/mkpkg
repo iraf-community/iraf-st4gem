@@ -1,0 +1,12 @@
+# Update the imcalc application code in the imgtools package library
+# Author: B.Simon, 21-MAY-1990
+
+$checkout imgtools.a ../
+$update   imgtools.a
+$checkin  imgtools.a ../
+$exit
+
+imgtools.a:
+	imcalc.x
+	imvar.x		"imvar.com"  <imhdr.h>  <imio.h>
+	;

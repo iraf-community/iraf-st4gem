@@ -1,0 +1,9 @@
+# Help directory for the stplot package.
+
+$stplot		= "stsdas$pkg/graphics/stplot/"
+$doc		= "stsdas$pkg/graphics/stplot/doc/"
+$igi		= "stsdas$pkg/graphics/stplot/igi/"
+$psikern	= "stsdas$pkg/graphics/stplot/psikern/"
+
+igi		hlp=doc$igi.hlp,	src=igi$t_igi.x
+psikern		hlp=doc$psikern.hlp,	src=psikern$t_psikern.x, sys=doc$psikern_sys.hlp

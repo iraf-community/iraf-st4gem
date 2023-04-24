@@ -1,0 +1,202 @@
+.help groupmod Aug92 stsdas.toolbox.headers
+.ih
+NAME
+groupmod -- Add or delete group parameters in multi-group images.
+.ih
+USAGE
+groupmod input output keywords operation
+.ih
+DESCRIPTION
+This task will add or delete group parameters in multi-group GEIS
+format images, which are described in the "Data Formats" chapter
+of the "STSDAS Users Guide" (available from STScI).
+
+Group parameters are read from the table specified by the 'keywords'
+parameter.  If you are adding parameters, there are two required columns and
+two optional columns. The first mandatory column contains the name of the
+parameter to add, a maximum of eight characters in length.  The second
+mandatory column contains the type of parameter to be added.  The possible types
+are specified below (case is not significant):
+
+.nf
+        BOOLEAN
+        INTEGER
+        LONG
+        REAL
+        DOUBLE
+        CHARACTER*XX    (where XX is the number of characters < 70)
+.fi
+
+The first optional column is an initial value for the new parameter.
+If no third column is specified, the initial value will be 0 or an
+empty string, depending on the data type.  The second optional column
+contains a comment to be placed in the comment field of the parameter.
+If no column is specified, the comment field will be blank.
+
+If parameters are to be deleted, only one column, defining the names of
+the parameters to be deleted, needs to be specified.
+
+One final note about the table format.  'groupmod' can read either
+binary or text tables.  For text tables, the column names are "c1",
+"c2", etc. for column 1, column 2, etc. respectively.
+.ih
+PARAMETERS
+.ls input [file name]
+List of input images to modify.  The input images must already be
+multi-group images.  To create a multi-group image, see EXAMPLES
+below.
+.le
+.ls output [file name]
+List of output file names for the modified images. 
+If file
+names are explicitly listed, there must be the same number of output
+names as there are input images.  If a single name is specified, it is
+taken to be a template on which numbers are appended to create the
+output files.  If this is left blank, the images are modified in
+place.  If a directory is specified, then the modified images will be
+placed in that directory with the same names as the original images.
+.le
+.ls keywords = "STDIN" [file name]
+Name of the table to read parameter descriptions from and the 
+columns in which the information appears.  This can
+either be a file or, if "STDIN" is specified, the table is read from
+standard input (i.e., the keyboard).  See the "DESCRIPTION" section for
+details on the contents of the table.
+.le
+.ls operation = "add" [string, allowed values: add | delete ]
+
+Either "add" the group parameters to the
+specified images, or "delete" them from the specified images.
+.le
+.ls (names = "") [string]
+The name of the column containing the parameter names to be added.  If
+left blank, 'groupmod' assumes that the first column of the table
+contains the names.
+.le
+.ls (types = "") [string]
+The name of the column containing the types for each parameter to be
+added.  If left blank, 'groupmod' assumes that the second column of the
+table contains the types.  This only needs to be specified when adding
+group parameters.
+.le
+.ls (initial = "INDEF") [string]
+The name of the column containing the initial values for group
+parameters.  If equal to "INDEF", no column contains initial values.
+If left blank, groupmod assumes that the third column of the table
+contains the initial values.  This column is read only when adding
+group parameters.
+.le
+.ls (comments = "INDEF") [string]
+The name of the column containing comment descriptors for the group
+parameters.  If equal to "INDEF", no column contains comments.  If
+left blank, 'groupmod' assumes the fourth column contains comments.
+This column is read only when adding group parameters.
+.le
+.ls (verbose = yes) [boolean]
+Display names of file as they are processed?
+.le
+.ih
+EXAMPLES
+1. Add a new integer parameter, 'newint', to the group parameter block
+for the image 'groupimage', creating the modified image 'newimage'.  Type in
+the parameter specification.
+
+.nf
+        cl> groupmod groupimage newimage STDIN add
+        newint integer
+        ^Z (or whatever the end-of-file character is for the system)
+.fi
+
+2. Do the same as example 1, except set the initial value to 5000.
+
+.nf
+        cl> groupmod groupimage newimage STDIN add
+        newint integer 5000
+        ^Z (or whatever the end-of-file character is for the system)
+.fi
+
+3. Modify the existing image; don't create a new image.
+
+.nf
+        cl> groupmod groupimage "" STDIN add
+        newint integer
+        ^Z (or whatever the end-of-file character is for the system)
+.fi
+
+4. Modify an existing image, adding all the parameters necessary to
+specify a world coordinate system in two dimensions.  The parameter
+specifications are in the text table 'wcs_params.tab'.
+
+.nf
+        cl> groupmod groupimage "" wcs_params.tab add
+.fi
+
+The contents of table 'wcs_params.tab' is:
+
+.nf
+        ctype1  character*8     "LINEAR"
+        ctype2  character*8     "LINEAR"
+        crpix1  double
+        crpix2  double
+        crval1  double
+        crval2  double
+        cd1_1   double
+        cd1_2   double
+        cd2_1   double
+        cd2_2   double
+.fi
+
+5. Add the parameters in table 'wcs_params.tab' (see example 4) to all
+the images in the current directory and put the modified images in the
+subdirectory 'withwcs'.
+
+.nf
+        cl> mkdir withwcs
+        cl> groupmod *.??h withwcs wcs_params.tab add
+.fi
+
+6. Suppose that afer doing example 5, you decide that you don't need
+the parameters, but you've already deleted the image. Delete the
+parameters specified by table 'wcs_params.tab' and write
+the results to the current directory.
+
+.nf
+        cl> groupmod withwcs/*.??h . wcs_params.tab delete
+.fi
+
+7. Same as example 5, except the table has the initial values as the
+first column, and the parameter name and type as the second and third
+column, respectively.  Note that 'wcs_params.tab' is a text table, so
+the column names are "c1", "c2", etc.
+
+.nf
+        cl> groupmod *.??h withwcs wcs_switched.tab add \
+        >>> names=c2 types=c3 initial=c1
+.fi
+
+8. Add the parameters from table 'wcs_params.tab' to all images and
+place the results in images with the name beginning "newpar".  The
+resultant image names will be 'newpar001', 'newpar002', etc.  Note
+that the output specification is the same as when a directory is
+specified.  'groupmod' first checks to see if a single output
+specification is a directory or not.  If it is, the images are placed
+in the directory with their original names.  If the output
+specification is not a directory, it is assumed to be a template.
+
+.nf
+        cl> groupmod *.??h newpar wcs_params.tab add
+.fi
+
+9. Convert a OIF image, one that ends in the extension ".imh", to a
+multi-group image containing four groups, and add the parameters
+specified in the table 'wcs_params.tab' to the group parameter block.
+
+.nf
+        cl> imcopy image.imh groupimage.hhh[1/4]
+        cl> groupmod groupimage.hhh "" wcs_params.tab add
+.fi
+.ih
+BUGS
+.ih
+SEE ALSO
+.endhelp

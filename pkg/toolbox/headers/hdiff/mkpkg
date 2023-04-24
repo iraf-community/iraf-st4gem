@@ -1,0 +1,14 @@
+# Update the hdiff application code in the headers package library
+# Author: B.Simon, 21-MAY-1990
+
+$checkout headers.a ../
+$update   headers.a
+$checkin  headers.a ../
+$exit
+
+headers.a:
+	cmprecord.x	"hdiff.h"
+	getkeybuf.x	"hdiff.h"  <imhdr.h>
+	hdiff.x		"hdiff.h"  <imhdr.h>  <error.h>
+	prhdiff.x	"hdiff.h"  <imio.h>
+	;

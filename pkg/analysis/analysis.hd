@@ -1,0 +1,24 @@
+# Help directory for the ANALYSIS package
+
+
+$dither		= "stsdas$pkg/analysis/dither/"
+$fitting	= "stsdas$pkg/analysis/fitting/"
+$fourier	= "stsdas$pkg/analysis/fourier/"
+
+dither		men=dither$dither.men,
+		hlp=..,
+		sys=dither$dither.hlp,
+		pkg=dither$dither.hd,
+		src=dither$dither.cl
+
+fitting		men=fitting$fitting.men,
+		hlp=..,
+		sys=fitting$fitting.hlp,
+		pkg=fitting$fitting.hd,
+		src=fitting$fitting.cl
+
+fourier		men=fourier$fourier.men,
+		hlp=..,
+		sys=fourier$fourier.hlp,
+		pkg=fourier$fourier.hd,
+		src=fourier$fourier.cl

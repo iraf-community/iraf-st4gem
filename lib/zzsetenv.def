@@ -1,0 +1,19 @@
+# Global environment definitions for the ST4GEM packages.
+
+set	pkglibs		= "st4gem$bin(arch)/,st4gem$lib/"
+set	st4gembin	= "st4gem$bin/"
+set	st4gemlib	= "st4gem$lib/"
+set	st4gempkg	= "st4gem$pkg/"
+
+set	analysis	= "st4gempkg$analysis/"
+set	graphics	= "st4gempkg$graphics/"
+set	toolbox		= "st4gempkg$toolbox/"
+
+# Only set these if they havent already been set by the user
+# Don't take the next line out; without it, the rest of the lines don't work
+if (defvar('dev')) {}
+
+# IGI environment
+set	igi_buflen	= 10000
+
+keep

@@ -1,0 +1,53 @@
+# Help directory for the IMGTOOLS package
+
+$doc      	= "stsdas$pkg/toolbox/imgtools/doc/"
+$addmasks	= "stsdas$pkg/toolbox/imgtools/addmasks/"
+$boxinterp	= "stsdas$pkg/toolbox/imgtools/boxinterp/"
+$gcombine       = "stsdas$pkg/toolbox/imgtools/gcombine/"
+$gcopy          = "stsdas$pkg/toolbox/imgtools/gcopy/"
+$gstatistics    = "stsdas$pkg/toolbox/imgtools/gstatistics/"
+$imcalc		= "stsdas$pkg/toolbox/imgtools/imcalc/"
+$imfill         = "stsdas$pkg/toolbox/imgtools/imfill/"
+$iminsert	= "stsdas$pkg/toolbox/imgtools/iminsert/"
+$improject	= "stsdas$pkg/toolbox/imgtools/improject/"
+$imtutil	= "stsdas$pkg/toolbox/imgtools/imtutil/"
+$listarea	= "stsdas$pkg/toolbox/imgtools/listarea/"
+$mkgauss	= "stsdas$pkg/toolbox/imgtools/mkgauss/"
+$moveheader	= "stsdas$pkg/toolbox/imgtools/moveheader/"
+$mstools	= "stsdas$pkg/toolbox/imgtools/mstools/"
+$pixedit	= "stsdas$pkg/toolbox/imgtools/pixedit/"
+$pixlocate	= "stsdas$pkg/toolbox/imgtools/pixlocate/"
+$rbinary	= "stsdas$pkg/toolbox/imgtools/rbinary/"
+$rd2xy		= "stsdas$pkg/toolbox/imgtools/rd2xy/"
+$stack		= "stsdas$pkg/toolbox/imgtools/stack/"
+$xy2rd		= "stsdas$pkg/toolbox/imgtools/xy2rd/"
+$xyztoim	= "stsdas$pkg/toolbox/imgtools/xyztoim/"
+
+addmasks	hlp=doc$addmasks.hlp,	src=addmasks$addmasks.x
+boxinterp	hlp=doc$boxinterp.hlp,	src=boxinterp$boxinterp.x
+countfiles	hlp=doc$countfiles.hlp,	src=imtutil$countfiles.x
+gcombine        hlp = doc$gcombine.hlp, src = gcombine$t_gcombine.x
+gcopy		hlp=doc$gcopy.hlp,	src=gcopy$t_gcopy.x
+gstatistics     hlp=doc$gstatistics.hlp,src=gstatistics$t_gstat.x
+gstpar		hlp=doc$gstpar.hlp,	src=imgtools$gstpar.par
+imcalc		hlp=doc$imcalc.hlp,	src=imcalc$imcalc.x
+imfill          hlp=doc$imfill.hlp,     src=imfill$imfill.x
+iminsert	hlp=doc$iminsert.hlp,	src=iminsert$iminsert.x
+improject	hlp=doc$improject.hlp,	src=improject$improject.x
+listarea	hlp=doc$listarea.hlp,	src=listarea$listarea.x
+mkgauss		hlp=doc$mkgauss.hlp,	src=mkgauss$t_mkgauss.x
+moveheader	hlp=doc$moveheader.hlp,	src=moveheader$moveheader.x
+mstools		men=mstools$mstools.men,
+		hlp=..,
+		sys=mstools$mstools.hlp,
+		pkg=mstools$mstools.hd,
+		src=mstools$mstools.cl
+pickfile	hlp=doc$pickfile.hlp,	src=imtutil$pickfile.x
+pixedit		hlp=doc$pixedit.hlp,	src=pixedit$pixedit.x
+pixlocate	hlp=doc$pixlocate.hlp,	src=pixlocate$pixlocate.x
+rbinary		hlp=doc$rbinary.hlp,	src=rbinary$rbinary.x
+rd2xy		hlp=doc$rd2xy.hlp,	src=rd2xy$t_rd2xy.x
+stack		hlp=doc$stack.hlp,	src=stack$stack.x
+xy2rd		hlp=doc$xy2rd.hlp,	src=xy2rd$t_xy2rd.x
+xyztable	hlp=doc$xyztable.hlp,	src=xyztoim$xyztable.x
+xyztoim		hlp=doc$xyztoim.hlp,	src=xyztoim$xyztoim.x

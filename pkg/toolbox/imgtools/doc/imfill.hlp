@@ -1,0 +1,104 @@
+.help imfill May91 stsdas.toolbox.imgtools
+.ih
+NAME
+imfill -- Set fill value in image according to a mask.
+.ih
+USAGE
+imfill image mask expr value
+.ih
+DESCRIPTION
+This task takes as input an image and mask of the same size. It
+evaluates an expression using the mask pixels and sets the
+corresponding image pixel to the fill value whenever the expression is
+true. The variable name in the expression which represents the mask may
+be any alphanumeric string, but the expression may contain only one
+name. For example, the expressions
+
+.nf
+x .ge. 100 .and. x .lt. 200
+
+and
+
+mask .ge. 100 .and. mask .lt. 200
+
+are both legal and have the same meaning. However, the expression
+
+x .ge. 100 .and. y .lt. 200
+.fi
+
+is illegal and will cause an error. The following logical operators
+are supported. Logical operators are supported in both their Fortran
+and SPP form.
+
+.nf
+.or. ||		logical or	.and. 	&&	logical and
+.eq. ==		equality	.ne. 	!=	inequality
+.lt. <		less than	.gt. 	>	greater than
+.le. <=		less or equal	.ge. 	>=	greater or equal
+.not. !		not
+.fi
+
+All the operators and standard functions of ANSI Fortran are also
+supported. For a list of these operators and functions, see the help
+file for the 'imcalc' task. Usually the expression to be evaluated will be some
+combination of logical operators. However, an arithmetic expression is
+also acceptable and will be interpreted so that zero is false and any
+non-zero value is true.
+.ih
+PARAMETERS
+.ls image [file name]
+The image name. The image is modified in place. If the image name does
+not contain a group specifier, all groups in the image will be
+modified. If the image contains a group specifier, only the specified
+group will be modified.
+.le
+.ls mask [file name]
+The mask file name. This task supports both full images used as masks
+and two compressed formats: iraf pixel list (.pl) format and STSDAS
+table format. For a description of how masks are stored in an STSDAS
+table, see the help file for the 'copymask' task.
+.le
+.ls expr [string]
+The expression to evaluate. If the expression is too long to pass as a
+parameter, place the expression in a file and set the value of this
+parameter to the file name preceded by an "@" character.
+.le
+.ls value [real]
+The fill value. The fill value will be set in the image whenever the
+expression is true.
+.le
+.ih
+EXAMPLES
+
+1. Set the image to zero when the mask is non-zero. All groups in the
+image will be changed.
+
+.nf
+im> imfill w0001.d0h w0001.q0h "x .ne. 0" 0.
+.fi
+
+2. Set the image to zero when the mask is non-zero. Only change the 
+first group.
+
+.nf
+im> imfill w0001.d0h[1] w0001.q0h[1] "x .ne. 0" 0.
+.fi
+
+3. Set the image to zero on the basis of an expression stored in a 
+file.
+
+.nf
+im> imfill w0001.d0h w0001.q0h @imfill.dat 0.
+.fi
+
+The file 'imfill.dat' contains the following line:
+
+.nf
+(x .ge. 100 .and. x .lt. 200) .or. x .eq. 300
+.fi
+
+.ih
+SEE ALSO
+copymask, imcalc
+
+.endhelp

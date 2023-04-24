@@ -1,0 +1,14 @@
+input,s,a,,,,>data to be fit
+output,s,a,,,,>output table
+function,s,h,"spline3","spline3|legendre|chebyshev|spline1",,>fitting function
+order,i,h,1,1,,>order of fitting function
+xmin,r,h,INDEF,,,>limits for normalization
+xmax,r,h,INDEF,,,
+ps,b,h,yes,,,>output as power-series polynomial ?
+errorpars,pset,h,,,,pset for error-related parameters
+samplepars,pset,h,,,,pset for sampling parameters
+interactive,b,h,yes,,,>set fitting parameters interactively?
+device,s,h,"stdgraph",,,>graphics output device
+cursor,*gcur,h,"",,,>graphics cursor input
+version,s,h,"16Sep97",,,>date of installation
+mode,s,h,al

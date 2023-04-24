@@ -1,0 +1,7 @@
+# Help directory for the TOOLBOX.TOOLS package
+
+$tools		= "st4gem$pkg/toolbox/tools/"
+$doc		= "st4gem$pkg/toolbox/tools/doc/"
+$fparse         = "st4gem$pkg/toolbox/tools/fparse/"
+
+fparse          hlp=doc$fparse.hlp,     src=fparse$t_fparse.x

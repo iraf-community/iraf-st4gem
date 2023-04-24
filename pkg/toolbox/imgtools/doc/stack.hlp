@@ -1,0 +1,57 @@
+.help stack Jun94 stsdas.toolbox.imgtools
+.ih
+NAME
+stack -- Stack images along a specified axis, increasing the number of 
+dimensions by one.
+.ih
+USAGE
+stack input output 
+.ih
+DESCRIPTION
+The program stacks a list of images, producing an image
+with one greater dimension. Pixel [i,j,k] of the output image will be 
+equal to pixel [i,j] of image 'k'.
+.ih
+PARAMETERS
+.ls input [file list]
+Names of the input files that are to be stacked. All images must be of 
+the same size and have the same number of dimensions.
+.le
+.ls output [file name]
+Name of the output file produced by this task.
+.le
+.ls (pixtype = real) [string, allowed values: real | long | int |
+ short | double]
+.sp
+Data type of pixels in the output image.
+.le
+.ls (ctype = "PIXEL") [string]
+Value for the ctype keyword for the new axis.
+.le
+.ls (crval = 0.0) [real]
+Value for the crval keyword for the new axis.
+.le
+.ls (crpix = 0.0) [real]
+Value for the crpix keyword for the new axis.
+.le
+.ls (cdelt = 1.0) [real]
+Value for the CD matrix keyword for the new axis.
+.le
+.ih
+EXAMPLES
+1.  Stack all images matching the template "inim*.imh".
+If there are 20 files with a size of 512 x 512,
+then "outim" will have dimension 512 x 512 x 20.
+
+.nf
+  im> stack inim*.imh outim 
+.fi
+
+.ih
+BUGS
+.ih
+REFERENCES
+This task was written by David Giaretta.
+.ih
+SEE ALSO
+.endhelp

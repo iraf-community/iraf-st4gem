@@ -1,0 +1,9 @@
+input,s,a,,,,"list of input images"
+output,s,a,,,,"list of output images"
+projaxis,i,a,1,1,,"axis to project along (i.e. axis to collapse)"
+average,b,h,no,,,"average along axis? (vs. sum)"
+highcut,r,h,0.0,,,"take only data below this value (unless=lowcut)"
+lowcut,r,h,0.0,,, "take only data above this value (unless=highcut)"
+pixtype,s,h,real,"real|long|short|int|double",,"output pixel type"
+verbose,b,h,yes,,,"print details of operations to STDOUT?"
+mode,s,h,al

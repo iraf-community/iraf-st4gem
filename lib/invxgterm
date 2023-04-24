@@ -1,0 +1,37 @@
+# Inverse xgterm colormap for psikern.
+# This is different from the standard xgterm color map where the foreground/
+# background are inverted.  This is so the background is white, as is most
+# paper, and the foreground is black, as in most writing on paper.
+#
+# Each color component is specfied from units of 0. (no color) 
+# to 1. (full color)
+#
+# The columns are:
+# Index	red	green	blue    name (optional)
+#
+# Define the default background/foreground
+#
+0	1.	1.	1.	white
+1	0.	0.	0.	black
+#
+# The following colors are color2 through color9 of xgterm's default
+# coloring.
+#
+2	1.	0.	0.	red
+3	0.	1.	0.	green
+4	0.	0.	1.	blue
+5	0.	1.	1.	cyan
+6	1.	1.	0.	yellow
+7	1.	0.	1.	magenta
+8	0.63	0.13	0.94	purple
+9	0.18	0.31	0.31	darkslategray
+#
+# Just to round things out, finish defining the colors up through color 15.
+# Use the tvmark colormap for the definition.
+#
+10	1.	0.65	0.	orange
+11	0.94	0.90	0.55	khaki
+12	0.85	0.44	0.84	orchid
+13	0.25	0.88	0.82	turquoise
+14	0.93	0.51	0.93	violet
+15	0.96	0.87	0.70	wheat

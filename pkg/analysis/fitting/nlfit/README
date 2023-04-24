@@ -1,0 +1,9 @@
+Non-linear least squares curve fitting package.
+
+Contains routines to fit functions non-linear in their parameters, in the least
+squares sense, to 1 or 2-dimensional data. 
+
+The package contains separate entry points for setting the function parameter's
+initial guesses, fitting, evaluating the curve and rejecting data points.
+
+							Ivo Busko  2/89

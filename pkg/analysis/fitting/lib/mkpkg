@@ -1,0 +1,24 @@
+# Update the general library in the fitting package.
+# Author: I.Busko, 12-JUN-1990
+
+$checkout fitting.a ../
+$update   fitting.a
+$checkin  fitting.a ../
+$exit
+
+fitting.a:
+	nlfit1.x		../ncfit/names.h 			\
+				<pkg/gtools.h> <error.h> <mach.h> 	\
+				<ctype.h> <fset.h> <gset.h>
+	nlwtdb.x		../nlfit/nlfit.h colnames.h		\
+				<ctype.h> <error.h> <mach.h> <fset.h>	\
+				<time.h> <tbset.h>
+	opendb.x		colnames.h <time.h>
+	prepdata.x		../nlfit/nlfit.h
+	rdcurves.x		<imhdr.h> <error.h> <mach.h> <ctype.h>  \
+				<fset.h> <tbset.h> <imset.h>
+	extnstr.x
+	getfit.x		colnames.h <tbset.h>
+	tqsort.x		<ctype.h> <error.h> <mach.h>
+	;
+

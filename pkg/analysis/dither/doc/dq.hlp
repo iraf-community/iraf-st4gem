@@ -1,0 +1,67 @@
+.help dq Apr97 stsdas.analysis.dither
+.ih
+NAME
+dq -- Pset with Data Quality bit settings for 'sky' task.
+.ih
+USAGE
+dq
+.ih
+PARAMETERS
+.ls (bit1 = no) [booean]
+Reject pixels with 1st DQ bit set ?
+.le
+.ls (bit2 = no) [booean]
+Reject pixels with 2nd DQ bit set ?
+.le
+.ls (bit3 = no) [booean]
+Reject pixels with 3rd DQ bit set ?
+.le
+.ls (bit4 = no) [booean]
+Reject pixels with 4th DQ bit set ?
+.le
+.ls (bit5 = no) [booean]
+Reject pixels with 5th DQ bit set ?
+.le
+.ls (bit6 = no) [booean]
+Reject pixels with 6th DQ bit set ?
+.le
+.ls (bit7 = no) [booean]
+Reject pixels with 7th DQ bit set ?
+.le
+.ls (bit8 = no) [booean]
+Reject pixels with 8th DQ bit set ?
+.le
+.ls (bit9 = no) [booean]
+Reject pixels with 9th DQ bit set ?
+.le
+.ls (bit10 = no) [booean]
+Reject pixels with 10th DQ bit set ?
+.le
+.ls (bit11 = no) [booean]
+Reject pixels with 11th DQ bit set ?
+.le
+.ls (bit12 = no) [booean]
+Reject pixels with 12th DQ bit set ?
+.le
+.ls (bit13 = no) [booean]
+Reject pixels with 13th DQ bit set ?
+.le
+.ls (bit14= no) [booean]
+Reject pixels with 14th DQ bit set ?
+.le
+.ls (bit15= no) [booean]
+Reject pixels with 15th DQ bit set ?
+.le
+.ls (bit16= no) [booean]
+Reject pixels with 16th DQ bit set ?
+.le
+.ih
+DESCRIPTION
+.ih
+EXAMPLES
+.ih
+BUGS
+.ih
+SEE ALSO
+sky
+.endhelp

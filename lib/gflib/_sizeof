@@ -1,0 +1,2 @@
+./gfmergegpb.x:	pixsize = sizeof (IM_PIXTYPE(im)) * SZB_CHAR
+./gf_gstfval.x:	    val = sizeof (IM_PIXTYPE(im)) * SZB_CHAR * NBITS_BYTE

@@ -1,0 +1,73 @@
+.help improject Jun94 stsdas.toolbox.imgtools
+.ih
+NAME
+improject -- Project an image along a chosen axis, decreasing the number 
+of dimensions in the image by one.
+.ih
+USAGE
+improject infile outfile projaxis 
+.ih
+DESCRIPTION
+This program projects an image along a chosen axis, producing an image
+with one fewer dimensions.
+The axis projected may be either summed or averaged.
+Processing a 1-dimensional image
+produces a 1-dimensional image with a single element.
+
+The task appends an image section to each input image name
+to serve as a template for the output image;
+this reduces the dimension and
+establishes appropriate coordinate parameters for the output.
+For this reason, the input image name must not include an image section.
+.ih
+PARAMETERS
+.ls input [file name list]
+List of input file names.
+An image section may not be used with the image names.
+.le
+.ls output [file name list]
+List of output file names, one for each input file.
+.le
+.ls projaxis = 1 [integer, min=1]
+Axis along which to project.
+If this value exceeds the number of dimensions in an input image,
+then no operation will be performed.
+.le
+.ls (average = no) [boolean]
+Average the image along the specified axis?  If 'average=no', the task 
+will produce a sum along the axis.
+.le
+.ls (highcut = 0.0) [real]
+All values equal to or greater than, 'highcut' will be disregarded, 
+unless 'highcut=lowcut', in which case all points will be used.
+.le
+.ls (lowcut = 0.0) [real]
+All values equal to or less than, 'lowcut' will be disregarded, unless 
+'highcut=lowcut', in which case all points will be used.
+.le
+.ls (pixtype = real) [string, allowed values: real | long | int | 
+short | double]
+.sp
+Data type desired in the output image.
+.le
+.ls (verbose = yes) [boolean]
+Print the file names of each image pair as they are processed?
+.le
+.ih
+EXAMPLES
+1. Project an image along axis 2.
+If the input image is 2-dimensional, this example will
+produce a 1-dimensional
+image by summing the columns of the input image.
+
+.nf
+  im> improject inim outim 2
+.fi
+.ih
+BUGS
+.ih
+REFERENCES
+This task was written by David Giaretta.
+.ih
+SEE ALSO
+.endhelp

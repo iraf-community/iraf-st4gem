@@ -1,0 +1,163 @@
+include "psi.h"
+
+# Define the number of bits per sample the PostScript image operator
+# will require.
+define BITSPERSAMPLE 8
+
+define MAX_CHAR 72
+
+#---------------------------------------------------------------------------
+.help psi_putcellarray 1May92 plot
+.NAME
+psi_putcellarray -- Draw the cell array out to the PostScript device.
+.ih
+USAGE
+call psi_putcellarray (m, nx, ny, ax1, ay1, ax2, ay2) 
+.ih
+ARGUMENTS
+.ls m (short[nx,ny])
+I: The cell array.
+.le
+.ls nx, ny (int)
+I: The number of pixels in the X, Y dimension
+.le
+.ls ax1,ay1 (int)
+I: The lower left corner of the output window.
+.le
+.ls ax2, ay2 (int)
+I: The upper, right corner of the output window.
+.le
+.ih
+DESCRIPTION
+This routine mapes the 8bit image into PostScript that is then imaged onto
+the page using the IMAGE operator.
+.ih
+SEE ALSO
+t_psikern
+.endhelp
+#
+# 10-18-96 Perry Greenfield	Fixed problem caused by previous fix. Caused
+#				small images to fail.
+#  9-11-96 Jon Eisenhamer	Fixed problem when image lines were multiple
+#				of 36 pixels.
+#---------------------------------------------------------------------------
+
+procedure psi_putcellarray (m, nx, ny, ax1, ay1, ax2, ay2)
+
+short m[nx*ny]                  # I:  The cell array.
+int   nx, ny                    # I:  Size in X, Y of the cell array.
+int   ax1, ay1                  # I:  The lower, left corner of the output 
+                                #     window.
+int   ax2, ay2                  # I:  The upper, right corner of the output 
+                                #     window.
+
+# Declarations
+real dx, dy                     # Change in the window viewport.
+real sax1, sax2, say1, say2     # Rescaled input coordinates.
+real sx, sy                     # The scale factor between the window and 
+                                # image.
+real tx, ty                     # The translation factor between the window 
+                                # and image.
+
+int i, j                        # Indexes into the image cell array.
+int index                       # The index into the image cell array.
+int ip                          # Index inout output buffer.
+int nlines                      # Number of full lines of image cell values.
+int nvalues                     # Number of image cell values that can be on 
+                                # a line.
+int total                       # Total number of pixels in the image.
+
+include "psi.com"
+
+# Function prototypes
+bool fp_equalr()
+
+begin
+        # If this feature is not supported, don't do it.
+	if (PSI_DOCELL(gkt) == NO) {
+	    if (g_debug)
+		call eprintf ("psi_putcellarray: Not done because 'ca' is not set\n")
+	    return
+	}
+	
+        if (g_debug){
+            call eprintf ("psi_putcellarray: Array size %d, %d, at %d, %d to %d, %d.\n")
+            call pargi (nx)
+            call pargi (ny)
+            call pargi (ax1)
+            call pargi (ay1)
+            call pargi (ax2)
+            call pargi (ay2)
+        }
+        
+        # Count as a drawing operation.
+        g_ndraw = g_ndraw + 1
+
+	# Set DCS page indicator.
+	if (g_bpage) {
+	    call psk_page
+	    g_bpage = false
+	}
+	
+        # Rescale the input coordinates.
+        sax1 = ax1 * PSI_GKI2OUT(g_kt)
+        sax2 = ax2 * PSI_GKI2OUT(g_kt)
+        say1 = ay1 * PSI_GKI2OUT(g_kt)
+        say2 = ay2 * PSI_GKI2OUT(g_kt)
+        
+        # Determine the image transformation matrix.
+        dx = sax2 - sax1
+        dy = say2 - say1
+        if (fp_equalr (dx, 0.0))
+            sx = 1.
+        else
+            sx = nx / dx
+        
+        if (fp_equalr (dy, 0.0))
+            sy = 1.
+        else
+            sy = ny / dy
+        
+        tx = -(sx * sax1)
+        ty = -(sy * say1)
+        
+        # Start the cell drawing command.
+        call sprintf (g_output, MAX_CHAR, "S %d %d %d [%g 0 0 %g %g %g] PC")
+        call pargi (nx)
+        call pargi (ny)
+        call pargi (BITSPERSAMPLE)
+        call pargr (sx)
+        call pargr (sy)
+        call pargr (tx)
+        call pargr (ty)
+        call psk_out (g_output)
+        
+        # Give it the data.
+        nvalues = MAX_CHAR / 2
+        total = nx * ny
+        nlines = (total-1) / nvalues
+        index = 1
+        ip = 1
+        do i = 1, nlines {
+            do j = 0, nvalues - 1 {
+                call sprintf (g_output[ip], MAX_CHAR, "%02.2x")
+                call pargs (m[index + j])
+                ip = ip + 2
+            }
+            call psk_out (g_output)
+            ip = 1
+            index = index + nvalues
+        }
+        ip = 1
+        for (i = index; i <= total; i = i + 1) {
+            call sprintf (g_output[ip], MAX_CHAR, "%02.2x")
+            call pargs (m[i])
+            ip = ip + 2
+        }
+        call psk_out (g_output)
+        call psk_out ("R")
+        
+end
+#---------------------------------------------------------------------------
+# End of psi_putcellarray
+#---------------------------------------------------------------------------

@@ -1,0 +1,25 @@
+.help tools Apr23 st4gem.toolbox
+
+This package contains general utilities for a 
+variety of applications.
+
+Tasks are available in this package 
+to precess coordinates, convert
+between time formats, create unique file names,
+artificially change the redshift of spectra,
+and make the apropos database file.
+
+Utilities for editing image headers are now
+in the ST4GEM 'toolbox.headers' package.
+
+Utilities for working with tables are in
+the 'toolbox.ttools' package.
+
+Tasks that support the process of calibrating
+HST images are in the 'hst_calib.ctools' package.
+
+For an overview of subpackages in the ST4GEM
+'toolbox' package (including this subpackage),
+type "help toolbox opt=sys".
+
+.endhelp

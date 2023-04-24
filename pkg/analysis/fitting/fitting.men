@@ -1,0 +1,9 @@
+Menu for the package st4gem.analysis.fitting
+
+      gfit1d - Interactive 1-d linear curve fit to images, tables or lists.
+
+   errorpars - Pset with error-related parameters.
+  samplepars - Pset with data sampling parameters.
+
+(Type "help fitting option=sysdoc" for general information about the
+'fitting' package).

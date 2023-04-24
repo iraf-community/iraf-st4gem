@@ -1,0 +1,22 @@
+
+$analysis	= "./pkg/analysis/"
+$graphics	= "./pkg/graphics/"
+$toolbox	= "./pkg/toolbox/"
+
+analysis	men = analysis$analysis.men,
+		hlp = ..,
+		sys = analysis$analysis.hlp,
+		pkg = analysis$analysis.hd,
+		src = analysis$analysis.cl
+
+graphics	men = graphics$graphics.men,
+		hlp = ..,
+		sys = graphics$graphics.hlp,
+		pkg = graphics$graphics.hd,
+		src = graphics$graphics.cl
+
+toolbox		men = toolbox$toolbox.men,
+		hlp = ..,
+		sys = toolbox$toolbox.hlp,
+		pkg = toolbox$toolbox.hd,
+		src = toolbox$toolbox.cl

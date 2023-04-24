@@ -1,0 +1,10 @@
+# Update the lib application code in the headers package library
+
+$checkout headers.a ../
+$update   headers.a
+$checkin  headers.a ../
+$exit
+
+headers.a:
+	imdfile.x
+	;

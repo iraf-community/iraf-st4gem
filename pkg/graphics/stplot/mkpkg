@@ -1,0 +1,59 @@
+# Make the stplot package
+# Author: SDAS, 10-FEB-1989
+#	to include igi application(s)
+#  Add grplot, grlist,  7-JUN-1989, Z. G. Levay
+#  Add specplot, 20 February 1989, Z. G. Levay
+#  Add depind, 8 March 1989, Z. G. Levay
+#  Add wcslab, 14Jun91, Jonathan D. Eisenhamer, jde
+#  Add newcont,siaper, 8Jul91, jde
+#  Change sgraph() to t_sgraph(), 12 Sep 1991 ZGL
+#  Change skymap.x to t_skymap.x.  28 May 1992 ZGL
+#  Change grplot.x to t_grplot.x and include t_grlist.x.  25 June 1993 ZGL
+#  Add axispar pset, change devpar to dvpar
+#  Move sgraph and skymap to subdirectories
+#  Remove specplot;  it's using onedspec.specplot now.
+#
+# Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+debug:
+	$set XFLAGS = "-fgq $(XFLAGS)"
+        $set LFLAGS = "-z $(LFLAGS)"
+	$call relink
+        $call   debug@psikern
+	;
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	stplot.a
+	$call	stplot
+	;
+
+install:
+	$move	xx_stplot.e st4gembin$x_stplot.e
+        $call   install@psikern
+	;
+
+stplot:
+linkonly:
+	$omake	x_stplot.x
+	$link	x_stplot.o stplot.a -lstxtools -lds -lstg -ltbtables  \
+		-lxtools -lcurfit -o xx_stplot.e
+        $call   relink@psikern
+	;
+
+stplot.a:
+	@igi
+        improjection.x
+	;

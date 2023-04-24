@@ -1,0 +1,44 @@
+#   Make the fourier package.
+#
+#   Author: C.D.Biemesderfer, 29-DEC-1987
+#	to include forward,inverse,lib,testfunc application(s)
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	fourier.a
+	$call	fourier
+	;
+
+install:
+	$move	xx_fourier.e st4gembin$x_fourier.e
+	;
+
+fourier:
+linkonly:
+	$omake	x_fourier.x
+
+	$link	x_fourier.o fourier.a \
+		-lapplib -lstxtools \
+		-o xx_fourier.e
+	;
+
+fourier.a:
+	@crosscor
+	@forward
+	@inverse
+	@lib
+	;

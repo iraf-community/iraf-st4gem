@@ -1,0 +1,12 @@
+# Help directory for the fitting package
+
+$fitting	= "st4gem$pkg/analysis/fitting/"
+$doc		= "fitting$doc/"
+
+$gfit1d		= "fitting$gfit1d/"
+$errorpars	= "fitting$errorpars.par"
+$samplepars	= "fitting$samplepars.par"
+
+errorpars	hlp=doc$errorpars.hlp
+gfit1d		hlp=doc$gfit1d.hlp,	src=gfit1d$gfit1d.x
+samplepars	hlp=doc$samplepars.hlp

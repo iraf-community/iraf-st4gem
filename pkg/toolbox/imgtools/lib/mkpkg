@@ -1,0 +1,39 @@
+#   Make the IMGTOOLS lib package
+#   Author: B.Simon 14-AUG-1991
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call update
+$exit
+
+relink:
+	$call update
+	;
+
+linkonly:
+	;
+
+install:
+	;
+
+update:
+	$set XFLAGS = "-fgq $(XFLAGS)"
+	$checkout imgtools.a ../
+	$update imgtools.a
+	$checkin imgtools.a ../
+	;
+
+imgtools.a:
+	chkexten.x
+	fullimg.x	<imhdr.h>
+	images.x	<imio.h>  <imhdr.h>  <ctype.h>
+	mask.x		<imhdr.h>
+	tables.x	<imhdr.h>  <tbset.h>  <ctype.h>
+	imdfile.x
+	intbpl.x	<plio.h> <plset.h>
+	;

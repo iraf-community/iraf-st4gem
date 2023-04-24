@@ -1,0 +1,5 @@
+input,s,a,,,,Input mask name
+output,s,a,,,,Output mask name
+expr,s,a,,,,Expression to evaluate
+flags,s,h," ",,,List of flag values
+mode,s,h,"a",,,

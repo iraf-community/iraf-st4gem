@@ -1,0 +1,22 @@
+# 256 rainbow colormap for psikern
+#
+# Each color component is specfied from units of 0. (no color) 
+# to 1. (full color)
+#
+# The columns are:
+# Index	red	green	blue    name (optional)
+#
+# Define the default background/foreground
+#
+0	1.	1.	1.	white
+1	0.	0.	0.	black
+#
+# Colors 2-257 define the 256 color rainbow.  Since psikern will
+# interpolate for missing colors, we need only define "control" colors.
+#
+2	1.	0.	0.	red
+53	1.	1.	0.	yellow
+104	0.	1.	0.	green
+155	0.	1.	1.	cyan
+206	0.	0.	1.	blue
+257	1.	0.	1.	magenta

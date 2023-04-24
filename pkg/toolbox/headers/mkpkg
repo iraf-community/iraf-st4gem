@@ -1,0 +1,42 @@
+#   Make the HEADERS package
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	headers.a
+	$call	headers
+	;
+
+install:
+	$move	xx_headers.e st4gembin$x_headers.e
+	;
+
+headers:
+linkonly:
+	$omake	x_headers.x
+	$link	x_headers.o headers.a  \
+		-lstxtools -lgflib -lgilib \
+         	-o xx_headers.e
+#	$link	x_headers.o headers.a  \
+#		-ldisplay -lstxtools -ltbtables \
+#		-lgflib -lgilib -lxtools \
+#         	-o xx_headers.e
+	;
+
+headers.a:
+	@lib
+	@hdiff
+	;

@@ -1,0 +1,11 @@
+# Update the r2xyd application code in the wfpc package library
+# Author: HSU, 12-AUG-1991
+
+$checkout imgtools.a ../
+$update   imgtools.a
+$checkin  imgtools.a ../
+$exit
+
+imgtools.a:
+	t_rd2xy.x 	<math.h>
+	;

@@ -1,0 +1,38 @@
+#   Make the tools package
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to bin$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	tools.a
+	$call	tools
+	;
+
+install:
+	$move	xx_tools.e st4gembin$x_tools.e
+	;
+
+tools:
+linkonly:
+	$omake	x_tools.x
+	$set 	LIBS = " "
+	$link	x_tools.o tools.a $(LIBS) \
+		-lxtools -lstxtools -ltbtables \
+		-o xx_tools.e
+	;
+
+tools.a:
+        @fparse
+	;

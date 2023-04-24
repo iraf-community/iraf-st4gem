@@ -1,0 +1,5 @@
+# Root help directory for the ST4GEM packages.  This dummy package is necessary
+# in order to have `st4gem' appear as a module in some package, so that the user
+# can type "help st4gem" (with the `st4gem' given as a task).
+
+_st4gem		pkg = st4gem$lib/rootst4gem.hd

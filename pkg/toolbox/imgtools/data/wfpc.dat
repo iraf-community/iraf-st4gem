@@ -1,0 +1,9 @@
+# WFPC data quality file flag values
+
+1	# Reed-Solomon error
+2	# Defect in calibration file applied to image
+4	# Static defect
+8	# A to D pinned at full scale
+16	# Data missing
+32	# Generic "bad" pixel
+

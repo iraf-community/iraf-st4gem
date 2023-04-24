@@ -1,0 +1,18 @@
+#  dq parameters
+#
+bit1,b,h,no,,,Reject pixels with 1st bit set in their DQF (DQ = 1)? 
+bit2,b,h,no,,,Reject pixels with 2nd bit set in their DQF (DQ = 2)? 
+bit3,b,h,no,,,Reject pixels with 3rd bit set in their DQF (DQ = 4)? 
+bit4,b,h,no,,,Reject pixels with 4th bit set in their DQF (DQ = 8)? 
+bit5,b,h,no,,,Reject pixels with 5th bit set in their DQF (DQ = 16)? 
+bit6,b,h,no,,,Reject pixels with 6th bit set in their DQF (DQ = 32)? 
+bit7,b,h,no,,,Reject pixels with 7th bit set in their DQF (DQ = 64)? 
+bit8,b,h,no,,,Reject pixels with 8th bit set in their DQF (DQ = 128)? 
+bit9,b,h,no,,,Reject pixels with 9th bit set in their DQF (DQ = 256)? 
+bit10,b,h,no,,,Reject pixels with 10th bit set in their DQF (DQ = 512)? 
+bit11,b,h,no,,,Reject pixels with 11th bit set in their DQF (DQ = 1024)? 
+bit12,b,h,no,,,Reject pixels with 12th bit set in their DQF (DQ = 2048)? 
+bit13,b,h,no,,,Reject pixels with 13th bit set in their DQF (DQ = 4096)? 
+bit14,b,h,no,,,Reject pixels with 14th bit set in their DQF (DQ = 8192)? 
+bit15,b,h,no,,,Reject pixels with 15th bit set in their DQF (DQ = 16384)? 
+bit16,b,h,no,,,Reject pixels with 16th bit set in their DQF (DQ = 32768)? 

@@ -1,0 +1,19 @@
+# mkpkg for the STSDAS graphics packages
+#	    R. Williamson 13-Jul-1993
+#	    created
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+relink:
+linkonly:
+update:
+install:
+
+$echo "-------------------  STPLOT  -------------------------"
+$call @stplot
+$exit

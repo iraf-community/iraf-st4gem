@@ -1,0 +1,33 @@
+Menu for the package stsdas.toolbox.imgtools
+
+       addmasks - Combine several masks or bad pixel lists.
+      boxinterp - Fill areas with smoothed values from surrounding 
+                  area.
+     countfiles - Count how many files are in the input file template.
+       gcombine - Combine a set of GEIS images into one image
+          gcopy - Generic multi-group copy utility.
+    gstatistics - Compute and print image pixel statistics for all groups.
+         imcalc - Perform general arithmetic operations on images.
+         imfill - Set fill value in image according to a mask.
+       iminsert - Insert an image into another by either adding, 
+                  replacing, or multiplying pixel values.
+      improject - Project image along one axis decreasing the 
+                  number of dimensions by one.
+       listarea - Print an area of an image.
+	mkgauss - Generate a 2-D image having an object of Gaussian type.
+     moveheader - Combine the header and pixels from two images,
+                  creating a new image.
+        mstools - Tasks to handle STIS/NICMOS IMSETs.
+       pickfile - Get the file name picked from the input file template.
+        pixedit - Screen editor for image pixels
+      pixlocate - Print positions of all points inside (or outside) a
+                  specified range.
+	rbinary - Create an image from a binary file.
+          rd2xy - Translate RA/Dec to the pixel coordinate.
+          stack - Stack images to form a new image with one more dimension.
+          xy2rd - Translate a 2-D image pixel coordinate to right ascension
+		  and declination.
+       xyztable - Interpolate table values, writing results to a table.
+        xyztoim - Interpolate table values, writing results to an image.
+
+Type "help imgtools opt=sys" for more information about the 'imgtools' package.

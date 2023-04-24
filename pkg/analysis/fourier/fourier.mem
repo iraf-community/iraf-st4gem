@@ -1,0 +1,330 @@
+9 entries
+                           FOURIER Software Notebook
+                           -------------------------
+===============================================================================
+Entry #1    Tom Lougheed      03/27/87  Numerical Recipes FT routines
+
+
+Dear Dave, Phil, Chris, Nelson, & Jerry,
+
+	At Dave's invitation I checked out the source code located at
+DISK$SDAS:[NUMREC.SOURCE] for good Fourier transform routines and found none.
+The two subroutines,  FOUR1.FOR  and  FOURN.FOR,  documented in chapter 12 of
+the book "Numerical Recipies", are both rather standard incomplete
+impelementations.
+
+	As Dave, Phil, and I discussed at lunch on Thursday, many ammeture
+implementers of Fourier transform programs mistakenly believe that the only way
+to do the Fast Fourier Transform is to get an array whose dimention(s) is(are)
+a multiple of 2.  This notion is false.  What IS true is that it is very much
+easier to write the subroutine just for the power-of-two case.  Because most
+arrays that people come up with have a length which is some small multiple of a
+power of 10 (like 70, 800, 235000), power-of-two implementations are generally
+pretty bad.
+
+	Please be forewarned:  though some people may be comfortable with the
+tactic of "zero padding" (*) to get around this problem, it is often a failure:
+ one both spoils part of the output because of the falsely concocted input, and
+one can often DRASTICLY increase the ammount of time required to perform the
+transform.  For example, if you zero pad an array of length 1029, which would
+transform fairly quickly using the general FFT algorithm, you will have to
+transform a padded array of size 2048, which would be almost twice as long as
+the original array AND produce an output spectrum almost entirely polluted by
+zeros.  Tricks to ameliorate the pollution problem -- apodization and padding
+with non-zeros -- seem to me to be ill-advised, though widely used.
+
+	A further annoyance with the Numerical Recipies FFT is that it could do
+more even just with the factor-of-two part in it;  the reasoning is hard to
+write down, but with an array of length, say 100 = 2 x 2 x 25, one could STILL
+reduce the problem to that of doing a "slow" Fourier transform (or "Direct
+Fourier Transform") on an array of length 25 by exploiting the factors of two
+in the dimension generally in the same way that  FOUR1.FOR  does already.
+
+	As I recall, Nelson has a routine that will handles dimensions which
+are multiples of 3, 5, 7, 11, ... 19 (19 ?); it is from the old ACM Tape that
+he brought here from Chile.  If it exists, such a routine is clearly superior
+to the (you will please excuse:) half-assed program contained in "Numerical
+Recipies".  Best of all, of course, is a program which contains the completely
+general implementation of the Cooley-Tukey FFT, which produces a fast transform
+on any dimention without polluting the data with zeros.
+
+	I might note that some of the chapters in "Numerical Recipies" are
+quite good, and that the methods which were left out which are familiar to me
+are of limited utility.  Unfortunately, the authors came up in the chapter on
+Fourier Transforms a case where simplification is definitely NOT a virtue.  I
+would encourage you to continue to consider programs in the text for use later.
+ In particular, their programs for sorting are good (although they strangely
+don't like Quicksort, which is the best known algorithm), as are their chapters
+on finding roots of equations, minimizing and maximizing, and their chapters on
+linear systems.
+
+	I hope this is helpful.  I'd be happy to talk with you more.
+
+Tom L.
+
+* "zero padding" is the trick of tacking extra data (zeros) onto the end of an
+array so that its increased length is a power of two.
+
+===============================================================================
+Entry #2    C.D.Biemesderfer  04/17/87  Note to Lindsey Davis (NOAO)
+
+To: "davis" <davis@noao-lyra.arpa>
+
+Lindsey,
+
+	Bob wants me to start thinking about rewriting the Fourier program.  (I
+knew this day would come ...)  I have talked with him about this project only
+briefly, but I tried to emphasize that I (we) thought it was important to
+develop something that was useful here, there, and everywhere, and also that
+there were people at NOAO whom you thought should be involved to some extent in
+defining requirements (and maybe other things).  We are going to use Rick White
+here at the Tute as primary scientific staff contact, and I expect I will bang
+a couple other heads while I'm at it.  Bob also suggested picking Bill Cotton's
+(AIPS) brain about this.
+
+	Basically, we would like to retain the functionality of the present
+fourier package in SDAS (forward/reverse transform, cross/auto correlation,
+convolution/deconvolution, power spectrum) and eliminate the VMS and IMSL
+dependencies.  We want it (1) to give the right answers, (2) to work generally
+on data sets of arbitrary dimensions, and (3) to do so efficiently.  Beyond
+this, options are up for grabs, although current options are presumably there
+for a reason, and can be used as a point of departure.
+
+	I am not in a position to give you any more information.  I haven't
+seen hide nor hair of Joe Fourier or any of his transforms for several years,
+so I have a fairly extensive amount of studying to do before I can even talk
+about this intelligently with people, let alone make decisions or write code.
+Hence, what I am really doing is asking about thoughts you (and/or others) have
+about FTing, and letting you know that Bob is anxious for me to get going on
+this (he realizes that thinking/studying will go on for a while before code
+starts happening -- that's probably why he's after me), so I'm going to be
+thinking about it whether or not anybody else wants to.
+
+	I will try to get the nlfit stuff over the network and try to use it a
+bit (not to do FTs - I have changed the subject) and get back to you about how
+it works to satisfy our requirements.
+
+	It was pretty nice in Baldmer today - you know, sunny, 72 or so, sort
+of like Tucson in January ...
+
+===============================================================================
+Entry #3    C.D.Biemesderfer  05/21/87  Introductory note to Bill Cotton (NRAO)
+
+
+	Bob Hanisch has invited me to start (re)writing the Fourier analysis
+package that is currently part of SDAS.  The desire to do this at the present
+time is motivated primarily by our decision to make SDAS fit into IRAF more
+effectively (notably to port with IRAF), so we want to convert the code to SPP.
+ There is quite a number of other goals in addition, and Bob suggested that you
+would have some valuable thoughts, particularly about the actual analysis
+engine (numerical method, world coord transform, etc.), so I wanted to check
+with you to see if it would be OK to pick your brain about some of these
+things.
+
+	Basically, we would like to retain the functionality of the present
+fourier package in SDAS (forward/reverse transform, cross/auto correlation,
+convolution/deconvolution, power spectrum) and eliminate the VMS and IMSL
+dependencies.  We want it (1) to give the right answers, (2) to work generally
+on data sets of arbitrary dimensions, and (3) to do so efficiently.  We intend
+to layer the code in such a way that the numerical routines can take advantage
+of a vectorizing compiler or peripheral AP if such is available.  Beyond these,
+user options are up for grabs, although current options are presumably there
+for a reason, and will likely be used as a point of departure.
+
+	My astronomical background is millimeter-wave spectroscopy, so until 3
+weeks ago I was acquainted with Fourier analysis primarily by way of the
+classroom.  I am still mostly unfamiliar with the details of the numerical
+algorithms, so I am not full of specific questions (yet).  If I could bounce
+ideas off you occasionally, or if you would like to be involved in whatever
+electronic discussions transpire as I pursue the project, I would be grateful.
+
+===============================================================================
+Entry #4    C.D.Biemesderfer  06/02/87  High-level design considerations
+
+	This is just excerpts from the "official" design notes.
+
+	Fourier analysis of one- and two-dimensional data files will be
+supported.  All transform functions will accommodate data arrays of any size.
+An option will be available to extend data axes up to the next power of 2 in
+length.  Prime factor decomposition will be used for data that is not a power
+of 2 in length.
+
+	All transform operations will take full account of the associated image
+world coordinate system.  Fourier transform pairs (such as time/frequency,
+wavelength/wavenumber) will be defined for all anticipated coordinate types.
+
+	Power spectra will be computed either in linear or logarithmic scaling.
+ It will be possible to convert linear to log and vice versa without having to
+recompute the power spectrum itself.
+
+	Initially these tasks will support equally spaced data.  However, it is
+clear that support for unequally spaced data is essential, and all tasks will
+eventually support such data by performing a convolution (interpolation) onto
+an equally spaced grid.  The user will be able to specify the form of the
+weighting function.  A direct Fourier transform algorithm will also be provided
+for use on small, unequally spaced data sets.
+
+	An additional enhancement to the package will be a capability to add a
+tracer function to a data file in order to determine the significance of
+features in the power spectrum and in the transform domain.
+
+	In all tasks that require real and imaginary parts as input or output,
+the real and imaginary parts will be read from or written into separate data
+files.  Data that are packed into a Hermitian format storage array will not be
+supported.
+
+	The purely FFT routines at the bottom of the software structure will be
+written in a way that allows the package to be installed on computers with
+parallel architectures or to take advantage of vectorizing compilers or
+attached array processors.  It is intended that this should be done without
+requiring source code modifications.
+
+	Coordinate system transformation will be table-driven.  Transform pairs
+will be defined in a text file that will be read at run-time.  This data
+structure will enable additions to the table without requiring code changes.
+
+===============================================================================
+Entry #5    C.D.Biemesderfer  06/18/87  Routines I have studied
+
+
+1.  FFTPACK code obtained from Argonne National Lab math library over Arpanet.
+	Written at NCAR by Paul Swarztrauber in Apr 85.  It works fast and its
+	free, but so far I can't figure out why it gives me the wrong results.
+
+	Caveat receptor.  (Jack) dongarra@anl-mcs, (Eric Grosse) research!ehg
+	Compliments of netlib   Fri Jun 12 13:43:01 CDT 1987
+
+2.  AIPS code for brute force 2D transforms from bispectral analysis program
+	(aperture to focal plane transform).  Written by Bill Cotton, it is a
+	straightforward power-of-two implementation of Cooley-Tukey algorithm.
+
+3.  AIPS code optimized for FPS AP by Bill Cotton.  Power-of-two.
+
+4.  IRAF VOPS afft* routines.  Just front ends for math engines that are
+	evidently power-of-two.
+
+5.  Burrus and Parks, code written by Burrus in Sep 83.  Routines exist for
+	DFT, DFT/Goertzel, FFT for radix 2, radix 4, radix 8, and by prime
+	factorization.  Additional PF kernels (11,13,17,19,25) available from
+	Burrus at Rice.  Not on-line at the moment.
+
+6.  Numerical Recipes, code based on Norman Brenner's implementation of
+	Cooley-Tukey many years ago.  Power-of-two.
+
+7.  ACM algorithm 545 by Donald Fraser at CSIRO in Jun 79.  Power-of-two.
+
+8.  C code written by Dale Carstensen, Antares project, Los Alamos National
+	Laboratory in March 1981 and Fortran and C variants on this written
+	by Barb MacArthur at UTexas.  All based on Singleton's power-of-two
+	algorithms in CACM v.10.
+
+I also have copies of Richard Singleton's original Algol ACM algorithms from
+1967.  There is a power-of-two description as well as a more general one.  I
+haven't coded either of these yet.
+
+===============================================================================
+Entry #6    C.D.Biemesderfer  07/02/87  Discussion with C. S. Burrus @ Rice
+
+
+	I talked to C. S. Burrus at Rice University (713-527-8101) this
+afternoon and he assured me that the code in his book was entirely public
+domain and I could anything I wanted with it.  He will try to mail me the PFA
+code via Arpanet and will mail the report by Johnson and Burrus that has the
+big Winograd kernels.
+
+	He confirmed that the PFA will definitely do what we want for arbitrary
+length data arrays and that there is no penalty whatsoever over straight
+Cooley-Tukey code, and in some cases, this will be faster.  Their group has
+done timing tests on several conventional architecture machines (results in
+book) and also on some RISC machines, with no surprises.  He said that coding
+these algorithms for parallel architectures generally requires that the code be
+written differently (not a surprise), and that in order to get the really great
+gains in speed, you have to get machine-dependent (assembler, system calls,
+etc.).  Someone in their group did this to get high performance on the Cray.
+
+	He suggested that, if there is time, it would be amusing to investigate
+split-radix algorithms, but that they were mostly of interest theoretically at
+this stage, and that for our practical purposes, the WFTA would be best.
+
+===============================================================================
+Entry #7    C.D.Biemesderfer  10/22/87  Basic testing of algorithms completed
+
+	I have written a bunch of front-end test modules for the various FFT
+codes that appear interesting.  These are the fftpack by Paul Swarztrauber at
+NCAR (via netlib@argonne) and the prime factor algorithm (PFA) by by Sid
+Burrus.  I can get what appear to be consistently correct results from fftpack;
+unfortunately, the code itself is dreadful, so much effort will be required in
+order to dissect it.  Burrus' code is well written and thoroughly documented,
+so it is easy to analyze (and take apart to suit my needs), but gives funny
+answers of the "close but no cigar" variety.  Burrus' DFT works OK.
+
+	The plan right now is to start implementing the package (to handle WCS,
+etc.) and plant it on Swarztrauber's code (assuming he agrees to letting us use
+it) AS IS, and to figure out optimization (based on Burrus' techniques and
+hopefully using his Winograd kernels) at a later point.  This way we can get
+people jumping up and down on the package and I can begin responding to their
+concerns about user interface, functionality, etc. and I can twiddle with the
+numerical engine behind their backs, as it were.
+
+===============================================================================
+Entry #8    C.D.Biemesderfer  11/19/87  Basic fwd/inv transforms working
+
+
+	Bare bones forward and inverse transforms are now operating through
+IMIO.  The only things that are implemented are the 1-D transforms, and they
+are ignorant of world coordinate information.  I plan to leave the 2-D case
+alone for now until I thoroughly understand how to build the parts of the
+analysis machine that shift the data and adjust the world coordinate
+information.  This is not difficult in principle, but I have some concerns
+about half-pixel tweaking that may or may not be required to properly zero the
+phase.
+
+	The 2-D transformation when it is built will operate first according to
+the simple transform-transpose-transform model. This will not be terribly
+efficient, but there are many other aspects of Swartztrauber's code that will
+lead to ineffeiciencies so long as I continue to use the routines in black-box
+mode.  Ultimately, it would be nice to develop a real smart FFT routine that
+accepts a huge array as well as an offset and stride so that N>1-D transforms
+could be done without the need to transpose and intermediate result.
+
+	Since the routines I am using want a complex input vector and we have
+decided to isolate the real and imaginary parts in separate input and output
+file pairs, I have to do memory-to-memory copies after I have read the pixel
+data to pack it into the complex array and after I transform in order to unpack
+it.  The solution to this problem is to tinker with the code so that the real
+and imaginary arrays can be passed independently.
+
+	Another potential problem/inefficiency is that Swartztrauber does the
+index mapping primarily by playing games with array indices (which has a lot to
+do with why the code is so unreadable).  It's great if you can get the compiler
+to do some of this work for you, but my concern is that for the correlation and
+convolution operations, I don't have to unscramble in the Fourier domain; I can
+do the arithmetic with the data scrambled since they are just pixel by pixel
+operations.  The scrambled arrays are unscrambled automagically when I back-
+transform but skip the back-unscrambling.  Since the index map seems to be
+inherently bound up in Swartztrauber's transform code, it may be impossible to
+separate the transform from the unscrambling.  If the mapping is all cleverly
+buried in the compiler addressing offsets, then it doesn't matter (since the
+unscrambling does not require run-time CPU cycles in that case.)
+
+===============================================================================
+Entry #9    C.D.Biemesderfer  12/30/87  Turning it loose
+
+
+Kids :
+	The STSDAS fourier package has begun to breathe.  There's no telling
+where it will go or what it might become, but I let me assure you I'm leaving
+town before it does.  There are a few measly tasks, documented by a few even
+measlier help files, but maybe you can figure out something fun to do with
+this stuff anyway.  The bracewell task is there so that you can refresh your
+minds about how this fourier transform business is supposed to work.  I suggest
+entertaining yourselves with that for an hour or two.  There is a brwellatlas
+script in the package directory (not automagically set up as a task) which you
+can use to display an assortment of famous Bracewellian forms on your own
+terminal (type `cl <brwellatlas.cl').
+	I do not what you are going to say about it, really (other than "but,
+Chris, there's no autocorrelation function"; "Chris, why doesn't the power
+spectrum task work ?"), but if you have any remarks other than ones such as
+the above, please send them.
+
+CB

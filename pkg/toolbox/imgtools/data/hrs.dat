@@ -1,0 +1,17 @@
+# HRS Data Quality Flags
+ 
+30 	# a dead diode contributed to the combadded data point
+100 	# Reed-Solomon decoding error
+130 	# Moderate Saturation (more than 5% error possible
+	# in the paired pulse correction)
+160 	# intermittent dead diode
+170 	# intermittent noisy diode
+190 	# Large Saturation (more than 20% error possible
+	# in the paired pulse correction) 
+300 	# Severe Saturation (more than 50% error possible
+	# in the paired pulse correction)
+400 	# Dead or disabled diode.
+800 	# Fill data (telemetry error)
+
+
+

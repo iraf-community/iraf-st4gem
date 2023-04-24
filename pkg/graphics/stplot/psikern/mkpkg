@@ -1,0 +1,81 @@
+# Make the psikern package
+#
+# Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call   relink
+#$call	debug
+$exit
+
+debug:
+	$set XFLAGS = "$(XFLAGS) -fgq"
+	$set LFLAGS = "$(LFLAGS) -xz"
+	$call relink
+	;
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	psikern.a
+	$call	psikern
+	;
+
+install:
+	$move xx_psikern.e st4gembin$x_psikern.e
+	;
+
+psikern:
+linkonly:
+	$omake	x_psikern.x
+	$link	x_psikern.o psikern.a\
+		-ltbtables -liminterp\
+		-o xx_psikern.e
+	;
+
+psikern.a:
+	@psk
+	t_psikern.x	<error.h> <gki.h> psiparams.com
+        psiact.x        psi.h psi.com
+	psicancel.x	psi.h psi.com
+        psichfont.x     <gset.h> psi.h psi.com
+	psiclear.x	<mach.h> psi.h psi.com
+	psiclose.x	psi.h psi.com
+	psiclws.x	psi.h psi.com
+	psicolor.x	psi.h psi.com
+        psicos.x
+        psidraw.x       psi.h psi.com
+        psierase.x      psi.h psi.com
+	psiescape.x     <gset.h> <psiescape.h> psi.h psi.com
+	psifa.x		<gset.h> psi.h psi.com
+	psifaset.x	<gki.h> psi.h psi.com psiparams.com
+	psiflush.x	psi.h psi.com
+	psiinit.x	<ctype.h> <gki.h> <mach.h> psi.h psi.com psiparams.com
+	psiltype.x	<gset.h> psi.h psi.com
+	psilud.x	<math/iminterp.h> <tbset.h> <psiescape.h>
+        psilut.x        <psiescape.h> psi.h psi.com
+        psilw.x         <gki.h> psi.h psi.com
+        psimkg.x	<ctype.h>
+        psimove.x       psi.h psi.com
+	psiopen.x	<gki.h> psi.h psi.com
+	psiopenws.x	<error.h> <gki.h> <mach.h> psi.h psi.com psiparams.com
+	psipcell.x	psi.h psi.com
+	psipl.x		<gki.h> <gset.h> psi.h psi.com
+	psiplset.x	<gki.h> psi.h psi.com psiparams.com
+	psipm.x		<gki.h> psi.h psi.com
+	psipmset.x	<gki.h> psi.h psi.com psiparams.com
+	psiprolog.x	<gki.h> <gset.h> psi.h psi.com psiparams.com
+	psireset.x	<gki.h> <gset.h> psi.h psi.com 
+        psirev.x
+	psiset.x	<error.h> <psiescape.h> "psi.h" "psi.com"
+        psistroke.x     psi.h psi.com
+	psitx.x		<gki.h> <gset.h> psi.h psi.com
+	psitxset.x	<gki.h> <gset.h> psi.h psi.com psiparams.com
+	stxseg.x	<gset.h>
+	;

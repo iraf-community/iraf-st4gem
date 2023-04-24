@@ -1,0 +1,11 @@
+input1,f,a,,,,>input image 
+input2,f,a,,,,>image to be inserted
+output,f,a,,,,>output image
+option,s,a,"replace","replace|add|multiply",,>insertion option
+coordfile,s,a,,,,>coordinates for insertion
+offset1,i,h,0,,,>offset to be added to x coordinates
+offset2,i,h,0,,,>offset to be added to y coordinates
+xcol,s,h,"c1",,,>name of x coordinate column if coordfile is table
+ycol,s,h,"c2",,,>name of y coordinate column if coordfile is table
+entry,s,h,"*",,,>entry name if coordfile is a reseau file
+mode,s,h,al

@@ -1,0 +1,47 @@
+#   Make the fitting package
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+debug:
+	$set	XFLAGS = "-fgq $(XFLAGS)"
+	$set	LFLAGS = "$(LFLAGS) -/Bdynamic"
+	$call	relink
+	;
+
+relink:	
+	$update	fitting.a
+	$call	fitting
+	;
+
+install:
+	$move	xx_fitting.e stsdasbin$x_fitting.e
+	;
+
+fitting:
+linkonly:
+	$omake	x_fitting.x
+	$set 	LIBS = "-lxtools -lcurfit"
+	$link   x_fitting.o fitting.a \
+		-lstxtools -ltbtables \
+		$(LIBS) \
+		-o xx_fitting.e
+	;
+
+fitting.a:
+	@lib
+	@gfit1d
+	@nlfit
+	;

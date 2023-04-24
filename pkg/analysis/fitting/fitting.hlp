@@ -1,0 +1,48 @@
+.help fitting Apr23 st4gem
+
+This package contains tasks that perform function fitting operations on
+images, STSDAS table columns, or lists.  Both linear and non-linear
+functions are supported.
+
+When fitting 1-dimensional functions with input data from 2- (or
+more) dimensional images, the data are projected over a 1-dimensional vector
+before fitting the function. 
+
+The fitting tasks write their results to STSDAS tables.  A common table
+format is used by all tasks in the package, with the same column headers
+and formats. 
+
+The interative linear function fitting task is 'gfit1d' which fits
+Chebyshev or Legendre polynomials, linear or cubic splines, using
+Cholesky factorization to solve the standard least-squares normal
+equations. 
+
+Non-linear function fitting is split between several tasks.
+The first, 'nfit1d', interatively fits each of six different
+functional forms:
+.nf
+
+ * power law
+ * Planck function
+ * sum of two Planck functions
+ * sum of a power law and a Planck function
+ * galaxy brightness profile (bulge + disk)
+ * user-defined function (implemented by a built-in FORTRAN interpreter)
+
+.fi
+The second task, 'ngaussfit', is meant to interatively fit multiple
+Gaussians to 1-dimensional data.  The third task, 'n2gaussfit', is a
+simple non-interactive tool for fitting a 2-dimensional Gaussian to image data. 
+Task 'i2gaussfit' is a script useful to run 'n2gaussfit' in noisy
+conditions. 
+
+The non-linear fitting can be performed by any of two algorithms, either
+one of
+which can be  used to minimize chi-squared: downhill simplex (amoeba) or
+Levenberg-Marquardt.
+
+There is one task to do the inverse operation, that is, to read the table
+with fitting results and build images, STSDAS tables or lists.  Another
+task is available to list or print the fitting table contents in a
+human-readable format.
+.endhelp

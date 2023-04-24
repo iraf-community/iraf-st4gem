@@ -1,0 +1,53 @@
+.help headers Aug93 st4gem.toolbox
+.ih
+NAME
+headers -- Tools for examining & editing image headers. 
+.ih
+INTRODUCTION
+There are several tasks in this package for examining and 
+editing image headers---particularly GEIS format image headers. 
+Type "help geis" for more information about the data structure for 
+HST data.  The `headers' package is implicitly loaded when 
+ST4GEM is loaded.  Placing these tasks in a separate 
+package merely serves (in this case) to emphasize the logical 
+relationship between them, and to make the package menu small and 
+informative.  A quick summary is given in Table 1 below, followed 
+by a few highlights.  Utilities for examining, editing, and 
+reformatting images can be found in the `toolbox.imgtools' package. 
+
+.nf
+
+                Table 1.  Image Header Utility Tasks
+  +--------------------------------------------------------------+
+  | Task        | Description                                    |
+  +--------------------------------------------------------------+
+  | hdiff       | Display differences between two headers        |
+  +--------------------------------------------------------------+
+.fi
+.ih
+HEADER EXAMINATION
+There are three tasks for examining the image header contents.  The 
+`iminfo' task prints the values of some generally useful keywords 
+that are found in most astronomical image headers, such as the 
+image size, the integration time, the RA & Dec, UT and ST, etc.  
+For HST data this task will print various, instrument-specific 
+information, such as the filter(s)/grating(s) used, the instrument 
+operating mode, etc.  The two more general tasks are `hdiff', which 
+prints the names and values of keywords that differ between pairs 
+of images, and `hcheck' which will print the values of specified 
+keywords based upon a user-specified condition.  `hcheck' is quite 
+general and is very useful for finding keyword values that are, 
+e.g., out of range, or missing altogether.  
+.ih
+GROUP FORMAT IMAGES
+Users should be aware that modifications to GPB keywords must be 
+performed explicitly on each group in multi-group GEIS files; the 
+default is to operate on only the first image group.  To learn the 
+syntax for operating on individual image groups, type "help geis". 
+.ih
+SEE ALSO
+toolbox.imgtools.  
+
+Type "help geis" for more information about GEIS format files.  
+.bp
+.endhelp

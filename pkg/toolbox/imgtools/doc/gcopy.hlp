@@ -1,0 +1,101 @@
+.help gcopy Aug93 stsdas.toolbox.imgtools
+.ih
+NAME
+gcopy -- Generic multi-group copy utility
+.ih
+USAGE
+gcopy input output groups
+.ih
+DESCRIPTION
+Gcopy is an extension to the 'imcopy' command allowing all the groups
+or a group list to be copied to the output file.
+
+Gcopy allows the specification of image section for the input file to be
+effective for all the groups in the group list. 
+.ih
+PARAMETERS
+.ls input [string]
+Images to be copied. 
+.le 
+.ls output [string] 
+Output image or directory.
+If it is desired that the output file be created with more groups than
+specified from the input file, simply append [1/n] to the output filename
+where n is the number of groups in the output file
+If a group number is specified as part of the output filename, the copying
+will begin at that output group.
+If the remaining number of groups in the output file is less than the
+specified number of input groups, gcopy will copy as many as possible and
+print a warning message that not all groups were copied.
+.le
+.ls groups = "ALL" [string]
+Specify the list of groups from the input image to be copied to the output
+image; this list follows the syntax of the ranges utilities; i.e. things
+like 1,2,3; 1-9 or 9,7,13,1-4 are acceptable.
+The default ("ALL") value means that all the groups from the input file will
+be copied.
+Note that the current implementation does not preserve the order of the
+specified groups.
+Groups are always copied in the order of increasing group number and 
+duplicate group numbers are eliminated.
+For example, specifying 3,2,1 will result in groups 1,2,3 being copied
+in that order. Likewise specifying the same group number more than
+once will not cause it to be copied more than once (i.e.,  1,1,1 results
+in group 1 copied only once. 
+.le
+.ls i2toi4 = no
+Specify if you want to convert group parameter values datatype from
+INTEGER*2 (not longer supported) to INTEGER*4.
+.le
+.ls verbose = yes
+Print each operation as it takes place?
+.le
+.ih
+EXAMPLES
+1. For a fast copy of all the groups:
+
+	im> gcopy image.hhh imagecopy.hhh
+
+2. To copy groups 1,3,5 of a 10 groups geis file. The output file
+   will have a GCOUNT of 3.
+
+	im> gcopy g10.hhh g3.hhh groups="1,3,5"
+
+3. Copy several multigroup Geis files to an output directory using a
+   section.
+.nf
+
+	im> gcopy g1.hhh[*,20:40],g2.c3h[120:256,30:56] \
+	      mydir/ gr="1,2,4"
+.fi
+4. Copy all groups to a new output file, but create the output file with
+   more groups than in the input image (to be 
+
+	im> gcopy image.hhh imagecopy.hhh[1/10] groups="1-4"
+
+5. Copy group 3 of the input image to group 7 of the output image.
+
+	im> gcopy image.hhh[3] imagecopy.hhh[7]
+
+6. Copy all groups of the input file to the output file starting at group
+   5 of the output file.
+
+	im> gcopy image.hhh imagecopy.hhh[5]
+
+.ih
+REFERENCES
+This task was developed by Nelson Zarate following the 'imcopy' task and 
+extended to multigroup.
+.ih
+BUGS
+IT will not copy 'imh' files. What's more, with the most recent fix
+to allow file level copies of one GEIS file to another
+with different file extensions, if one tries
+'gcopy test.c0h test2.imh' the task will run without complaint and
+produce test.imh and test.imd but these will be GEIS files and not
+'imh' files. This will be fixed in the future.
+.ih
+SEE ALSO
+imcopy
+.endhelp
+

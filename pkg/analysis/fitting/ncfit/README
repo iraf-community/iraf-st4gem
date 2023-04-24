@@ -1,0 +1,24 @@
+Interactive non-linear curve fitting tools.
+
+This package is similar to the original one found in iraf$pkg/xtools/icfit/,
+but with extensive internal modifications to allow overlaying on top of NLFIT
+package instead of CURFIT. Major modifications are: 
+
+- allowed function types: bbody, powerlaw, composite, Gaussians.
+- graphing of individual function components in the composite and Gaussians 
+  cases.
+- graphs data and guessed function before fitting; waits explicitly for 'f' key.
+- new cursor keystrokes: b (baseline), p (Gaussian positions), z (print cursor
+  coordinates).
+- new colon commands: coef, fix, vary, ngauss, rms, pcomp.
+- new meaning to 'errors' colon command.
+- 'order' colon command eliminated.
+- 'show' colon command upgraded to show coefficient values, errors and status.
+- 'vshow' colon command modified to print xdata, ydata, yfunction and residue 
+  for each datum.
+- new cursor help file
+- no more choice between single and double precision versions.
+- procedure name prefixes were changed to nc_ instead of ic_. This is 
+  acomplished with the new include file "names.h"
+							<Busko 3/10/89>
+

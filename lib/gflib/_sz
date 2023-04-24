@@ -1,0 +1,1 @@
+./gfupuser.x:	ua_len = (buflen - IMU) * SZ_STRUCT - 1

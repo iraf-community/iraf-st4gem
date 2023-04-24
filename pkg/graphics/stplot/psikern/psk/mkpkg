@@ -1,0 +1,20 @@
+# Make the psk package
+# Author: Jonathan Eisenhamer 25Jul91
+
+$checkout psikern.a ../
+$update psikern.a
+$checkin psikern.a ../
+$exit
+
+psikern.a:
+	pskclose.x	psk.h psk.com
+	pskdef.x	psk.h psk.com
+	pskflush.x	psk.h psk.com
+        pskfont.x
+	pskframe.x	psk.h psk.com
+	pskmkfname.x
+	pskopen.x	<chars.h> <gki.h> psk.h psk.com
+        pskout.x        psk.h psk.com
+	pskpae.x	psk.h psk.com
+	pskprolog.x	<error.h> psk.h psk.com
+	;

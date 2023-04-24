@@ -1,0 +1,232 @@
+.help xyztoim Feb94 toolbox.imgtools
+.ih
+NAME
+xyztoim -- Interpolate table values, writing results to an image.
+.ih
+USAGE
+xyztoim intable output
+.ih
+DESCRIPTION
+This routine reads tables -- or text files in row/column format --
+and writes 1-D or 2-D output images.
+Each input table or file contains columns of X, Y (if 2-D), and Z values.
+This task fits a surface to Z as a polynomial function of X and Y
+and evaluates the fit at each pixel of the corresponding output image.
+The function that is to be fit may be expressed as a
+Chebyshev or Legendre polynomial or as an ordinary power series.
+The IRAF gsurfit package is used to fit and evaluate the function.
+
+A linear relationship between X & Y and pixel numbers is assumed.
+X and Y cannot be right ascension and declination, for example.
+unless the declination is small.
+
+Header parameters are added to the output images
+to give some information on the fit.
+.ih
+PARAMETERS
+.ls intable [file name template]
+List of input tables or text files.
+See also 'xname', 'yname', 'zname',
+which are used to specify the column names.
+The same names are used for all input tables.
+.le
+.ls output [file name template]
+List of output 1-D or 2-D images.
+The number of output images must be the same as
+the number of input tables or files.
+All images will be 1-D or all will be 2-D,
+depending on whether 'yorder' is zero or not.
+.le
+.ls (xname = "c1") [string]
+Name of column for X values.
+This parameter is used to specify which column in the input table
+contains the X values.
+X and Y are the independent variables (or just X for 1-D),
+and Z is the dependent variable.
+The default of "c1" is appropriate for the case that 'intable'
+is a text file with X values in the first column.
+If 'intable' lists more than one file name,
+the same column names are used for all files.
+.le
+.ls (yname = "c2") [string]
+Name of column for Y values.
+For a one-dimensional fit and 1-D output image,
+you can either set 'yorder' to zero or
+set 'yname' to null or blank.
+Note that 'zname' is the column name for the dependent variable
+regardless of whether a 1-D or 2-D fit is desired.
+See also the description for 'xname'.
+.le
+.ls (zname = "c3") [string]
+Name of column for Z values.
+This column contains the dependent variable values.
+For a 1-D fit, values should be specified for 'xname' and 'zname',
+and 'yname' will not be used.
+See also the description for 'xname'.
+.le
+.ls (nx = 512) [integer, min=1, max=INDEF]
+Width of image, in pixels.
+.le
+.ls (ny = 512) [integer, min=1, max=INDEF]
+Height of image, in pixels.
+This is ignored if 'yorder' is zero, i.e. for a 1-D fit.
+.le
+.ls (xorder = 2 [integer, min=1, max=INDEF]
+Number of coefficients for function in X.
+This number does not include coefficients for cross terms.
+For example, if 'xorder' and 'yorder' are both equal to two,
+the function will be
+.ls
+.ls c1 + c2*X + c3*Y   if cross_terms = no,
+.le
+.le
+
+and it will be
+.ls
+.ls c1 + c2*X + c3*Y + c4*X*Y   if cross_terms = yes,
+.le
+.le
+
+where c1, c2, c3, and c4 are the coefficients of the fit.
+.le
+.ls (yorder = 2 [integer, min=0, max=INDEF]
+Number of coefficients for function in Y.
+For a one-dimensional fit and 1-D output image, set 'yorder' to zero.
+.le
+.ls (x1 = INDEF) [real]
+X value at first pixel.
+If 'x1' is INDEF, the minimum X value in the input table will be used.
+The parameters 'x1', 'x2', 'y1' and 'y2' serve two purposes.
+They specify the range over which the fit is to be performed,
+and they specify the values of the independent variables
+at the corners of the image.
+.le
+.ls (x2 = INDEF) [real]
+X value at last pixel.
+If 'x2' is INDEF, the maximum X value in the input table will be used.
+.le
+.ls (y1 = INDEF) [real]
+Y value at first pixel.
+If 'y1' is INDEF, the minimum Y value in the input table will be used.
+In the 1-D case (i.e. if 'yorder' is zero),
+'y1' and 'y2' are ignored.
+.le
+.ls (y2 = INDEF) [real]
+Y value at last pixel.
+If 'y2' is INDEF, the maximum Y value in the input table will be used.
+.le
+.ls (cross_terms = yes) [boolean]
+Include cross-terms?  If this is set to no,
+the function will consist of the sum of
+a polynomial in X and a polynomial in Y.
+If cross_terms = yes,
+the function can include terms such as X*Y or (X**2)*Y.
+.le
+.ls (function = "chebyshev") [string]
+[allowed values: chebyshev | legendre | polynomial]
+
+Function to be fit.
+The default value of "chebyshev" is almost always appropriate.
+Numerical roundoff may be severe if "polynomial" is selected,
+so this choice is not recommended.
+.le
+.ls (verbose = yes) [boolean]
+Print the names of the input table and output image?
+.le
+.ls (coefficients = no) [boolean]
+Print the coefficients?  The coefficients are not printed in
+user-friendly format.
+They are the values returned by the dgssave subroutine in gsurfit.
+The first eight numbers describe the fit (e.g. xorder, yorder),
+and the remaining values are the coefficients.
+These may be passed to the dgsrestore subroutine
+in order to restore these coefficients to a gsurfit structure.
+.le
+.ih
+EXAMPLES
+1.  Suppose the input file "test.lis" contains X, Y, and Z values
+in the first three columns as follows:
+
+.nf
+ #  x    y    z
+    0.   0.   0.
+    1.   0.   1.
+    0.   1.   2.
+.fi
+
+Create a 4 by 4 image "test" with X and Y values
+starting at zero at pixel (1,1) and increasing by 0.5 per pixel.
+Fit a plane, i.e. polynomial with two coefficients for each axis
+and no cross terms.
+We can use the default values for column names and order of fit.
+
+.nf
+    im> xyztoim test.lis test nx=4 ny=4 x1=0 y1=0 x2=1.5 y2=1.5 \
+    >>> cross_terms=no function="polynomial"
+    test.lis --> test;  rms = 2.31111E-16
+.fi
+
+The RMS error in the fit is machine roundoff in this case.
+Use listarea to examine the pixel values:
+
+.nf
+    fo> listarea test[*,-*]
+    Image:  test[*,-*]
+     Sample    1     2     3     4
+    Line
+          4  3.0   3.5   4.0   4.5 
+          3  2.0   2.5   3.0   3.5 
+          2  1.0   1.5   2.0   2.5 
+          1  0.0   0.5   1.0   1.5 
+.fi
+
+2.  File "1d.lis" contains the following:
+
+.nf
+	#  z = 0.1*x**2 - 2*x + 5
+	# x   z
+ 	-5  17.5
+ 	-4  14.6
+ 	-3  11.9
+ 	-2   9.4
+ 	-1   7.1
+  	 0   5.0
+  	 1   3.1
+  	 2   1.4
+  	 3  -0.1
+  	 4  -1.4
+  	 5  -2.5
+  	 6  -3.4
+.fi
+
+Create a 1-D output image as follows.
+
+.nf
+    im> xyztoim 1d.lis 1d.hhh xname="c1" zname="c2" nx=12 \
+    >>> xorder=3 yorder=0
+    1d.lis --> 1d.hhh;  rms = 1.84047E-15
+.fi
+
+The data values of "1d.hhh" will be the same as "1d.lis",
+and the header will contain:
+
+.nf
+    CRPIX1  =                   1.
+    CRVAL1  =                  -5.
+    CTYPE1  = 'PIXEL   '
+    CD1_1   =                   1.
+    XORDER  =                    3
+    RMSERR  =  1.8404672640492E-15
+    HISTORY   input table name 1d.lis
+    HISTORY   column names c1 c2
+    HISTORY   a Chebyshev function was fit
+.fi
+.ih
+BUGS
+.ih
+REFERENCES
+This task was written by Phil Hodge.
+.ih
+SEE ALSO
+xyztable, gsurfit
+.endhelp

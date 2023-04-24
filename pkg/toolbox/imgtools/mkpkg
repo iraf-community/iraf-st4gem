@@ -1,0 +1,45 @@
+#   Make the imgtools package
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to bin$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	imgtools.a
+	$call	imgtools
+	;
+
+install:
+	$move	xx_imgtools.e st4gembin$x_imgtools.e
+	;
+
+imgtools:
+linkonly:
+	$omake	x_imgtools.x
+	$set 	LIBS = " "
+	$set    LFLAGS = "-z $(LFLAGS)"
+	$link	x_imgtools.o imgtools.a $(LIBS) \
+		-lxtools -lapplib \
+                -lstxtools -ltbtables -lgflib -lgilib \
+		-o xx_imgtools.e
+	;
+
+imgtools.a:
+	@lib
+	@addmasks
+	@imcalc
+	@iminsert
+	@improject
+	@rd2xy
+	;

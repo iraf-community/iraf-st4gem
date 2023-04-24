@@ -1,0 +1,4 @@
+# Package parameters for the ST4GEM package
+version,s,h,"V1.0"
+motd,b,h,yes,,,type the welcome banner?
+mode,s,h,"al"

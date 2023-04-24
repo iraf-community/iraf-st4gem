@@ -1,0 +1,38 @@
+# Make the ST4GEM syslib libraries
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+relink:
+update:
+
+$ifeq (hostid, unix)  !(date)  $endif
+
+$echo "------------------------  APPLIB  ---------------------------"
+$update libapplib.a
+$echo "------------------------  GFLIB    --------------------------"
+$update libgflib.a
+$echo "------------------------  GILIB    --------------------------"
+$update libgilib.a
+$echo "------------------------  STXTOOLS --------------------------"
+$update libstxtools.a
+
+$ifeq (hostid, unix)  !(date)  $endif
+$exit
+
+libgflib.a:
+	@gflib
+	;
+libgilib.a:
+	@gilib
+	;
+libapplib.a:
+	@applib
+	;
+libstxtools.a:
+	@stxtools
+	;

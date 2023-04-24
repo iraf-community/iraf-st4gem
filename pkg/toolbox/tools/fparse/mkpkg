@@ -1,0 +1,7 @@
+$checkout tools.a ../
+$update tools.a
+$checkin tools.a ../
+$exit
+
+tools.a:
+        t_fparse.x      

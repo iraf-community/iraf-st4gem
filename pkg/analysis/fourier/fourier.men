@@ -1,0 +1,8 @@
+Menu for the package st4gem.analysis.fourier
+
+       crosscor - Cross-correlate two images.
+        forward - Compute forward Fourier transform of an image.
+        inverse - Compute inverse Fourier transform of an image.
+
+(Type "help fourier option=sysdoc" for general information 
+about the 'fourier' package).

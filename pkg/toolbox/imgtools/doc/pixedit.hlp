@@ -1,0 +1,137 @@
+.help pixedit Feb92 stsdas.toolbox.imgtools
+.ih
+NAME
+pixedit -- Edit an image.
+.ih
+USAGE
+pixedit image
+.ih
+DESCRIPTION
+This task is a screen editor for images. The screen is divided into two
+windows, the image window and the command window.  You edit a image by
+moving the cursor in the image window with the cursor keys and typing
+in the new value of the image pixel. The screen scrolls both sideways
+and up and down as you move the cursor, so all pixels of the image can
+be reached. Other editing commands are entered in the command window.
+To switch from the image window to the command window, you press the
+EXIT key. The default binding for the EXIT key is Control-Z, however, you can
+change this default, as described later. 
+
+After performing a command,
+the editor returns to the image window, unless the
+command exits the editor. The most important commands in command mode
+are `help', `exit', and `quit'. The `help' command displays all the
+commands and editing key bindings. The `exit' command will get you out
+of the editor and automatically save the edited image. The `quit'
+command will get you out of the editor after asking you whether you
+want to save the image. By default, the editor modifies a copy instead
+of the original image, so if you quit without saving the image, the
+original image is still there without any modifications.
+
+Some editing commands are entered from the command window.  To get to
+the command window, press the EXIT key. This key is bound to Control-Z by
+default. If you enter a blank line, the editor will return to the
+image window. Some commands take arguments. They can be included when
+the command is entered, or if they are omitted, the editor will prompt
+you for their values.  When the editor interactively prompts you for a
+command argument it sometimes displays a default value for the
+argument.  You may edit the default value or use it unchanged.
+Command names can be abbreviated, as long as the abbreviation is
+unique. All commands have unique single letter abbreviations.
+
+The following is a list of commands:
+
+.ls exit
+Exit the image editor, saving any changes made to the image.
+.le
+.ls format <fmt_string>
+Change the display format of image pixels. The format string may be
+either a Fortran SPP format string. SPP format strings should start
+with a "%". Example format strings would be f10.3 for real images or
+i7 for integer images.
+.le
+.ls goto <row> <column> <plane>
+Move the cursor to the indicated pixel. The number of arguments for
+this command is equal to the dimesionality of the image. This command
+is the only way to move between planes in a three dimensional image.
+.le
+.ls help
+Display online help information for the image editor. The help includes 
+a brief description of each command line command and the key bindings 
+for image editing commands.
+.le
+.ls quit
+Exit the image editor. If the image has been changed, the image editor 
+will ask you whether to save it before exiting.
+.le
+
+The bindings to the image editing keys are read from the edcap file.
+This is the same file which is used to define the key bindings for the
+parameter editor and history editor. The edcap file defines key
+bindings which resemble those of commonly used text editors. Three
+edcap files are distributed with IRAF. They define key bindings which
+resemble edt, emacs, and vi. These edcap files are located in the dev$
+directory and have the extension ".ed". The appropriate file is chosen
+according to the value of the environment variable 'editor'. If you
+want to customize the key bindings of the image editor, copy the
+appropriate edcap file from the dev$ directory to your home$ directory
+and edit the second column of the file. The image editor searches your
+home directory first for the edcap file and if it does not find it,
+then it searches the dev$ directory.
+
+The image editor also uses the termcap file to determine the screen
+size and the escape sequences used to modify the screen. There are
+entries in the termcap file for almost all terminal types. The proper
+entry is selected according to the environment variable terminal. To
+change your terminal type or the screen size, use the iraf stty
+command. 
+
+.ih
+PARAMETERS
+.ls image [string]
+The name of the image to be edited. 
+
+The editor checks for the
+existence of the image and its access mode before editing. If you do
+not have write access to a image you can display it using this
+task by setting 'readonly'
+to "yes", but you will be unable to overwrite the original image.
+.le
+.ls (silent = no) [boolean]
+Disable the bell?
+
+Setting this to "yes" will ring a bell whenever a warning
+message is displayed.
+.le
+.ls (readonly = no) [boolean]
+Use the editor to display the image only?
+
+Set this parameter to "yes" if you want to use the editor to view a
+image but not to modify it. This parameter prevents you from executing
+any command that would modify the file.
+.le
+.ls (inplace = no) [boolean]
+Overwrite the original image?
+
+Set this to "yes" if you want to edit the image in place. This speeds
+the editor startup time when editing large images. If 'readonly' is
+set to "yes" the image is always edited in place.
+.le
+.ih
+EXAMPLES
+1. Interactively edit an image called 'omegcen.hhh'.
+
+.nf
+im> pixedit omegcen.hhh 
+.fi
+
+2. Edit the image in readonly mode.
+
+.nf
+im> pixedit omegcen.hhh read+
+.fi
+
+.ih 
+SEE ALSO 
+
+.endhelp

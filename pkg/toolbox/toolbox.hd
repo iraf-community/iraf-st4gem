@@ -1,0 +1,23 @@
+# Help directory for the TOOLBOX package
+
+$headers	= "stsdas$pkg/toolbox/headers/"
+$imgtools	= "stsdas$pkg/toolbox/imgtools/"
+$tools		= "stsdas$pkg/toolbox/tools/"
+
+headers		men=headers$headers.men,
+		hlp=..,
+		sys=headers$headers.hlp,
+		pkg=headers$headers.hd,
+		src=headers$headers.cl
+
+imgtools	men=imgtools$imgtools.men,
+		hlp=..,
+		sys=imgtools$imgtools.hlp,
+		pkg=imgtools$imgtools.hd,
+		src=imgtools$imgtools.cl
+
+tools		men=tools$tools.men,
+		hlp=..,
+		sys=tools$tools.hlp,
+		pkg=tools$tools.hd,
+		src=tools$tools.cl

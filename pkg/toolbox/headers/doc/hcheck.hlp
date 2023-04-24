@@ -1,0 +1,208 @@
+.help hcheck Aug91 stsdas.toolbox.headers
+.ih
+NAME
+hcheck -- Check image header keywords.
+.ih
+USAGE
+hcheck input chkfile
+.ih
+DESCRIPTION
+This task allows you to check the validity of keywords in
+an image header by printing the names and values of selected 
+header
+keywords. Header keywords can either be printed conditionally or
+unconditionally. One or more header keywords can be printed
+unconditionally by placing their names on a line. If more than one
+keyword is on a line, the keyword names should be separated by 
+commas
+or blanks. One or more keywords can be printed conditionally by
+placing their names on a line followed by the word "when" and the
+condition. The condition can either be a logical expression or the
+word "missing". In the first case the keywords will be printed if the
+expression is true.  In the second case, the keywords will be printed
+if they are not found in the image header. For example,
+
+naxis,naxis1,naxis2
+
+prints the first two dimensions of an image unconditionally,
+
+naxis1,naxis2,naxis3 when missing
+
+will print a line for each of the keywords that are missing, and
+
+naxis,naxis1,naxis2 when naxis == 2
+
+prints the dimensions of a two-dimensional image conditionally.
+If the keywords and expression are too
+long to fit on a line, the line can be continued by placing a
+backslash as the last character on the line. Lines which are blank or
+start with a comment character (#) are ignored.
+
+A conditional expression may contain image header keyword names, 
+string
+or numerical constants, or special keywords. The header keyword 
+names
+may be in either lower or upper case. If "when" is a header keyword,
+place it in upper case so its meaning will not be ambiguous. String
+constants may be surrounded by either single or double quotes. 
+Numeric
+constants will be treated as real numbers if they contain a decimal
+point or integers if they do not. Special keywords are values useful
+in checking header keywords that are not available in the header.
+Special keywords all start with a dollar sign to differentiate them
+from normal header keywords. The special keywords are the group 
+number
+of the current image, the three parts of the image name (directory,
+root, and extension) and the header and pixel file names. The header
+in pixel files do not include the directory. The special keywords are
+specified by the following names:
+
+.nf
+group number           $group
+image directory        $dir
+image root name        $root
+image extension        $ext
+header file name       $hdr
+pixel file name        $pix
+.fi
+
+The conditional expression must have a boolean (logical) value. The
+boolean operators that can be used in an expression are the same as
+those available in CL scripts and SPP:
+
+.nf
+equal		==		not equal		!=
+less than	<		less than or equal	<=
+greater than	>		greater than or equal	>=
+or		||		and			&&
+negation	!		
+.fi
+
+The following functions also return a boolean value. The first four
+functions return "true" if their argument is of the specified type
+(boolean for "isbool", string for "ischar", integer for is "isint", real for
+"isreal".  The next two functions, "islower" and "isupper", return 
+"true" if
+their string argument is all lower or upper case characters,
+respectively. The third function, "match", returns "true" if the first
+argument matches one or more of the remaining arguments of the
+function. The arguments of match may be of any type, as long as all
+arguments have the same type.
+
+.nf
+boolean keyword		isbool(x)
+string keyword		ischar(x)
+integer keyword		isint(x)
+real keyword		isreal(x)
+lower case		islower(x)
+upper case		isupper(x)
+equality		match(x,y,z,...)
+.fi
+
+The string concatenation operator and two string valued functions
+may also be used in an expression. The two string valued functions
+convert a string to lower and upper case.
+
+.nf
+concatenation		//
+to lower case		tolower(x)
+to upper case		toupper(x)
+.fi
+
+The expression may also include the usual arithmetic operators and
+functions. Arguments to the trigonometric functions must be in
+degrees. The available operators and functions are:
+
+.nf
+addition		+	 subtraction		-
+multiplication		*	 division		/
+negation		-	 exponentiation		**
+absolute value		abs(x)	 cosine			cos(x)
+sine			sin(x)	 tangent		tan(x)
+arc cosine		acos(x)	 arc sine		asin(x)
+arc tangent		atan(x)	 arc tangent		atan2(x,y)
+exponential		exp(x)	 square root		sqrt(x)
+natural log		log(x)	 common log		log10(x)
+minimum			min(x,y) maximum		max(x,y)
+modulo			mod(x,y)
+.fi
+
+.ih
+PARAMETERS
+.ls input [file name template]
+List of images whose headers will be checked.
+.le
+.ls chkfile [file name]
+Text file containing consistency checks.
+.le
+.ih
+EXAMPLES
+1. When no special check is needed on the value of a header 
+keyword, but
+the keyword must be present, the existence of the keyword can be
+tested for as follows:
+
+.nf
+epochtrg when missing
+.fi
+
+2. If a particular check is too complex to be automated, you can 
+simply
+print the header keywords automatically. For example, certain filter
+combinations may not make sense because they block all available
+light. There is no simple test on the filter names to check
+this, so the filter names should be printed unconditionally.
+
+.nf
+filter1,filter2
+.fi
+
+3. The simplest conditional check is when a header keyword has one 
+legal value. This can be tested as follows.
+
+.nf
+nchnls when nchnls != 512
+.fi
+
+4. A range of values can also be tested, as in the following two 
+expressions.
+
+.nf
+exptime when exptime <= 0.0
+detnum when detnum < 1 || detnum > 5
+.fi
+
+5. If a keyword has several legal values and they do not form a 
+range, it
+may be easier to use the match function.
+
+.nf
+fgwa_id when ! match(fgwa_id,"CAM","H13","H19","H27",\
+"H40","H57","H78")
+.fi
+
+6. The value of one keyword may depend on the value of another keyword. 
+This can
+be tested by combining the conditions with an "and":
+
+.nf
+naxis1,naxis2 when naxis1 != naxis2
+mode,naxis1 when mode == "AREA" && naxis1 != 400
+mode,naxis1 when mode == "FULL" && naxis1 != 800
+.fi
+
+7. Image headers usually contain the image name or root in upper 
+case.
+These keywords can be tested using the special keywords.
+
+.nf
+header_f when header_f != toupper($hdr)
+data_fil when data_fil != toupper($pix)
+rootname when rootname != toupper($root)
+.fi
+
+.ih 
+SEE ALSO
+hselect, hdiff
+
+.endhelp

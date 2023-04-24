@@ -1,0 +1,49 @@
+.help rd2xy Sep95 stsdas.toolbox.imgtools
+.ih
+NAME
+rd2xy -- Translate right ascension and declination to a 2-D image pixel 
+coordinate.
+.ih
+USAGE	
+rd2xy infile[group] ra dec
+.ih
+DESCRIPTION
+This task uses the group parameters CRVAL, CRPIX, and the CD matrix 
+coefficients to translate RA/Dec to the pixel coordinate.
+Thus the epoch of RA and Dec must be the same as these group parameters.
+.ih
+PARAMETERS
+.ls infile [string]
+Input image name.  Images are calculated one at a time and wildcards are 
+not supported.  
+If no group number is specified, it assumes the default group of 1.
+.le
+.ls ra [real]
+The right ascension.
+.le
+.ls dec [real]
+The declination.
+.le
+.ls (hour) = yes [boolean]
+Is the input RA in hours or degrees?
+.le
+.ls (x) [real]
+The output X pixel coordinate.
+.le
+.ls (y) [real]
+The output Y pixel coordinate.
+.le
+.ih
+EXAMPLES
+1. Calculate (X,Y) in the first group of an image from RA/Dec:
+.nf
+
+  wf> rd2xy w1234567t.d0h 11:11:53 03:28:53
+
+.fi
+.ih
+BUGS
+.ih
+SEE ALSO
+xy2rd
+.endhelp

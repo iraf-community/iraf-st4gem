@@ -1,0 +1,34 @@
+# Make DITHER 
+#
+# Author: I.Busko, 29-MAY-96
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+debug:
+	$set	XFLAGS = "-fgq -/pg $(XFLAGS)"
+	$set	LFLAGS = "     -/pg $(LFLAGS)"
+	$call	relink
+	;
+
+relink:
+	;
+
+install:
+	;
+
+dither:
+linkonly:
+	;

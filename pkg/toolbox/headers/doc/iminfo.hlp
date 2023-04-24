@@ -1,0 +1,45 @@
+.help iminfo Jun03 stsdas.toolbox.headers
+.ih
+NAME
+iminfo -- Print an instrument-specific header for a list of HST images,
+or a general header for a list of IRAF images.
+.ih
+USAGE
+iminfo images
+.ih
+DESCRIPTION
+The 'iminfo' task will print general header information and 
+instrument-specific information, based on the value of the image header
+keyword 'INSTRUME'.  If 'INSTRUME' cannot be found in the image header,
+or its value is something other than "ACS", "FOC", "FOS", "HRS", "HSP",
+"NICMOS", "STIS", "WFPC", or "WFPC2", then only a general header will be
+printed.
+
+Note that for ACS, NICMOS, and STIS files it is necessary to specify a FITS
+extension on the input file name(s).
+For these files it is best to specify either a science image extension
+(extname = "SCI") or extension number 1 (which is usually a SCI extension).
+.ih
+PARAMETERS
+.ls images [file name template]
+List of images.
+.le
+.ih
+EXAMPLES
+1. Print the header contents of a list of HRS images.
+
+.nf
+	cl> iminfo z00xg903r*h
+.fi
+
+2. Print the header contents of a list of NICMOS images.
+
+.nf
+	cl> iminfo n41k*mos.fits[1],n417*cal.fits[sci]
+.fi
+.ih
+BUGS
+.ih
+SEE ALSO
+imheader 
+.endhelp

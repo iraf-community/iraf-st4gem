@@ -1,0 +1,26 @@
+# mkpkg for the ST4GEM applications packages
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+relink:
+linkonly:
+update:
+install:
+
+$ifeq (hostid, unix)  !(date)  $endif
+
+$echo "===================  ANALYSIS  ======================="
+$call @analysis
+$echo "===================  GRAPHICS  ======================="
+$call @graphics
+$echo "===================  TOOLBOX   ======================="
+$call @toolbox
+$echo "===================  TBPLOT    ======================="
+$call @tbplot
+$ifeq (hostid, unix)  !(date)  $endif
+$exit

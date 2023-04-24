@@ -1,0 +1,9 @@
+axis,i,h,1,1,,>axis to project onto if fitting 2D image section 
+sample,s,h,"*",,,>sample points to use in fit
+naverage,i,h,1,,,>number of points in sample averaging
+low_reject,r,h,0.,0.,,>low rejection in sigma of fit
+high_reject,r,h,0.,0.,,>high rejection in sigma of fit
+niterate,i,h,1,0,,>number of rejection iterations
+grow,r,h,0.,0.,,>rejection growing radius in pixels
+version,s,h,"22Jan96",,,>date of installation
+mode,s,h,al

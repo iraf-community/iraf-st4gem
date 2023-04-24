@@ -1,0 +1,15 @@
+# Update the libapplib.application code in the applib package library
+# Author: C.D.Biemesderfer, 5-FEB-1988
+
+$checkout libapplib.a ../
+$update   libapplib.a
+$checkin  libapplib.a ../
+$exit
+
+libapplib.a:
+	foc_utils.x    		<mach.h> <imio.h> <imhdr.h> <ctype.h> \
+				<time.h> <foc.h> 
+	res_utils.x    		<pattern.h> <ctype.h> <time.h> <tbset.h> \
+				<foc.h> 
+	ncarfft.f		
+	;

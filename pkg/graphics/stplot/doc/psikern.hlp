@@ -1,0 +1,460 @@
+.help psikern Jan95 stplot
+.ih
+NAME
+psikern -- PostScript Kernel to IRAF GKI graphics.
+.ih
+USAGE
+psikern input
+.ih
+DESCRIPTION
+psikern is a task that translates, or renders, IRAF graphics into
+PostScript.  Like all IRAF graphics kernels, psikern may be called either
+explicitly as a task, to plot a graphics metacode file, or implicitly
+when the output of a graphics task is directed to a device which uses
+the psikern kernel.  The only difference in how psikern operates when
+called as a task and as a graphics device is that the parameters to
+the psikern task are not available when run as a device.
+
+The casual IRAF user will probably not know whether they are using
+psikern to render graphics produced by IRAF graphics.  If the local
+STSDAS system administrator has set up graphics output devices to use
+psikern, usage is no different than any other IRAF graphics device.
+Since the set up of output devices in IRAF are site-specific, one will
+need to talk to their IRAF system administrator to find out what has
+been defined and whether any devices use psikern.  
+
+When one knows what devices are available, most of the time that
+device will be used directly by an IRAF graphics task, either by
+setting the cl variable "stdplot" to the psikern device name, or
+explicitly setting the "device" parameter of a graphics task to the
+psikern device name.  The usage is exactly the same as with any other
+IRAF graphics device.  For examples, look under the EXAMPLES section,
+especially examples 1, 2, and 3.
+
+A general user will run psikern as a task only under "special"
+circumstances: when there is a specific feature of psikern that the
+user wants to take advantage of and no graphics devices have that
+feature enabled.  Below discusses how to run psikern as a task and
+what options psikern provides for creating graphics output.
+
+To run psikern as a task, the graphics output of a task must be saved
+in Graphics Kernel Interface (GKI) metacode file. GKI metacode is
+the basic graphics command language that IRAF uses to draw graphics
+and is what psikern needs as input.  Often, this type of file is
+referred to as a "metacode file".  Note that when the graphics is
+redirected to a file in this fashion, the graphics will not appear
+anywhere else.  This file cannot be printed directly or viewed; it is
+a binary file.  The file must be translated by a graphics kernel, such
+as psikern, before it is useful.
+
+Once a metacode file has been obtained, psikern can be used to
+translate the graphics into PostScript.  The EXAMPLES section contains
+demonstrations of common operations a user may want to use when
+running psikern as a task.
+
+A point of note about redirecting graphics to metacode files.  One
+should keep in mind where the graphics will ultimately be going,
+regardless of whether it is to a file, or to a physical device to be
+printed.  One should specify the same device for both the graphics
+task and the psikern task.  This will ensure that aspect ratios, line
+widths, etc. are consistent.
+
+.ls COLOR
+PostScript has the general capability of specifying any color desired.
+This is especially true of Level-2 PostScript, in which different
+color systems are implemented in PostScript.  However, a particular
+device, which supports PostScript, does not necessarily support a
+general color rendering.  In fact, no colors or grayscale may be
+available at all.  
+
+GIO itself has a very crude color model.  Color is represented simply
+as an integer, starting at zero.  The only dependable convention is
+that color 0 is the "background", while color 1 is the "foreground".
+Beyond this, there are no true conventions, except for what the
+'tvmark' task defines, and, more recently, what xgterm uses as the
+default.  Also, a specific task may wish to use its own colormapping,
+appropriate to the problem the task is solving.
+
+To interface the GIO color model to PostScript, psikern uses the
+"lookup table" (LUT) approach.  A table is defined which, for each GIO
+color index, a red/green/blue (RGB) color specification is defined.  A
+"name", or string identifier may be specified along with the index,
+though GIO currently has no way of using named colors.
+
+There are two LUT's defined: one for "graphics", i.e. almost
+everything produced by IRAF.  The other is for "images", or, in GIO
+terminology, "cells".  GIO has the ability, through the 'gpcell' call,
+to render images.  psikern will render these images using the image
+LUT.  There are two separate LUT's because line drawing and image
+rendering are two different operations, using the LUT's in different
+ways.  Most graphics applications will only be concerned with the
+graphics LUT.
+
+A lookup table may either be a text or binary STSDAS table.  If the table
+is a text table, the columns are defined as follows.  Lines that begin
+with a pound sign, "#", or totally blank lines, are considered
+comments.  The first four columns must be present.  The last column,
+specifying the color name, is optional.
+.ls First Column - GIO color index
+The GIO color index whose color is being defined.
+.le
+.ls Second Column - red component.
+A real number, between 0 (no intensity) to 1 (full intensity)
+specifying the red component of the color for the current index.
+.le
+.ls Third Column - green component.
+A real number, between 0 (no intensity) to 1 (full intensity)
+specifying the green component of the color for the current index.
+.le
+.ls Fourth Column - blue component.
+A real number, between 0 (no intensity) to 1 (full intensity)
+specifying the blue component of the color for the current index.
+.le
+.ls Fifth Column - name (optional)
+The rest of the row defines the name of the color.  This column is
+optional.
+.le
+
+For binary tables, the format is much the same as for text tables,
+except the columns are named.  Also, both the INDEX and NAME columns
+are optional.  The column names and their definitions are as follows:
+.ls RED
+A real number, between 0 (no intensity) to 1 (full intensity)
+specifying the red component of the color for the current index.
+.le
+.ls GREEN
+A real number, between 0 (no intensity) to 1 (full intensity)
+specifying the green component of the color for the current index.
+.le
+.ls BLUE
+A real number, between 0 (no intensity) to 1 (full intensity)
+specifying the blue component of the color for the current index.
+.le
+.ls INDEX (optional)
+If this column is present, it contains the GIO color indicies for
+which colors are defined.  If not present, the row number defines the
+color index.
+.le
+.ls NAME (optional)
+A name associated with the color.
+.le
+
+Another feature of psikern and its LUT's is that psikern can
+interpolate colors.  psikern forces that all colors be defined.  In
+other words, all colors 
+between 0 and the maximum index defined in a LUT must be defined.  For
+example, if the largest color index defined in a LUT is 255, all
+colors from 0 to 255 must be defined.  If this is not the case,
+psikern will use linear interpolation to define any intervening colors
+that have not explicitly been defined in the LUT.  This has the advantage
+of being able to specify compact LUT's for potentially large numbers
+of colors.  See the examples below.
+.le
+.ih
+PARAMETERS
+.ls input
+The list of input metacode files.
+.le
+.ls (device = "stdplot" [string])
+The output device.  The output device should be one setup to use
+psikern as the graphics kernel.  If it is not known what devices are
+available, ask the local IRAF system administrator.
+.le
+.ls (generic = no [boolean])
+If 'yes', all subsequent parameters are ignored.  Specifically,
+psikern will only query for the 'input', 'device', and 'generic'
+parameters.  This is the situation when the kernel is called from the
+GIO system. If 'no', then all parameters are queried for.
+.le
+.ls (output = "" [file])
+The file where the PostScript should be written.  If blank, the
+PostScript file will be dealt with according to how the graphics
+device, specified in the "device" parameter, would normally handle the
+file.
+.le
+.ls (roman_font = "" [string])
+PostScript font to use for rendering the GIO Roman font.  If blank,
+the default PostScript font will be used, Times-Roman.
+.le
+.ls (greek_font = "" [string])
+PostScript font to use for rendering the GIO Greek font.  If blank,
+the default PostScript font will be used, Symbol.
+.le
+.ls (bold_font = "" [string])
+PostScript font to use for rendering the GIO Bold font.  If blank, the
+default PostScript font will be used, Times-Bold.
+.le
+.ls (italic_font = "" [string])
+PostScript font to use for rendering the GIO Italic font.  If blank,
+the default PostScript font will be used, Times-Italic.
+.le
+.ls (proportional = yes [boolean])
+Use proportional spaced fonts?  If 'yes', proportional spacing will be
+used when writing characters.  If 'no', the spacing of characters will
+be constant.
+.le
+.ls (graphics_lut = "" [string])
+Name of the graphics lookup table defining the available colors.  If
+blank, the graphics lookup table will be that normally used by the
+specified device.
+.le
+.ls (image_lut = "" [string])
+Name of the image lookup table defining the available colors for the
+cellarray operation.  If blank, the image lookup table will be that
+normally used by the specified device.
+.le
+.ls (linecolor = INDEF [int])
+Set default line color to 'linecolor'.  GIO does not have a real
+concept of a default color, so anytime the color is 1, then it is
+changed to the value of this parameter.
+If 'INDEF', no changes to colors will be made.
+.le
+.ls (markercolor = INDEF [int])
+Set default marker color to 'markercolor'.  GIO does not have a real
+concept of a default color, so anytime the color is 1, then it is
+changed to the value of this parameter.
+If 'INDEF', no changes to colors will be made.
+.le
+.ls (textcolor = INDEF [int])
+Set default text color to 'textcolor'.  GIO does not have a real
+concept of a default color, so anytime the color is 1, then it is
+changed to the value of this parameter.
+If 'INDEF', no changes to colors will be made.
+.le
+.ls (areacolor = INDEF [int])
+Set default area color to 'areacolor'.  GIO does not have a real
+concept of a default color, so anytime the color is 1, then it is
+changed to the value of this parameter.
+If 'INDEF', no changes to colors will be made.
+.le
+.ls (debug = no [boolean])
+If 'yes', the graphics instructions are decoded and printed
+during processing.
+.le
+.ls (verbose = no [boolean])
+If 'yes', the elements of polylines, cell arrays, etc. will
+be printed in debug mode.
+.le
+.ls (gkiunits = no [boolean])
+By default, coordinates are printed in NDC rather than GKI units.
+.le
+.ih
+EXAMPLES
+The first three examples show how to use a psikern device in normal
+IRAF operations.
+
+1. Using a psikern device as simply another IRAF graphics device:
+This example demonstrates the create of a PostScript file using the
+"psi_land" graphics device and the "prow" task:
+
+.nf
+	cl> prow dev$pix 256 device=psi_land
+	cl> gflush
+	/tmp/pskxxxx
+.fi
+
+The name of the PostScript file, here "/tmp/pskxxxx", is echoed when
+the "gflush" command is given.  The "gflush" command tells the
+graphics system that no more information will be appended to the plot,
+thus closing the file and echoing the file name to the screen.
+
+2. Using a psikern device which is a printer:  This example
+demonstrates the use of a psikern device when the device is configured
+to use a printer.  This device will be called "lw":
+
+.nf
+	cl> prow dev$pix 256 device=lw
+	gflush
+.fi
+
+A not about the "gflush":  IRAF graphics output never occurs
+immediately.  This allows other tasks to append more information to a
+plot.  Therefore, if one knows that the plot is complete and would
+like to get it immediately, a "gflush" is required to inform the
+graphics system that the plot is complete and to print it.
+
+3. Making a psikern device the default plotting device: Many
+interactive tasks use the "snap" cursor command to create hardcopy
+plots of what is currently on the screen.  The device used for the
+hardcopy is whatever the value of the cl variable "stdplot" is.
+To change the default output device to a psikern device, simply set
+"stdplot" to the name of the desired psikern device.  The example
+below shows the use with the graphics cursor "snap" function from the
+"splot" task.
+
+.nf
+	cl> set stdplot=psi_land
+	cl> splot aspectrum
+		...enters graphics interactive mode...
+		...from which the "snap" command can be given...
+	:.snap
+	q
+	cl> gflush
+.fi
+
+A note about the "stdplot" variable:  If one wants to make a permanent
+change to the value of this variable, the "set" command should be
+placed in the file "home$loginuser.cl".  In this way, everytime the cl
+is started, the variable will have the desired value.
+
+The following examples demonstrate how to use the psikern task
+directly to modify the look of a plot.
+
+4. Capture the output of the prow task in a metacode file and
+produce a PostScript file.  This example does not demonstrate anything
+that could not be done directly using a graphcape device.  This is
+just meant to show how to redirect graphics to a file, and then render
+that file using a specific graphics kernel.
+
+.nf
+	cl> prow dev$pix 101 >G prow.gki
+	cl> psikern prow.gki device=psi_land
+.fi
+
+Note that this could have been done as follows:
+
+.nf
+	cl> prow dev$pix 101 device=psi_land
+	cl> gflush
+.fi
+
+5. Produce a PostScript file from a GKI metacode file.  However,
+instead of using the default name generated by psikern itself, place
+the PostScript into a specific file, here "prow.ps".
+
+.nf
+	cl> prow dev$pix 101 >G prow.gki
+	cl> psikern prow.gki device=psi_land output=prow.ps
+.fi
+
+6. Use a different set of fonts than that specified for any device
+defined in the graphcap file.  For example, one may want to use the
+Helvetica family of fonts instead of the Times family.  The font names
+should appear exaclty as they would in a PostScript program.
+
+.nf
+	cl> prow dev$pix 101 >G prow.gki
+	cl> psikern prow.gki device=psi_land\
+	roman_font=Helvetica bold_font=Helvetica-Bold\
+	italic_font=Helvetica-Oblique
+.fi
+
+7. Change the spacing of characters.  By default, psikern renders
+characters using proportional spacing.  However, GIO and many tasks
+assume the character spacing is constant, or monospace.  Render a
+graphics output using monospaced characters.
+
+.nf
+	cl> prow dev$pix 101 >G prow.gki
+	cl> psikern prow.gki device=psi_land proportional-
+.fi
+
+8. Changing colors of a graphics output from an IRAF task that does
+not provide this functionality.  Most IRAF tasks do not allow or make
+use of colors.  Instead of rendering output using the color
+defined for color 1, use the color defined for color 2, and render
+text using color 3.
+
+.nf
+	cl> prow dev$pix 101 >G prow.gki
+	cl> psikern prow.gki device=psi_land\
+	linecolor=2 textcolor=3
+.fi
+
+The following examples demonstrate how to define and modify the color
+lookup tables.
+
+9. Define and use the color table, "invxgterm".  This
+table is a text table distributed with STSDAS in the file
+"stsdas$lib/invxgterm".
+
+.nf
+	cl> prow dev$pix 101 >G prow.gki
+	cl> psikern prow.gki device=psi_land \
+	graphics_lut=stsdas$lib/invxterm
+.fi
+
+10.  Define a two-color graphics lookup table.  Many PostScript
+devices are laser printers.  Though they render color as different
+levels of gray, the output may not be pleasing.  One can force black
+on white by using a two-color graphics lookup table.  STSDAS
+distributes this table in the file "stsdas$lib/mono"
+
+11.  A user has written an IGI script which requires a 256 color
+graphics LUT, which mimics a rainbow from red to magenta.  STSDAS
+distributes this table in the file "stsdas$lib/rain256".  This
+table demonstrates the use of the color interpolation that psikern
+provides.
+
+.nf
+	cl> igi <manycolor.igi >G igi.gki
+	cl> pskern igi.gki device=apsikerndevice \
+	graph_lut=stsdas$lib/rain256
+.fi
+
+12.  A user has written an IGI script which renders an image.  However,
+the user would like to use a 256 color image LUT, which mimics a
+rainbow from red to magenta.  STSDAS distributes this table as
+"stsdas$lib/imgrain256".  The only difference between
+the table below and the one in example 11 is that an image LUT need
+not worry about background/foreground colors.  Hence the first two
+entries can be part of the whole color continuum.
+
+.nf
+	cl> igi <image.igi >G igi.gki
+	cl> psikern igi.gki device=apsikerndevice\
+	image_lut="imgrain256"
+.fi
+.ih
+BUGS
+The kernel does not recognize changes in the txspacing.
+.ih
+REFERENCES
+STSDAS Contact: Jonathan Eisenhamer, <eisenhamer@stsci.edu>
+
+For a technical/programming description of psikern, including how to
+modify IRAF'S graphcap file to install psikern devices, execute the
+command:
+
+.nf
+	help psikern option=sysdoc
+.fi
+
+For a technical description of IRAF's Graphics Interface (GIO)
+facility, execute the command:
+
+.nf
+	help gio$doc/gio.hlp files+
+.fi
+
+There are many reference manuals available on PostScript.  However,
+since PostScript is a licensed produce of Adobe Systems, the ultimate
+reference is
+
+.nf
+	PostScript language refernce manual / Adobe Systems. - 2nd ed.
+		p. cm.
+	Includes index.
+	ISBN 0-201-18127-4
+	1. PostScript (Computer program language) I. Adobe Systems.
+	QA76.73.P67P67 1990
+	005.13'3-dc20
+
+	Addison-Wesley Publishing Company, Inc.
+.fi
+
+A number of color lookup tables are distributed with STSDAS in the
+directory "stsdas$lib".  The following tables are currently available:
+
+.nf
+	defxgterm	-- Similar color map as the default xgterm colormap
+	gray256		-- Graphics LUT rendering different levels of gray
+	imgrain256	-- Image LUT for image operations
+	invxgterm	-- xgterm colormap but with a white background
+	mono		-- 2 color (monochrome)
+	rain256		-- Graphics LUT rendering a version of the rainbow
+.fi
+.ih
+SEE ALSO
+stdgraph, stdplot
+.endhelp

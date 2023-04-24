@@ -1,0 +1,88 @@
+.help fparse Aug98 stsdas.toolbox.tools
+.ih
+NAME
+fparse -- Parse a pathname specification into its component parts.
+.ih
+USAGE
+fparse input
+.ih
+DESCRIPTION
+'fparse' takes as input a pathname specification and parses the
+specification into the various components: directory, root, extension,
+group, and section.  The parameters of 'fparse' are set to these
+different components.  Optionally, through the use of the 'verbose'
+parameter, 'fparse' can write to standard output with the components
+separated by spaces.  The order in which the components are written
+out is in the same order as the parameters.  If any component is missing,
+two double-quotes, "", are used as a place holder.
+
+Note that any numbers used in the specification, such as group number
+or image section, are limited to a maximum of about 2 billion.  Any
+larger number will give invalid results.
+.ih
+PARAMETERS
+.ls input [file name]
+The pathname specification to parse into the individual components.
+The maximum length of this string is 160 characters.
+.le
+.ls (verbose = no) [boolean]
+Write components to standard output?
+
+If set to "yes", the components are written to standard output on one line
+separated by spaces.  The components are written in the following
+order: directory root extension group section
+.le
+.ls (directory) [string]
+This output parameter will contain the directory part of the pathname
+specification after 'fparse' is executed.  The directory specification
+will end with the appropriate directory indication character, for
+example, "$" or "/".
+.le
+.ls (root) [string]
+This output parameter will contain the root name part of the pathname
+specification after 'fparse' is executed.
+.le
+.ls (extension) [string]
+This output parameter will contain the extension part of the pathname
+specification after 'fparse' is executed.  This will also contain the
+"." extension indicator.
+.le
+.ls (cl_index) [integer]
+This will contain the group number, or -1 if no group was specified.
+.le
+.ls (cl_size) [integer]
+This will contain the number of groups, or -1 if no group was specified.
+.le
+.ls (section) [string]
+This output parameter will contain the section specification part of the pathname
+specification after 'fparse' is executed.  This includes the brackets
+"[" and "]".
+.le
+.ih
+EXAMPLES
+1. Parse the pathname 'dev$pix.imh'.
+
+.nf        
+        cl> fparse dev$pix.imh
+.fi
+
+2. Parse the pathname 'dev$pix.imh' and write the result to standard
+output.
+
+.nf
+        cl >fparse dev$pix.imh verbose+
+        dev$ pix imh -1 -1 ""
+.fi
+.ih
+BUGS
+This routine will break if any more syntax is added to pathname
+specifications. This routine uses the "illegal" call to 'imparse'.
+
+This routine ignores what is called a "ksection".  Not clear what this is.
+
+Though the IRAF system parsing routines don't handle wildcards, the capability
+is here.  The assumption is that directory specifications can never have
+wildcards and anything after the last '.' is an extension, wildcards included.
+.ih
+SEE ALSO
+.endhelp

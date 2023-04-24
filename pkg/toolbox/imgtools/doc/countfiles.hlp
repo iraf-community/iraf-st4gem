@@ -1,0 +1,38 @@
+.help countfiles Aug95 stsdas.toolbox.imgtools
+.ih
+NAME
+countfiles -- Count how many files are in the input file template
+.ih
+USAGE
+countfiles input
+.ih
+DESCRIPTION
+Countfiles is a simple task to count how many input files are in the template.
+It works with wild card.  Together with the task pickfile, it provides an 
+intuitive alternative for scan in IRAF script writing.
+.ih
+PARAMETERS
+.ls input [string]
+Input file template.
+.le 
+.ls output [int] 
+Output parameter: number of files in the input string.
+.le
+.ih
+EXAMPLES
+1. im> countfiles "a,b,c,d"
+
+	The output will be 4.
+	
+2. im> countfiles @list
+
+
+3. im> countfiles *
+.ih
+REFERENCES
+.ih
+BUGS
+.ih
+SEE ALSO
+pickfile, scan
+.endhelp

@@ -1,0 +1,8 @@
+./gi_addpar.x:	    P_PSIZE(pp) = plen * SZ_REAL * SZB_CHAR * NBITS_BYTE
+./gi_update.x:		bitpix = SZ_REAL * NBITS_CHAR
+./gi_rheader.x:		if (sz_param == SZ_REAL)
+./gi_wgpbi3e.x:		# Memr[(op-1)/SZ_REAL+1] = rval
+./gi_rgpbi3e.x:		if (sz_param == SZ_REAL)
+./gi_pdes.x:	    P_PSIZE(pp) = plen * SZ_REAL * SZB_CHAR * NBITS_BYTE
+./gi_crgpb.x:		call amovc (rval, Memc[op], SZ_REAL)
+./gistf_setup.x:	      P_PSIZE(pp) = P_LEN(pp) * SZ_REAL * SZB_CHAR * NBITS_BYTE

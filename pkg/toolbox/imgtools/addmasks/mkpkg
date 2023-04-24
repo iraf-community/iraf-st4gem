@@ -1,0 +1,44 @@
+
+#   Make the addmasks task
+#   Author: B.Simon, 16-JAN-91
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call update
+$exit
+
+relink:
+	$call update
+	;
+
+linkonly:
+	;
+
+install:
+	;
+
+update:
+	$set XFLAGS = "-fgq $(XFLAGS)"
+	$checkout imgtools.a ../
+	$update imgtools.a
+	$checkin imgtools.a ../
+	;
+
+imgtools.a:
+	addcompile.x	<ctype.h>  "addmasks.h"  "addcompile.com"
+	addeval.x	"addmasks.h"
+	addfree.x
+	addmasks.x	"addmasks.h"
+	mapflag.x
+	maptrue.x
+	pixorder.x
+	rdflags.x
+	sendwarn.x
+	sortflag.x
+	unmapflag.x
+	;

@@ -1,0 +1,29 @@
+
+    This directory contains the information needed to make STSDAS run as
+an external package within IRAF.  It also contains special libraries used 
+within STSDAS.
+
+Libraries in this directory:
+	libapplib	applications subroutines (applib directory)
+	libdisplay	terminal display subroutines (display directory)
+	libf77util	F77VOS utiltity subroutines (f77util directory)
+	libiraf77	F77VOS interface subroutines (iraf77 directory)
+	libstieee	STSDAS special ieee file format subroutines (stieee dir)
+	libstxtools	STSDAS special application tools (xtools directory)
+	libsynphot	STSDAS synthetic photometry library (synphot directory)
+	libtbtables	STSDAS table I/O subroutines (tbtables directory)
+	libuttables	STSDAS table utilities (uttables directory)
+	stalone		F77 stand-alone interface (stalone directory)
+
+Other necessary files:
+	helpdb.mip	host independent help database for STSDAS
+	iraf77.inc	F77VOS interface include file
+	mkpkg		mkpkg for this directory
+	mkpkg.inc	special mkpkg instructions for STSDAS
+	mkpkg.sf.*	operating system specific mkpkg instructions
+	root.hd		root help directory for STSDAS
+	rootstsdas.hd	root task entry for STSDAS help tree
+	strip.stsdas	list of files to be deleted when run `mkpkg strip'
+	zzsetenv.def	STSDAS environment variables used
+	
+

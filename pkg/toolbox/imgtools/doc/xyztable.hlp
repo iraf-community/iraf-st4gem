@@ -1,0 +1,212 @@
+.help xyztable Feb94 toolbox.imgtools
+.ih
+NAME
+xyztable -- Interpolate table values, writing results to a table.
+.ih
+USAGE
+xyztable intable1 intable2 outtable
+.ih
+DESCRIPTION
+This routine reads tables -- or text files in row/column format --
+and writes output tables.
+An input table or file contains columns of X, Y (if 2-D), and Z values.
+This task fits a surface to Z as a polynomial function of X and Y.
+From a second input table,
+the (X, Y) independent variable values are read,
+the fit is evaluated for those arguments,
+and the (X, Y) and function values are written to the output table.
+The function that is to be fit may be expressed as a
+Chebyshev or Legendre polynomial or as an ordinary power series.
+The IRAF gsurfit package is used to fit and evaluate the function.
+
+Header parameters are added to the output tables
+to give some information on the fit.
+.ih
+PARAMETERS
+.ls intable1 [file name template]
+List of input tables or text files
+containing the data to which the surface will be fit.
+See also 'xname', 'yname', 'zname',
+which are used to specify the column names.
+The same names are used for all input tables.
+.le
+.ls intable2 [file name template]
+Names of input tables or text files
+containing the independent variable values
+at which the fitted surface will be evaluated.
+The number of names in this list must be the same as
+the number given in 'intable1'.
+The same column names 'xname' (and 'yname' if 2-D) as for 'intable1'
+are used for the columns of independent variable values,
+but 'zname' need not be present.
+.le
+.ls outtable [file name template]
+List of output tables.
+The number of output files must be the same as
+the number of input files given in 'intable1'.
+The output table is created as a copy of 'intable2',
+except that history records are added,
+and the 'zname' column is added to contain the results of the fit.
+.le
+.ls (xname = "c1") [string]
+Name of column for X values.
+This parameter is used to specify which column
+in the input tables (both 'intable1' and 'intable2')
+contains the X values.
+X and Y are the independent variables (or just X for 1-D),
+and Z is the dependent variable.
+The default of "c1" is appropriate for the case that 'intable1'
+and 'intable2' are text files with X values in the first column.
+If 'intable1' lists more than one file name,
+the same column names are used for all files.
+.le
+.ls (yname = "c2") [string]
+Name of column for Y values.
+For a one-dimensional fit,
+you can either set 'yorder' to zero or
+set 'yname' to null or blank.
+Note that 'zname' is the column name for the dependent variable
+regardless of whether a 1-D or 2-D fit is desired.
+See also the description for 'xname'.
+.le
+.ls (zname = "c3") [string]
+Name of column for Z values.
+This column contains the dependent variable values.
+For a 1-D fit, values should be specified for 'xname' and 'zname',
+and 'yname' will not be used.
+See also the description for 'xname'.
+.le
+.ls (xorder = 2 [integer, min=1, max=INDEF]
+Number of coefficients for function in X.
+This number does not include coefficients for cross terms.
+For example, if 'xorder' and 'yorder' are both equal to two,
+the function will be
+.ls
+.ls c1 + c2*X + c3*Y   if cross_terms = no,
+.le
+.le
+
+and it will be
+.ls
+.ls c1 + c2*X + c3*Y + c4*X*Y   if cross_terms = yes,
+.le
+.le
+
+where c1, c2, c3, and c4 are the coefficients of the fit.
+.le
+.ls (yorder = 2 [integer, min=1, max=INDEF]
+Number of coefficients for function in Y.
+For a one-dimensional fit, set 'yorder' to zero.
+.le
+.ls (x1 = INDEF) [real]
+The fit is performed over the range 'x1' to 'x2' and 'y1' to 'y2'.
+If 'x1' is INDEF, the minimum X value in 'intable1' will be used.
+.le
+.ls (x2 = INDEF) [real]
+If 'x2' is INDEF, the maximum X value in 'intable1' will be used.
+.le
+.ls (y1 = INDEF) [real]
+If 'y1' is INDEF, the minimum Y value in 'intable1' will be used.
+In the 1-D case (i.e. if 'yorder' is zero), 'y1' and 'y2' are ignored.
+.le
+.ls (y2 = INDEF) [real]
+If 'y2' is INDEF, the maximum Y value in 'intable1' will be used.
+.le
+.ls (cross_terms = yes) [boolean]
+Include cross-terms?  If this is set to no,
+the function will consist of the sum of
+a polynomial in X and a polynomial in Y.
+If cross_terms = yes,
+the function can include terms such as X*Y or (X**2)*Y.
+.le
+.ls (function = "chebyshev") [string]
+[allowed values: chebyshev | legendre | polynomial]
+
+Function to be fit.
+The default value of "chebyshev" is almost always appropriate.
+Numerical roundoff may be severe if "polynomial" is selected,
+so this choice is not recommended.
+.le
+.ls (verbose = yes) [boolean]
+Print the names of the input and output tables?
+.le
+.ls (coefficients = no) [boolean]
+Print the coefficients?  The coefficients are not printed in
+user-friendly format.
+They are the values returned by the dgssave subroutine in gsurfit.
+The first eight numbers describe the fit (e.g. xorder, yorder),
+and the remaining values are the coefficients.
+These may be passed to the dgsrestore subroutine
+in order to restore these coefficients to a gsurfit structure.
+.le
+.ih
+EXAMPLES
+1.  Suppose the input file "test.lis" contains X, Y, and Z values
+in the first three columns as follows:
+
+.nf
+ #  x    y    z
+    0.   0.   0.
+    1.   0.   1.
+    0.   1.   2.
+.fi
+
+Fit a plane, i.e. polynomial with two coefficients for each axis
+and no cross terms.
+Use the same file "test.lis" for the list of X, Y values
+at which to evaluate the function.
+
+.nf
+    im> xyztable test.lis test.lis test \
+    >>> cross_terms=no function="Chebyshev"
+    test.lis --> test;  rms = 0.
+.fi
+
+2.  Table "1d.tab" contains the following:
+
+.nf
+	 x    z
+
+	-5  17.5
+	-4  14.6
+	-3  11.9
+	-2   9.4
+	-1   7.1
+	 0   5.0
+	 1   3.1
+	 2   1.4
+	 3  -0.1
+	 4  -1.4
+	 5  -2.5
+	 6  -3.4
+.fi
+
+Do a 1-D quadratic fit to these data,
+and evaluate the fit for the same X values,
+writing the output to "1dout.tab".
+
+.nf
+    im> xyztable 1d.tab 1d.tab 1dout.tab \
+    >>> xname="x" zname="z" xorder=3 yorder=0
+    1d.tab, 1d.tab --> 1dout.tab;  rms = 1.84047E-15
+
+    im> tprint 1dout.tab prp+
+      Table 1dout.tab  Tue 14:40:19 11-Jan-94
+
+    HISTORY  t Created Tue 14:40:14 11-Jan-94
+    XORDER   i 3
+    RMSERR   d 1.840467264049248E-15
+    HISTORY  t input table name 1d.tab
+    HISTORY  t X column name x
+    HISTORY  t Z column name z
+    HISTORY  t a Chebyshev function was fit
+.fi
+.ih
+BUGS
+.ih
+REFERENCES
+This task was written by Phil Hodge.
+.ih
+SEE ALSO
+xyztoim, gsurfit
+.endhelp

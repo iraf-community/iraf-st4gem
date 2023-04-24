@@ -1,0 +1,6 @@
+./gi_update.x:	bitpix = sizeof(pixtype) * NBITS_CHAR
+./gi_xdimtomg.x:	      if (mod(pixoff, sizeof(IM_PIXTYPE(im2))) != 1)
+./gi_rheader.x:	STF_SZGROUP(stf) = totpix * sizeof (IM_PIXTYPE(im)) +
+./gi_opix.x:		STF_SZGROUP(stf) = totpix * sizeof (IM_PIXTYPE(im)) +
+./giopengr.x:	if (mod(pixoff, sizeof(IM_PIXTYPE(im))) != 1)
+./gi_reset.x:	szgroup = totpix * sizeof(IM_PIXTYPE(im)) + 

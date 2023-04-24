@@ -1,0 +1,7 @@
+# Help directory for the HEADERS package
+
+$headers	= "st4gemas$pkg/toolbox/headers/"
+$doc		= "st4gemas$pkg/toolbox/headers/doc/"
+$hdiff		= "headers$hdiff/"
+
+hdiff		hlp=doc$hdiff.hlp,	src=hdiff$hdiff.x

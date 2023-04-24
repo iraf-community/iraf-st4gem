@@ -1,0 +1,11 @@
+# Update the improject application code in the imgtools package library
+# Author: GIARETTA, 8-DEC-1987
+
+$checkout imgtools.a ../
+$update   imgtools.a
+$checkin  imgtools.a ../
+$exit
+
+imgtools.a:
+	improject.x      		<imhdr.h> <error.h> 
+	;

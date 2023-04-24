@@ -1,0 +1,1074 @@
+.help nlfit Jun90 stsdas.analysis.fitting
+
+.ce
+Description of the NLFIT library
+
+.ce
+Ivo Busko 
+
+.ce
+February 1989
+.ce
+Last revision: Jul 1990
+
+.sh
+1. INTRODUCTION
+
+The NLFIT library provides a set of routines for fitting analytical, one
+or two-variable functions non-linear in their coefficients, to 1 or
+2-dim data, using least squares techniques.  Supported functions are:
+.nf 
+
+	power law
+	Planck (black body)
+	composite (power law plus black body)
+	sum of two black bodies
+	galaxy brigthness profile (bulge + disk)
+	sum of any number of 1-dim Gaussians
+	sum of any number of 1-dim constrained Gaussians
+	user-specified 1-dim function
+	two dimensional elliptical Gaussian 
+
+.fi
+The basic numerical technique employed is the downhill simplex method
+("amoeba"). This document presents the characteristics of the library,
+describes the algorithms used, and gives examples of its use.
+
+.sh
+2. CHARACTERISTICS
+.sh
+2.1 CAPABILITIES
+
+The library routines are capable of performing the following operations:
+
+.ls o
+Determine the coefficients of the fitting function, from an initial guess
+provided by the user. The fitting is weighted by a weight array.
+.le
+.ls o
+Optionally determine estimates for the coefficient errors.
+.le
+.ls o
+Output the values of the coefficients and their errors, as well as other 
+parameters stored internally to the library.
+.le
+.ls o
+Input coefficient values, as well as other parameters, to the control
+structure. 
+.le
+.ls o
+Evaluate the fitting function at arbitrary value(s) of (x,y).  The evaluating
+routines use the calculated or user supplied coefficients and the user
+supplied x and y value(s). 
+.le
+.ls o
+Calculate the standard deviation of the fit. 
+.le
+.ls o
+Allow flagging of specific data points, which are removed from subsequent
+fits.
+.le
+.ls o
+Hold a sub-set of the coefficients fixed during the actual fitting process.
+.le
+.ls o
+Issue a warning message if the convergency criteria internal to the
+library are not met.
+.le
+.sh
+2.2 INPUT DATA
+
+The library routines take as input a set of x, y and z values and their
+corresponding weights, as well as a set of user's first guesses for the
+coefficients of the sought function.  Also, a set of flags is used to
+control which of the function's coefficients are to be fit. 
+
+The library routines assume that data values equal to INDEF have been
+rejected from the data set or replaced with appropriate interpolated
+values prior to entering the routines. 
+
+The input data may be arbitrarily spaced in x and y.  No assumptions are
+made about the ordering of the x and y values.  However, when fitting
+Planck functions, the x values must be in wavelength, frequency or
+energy units.  Supported units are Angstrom, cm, meter, Hz or keV.  If
+no explicit physical unit type is supplied to the library, it tries to
+decide based on the order of magnitude of the input x data.  The same
+happens in the case of galaxy brightness profile fitting, in which the
+x variable units can be either linear distance or distance**1/4. 
+
+The library routines assume that the independent variable is linear, so
+composite functional forms are expressed in the straightforward additive
+way. 
+
+The fitting function is selected at run time.  Due to the different
+functional forms of each one of the supported functions, the calling
+sequence depends on which fitting function is chosen.  Specifically, the
+coefficients are passed to and from the library routines in an order
+which is unique to each function.  However, this ordering can be made
+transparent to the programmer, when using the macro definitions in
+"stsdas$pkg/fitting/nlfit/nlfit.h". Also, when fitting functions of
+only one variable, the y vector must be initialized to an arbitrary but
+constant value.
+.sh
+2.3 PRECISION
+
+The input data set and output coefficents, errors, rms, and fitted z
+values are single precision real quantities.  Most library calculations
+are done in single precision.  However, the data are scaled internaly to
+minimize errors in the fitting algorithm, and some of the scaling and
+unscaling operations are done in double precision.  Also, some specific
+operations in function evaluation and coefficient error determination
+are done on double precision. 
+
+.sh
+3. SPECIFICATIONS
+.sh
+3.1. DESCRIPTION OF ROUTINES
+
+3.1.1 Initialize the library internal data structures
+.nf
+
+         nl_init  (nl, fitfunc, coeff, cflags, npar, npix)
+
+Input:
+int      fitfunc - int of value POWERLAW, BBODY, TWOBBODY, COMPOSITE,
+		   GALBULGE, GALDISK, GALPROF, GAUSSIANS, CGAUSS, USER
+                   or TWODGAUSS (defined in stsdas$pkg/fitting/nlfit/nlfit.h).
+real     coeff   - array containing initial guesses for the coefficients.
+int	 cflags  - array with flags to control which coeffs. are fitted.
+int      npar    - total number of coefficients.
+int      npix    - number of data points.
+
+Output:
+pointer  nl      - pointer to control structure. Must have the value NULL
+                   before first call to routine.
+
+.fi
+
+3.1.2 Free the library internal data structures
+.nf
+
+         nl_free  (nl)
+
+Input:
+pointer  nl      - pointer to control structure.
+
+.fi
+
+3.1.3 Fit thru a set of data points (recalculate coefficients and errors)
+.nf
+
+         nl_fit (nl, x, y, z, weight)
+
+Input:
+pointer  nl      - pointer to control structure.
+real     x       - array with x independent variable.
+real     y       - array with y independent variable.
+real     z       - array with dependent variable.
+real     weight  - array with weights.
+
+.fi
+
+3.1.4 Evaluate function from internally stored coefficients
+.nf
+
+        nl_vector (nl, x, y, zfit, npix)
+        zfit1 = nl_zeval (nl, x1, y1)
+
+Input:
+pointer  nl      - pointer to control structure.
+real     x       - array with x independent variable.
+real     y       - array with y independent variable.
+real     x1      - value of x independent variable.
+real     y1      - value of y independent variable.
+int      npix    - number of data points.
+
+Output:
+real     zfit    - array with evaluated function.
+real     zfit1   - value of function at point.
+
+.fi
+
+3.1.5 Reject single data point; clear all previously rejected points
+.nf
+
+         nl_reject (nl, i)
+         nl_clear (nl)
+
+Input:
+pointer  nl      - pointer to control structure.
+int      i       - index in data arrays (x, y, weight) of point to be rejected.
+
+.fi
+
+3.1.6 Extract data from control structure
+.nf
+
+         nl_gcoeff (nl, coeff, npar)
+         nl_gerrors (nl, errors, npar)
+         nl_gflags (nl, flags, npar)
+         ipar = nl_stati (nl, param)
+         rpar = nl_statr (nl, param)
+         bpar = nl_statb (nl, param)
+
+Input:
+pointer  nl      - pointer to control structure.
+char     param   - string with parameter name.
+
+Output:
+real     coeff   - array with coefficients.
+real     errors  - array with coefficient errors.
+bool     flags   - array with coefficient flags.
+int      npar    - number of coefficients.
+int      ipar    - value of integer parameter.
+real     rpar    - value of real parameter.
+bool     bpar    - value of boolean parameter.
+
+.fi
+
+3.1.7 Put data in control structure
+.nf
+
+         nl_scoeff  (nl, coeff, npar)
+         nl_serrors (nl, errors, npar)
+         nl_sflags  (nl, flags, npar)
+         nl_puti    (nl, param, ipar)
+         nl_putr    (nl, param, rpar)
+         nl_putb    (nl, param, bpar)
+         nl_iuser   (nl, funcstr, sizestr)
+
+Input:
+pointer  nl      - pointer to control structure.
+char     param   - string with parameter name.
+char     funcstr - string with user function.
+int      sizestr - size of user function string.
+int      ipar    - value of integer parameter.
+real     rpar    - value of real parameter.
+bool     bpar    - value of boolean parameter.
+real     coeff   - array with coefficients.
+real     errors  - array with coefficient errors.
+bool     flags   - array with coefficient flags.
+int      npar    - number of coefficients.
+
+.fi
+.sh
+3.2 INTERNAL PARAMETERS
+
+Internal parameters can be accessed by use of the routines described in
+3.1.5 and 3.1.6. They are:
+.nf
+
+Parameter name   Type   Meaning
+  "fitfunc"      int    Type of fitting function (defined in 
+			stsdas$pkg/fitting/nlfit/nlfit.h as POWERLAW, BBODY, 
+			TWOBBODY, COMPOSITE, GALBULGE, GALDISK, GALPROF, 
+			GAUSSIANS, CGAUSS or USER).
+  "npar"         int    Number of coefficients in fitting function.
+  "npts"         int    Total number of data points.
+  "nreject"      int    Number of already rejected points.
+  "errtyp"       int    Define mode of coefficient error estimation
+  "maxit"        int    Maximum number of iterations in amoeba code
+  "units"        int    Type of physical unit of independent variable (defined
+			in stsdas$pkg/fitting/nlfit/nlfit.h as ANGSTROM, CM, 
+			METER, HZ, KEV, LINEAR or FOURTH_ROOT).
+  "rms"          real   r.m.s. of the last fit.
+  "xscale"       real   Scaling factor applied internally to x variable.
+  "yscale"       real   Scaling factor applied internally to y variable.
+  "zscale"       real   Scaling factor applied internally to z variable.
+  "wscale"       real   Scaling factor applied internally to weights.
+  "alpha"        real   Constants for amoeba code, in the case 
+  "beta"         real   of USER function.
+  "gamma"        real
+  "errors"       bool   Calculate coefficient errors ?
+  "verbose"      bool   Print amoeba iteration info ?
+
+.fi
+.sh
+3.3. ALGORITHMS
+
+3.3.1 Scaling
+
+All operations are done internally on scaled variables, in order to
+minimize errors in the calculations.  Although not of fundamental
+importance in the case of downhill simplex method, the scaling
+capability was kept in the library to allow easier substitution/upgrade
+of the fitting method. Scaling does not impair execution speed.
+
+The scaling factors applied on the independent input variables 
+are calculated as:
+.nf
+
+        xscale  =  0.5 * (abs( x[1] ) + abs( x[npts] ))
+        n       =  int (-log10( xscale ))
+        xscale  =  10.0d0 ** n
+
+        yscale  =  0.5 * (abs( y[1] ) + abs( y[npts] ))
+        n       =  int (-log10( yscale ))
+        yscale  =  10.0d0 ** n
+
+.fi
+The scaling factor applied on the dependent input variable is calculated as:
+.nf
+
+        n       =  int ( -log10( zrms ))
+        zscale  =  10.0d0 ** n
+
+.fi
+where zrms is the root-mean-square of the input z data. In unscaling back the
+fit results, we must note that the residual sum-of-squares, computed on scaled
+input values, must be unscaled by a factor zscale ** 2. 
+
+The scaling factor for the weights is calculated as 1./maxwt, where maxwt
+is the maximum value found amongst the absolute values of the weight input
+vector.
+
+The scaling factors for function coefficients are specific of the
+individual functional forms.  For instance, Planck temperatures and
+power-law exponents are non-scalable by definition, so the factor is
+1.0d0.  Function coefficients associated whith amplitudes are scaled by
+zscale, and function coefficients associated whith the independent
+variables are usually scaled by the average of xscale and yscale
+(or just xscale, in case of 1-dim functions).
+
+3.3.2 Fitting
+
+The actual fit is performed by the downhill simplex method, described in
+Numerical Recipes (see also Nelder & Mead 1965).  The library
+implementation is basically the FORTRAN program presented there
+(rewritten in SPP), with modifications to allow: (i) selectable fixed
+function coefficients; (ii) use of dynamic memory allocation; and (iii)
+detection of non-convergency/looping conditions and automatic restart. 
+
+Building of the starting simplex is a delicate issue, and the algorithm
+takes into account the particular type of function being fitted.  The
+function type is also important when chosing adequate constants for
+controlling the simplex expansion/contraction.  These constants (ALPHA,
+BETA and GAMMA in the Numerical Recipes listing) were optimized for each
+functional type in the library.  However, the user-definable functional
+form allows the user to explicitly specify different values for each
+of these constants, if the default ones lead to very slow or ill-behaved
+convergency. 
+
+Convergency must be achieved in a user-selectable maximum number of iterations.
+If not, the algorithm has provisions for building a brand new simplex and
+restarting from the last calculated point. Compilation constant RESTART in
+module nlfit.x controls the maximum number of allowed restarts, but in almost
+all cases convergency is achieved after the first restart. In some instances
+the algorithm may enter an endless loop around the solution; in these cases
+too a restart from a brand new simplex suffices to break the loop. At every
+restart a message containing the number of iterations and the tolerance
+parameter of the downhill simplex method (RTOL) is issued at STDERR. 
+
+3.3.3 Errors
+
+The downhill simplex method is unable, by design, to calculate errors for the
+fitted function coefficients. The library uses a bootstrap resampling technique
+to allow estimation of these errors. 
+
+After fitting the function, the independent variable vector is replicated N
+times, each data point being replaced by the fitted function value plus
+Gaussian noise with dispersion given by one of three criteria: (i) directly the
+dispersion of the original data around the fit; (ii) error bar of each
+point, assumed to be the inverse of weight value; or (iii) Poisson noise (sqrt
+of z value). For each replication, the function is re-fitted, and the error
+estimate for each coefficient is the dispersion of the N obtained values. 
+
+It must be emphasized that errors obtained in this way are only
+estimates, with a different character from errors
+obtained, say, from a covariance matrix.  In particular, the error
+values depend on N, being more close to the "true" value with greater N. 
+To keep execution time at a reasonable value, N was kept to a small
+value (N = 6).  The user has the option of disabling error calculation,
+thus speeding up the process. 
+.sh
+3.4. FUNCTIONAL FORMS
+.sh
+3.4.1. POWERLAW (1-dim)
+
+ The fitting function has the form
+.nf
+
+        y  =  ampl * ((x / ref) ** exponent)
+
+.fi
+where the three coefficients must be passed to/from the library routines
+in array coeff
+in the following order: 
+.nf
+
+        coeff[1] = exponent
+        coeff[2] = ampl
+        coeff[3] = ref
+
+.fi
+.sh
+3.4.2. BBODY (1-dim)
+
+ The fitting function has the form
+.nf
+
+                      (ref ** 5) * (exp( efactor / ref ) - 1)
+        y  =  ampl * ________________________________________
+                        (x ** 5) * (exp( efactor / x ) - 1)
+
+.fi
+where  
+.nf
+
+        efactor = c1 / temp
+
+.fi
+and x and ref are input directly in the formula in case of wavelength 
+units, or as x = 1./ x and ref = 1./ ref in case of frequency or energy units.
+
+The constant c1 depends on the physical units of the x variable. Five
+types of units are currently supported:
+.nf
+
+        x in cm:         c1 = 1.438786D+0
+        x in meter:      c1 = 1.438786D-2
+        x in Angstrom:   c1 = 1.438786D+8
+        x in Hz:         c1 = 4.795953D-11
+	x in keV         c1 = 1.159650D+7
+
+.fi
+The three function coefficients must be passed to/from the library 
+routines in array
+coeff in the following order: 
+.nf
+
+        coeff[1] = temp
+        coeff[2] = ampl
+        coeff[3] = ref
+
+.fi
+.sh
+3.4.3. TWOBBODY (1-dim)
+
+The fitting function is the sum of two of the above BBODY functions,
+with coefficients being passed in the following order:
+.nf
+
+        coeff[1] = temp1
+        coeff[2] = ampl1
+        coeff[3] = ref1
+        coeff[4] = temp2
+	coeff[5] = ampl2
+	coeff[6] = ref2
+
+.fi
+.sh
+3.4.4. COMPOSITE (1-dim)
+
+The fitting function is the sum of the above POWERLAW and BBODY
+functions, with coefficients being passed in the following order:
+.nf
+
+        coeff[1] = exponent
+        coeff[2] = ampl (powerlaw)
+        coeff[3] = ref  (powerlaw)
+        coeff[4] = temp
+	coeff[5] = ampl (bbody)
+	coeff[6] = ref  (bbody)
+
+.fi
+.sh
+3.4.5  GALPROF (1-dim)
+
+The fitting function has the form
+.nf
+
+	stotal = sbulge + sdisk + sbackgr
+
+.fi
+where
+.nf
+
+	sbulge = se * exp (-7.688 * ((r/re) ** 0.25 - 1.))
+	sdisk  = s0 * exp (-r/r0 + (r1/r) ** 3)
+
+.fi
+where sbulge is the bulge contribution, sdisk is the disk contribution
+and sbackgr is the (residual) background contibution to the total
+surface brightness stotal.  Note the use of intensity instead of
+magnitude quantities.  The parameters are passed to/from the library routines
+in array coeff in the following order:
+.nf
+
+	coeff[1] = se
+	coeff[2] = re
+	coeff[3] = s0
+	coeff[4] = r0
+	coeff[5] = r1
+	coeff[6] = sbackgr
+.fi
+
+Two additional auxiliary function types, GALBULGE and GALDISK, are also
+defined.  They allow the individual calculation of either one of the
+components.  The background value is added to that particular component. 
+However, in either case, the number of function coefficients to be
+passed to the library routines is still 6, and the mapping of the coefficient
+array is the same as in the case of the complete GALPROF function. 
+.sh
+3.4.6. GAUSSIANS (1-dim)
+
+The fitting function has the form
+.nf
+
+y  = a  + b * x  + sum ( ampl * exp (-2.70927 * ((x - center) / fwhm) ** 2))
+
+.fi
+where the sum is performed over N gaussians, and the
+coefficients must be passed to the library routines in array coeff
+in the following order: 
+.nf
+
+	coeff[1] = a
+	coeff[2] = b
+        coeff[3] = ampl1	# first Gaussian
+        coeff[4] = center1
+        coeff[5] = fwhm1
+        coeff[6] = ampl2	# second Gaussian
+        coeff[7] = center2
+        coeff[8] = fwhm2
+            .....		# n-th Gaussian
+
+.fi
+.sh
+3.4.7. CGAUSS (1-dim)
+
+Constrained Gaussians are defined in terms of one base Gaussian,
+for which the three coefficients ampl, center and fwhm have the same
+meaning as above.  The other Gaussians, however, are defined in terms of
+relative amplitudes (in a multiplicative sense) and relative centers (in
+an additive sense) to the base Gaussian.  The functional form is the
+same as in the GAUSSIANS case, but the coefficients have the following
+meaning:
+.nf
+
+        coeff[1]  = a
+        coeff[2]  = b
+
+        coeff[3]  = ampl1	# Coefficients of base Gaussian, given
+        coeff[4]  = center1	# in absolute units
+        coeff[5]  = fwhm2	# FWHM 
+
+        coeff[6]  = rampl2	# Amplitude of 2nd Gaussian / ampl1
+        coeff[7]  = rcenter2	# Center    of 2nd Gaussian - center1
+        coeff[8]  = fwhm2	# FWHM
+
+        coeff[9]  = rampl3	# Amplitude of 3rd Gaussian / ampl1
+        coeff[10] = rcenter3	# Center    of 3rd Gaussian - center1
+        coeff[11] = fwhm3	# FWHM
+
+            .....		# n-th Gaussian
+
+.fi 
+This functional form is useful in cases in which the user don't want to
+hold fixed the absolute values of the Gaussian coefficients, but their
+relative values instead.  This happens, for example, when constraining
+spectral line ratios by atomic physics values, or spectral line
+positions by their difference in wavelength. 
+.sh 
+3.4.8.  USER (1-dim)
+
+The library supports a special form of function, named 'user'.  Instead
+of being hard-coded (compiled), it is interpreted by a built-in
+interpreter.  The function is input as a string, written as a FORTRAN
+expression.  Alternatively, if the string begins with the '@' character,
+the remaining is taken to be a file name which contains the actual
+FORTRAN expression. 
+
+All FORTRAN operators, intrinsic functions, and numerical constant
+formats are supported.  Also, relational operators, as .eq., .gt., etc. 
+can be used.  Besides these operators, the interpreter recognizes the
+character 'x' as the independent variable vector, and the variable names
+'c1', 'c2', 'c3', etc.  as the function coefficients.  Comments can be
+embedded in the function expression: everything between a '#' character
+and the end of the line is discarded by the interpreter.  The actual
+value of the comment character is defined in stsdas$lib/xtools/vex.h as
+the constant CMTCHAR.  See 3.4.8.1 below. 
+
+Since the basic operand, 'x', is a vector, every operation is performed
+on all vector elements at once.  Numerical constant values and function
+coefficients are replicated at every vector element before operating on
+them.  Relational operations are executed on a element-by-elemet basis,
+the resulting logical variable being also a vector. 
+
+All calculations are executed internally in single precision.  No
+coefficient or data scaling are performed.  The interpreter is based on the
+routines vex_* stored in directory stsdas$lib/xtools/.  Typical
+execution speeds are 2 - 3 times slower than with compiled functions,
+when using the same functional form in both cases. 
+
+To properly activate the built-in interpreter, procedure nl_iuser must
+be called after the call to nl_init, which initializes the library with
+the USER functional type.  Additional calls to nl_iuser may be used to
+redefine the function, without having to fully reinitialize the library. 
+See 4.2., example 5, for an example. 
+
+3.4.8.1. Tokens recognized by the interpreter:
+.nf
+
+@  #
+
+*  /  +  -  (  )  <  <=  >  >=  ||  &&  ==  !=
+
+.or.  .and.  .eq.  .ne.  .lt.  .gt.  .le.  .ge.  .not.
+
+abs  acos  asin  atan  cos  cosh  cube  exp  int  log  log10  nint 
+sin  sinh  sqr  sqrt  tan  tanh  atan2  dim  max  min  mod  sign
+
+x   c1   c2   c3 ...
+
+.fi
+
+.sh 
+3.4.9.  TWODGAUSS (2-dim)
+
+The fitting function has the form
+.nf
+
+y  = a + ampl * exp (-2.70927 * radius**2 / fwhm**2)
+
+.fi
+where 'radius' is the major axis length of the ellipse which passes thru
+the point (x,y) and has ellipticity 'e' and position angle 'teta'. The 
+coefficients must be passed to the library routines in array coeff
+in the following order: 
+.nf
+
+        coeff[1]  = a
+        coeff[2]  = ampl
+        coeff[3]  = xcent
+        coeff[4]  = ycent
+        coeff[5]  = fwhm
+        coeff[6]  = e
+        coeff[7]  = teta
+
+.fi 
+.sh
+4. USAGE
+.sh
+4.1. CALLING SEQUENCE
+
+The following series of steps illustrates the use of the library routines.
+.ls 2
+.ls (1)
+Insert an 'include "stsdas$pkg/fitting/nlfit/nlfit.h"' statement in the calling
+program to make the NLFIT library definitions available to the user program. 
+.le
+.ls (2)
+Call NL_INIT and, optionally, NL_IUSER and/or NL_PUTx to initialize the
+curve fitting parameters and set initial values for the function
+coefficients.  The structure pointer must have the value NULL prior the
+first call to NL_INIT. 
+.le
+.ls (3)
+Call NL_FIT to re-calculate the desired coefficients from the initial guess
+already passed to NL_INIT.
+.le
+.ls (4)
+Call NL_VECTOR or NL_ZEVAL to evaluate the fitted function at the
+(x,y) value(s) of interest.
+.le
+.ls (5)
+Call NL_GCOEFF and NL_GERRORS to fetch the number, value and errors of the
+coefficients of the fitting function. 
+.le
+.ls (6)
+Call NL_REJECT to reject specific data points or NL_CLEAR to un-reject all
+previously rejected points.
+.le
+.ls (7)
+Call NL_INIT, NL_IUSER, NL_PCOEFF, NL_PUTx, and/or NL_PFLAGS to change
+values of coefficients, data and/or other control parameters, as
+function type and error calculation, and redo the fit (steps 3 on). 
+.le
+.ls (8)
+Call NL_FREE to release the space allocated for the fit.
+.le
+.le
+
+4.2. EXAMPLES
+
+Example 1: Fit powerlaw curve to data. Reference value is kept fixed during 
+the fit. Obtain coefficient errors from data error bars.
+.nf
+
+    include "stsdas$pkg/fitting/nlfit/nlfit.h"
+
+    ...
+
+    pointer nl
+    real    coeff[3]
+    real    error[3]
+    bool    cflag[3]
+
+    ...
+
+    coeff[1] = exponent		# Initial guess for the powerlaw exponent.
+    cflag[1] = true		# Allow exponent to vary.
+
+    coeff[2] = amplitude	# Initial guess for powerlaw amplitude.
+    cflag[2] = true		# Allow amplitude to vary.
+
+    coeff[3] = reference	# Reference point.
+    cflag[3] = false		# Keep reference fixed.
+
+    call amovkr (0., y, 2000)	# Clear y array, 1-dim fit
+
+    nl = NULL			# Necessary when calling nl_init for 
+				# the first time.
+    call nl_init (nl, POWERLAW, coeff, cflag, 3, 2000)
+    call nl_putb (nl, "errors", YES)
+    call nl_puti (nl, "errtyp", BARS)
+    call nl_fit (nl, x, y, z, weight)
+    call nl_gcoeff (nl, coeff, npar)
+    call nl_gerrors (nl, error, npar)
+
+    do i = 1, npar {
+	call printf ("%g  (%g)\n")
+	    call pargr (coeff[i])
+	    call pargr (error[i])
+    }
+
+    call nl_free (nl)
+
+.fi
+
+Example 2: Fit and subtract smooth Planck curve from data. Intensity is kept
+fixed during the fit.
+.nf
+
+    include "stsdas$pkg/fitting/nlfit/nlfit.h"
+
+    ...
+
+    coeff[1] = temp		# Initial guess for the black body temperature.
+    cflag[1] = true		# Allow temp to vary.
+
+    coeff[2] = amplitude	# Initial guess for black body intensity at
+				# reference wavelength.
+    cflag[2] = false		# Keep intensity fixed.
+
+    coeff[3] = refwav		# Reference wavelength.
+    cflag[3] = true		# Allow wavelength to vary.
+
+    call amovkr (0., y, 2000)	# Clear y array, 1-dim fit
+
+    nl = NULL			# Necessary when calling nl_init for 
+				# the first time.
+    call nl_init (nl, BBODY, coeff, cflags, 3, 2000)
+    call nl_fit (nl, x, y, z, weight)
+    call nl_vector (nl, x, y, zfit, 2000)
+    call asubr (z, zfit, resid, 2000)
+
+    call nl_free (nl)
+
+.fi
+
+Example 3: Fit composite curve to data. Reference values are kept fixed during 
+the fit. Obtain coefficient errors from Poisson statistics. X axis is 
+wavelength in Angstroms. Allows maximum of 100 iterations. After, change
+fitting function to powerlaw and refit with a maximum of 200 iterations.
+.nf
+
+    include "stsdas$pkg/fitting/nlfit/nlfit.h"
+
+    ...
+
+    coeff[1] = exponent		# Initial guess for the powerlaw exponent.
+    cflag[1] = true		# Allow exponent to vary.
+    coeff[2] = pamp		# Initial guess for powerlaw amplitude.
+    cflag[2] = true		# Allow amplitude to vary.
+    coeff[3] = pref		# Powerlaw reference point.
+    cflag[3] = false		# Keep reference fixed.
+    coeff[4] = temperature      # Initial guess for bbody temperature.
+    cflag[4] = true             # Allow temperature to vary.
+    coeff[5] = bamp             # Initial guess for bbody amplitude.
+    cflag[5] = true             # Allow amplitude to vary.
+    coeff[6] = bref             # Bbody reference point.
+    cflag[6] = false            # Keep reference fixed.
+
+    call amovkr (0., y, 2000)	# Clear y array, 1-dim fit
+
+    nl = NULL			# Necessary when calling nl_init for 
+				# the first time.
+    call nl_init (nl, COMPOSITE, coeff, cflag, 6, 2000)
+    call nl_putb (nl, "errors", YES)
+    call nl_puti (nl, "units", ANGSTROM)
+    call nl_puti (nl, "errtyp", POISSON)
+    call nl_puti (nl, "maxit", 100)
+
+    call nl_fit (nl, x, y, z, weight)
+
+    call nl_gcoeff (nl, coeff, 6)
+    call nl_gerrors (nl, error, 6)
+
+    do i = 1, 6 {
+	call printf ("%g  (%g)\n")
+	    call pargr (coeff[i])
+	    call pargr (error[i])
+    }
+
+    call nl_init (nl, POWERLAW, coeff, cflag, 3, 2000)
+    call nl_puti (nl, "maxit", 200)
+
+    call nl_fit (nl, x, y, z, weight)
+
+    call nl_gcoeff (nl, coeff, 3)
+    call nl_gerrors (nl, error, 3)
+
+    do i = 1, 3 {
+	call printf ("%g  (%g)\n")
+	    call pargr (coeff[i])
+	    call pargr (error[i])
+    }
+
+    call nl_free (nl)
+
+.fi
+
+Example 4: Fit 2 Gaussians to data. FWHM values are kept fixed during the fit.
+Obtain coefficient errors from Poisson statistics. Data has a constant
+baseline value of 100 counts/pixel.
+.nf
+
+    include "stsdas$pkg/fitting/nlfit/nlfit.h"
+
+    ...
+
+    coeff[1] = 100.		# Baseline
+    cflag[1] = false
+    coeff[2] = 0.
+    cflag[2] = false
+    coeff[3] = amp1		# Initial guess for amplitude over baseline.
+    cflag[3] = true		# Allow amplitude to vary.
+    coeff[4] = pos1		# Initial guess for position of peak.
+    cflag[4] = true		# Allow position to vary.
+    coeff[5] = fwhm1		# FWHM
+    cflag[5] = false		# Keep FWHM fixed.
+    coeff[6] = amp2		# Initial guess for amplitude over baseline.
+    cflag[6] = true		# Allow amplitude to vary.
+    coeff[7] = pos2		# Initial guess for position of peak.
+    cflag[7] = true		# Allow position to vary.
+    coeff[8] = fwhm2		# FWHM
+    cflag[8] = false		# Keep FWHM fixed.
+
+    call amovkr (0., y, 2000)	# Clear y array, 1-dim fit
+
+    nl = NULL			# Necessary when calling nl_init for the
+				# first time.
+    call nl_init (nl, GAUSSIANS, coeff, cflag, 6, 250)
+    call nl_puti (nl, "errtyp", POISSON)
+
+    call nl_fit (nl, x, y, z, weight)
+
+    call nl_gcoeff (nl, coeff, 6)
+    call nl_gerrors (nl, error, 6)
+
+    do i = 1, 6 {
+	call printf ("%g  (%g)\n")
+	    call pargr (coeff[i])
+	    call pargr (error[i])
+    }
+
+    call nl_free (nl)
+
+.fi
+
+Example 5:  Fit two user functions. The first function has the form:
+.nf
+
+	y = c1 * 2.35e-6 ** (c2 / x) + c3 + 2
+
+.fi
+and the second is stored in file 'function.txt':
+.nf
+
+    include "stsdas$pkg/fitting/nlfit/nlfit.h"
+
+    ...
+
+    pointer nl
+    real    coeff[3]
+    bool    cflag[3]
+
+    ...
+
+    coeff[1] = ....		# First guesses
+    cflag[1] = true
+    coeff[2] = ....
+    cflag[2] = true
+    coeff[3] = ....
+    cflag[3] = true
+
+    call amovkr (0., y, 2000)	# Clear y array, 1-dim fit
+
+    nl = NULL			# Necessary when calling nl_init for 
+				# the first time.
+
+    call nl_init   (nl, USER, coeff, cflag, 3, 2000)
+    call nl_iuser  (nl, "c1 * 2.35e-6 ** (c2 / x) + c3 + 2", 100)
+    call nl_fit    (nl, x, y, z, weight)
+    call nl_gcoeff (nl, coeff, npar)
+
+    do i = 1, npar {
+	call printf ("%g\n")
+	    call pargr (coeff[i])
+    }
+    call nl_iuser  (nl, "@function.txt", 100)
+    call nl_fit    (nl, x, y, z, weight)
+    call nl_gcoeff (nl, coeff, npar)
+
+    do i = 1, npar {
+	call printf ("%g\n")
+	    call pargr (coeff[i])
+    }
+
+    call nl_free (nl)
+
+.fi
+
+.sh
+5. INTERNAL DATA STRUCTURES
+.sh
+5.1. CONTROL STRUCTURE
+
+The NLFIT parameters, and the size and location of the vectors used in the
+library are stored in the control structure. The structure is referenced by the
+pointer nl returned by the NL_INIT routine.  The control structure is defined
+in the library header file stsdas$pkg/fitting/nlfit/nlfit.h. The structure is 
+listed below. 
+.nf
+
+# NLFIT control structure
+
+define	LEN_NLSTRUCT	32
+
+define	NL_FITFUNC	Memi[$1+0]	# Type of curve to be fitted.
+define	NL_NPAR		Memi[$1+1]	# Total no. of parameters in function.
+define	NL_NPTS		Memi[$1+2]	# Total number of data points.
+define	NL_DIM		Memi[$1+3]	# Function and data dimensionality
+define	NL_DUMMY	Memr[$1+4]	# Not used
+define	NL_NREJECT	Memi[$1+5]	# Number of rejected points.
+define	NL_RMS		Memr[$1+6]	# RMS of present fit.
+define	NL_XSCALE	Memr[$1+7]	# Scaling applied to X values.
+define	NL_YSCALE	Memr[$1+8]	# Scaling applied to Y values.
+define	NL_ZSCALE	Memr[$1+9]	# Scaling applied to Z values.
+define	NL_WSCALE	Memr[$1+10]	# Scaling applied to weigths.
+define	NL_ERR		Memb[$1+11]	# Compute parameter errors ?
+define	NL_ERRTYP	Memi[$1+12]	# Type of error calculation
+define	NL_UNIT		Memi[$1+13]	# X units
+define	NL_MAXIT	Memi[$1+14]	# Max. number of iterartions in amoeba
+define	NL_VERB		Memb[$1+15]	# Print iteration info ?
+define	NL_ALPHA	Memr[$1+16]	# Constants wich control the amount
+define	NL_BETA		Memr[$1+17]	# of simplex expansion/contraction.
+define	NL_GAMMA	Memr[$1+18]
+
+# Array pointers
+
+define	NL_PARAMS	Memi[$1+19]	# Parameters array.
+define	NL_PFLAGS	Memi[$1+20]	# Parameter flags.
+define	NL_SPARAMS	Memi[$1+21]	# Scaled parameters array.
+define	NL_PARSCALE	Memi[$1+22]	# Scaling factors applied to params.
+define	NL_PERRORS	Memi[$1+23]	# Parameter error
+define	NL_SX		Memi[$1+24]	# Scaled independent X variable.
+define	NL_SY		Memi[$1+25]	# Scaled independent Y variable.
+define	NL_SZ		Memi[$1+26]	# Scaled dependent variable.
+define	NL_SW		Memi[$1+27]	# Scaled weigths.
+define	NL_REJFLAG	Memi[$1+28]	# Rejection flags.
+define	NL_AUX		Memi[$1+29]	# Auxiliary storage for function values.
+
+# String pointers
+
+define	NL_USERFUNC	Memi[$1+30]	# String with user function.
+define	NL_UCODE	Memi[$1+31]	# Code generated by vex parser.
+
+.fi
+.sh
+5.2. STORAGE REQUERIMENTS
+
+The meaning of each internal variable, as well as they storage requirements, 
+are listed below.
+
+.ls 2
+.ls real NL_PARAMS[ncoeff]
+Before fitting, this real vector contains the initial guess for the function
+coefficients, in an ordering which is specific to the function being fitted.
+After a call to NL_FIT, it will contain the recalculated new coefficients.
+.le
+.ls int NL_PFLAGS[ncoeff]
+This boolean vector contains flags to control which coefficients are to be kept
+fixed during the fit, and which ones are allowed to vary. A true value indicates
+that the corresponding coefficient is allowed to vary, a false indicates
+a fixed coefficient.
+.le
+.ls real NL_SPARAMS[ncoeff]
+This real vector is used internally by NL_FIT to store a scaled version of
+the coefficient vector NL_PARAMS. 
+.le
+.ls double NL_PARSCALE[ncoeff]
+This double precision vector stores the scaling factors applied to each
+coefficient.
+.le
+.ls double NL_PERRORS[ncoeff]
+This double precision vector stores the coefficient error estimates.
+.le
+.ls real NL_SX[npts]
+This real vector contains an internally kept scaled version of the input
+independent x variable vector.
+.le
+.ls real NL_SY[npts]
+This real vector contains an internally kept scaled version of the input
+independent y variable vector.
+.le
+.ls real NL_SZ[npts]
+This real vector contains an internally kept scaled version of the input
+dependent variable vector.
+.le
+.ls real NL_SW[npts]
+This real vector contains an internally kept scaled version of the input
+weight vector.
+.le
+.ls int NL_REJFLAGS[npts]
+This boolean vector contains flags, one for each input datum (x, y, w), which
+control if the corresponding data point is to be included on the present fit,
+or must be rejected. A false value includes the point, while a true one
+excludes it. This vector is set by NL_REJECT, and is tested by NL_SUMSQ when
+evaluating the residual sum of squares. NL_CLEAR initializes the vector to
+false. 
+.le
+.ls real NL_AUX[npts]
+This real vector is used as internal auxiliary storage when evaluating the
+residual sum of squares.
+.le
+.ls Simplex related quantities
+The downhill simplex method uses some internal storage, whose size depends
+on the actual number of function coefficients being varied. Being this number
+N, a total of 
+.nf
+
+            (N * (N + 1)) + 4 * N 
+
+.fi
+real storage locations are used by routine NL_AMOEBA.
+.le
+.le
+
+.sh
+6. REFERENCES
+
+.ls (1)
+PRESS, W.H., FLANNERY, B.P., TEUKOLSKY, S.A., VETTERLING, W.T., 1987,
+"Numerical Recipes", New York, Cambridge University Press.
+.le
+.ls (2)
+NELDER, J.A., MEAD, R., 1965, Computer Journal, v.7, p.308.
+.le
+.ls (3)
+EFRON, B., 1982, "The Jackknife, the Bootstrap and Other Resampling Plans",
+Society of Industrial and Applied Mathematics, Phyladelphia.
+.le
+.endhelp

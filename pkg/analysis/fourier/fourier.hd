@@ -1,0 +1,12 @@
+# FOURIER.HD -- help directory info for ST4GEM fourier package
+
+$fourier	= "st4gem$pkg/analysis/fourier/"
+$doc		= "st4gem$pkg/analysis/fourier/doc/"
+
+$crosscor	= "st4gem$pkg/analysis/fourier/crosscor/"
+$forward	= "st4gem$pkg/analysis/fourier/forward/"
+$inverse	= "st4gem$pkg/analysis/fourier/inverse/"
+
+crosscor	hlp=doc$crosscor.hlp,	src=crosscor$crosscor.x
+forward		hlp=doc$forward.hlp,	src=forward$forward.x
+inverse		hlp=doc$inverse.hlp,	src=inverse$inverse.x

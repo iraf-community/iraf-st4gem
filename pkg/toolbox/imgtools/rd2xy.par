@@ -1,0 +1,10 @@
+infile, s, a, "", , ,	">Input data file name"
+ra, r, a, , , ,		">right ascension"
+dec, r, a, , , ,	">declination"
+
+hour, b, h, yes, , ,	">RA in hours?"
+
+x, r, h, , , ,		">output X pixel coordinate"
+y, r, h, , , ,		">output Y pixel coordinate"
+
+mode, s, h, "al"

@@ -1,0 +1,48 @@
+.help pickfile Aug95 stsdas.toolbox.imgtools
+.ih
+NAME
+pickfile -- Get the file name picked from the input file template
+.ih
+USAGE
+pickfile input index
+.ih
+DESCRIPTION
+Pickfile is a simple task to get the file name from the template.
+It works with wild card as well as subsection and group specifications.  
+Together with the task countfiles, it provides an intuitive alternative for 
+scan in IRAF script writing.
+.ih
+PARAMETERS
+.ls input [string]
+Input file template.
+.le 
+.ls index [int]
+Which file in the template to be picked?
+.le
+.ls output [string] 
+Output parameter: name of the picked file.
+.le
+.ih
+EXAMPLES
+1. Get the name of the 3rd file in the list name.lis where name.lis has 
+the following lines:
+.nf
+	abc
+	def
+	ghi
+	jkl
+.fi
+
+    im> pickfile @name.lis 3
+
+    The output will be "ghi".
+	
+2. im> pickfile *.d0h[1:100] 5
+.ih
+REFERENCES
+.ih
+BUGS
+.ih
+SEE ALSO
+countfiles, scan
+.endhelp

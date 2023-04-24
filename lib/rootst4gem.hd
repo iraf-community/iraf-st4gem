@@ -1,0 +1,8 @@
+# Root task entry for the st4gem package help tree.  Defines `st4gem' as both a
+# task and a package in the st4gem help database.
+
+st4gem		men  = st4gem$st4gem.men,
+		hlp  = st4gem$st4gem.men,
+		sys  = st4gem$st4gem.hlp,
+		pkg  = st4gem$st4gem.hd,
+		src  = st4gem$st4gem.cl

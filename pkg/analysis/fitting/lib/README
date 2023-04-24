@@ -1,0 +1,10 @@
+colnames.h	- defines column specs for SDAS fit table
+curfitdef.h	- definitions used in linear fitting tasks
+extnstr.x	- extracts n-th substring from a dictionary string
+getfit.x	- read one line from fit table
+nlfit1.x	- used by both non-linear fitting tasks (nfit1d, ngaussfit)
+nlwtdb.x	- writes non-linear fit results to table
+opendb.x	- opens table for both input and output
+prepdata.x	- cleans input values from garbage, computes data errors
+rdcurves.x	- data input routines (from the gfit1d original)
+tqsort.x	- general quick sort 

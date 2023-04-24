@@ -1,0 +1,5 @@
+input1,s,a,,,,First image
+input2,s,a,,,,Second image
+keywords,s,h," ",,,List of keywords to compare
+nofile,b,h,no,,,Ignore error if files do not exist
+mode, s, h, 'a',,,

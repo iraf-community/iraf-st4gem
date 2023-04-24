@@ -1,0 +1,7 @@
+input,f,a,,,,"input image names"
+output,f,a,,,,"output image name"
+equals,s,a,,,,"command string"
+pixtype,s,h,old,old|short|ushort|int|real|double,,"output pixel type"
+nullval,r,h,0.0,,,"value to substitute for undefined expression"
+verbose,b,h,yes,,,"print percent done?"
+mode,s,h,al

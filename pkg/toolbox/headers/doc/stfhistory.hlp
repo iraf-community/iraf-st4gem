@@ -1,0 +1,47 @@
+.help stfhistory Dec91 stsdas.toolbox.headers
+.ih
+NAME
+stfhistory -- Read history information from a text file and add it to an 
+image header.
+.ih
+USAGE
+stfhistory input histtext
+.ih
+DESCRIPTION
+The task reads text from a file (or from the keyboard, i.e., STDIN) and 
+appends this text as 'HISTORY' records
+to the image header specified by the 'input' parameter. Each 'HISTORY' 
+record is made up of as many as 54 characters.  Characters beyond the 
+54th are written to additional 'HISTORY' records.
+.ih
+PARAMETERS
+.ls input [file name]
+The input image to which 'HISTORY' records are to be added.
+.le
+.ls histtext [string]
+String to add as a history card.  If the string begins with "@", then
+the rest of the string is taken as a file name which contains the text
+to be added.  To read from standard input, you would specify "@STDIN".
+.le
+.ih
+EXAMPLES
+1. Append the text in 'texthistory' to the header file 'imagein.hhh'
+as 'HISTORY' records. If lines in 'texthistory' exceed 54 characters,
+multiple 'HISTORY' records will be created.
+
+.nf
+  to> stfhistory imagein.hhh @texthistory
+.fi
+
+2. Record the parameters from task 'rfindx' in the header
+of the image file 'resim.hhh'.
+
+.nf
+  to> lpar rfindx | stfhistory resim.hhh @STDIN
+.fi
+
+.ih
+BUGS
+.ih
+SEE ALSO
+.endhelp

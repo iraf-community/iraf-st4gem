@@ -1,0 +1,13 @@
+# Update the crosscor application code in the fourier package library.
+# Author:  Phil Hodge, 22-JUL-1988
+
+$checkout fourier.a ../
+$update   fourier.a
+$checkin  fourier.a ../
+$exit
+
+fourier.a:
+	crosscor.x    		<imhdr.h> ../fourier.h ../fterr.h 
+	ftsmallx.x    		<imhdr.h> ../fourier.h 
+	ftfft2.x    		../fourier.h 
+	;

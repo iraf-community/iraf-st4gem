@@ -1,0 +1,84 @@
+.help upreffile Dec98 toolbox.headers
+.ih
+NAME
+upreffile -- Update calibration reference files names in image headers
+.ih
+USAGE
+upreffile input
+.ih
+DESCRIPTION
+
+This task updates the calibration reference file keywords and switches
+in an image header to match the results returned by getref. The input
+parameter contains the name of the output file produced by getref. The
+file may contain more than one observation set, in which case all the
+images named in the input file will be updated. The output from getref
+can be piped directly into upreffile. If this is done, the input
+parameter is ignored.
+
+The source parameter is used to selectively update header keywords
+using a subset of the keywords in the output file produced by
+getref. This output file contains a column named "source". Upreffile
+will only update a header keyword if the value in the source column
+matches one of the values in the source parameter.
+
+If the verify parameter is set to yes (the default), the task will
+query the user before each change of a header keyword. The task will
+print the old value of the keyword, the new value of the keyword, and
+the observation mode if contained in the input file.
+
+The update parameter is used by the task to get the response from the
+user when queried about the change of a header keyword. It need not be 
+set before running the task.
+
+The user is advised to exercise caution when running this task. 
+Make sure you understand the output produced by getref before
+modifying the image headers.
+
+.ih
+PARAMETERS
+.ls input [string]
+Name of the file produced by getref. This parameter is ignored if
+input to the task is redirected.
+.le
+.ls (source = "obc,okr,ref") [string]
+A comma separated list of sources to be processed by this task. The
+output from getref contains a column named source. A keyword change
+will only be done if the value in the source field matches one of the
+values in this list. The default value of this parameter includes all
+possible values of the source field. These are: obc, which is the
+source of the CALIBRAT keyword, okr, which is the source of changes to 
+miscellaneous keywords, and ref, which is the source of calibration
+switches and reference file names.
+.le
+.ls (verify = yes) [bool]
+If this parameter is set to yes, the task will query the user before
+each change to the image header. The change will only be made when the
+user accepts the change.
+.le
+.ls update = yes [bool]
+Parameter used to read whether the user accepts a change to the
+header. This parameter does not need to be set before running the
+task, the task will query the user if verify is set to yes and a
+header keyword is about to be changed. If the user replies yes, the
+change is made. If the user replies no, the change is not made
+.le
+.ih
+EXAMPLES
+1. Update an image header in two stages:
+
+.nf
+cd> getref w05u0e01t >temp.out
+cd> upreffile temp.out
+cd> delete temp.out
+.fi
+
+2. Pipe the output from getref into upreffile
+
+cd> getref w05u0e01t | upreffile
+
+.ih
+SEE ALSO
+getref
+
+.endhelp

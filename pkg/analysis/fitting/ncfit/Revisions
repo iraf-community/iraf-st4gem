@@ -1,0 +1,110 @@
+
+<Busko 14-OCT-97>
+
+Added support for multiple minimization algorithms.
+
+
+
+<Busko 26-FEB-96>
+
+Major modification to include minimization in chi-square instead of r.m.s. 
+
+
+
+<Busko 12-JUL-90>
+
+Modified to overlay on top of modified nlfit library (with 2-dim 
+capability). Modified files: icdeviant.x, icfit.x, icgaxes.x, 
+icgfit.x, icggraph.x, icgparams.x, icvshow.x
+
+
+
+<Busko 11-JUN-90>
+
+Modified cursor keystrokes for enabling gaussians with linear slope 
+baseline. Modified files: icgfit.x, icgfit.key, icgcolon.x,names.h, 
+icggraph.x
+
+
+
+<Busko 23-MAY-90>
+
+Added a colon command to enable manipulation of the user function string. 
+Added colon commands to show/modify the simplex control parameters alpha, 
+beta and gamma. Modified files: icgcolon.x, icgfit.key
+
+
+
+<Busko 7-MAR-90>
+
+Fixed bugs related to plotting magnitude of negative values, and incorret 
+deletion/undeletion of points in mag scale. A new cursor routine (icgcursor.x) 
+was created. The mag scale no longer works whith elog, but whith the regular
+log10 instead. Modified files: icfit.h, names.h, mkpkg, icgcursor.x, 
+icggraph.x, icgdelete.x, icgundelete.x, icgfit.x
+
+
+
+<Busko 9-FEB-90>
+
+The x axis label and units are set according whith the physical units 
+defined in the nlfit library. Modified files: icggraph.x
+
+
+
+<Busko 9-FEB-90> 
+
+Two types of data plotting are allowed: continuous line or markers. The 
+markers are square boxes whith y error bars. The errors are assumed to be 
+the inverse of the data weights. A new colon command was added to allow 
+user selection of this option. Modified files: icfit.h, icggraph.x, 
+icparams.x, icgfit.key
+
+
+
+<Busko 7-FEB-90>
+
+Three types of axis are allowed: linear, log and magnitude (linear and log 
+in x). Colon commands were added to allow setting/listing the associated 
+parameters. A new parameter and colon command were added in order to provide 
+a constant for the magnitude scale. Modified files: icfit.h, icggraph.x, 
+icgaxes.x, icparams.x, icgfit.key
+
+
+
+<Busko 5-FEB-90>
+
+New GALPROF function type was included. Modified files: icgfit.key, 
+icgcolon.x, icfit.h
+
+
+
+<Busko 15-SEP-89>
+
+Cursor help file now contains a description of the ordering of function 
+coefficients fore each functional form. Modified files: icgfit.key
+
+
+
+<Busko 20-JUL-89>
+
+New CGAUSS function type was included. Modified files: icgfit.x, 
+icggraph.x, icgcolon.x, icfit.h, names.h
+
+
+
+<Busko 28-APR-89>
+Modifications in several routines were made in order to incorporate two 
+new function types: (i) sum of two black-bodies; (ii) user-specified 
+function. Modified files:ncfit
+
+
+
+<Busko  2/25/89>
+
+Corrected marker size calculation when plotting averaged ranges. Previous 
+calculation plotted symbols with correct size only when x axis was in pixel 
+units. Modified files: icggraph.x
+
+
+

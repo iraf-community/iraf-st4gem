@@ -1,0 +1,17 @@
+
+./lib/stxtools/lubksb.f:14:C 1988 Oct 28  From Numerical Recipes
+./lib/stxtools/ludcmd.x:4:# Double-precision version of ludcmp from Numerical Recipes.
+./lib/stxtools/ludcmd.x:5:# This differs from the Numerical Recipes version in the following ways:
+./lib/stxtools/ludcmd.x:14:# Phil Hodge, 28-Oct-1988  Subroutine copied from Numerical Recipes.
+./lib/stxtools/lubksd.f:16:C 1988 Oct 28  From Numerical Recipes.
+./lib/stxtools/ludcmp.x:5:# triangular portions.  This is the same as the Numerical Recipes version
+./lib/stxtools/ludcmp.x:8:# Phil Hodge, 28-Oct-1988  Subroutine copied from Numerical Recipes.
+
+./pkg/analysis/fitting/doc/nlfit.hlp.OLD:336:Numerical Recipes (see also Nelder & Mead 1965).  The library
+./pkg/analysis/fitting/doc/nlfit.hlp.OLD:346:BETA and GAMMA in the Numerical Recipes listing) were optimized for each
+./pkg/analysis/fitting/doc/nlfit.hlp.OLD:1065:"Numerical Recipes", New York, Cambridge University Press.
+./pkg/analysis/fitting/nlfit/nlamoeba.x:14:# This module implements the AMOEBA algorithm from Numerical Recipes, 
+./pkg/analysis/fitting/nlfit/nlmarq.x:14:#  This module is based on the FORTRAN version of Numerical Recipes. 
+
+./pkg/analysis/fourier/fourier.mem:5:Entry #1    Tom Lougheed      03/27/87  Numerical Recipes FT routines
+./pkg/analysis/fourier/fourier.mem:211:6.  Numerical Recipes, code based on Norman Brenner's implementation of

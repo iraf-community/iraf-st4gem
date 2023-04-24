@@ -1,0 +1,72 @@
+.help rbinary Jan92 stsdas.toolbox.imgtools
+.ih
+NAME
+rbinary -- Create an image from a binary file.
+.ih
+USAGE
+rbinary input output naxis dimen[7] datatype offset
+.ih
+DESCRIPTION
+This task creates an image from the contents of a binary file.
+The input file may be four-byte real, four-byte integer, or
+two-byte integer; the output image will have the same data type as the 
+input image.
+The user may specify a number of bytes (an even number) that is to be 
+skipped at the beginning of the file before reading the data.
+
+We suggest that you either use the 'eparam' task to fill in parameter values
+or let the cl prompt you.
+The problem is that the 'dimen' parameter is an array,
+and it's rather clumsy to give array values on the command line.
+It can be done, though.  See the examples.
+.ih
+PARAMETERS
+.ls input [file name]
+The input binary file, including extension.
+.le
+.ls output [file name]
+The name of the output image to be created.
+.le
+.ls naxis = 1 [integer, min=1, max=7]
+The number of axes.
+.le
+.ls dimen[7] = [1,1,1,1,1,1,1] [integer array, min=1, max=INDEF]
+The length of each axis.
+.le
+.ls datatype = "real" [string, allowed values: real | integer | short]
+Type of data in the input file.
+The data types currently supported are 
+single-precision real (4-byte), integer (4-byte), and short integer (2-byte).
+.le
+.ls offset = 0 [integer, min=0, max=INDEF]
+The number of bytes to be skipped at the beginning of the input file.
+The value passed to 'offset' must be divisible by two.
+.le
+.ih
+EXAMPLES
+1.  Suppose you have an STSDAS table containing a single column of real data
+starting 112 bytes after the beginning of the file.
+You can convert the table to an image using 'naxis = 1',
+setting 'dimen' to the number of rows, and setting 'offset = 112'.
+
+.nf
+	to> rbinary spec.tab spec.imh 1
+.fi
+
+2.  Suppose "f.dat" contains single-precision floating-point data
+in a 45 x 80 pixel array.
+You can create an image "f.hhh" from that file with the following command.
+Note how we're giving the values of the array parameter 'dimen'.
+It does appear to be necessary to use compute mode rather than command mode
+in order to give the dimensions on the command line.
+
+.nf
+  to> rbinary "f.dat" "f.hhh" 2 dimen[1]=45 dimen[2]=80 \
+  >>>   datatype="real" offset=0
+.fi
+.ih
+BUGS
+None known.
+.ih
+SEE ALSO
+.endhelp

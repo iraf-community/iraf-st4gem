@@ -1,0 +1,11 @@
+# Update the iminsert application code in the imgtools package library
+# Author: GIARETTA, 22-JAN-1988
+
+$checkout imgtools.a ../
+$update   imgtools.a
+$checkin  imgtools.a ../
+$exit
+
+imgtools.a:
+	iminsert.x      		<imhdr.h> 
+	;

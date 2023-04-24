@@ -1,0 +1,18 @@
+# 256 Grayscale colormap for psikern
+#
+# Each color component is specfied from units of 0. (no color) 
+# to 1. (full color)
+#
+# The columns are:
+# Index	red	green	blue    name (optional)
+#
+# Define the default background/foreground
+#
+0	1.	1.	1.	white
+1	0.	0.	0.	black
+#
+# Define colors 2-257 as a grayscale linear ramp from black to white.
+# We just need to define the endpoints; psikern will perform the 
+# linear interpolation for the intervening colors.
+2	0.	0.	0.	black
+257	1.	1.	1.	white
