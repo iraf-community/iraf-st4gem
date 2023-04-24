@@ -25,10 +25,6 @@ libstxtools.a:
 	fparse.x	
 	grmimy.x	<imhdr.h>
 	isblank.x	<ctype.h>
-	#lubksb.f       		
-	#lubksd.f
-	#ludcmd.x
-	#ludcmp.x       	
 	postexit.x	<clset.h>
 	savgol.x	
 	sbuf.x		"sbuf.h"
@@ -50,5 +46,4 @@ libstxtools.a:
 	vexfunc.x	<mach.h>  "vex.h"
 	vexstack.x	"vex.h"
 	word.x
-	#xtwcs.x        	<imhdr.h> <math.h> 
 	;
