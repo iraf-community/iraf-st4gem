@@ -1,5 +1,4 @@
 # Update the nlfit library in the fitting package.
-# Author: I.Busko, 12-FEB-1990
 
 $checkout fitting.a ../
 $update   fitting.a
@@ -7,29 +6,7 @@ $checkin  fitting.a ../
 $exit
 
 fitting.a:
-	nlamoeba.x		nlfit.h <mach.h>
-	nlbbody.x		nlfit.h <mach.h>
-	nldefc.x		nlfit.h
-	nleval.x		nlfit.h
-	nlfdev.x		nlfit.h
-	nlfit.x			nlfit.h <error.h>
-	nlgalprof.x		nlfit.h
 	nlinit.x		nlfit.h
-	nlmarq.x		nlfit.h
-	nlminimize.x		nlfit.h
-	nlngauss.x		<math.h>
 	nlparams.x		nlfit.h
-	nlpower.x
-	nlreject.x		nlfit.h
-	nlscale.x		nlfit.h
-	nlstartv.x		nlfit.h
-	nlsumsq.x		nlfit.h
-	nlunits.x		nlfit.h
 	nluserf.x		nlfit.h nluserf.com
-	nlvector.x		nlfit.h
-	nlxscale.x		nlfit.h
-	nlxunit.x		nlfit.h
-	nlzeval.x
-	nl1gauss.x
-	nl2dgauss.x
 	;

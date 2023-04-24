@@ -27,7 +27,7 @@ relink:
 	;
 
 install:
-	$move	xx_fitting.e stsdasbin$x_fitting.e
+	$move	xx_fitting.e st4gembin$x_fitting.e
 	;
 
 fitting:
