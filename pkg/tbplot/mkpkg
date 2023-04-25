@@ -16,7 +16,7 @@ linkonly:
 	;
 
 install:
-	$move	xx_tbplot.e tablesbin$x_tbplot.e
+	$move	xx_tbplot.e st4gembin$x_tbplot.e
 	;
 
 tbplot.a:
