@@ -11,7 +11,7 @@ task	toolbox.pkg	= "toolbox$toolbox.cl"
 
 
 # Load some of the ST4GEM packages
-#cl < st4gem.cl
+cl < st4gem$load.cl
 
 # Print the Welcome banner
 if (motd)
