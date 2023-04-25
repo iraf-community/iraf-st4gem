@@ -1,7 +1,0 @@
-./lib/gilib/gi_rheader.x:	    (sz_userarea - SZ_EXTRASPACE + SZ_STRUCT-1) / SZ_STRUCT
-./lib/gilib/gi_rheader.x:	    (sz_userarea+1 + SZ_STRUCT-1) / SZ_STRUCT
-./lib/gilib/gi_cpdgpb.x:	    (sg - SZ_EXTRASPACE + SZ_STRUCT-1) / SZ_STRUCT
-./lib/gilib/gi_cpdgpb.x:	    (sg+1 + SZ_STRUCT-1) / SZ_STRUCT
-./lib/gflib/gfupuser.x:	ua_len = (buflen - IMU) * SZ_STRUCT - 1
-./pkg/toolbox/headers/hdiff/hdiff.x:		len1 = IM_LENHDRMEM(im1) * SZ_STRUCT
-./pkg/toolbox/headers/hdiff/hdiff.x:		len2 = IM_LENHDRMEM(im2) * SZ_STRUCT

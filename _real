@@ -1,8 +1,0 @@
-./lib/gilib/gi_addpar.x:	    P_PSIZE(pp) = plen * SZ_REAL * SZB_CHAR * NBITS_BYTE
-./lib/gilib/gi_update.x:		bitpix = SZ_REAL * NBITS_CHAR
-./lib/gilib/gi_rheader.x:		if (sz_param == SZ_REAL)
-./lib/gilib/gi_wgpbi3e.x:		# Memr[(op-1)/SZ_REAL+1] = rval
-./lib/gilib/gi_rgpbi3e.x:		if (sz_param == SZ_REAL)
-./lib/gilib/gi_pdes.x:	    P_PSIZE(pp) = plen * SZ_REAL * SZB_CHAR * NBITS_BYTE
-./lib/gilib/gi_crgpb.x:		call amovc (rval, Memc[op], SZ_REAL)
-./lib/gilib/gistf_setup.x:	      P_PSIZE(pp) = P_LEN(pp) * SZ_REAL * SZB_CHAR * NBITS_BYTE

@@ -1,7 +1,0 @@
-./lib/xtables.h:/* (R) row length to allocate (SZ_REAL) */
-./lib/xtables.h:/* (R) increase row length (SZ_REAL) */
-./lib/xtables.h:/* (R) amount of row len used (SZ_REAL) */
-./lib/foc.h:define	RES_TYPE_SZ		SZ_REAL
-./lib/tbset.h:define	TBL_ROWLEN		1	# (R) row length to allocate (SZ_REAL)
-./lib/tbset.h:define	TBL_INCR_ROWLEN		2	# (R) increase row length (SZ_REAL)
-./lib/tbset.h:define	TBL_ROWLEN_USED		23	# (R) amount of row len used (SZ_REAL)

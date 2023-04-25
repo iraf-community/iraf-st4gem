@@ -1,8 +1,0 @@
-./lib/gilib/gi_update.x:	bitpix = sizeof(pixtype) * NBITS_CHAR
-./lib/gilib/gi_xdimtomg.x:	      if (mod(pixoff, sizeof(IM_PIXTYPE(im2))) != 1)
-./lib/gilib/gi_rheader.x:	STF_SZGROUP(stf) = totpix * sizeof (IM_PIXTYPE(im)) +
-./lib/gilib/gi_opix.x:		STF_SZGROUP(stf) = totpix * sizeof (IM_PIXTYPE(im)) +
-./lib/gilib/giopengr.x:	if (mod(pixoff, sizeof(IM_PIXTYPE(im))) != 1)
-./lib/gilib/gi_reset.x:	szgroup = totpix * sizeof(IM_PIXTYPE(im)) + 
-./lib/gflib/gfmergegpb.x:	pixsize = sizeof (IM_PIXTYPE(im)) * SZB_CHAR
-./lib/gflib/gf_gstfval.x:	    val = sizeof (IM_PIXTYPE(im)) * SZB_CHAR * NBITS_BYTE
