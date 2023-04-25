@@ -439,7 +439,7 @@ int	nchar
 int	ndata
 char	errmsg[SZ_LINE]
 
-string	font_file	"stsdas$lib/miifont.mip"
+string	font_file	"st4gem$lib/miifont.mip"
 
 int	access(), open()
 
