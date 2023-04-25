@@ -11,6 +11,5 @@ package fourier
 task    crosscor,
 	forward,
 	inverse	        = "fourier$x_fourier.e"
-	shift	
 cl()
 end
