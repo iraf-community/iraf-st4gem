@@ -1,4 +1,0 @@
-./gi_rheader.x:	    (sz_userarea - SZ_EXTRASPACE + SZ_STRUCT-1) / SZ_STRUCT
-./gi_rheader.x:	    (sz_userarea+1 + SZ_STRUCT-1) / SZ_STRUCT
-./gi_cpdgpb.x:	    (sg - SZ_EXTRASPACE + SZ_STRUCT-1) / SZ_STRUCT
-./gi_cpdgpb.x:	    (sg+1 + SZ_STRUCT-1) / SZ_STRUCT
