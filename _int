@@ -1,1 +1,0 @@
-./lib/gilib/gistf_setup.x:	      P_PSIZE(pp) = P_LEN(pp) * SZ_INT * SZB_CHAR * NBITS_BYTE
