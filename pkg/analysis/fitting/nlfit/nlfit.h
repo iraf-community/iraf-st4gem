@@ -63,17 +63,17 @@ define	NL_FITFUNC	Memi[$1+0]	# Type of curve to be fitted.
 define	NL_NPAR		Memi[$1+1]	# Total no. of parameters in function.
 define	NL_NPTS		Memi[$1+2]	# Total number of data points.
 define	NL_DIM		Memi[$1+3]	# Function and data dimensionality
-define	NL_DUMMY	Memr[$1+4]	# Not used
+define	NL_DUMMY	Memr[P2R($1+4)]	# Not used
 define	NL_NREJECT	Memi[$1+5]	# Number of rejected points.
-define	NL_SIGMA	Memr[$1+6]	# Common error bar on all data points.
-define	NL_EPADU	Memr[$1+7]	# ccd gain
-define	NL_RNOISE	Memr[$1+8]	# ccd readout noise
-define	NL_CHISQ	Memr[$1+9]	# chi-sq of present fit.
-define	NL_RMS		Memr[$1+10]	# rms of present fit.
-define	NL_XSCALE	Memr[$1+11]	# Scaling applied to X values.
-define	NL_YSCALE	Memr[$1+12]	# Scaling applied to Y values.
-define	NL_ZSCALE	Memr[$1+13]	# Scaling applied to Z values.
-define	NL_WSCALE	Memr[$1+14]	# Scaling applied to weigths.
+define	NL_SIGMA	Memr[P2R($1+6)]	# Common error bar on all data points.
+define	NL_EPADU	Memr[P2R($1+7)]	# ccd gain
+define	NL_RNOISE	Memr[P2R($1+8)]	# ccd readout noise
+define	NL_CHISQ	Memr[P2R($1+9)]	# chi-sq of present fit.
+define	NL_RMS		Memr[P2R($1+10)] # rms of present fit.
+define	NL_XSCALE	Memr[P2R($1+11)] # Scaling applied to X values.
+define	NL_YSCALE	Memr[P2R($1+12)] # Scaling applied to Y values.
+define	NL_ZSCALE	Memr[P2R($1+13)] # Scaling applied to Z values.
+define	NL_WSCALE	Memr[P2R($1+14)] # Scaling applied to weigths.
 define	NL_ERR		Memb[$1+15]	# Compute parameter errors ?
 define	NL_ERRTYP	Memi[$1+16]	# Type of error calculation
 define	NL_REPLI	Memi[$1+17]	# # of replications in boot-resampling
@@ -81,10 +81,10 @@ define	NL_UNIT		Memi[$1+18]	# X units
 define	NL_MAXIT	Memi[$1+19]	# Max. number of iterartions
 define	NL_RESTART	Memi[$1+20]	# # of restarts
 define	NL_VERB		Memb[$1+21]	# Print iteration info ?
-define	NL_ALPHA	Memr[$1+22]	# Constants wich control the amount
-define	NL_BETA		Memr[$1+23]	# of simplex expansion/contraction.
-define	NL_GAMMA	Memr[$1+24]
-define	NL_METHOD	Memr[$1+25]	# Minimization algorithm
+define	NL_ALPHA	Memr[P2R($1+22)] # Constants wich control the amount
+define	NL_BETA		Memr[P2R($1+23)] # of simplex expansion/contraction.
+define	NL_GAMMA	Memr[P2R($1+24)]
+define	NL_METHOD	Memr[P2R($1+25)] # Minimization algorithm
 
 # Array pointers
 
