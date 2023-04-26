@@ -1,0 +1,11 @@
+# Update the taperedge application code in the fourier package library
+# Author:  Phil Hodge, 12-May-1993
+
+$checkout fourier.a ../
+$update   fourier.a
+$checkin  fourier.a ../
+$exit
+
+fourier.a:
+	taperedge.x		<imhdr.h> <error.h> <math.h>
+	;

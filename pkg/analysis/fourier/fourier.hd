@@ -6,7 +6,9 @@ $doc		= "st4gem$pkg/analysis/fourier/doc/"
 $crosscor	= "st4gem$pkg/analysis/fourier/crosscor/"
 $forward	= "st4gem$pkg/analysis/fourier/forward/"
 $inverse	= "st4gem$pkg/analysis/fourier/inverse/"
+$taperedge	= "st4gem$pkg/analysis/fourier/taperedge/"
 
 crosscor	hlp=doc$crosscor.hlp,	src=crosscor$crosscor.x
 forward		hlp=doc$forward.hlp,	src=forward$forward.x
 inverse		hlp=doc$inverse.hlp,	src=inverse$inverse.x
+taperedge	hlp=doc$taperedge.hlp,	src=taperedge$taperedge.x

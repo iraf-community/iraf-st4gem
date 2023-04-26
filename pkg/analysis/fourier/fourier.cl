@@ -10,6 +10,7 @@ package fourier
 
 task    crosscor,
 	forward,
+	taperedge,
 	inverse	        = "fourier$x_fourier.e"
 cl()
 end

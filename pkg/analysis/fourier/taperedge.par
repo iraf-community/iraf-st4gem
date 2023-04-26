@@ -1,0 +1,7 @@
+input,s,a,"",,,"names of input images"
+output,s,a,"",,,"names of output images"
+width,s,h,"10 %",,,"width of taper zone"
+subtract,s,h,"edge",,,"subtract this from input"
+function,s,h,"cosbell","cosbell|linear",,"function to use for taper"
+verbose,b,h,yes,,,"print image names?"
+mode,s,h,"al"
