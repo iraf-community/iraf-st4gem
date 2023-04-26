@@ -7,8 +7,6 @@ $checkin  libapplib.a ../
 $exit
 
 libapplib.a:
-	foc_utils.x    		<mach.h> <imio.h> <imhdr.h> <ctype.h> \
-				<time.h> <foc.h> 
 	res_utils.x    		<pattern.h> <ctype.h> <time.h> <tbset.h> \
 				<foc.h> 
 	ncarfft.f		
