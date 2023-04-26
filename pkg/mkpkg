@@ -20,7 +20,5 @@ $echo "===================  GRAPHICS  ======================="
 $call @graphics
 $echo "===================  TOOLBOX   ======================="
 $call @toolbox
-$echo "===================  TBPLOT    ======================="
-$call @tbplot
 $ifeq (hostid, unix)  !(date)  $endif
 $exit

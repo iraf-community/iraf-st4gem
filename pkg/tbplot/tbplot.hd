@@ -1,6 +1,0 @@
-# Help directory for the tbplot package.
-
-$doc	= "tables$pkg/tbplot/doc/"
-$tbplot	= "tables$pkg/tbplot/"
-
-igi		hlp=doc$igi.hlp,	src=tbplot$igi/t_igi.x
