@@ -7,9 +7,6 @@ $checkin  fitting.a ../
 $exit
 
 fitting.a:
-	nlfit1.x		../ncfit/names.h 			\
-				<pkg/gtools.h> <error.h> <mach.h> 	\
-				<ctype.h> <fset.h> <gset.h>
 	nlwtdb.x		../nlfit/nlfit.h colnames.h		\
 				<ctype.h> <error.h> <mach.h> <fset.h>	\
 				<time.h> <tbset.h>
