@@ -4,7 +4,7 @@ include <math.h>
 define N_DIM 2
 
 # Define some memory management.
-define ONER Memr[P2R($1+$2-1)]
+define ONER Memr[$1+$2-1]
 
 # sp_rotate - Rotate a vector.
 #
