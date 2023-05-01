@@ -11,8 +11,6 @@ $set USE_PLAYPEN    = yes
 $set USE_SUNVIEW   = yes
 
 # Set up the NO_UNDERSCORE macro that can be used by C programs.
-$ifeq (MACH, hp700, rs6000, vms, _vax, _alpha)
-    $set XFLAGS = "$(XFLAGS) -DNO_UNDERSCORE"
-$else $ifeq (MACH, macosx)
-    $set XFLAGS = "$(XFLAGS) -DMACOSX"
+$ifeq (MACH, linux64)
+    $include "st4gem$lib/mkpkg.sf.LNUX64"
 $endif
