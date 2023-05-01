@@ -6,7 +6,7 @@ include "wcs_desc.h"
 
 
 # Define the offset array.
-define OFFSET Memr[$1+$2-1]
+define OFFSET Memr[P2R($1+$2-1)]
 
 # Define the postscript kernel
 define PSIKERN "psikern"
