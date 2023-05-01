@@ -23,23 +23,23 @@ define WL_POLAR_LABEL_POSITION   Memd[P2D($1)]
 define WL_ROTA                   Memd[P2D($1+2)]
 
 # Size of the axis titles.
-define WL_AXIS_TITLE_SIZE        Memr[$1+4]
+define WL_AXIS_TITLE_SIZE        Memr[P2R($1+4)]
 
 # The offset required to properly calculate positions in the image display.
-define WL_IMAGE_X_OFF            Memr[$1+5]
-define WL_IMAGE_Y_OFF            Memr[$1+6]
+define WL_IMAGE_X_OFF            Memr[P2R($1+5)]
+define WL_IMAGE_Y_OFF            Memr[P2R($1+6)]
 
 # Size of the grid labels.
-define WL_LABEL_SIZE             Memr[$1+7]
+define WL_LABEL_SIZE             Memr[P2R($1+7)]
 
 # Major tick mark size.
-define WL_MAJ_TICK_SIZE          Memr[$1+8]
+define WL_MAJ_TICK_SIZE          Memr[P2R($1+8)]
 
 # Minor tick mark size.
-define WL_MIN_TICK_SIZE          Memr[$1+9]
+define WL_MIN_TICK_SIZE          Memr[P2R($1+9)]
 
 # Magnification of the text size for the title.
-define WL_TITLE_SIZE             Memr[$1+10]
+define WL_TITLE_SIZE             Memr[P2R($1+10)]
 
 # The side in polar/near-polar plots not to put Axis 1 labels.
 define WL_BAD_LABEL_SIDE         Memi[$1+11]
