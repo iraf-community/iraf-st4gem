@@ -9,6 +9,9 @@ task	analysis.pkg	= "analysis$analysis.cl"
 task	graphics.pkg	= "graphics$graphics.cl"
 task	toolbox.pkg	= "toolbox$toolbox.cl"
 
+set	nttools		= "st4gempkg$nttools/"
+task	nttools.pkg	= "nttools$nttools.cl"
+
 
 # Load some of the ST4GEM packages
 cl < st4gem$load.cl

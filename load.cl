@@ -20,4 +20,5 @@ tables motd-
       headers
       imgtools
       tools
+      nttools
 keep

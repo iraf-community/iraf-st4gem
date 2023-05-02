@@ -20,6 +20,8 @@ $echo "------------------------  GILIB    --------------------------"
 $update libgilib.a
 $echo "------------------------  STXTOOLS --------------------------"
 $update libstxtools.a
+$echo "------------------------  TBTABLES --------------------------"
+$update libtbtables.a
 
 $ifeq (hostid, unix)  !(date)  $endif
 $exit
@@ -35,4 +37,7 @@ libapplib.a:
 	;
 libstxtools.a:
 	@stxtools
+	;
+libtbtables.a:
+	@tbtables
 	;

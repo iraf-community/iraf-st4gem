@@ -20,5 +20,7 @@ $echo "===================  GRAPHICS  ======================="
 $call @graphics
 $echo "===================  TOOLBOX   ======================="
 $call @toolbox
+$echo "===================  NTTOOLS   ======================="
+$call @nttools
 $ifeq (hostid, unix)  !(date)  $endif
 $exit
