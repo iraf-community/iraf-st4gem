@@ -1,7 +1,7 @@
 # Global environment definitions for the ST4GEM packages.
 
 set	pkglibs		= "st4gem$bin(arch)/,st4gem$lib/"
-set	st4gembin	= "st4gem$bin/"
+set	st4gembin	= "st4gem$bin(arch)/"
 set	st4gemlib	= "st4gem$lib/"
 set	st4gempkg	= "st4gem$pkg/"
 
