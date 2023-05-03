@@ -112,12 +112,16 @@ linux64:					# install PC Linux binaries
 	!$(hlib)/mkfloat.csh linux64 -d $(DIRS)
 	;
 macosx:					# install MacOSX (Apple) binaries
+macos64:				# install MacOSX (alt) binaries
         $ifnfile (bin.macosx)
             !mkdir bin.macosx
         $endif
 	$verbose off
 	$set DIRS = "lib pkg"
 	!$(hlib)/mkfloat.csh macosx -d $(DIRS)
+        $ifnfile (bin.macos64)
+            !ln -s bin.macosx bin.macos64
+        $endif
 	;
 macintel:                               # install MacOSX (Intel) binaries
         $ifnfile (bin.macintel)
@@ -127,11 +131,3 @@ macintel:                               # install MacOSX (Intel) binaries
         $set DIRS = "lib pkg"
         !$(hlib)/mkfloat.csh macintel -d $(DIRS)
         ;
-macos64:				# install MacOSX (alt) binaries
-        $ifnfile (bin.macos64)
-            !mkdir bin.macos64
-        $endif
-	$verbose off
-	$set DIRS = "lib pkg"
-	!$(hlib)/mkfloat.csh macos64 -d $(DIRS)
-	;
