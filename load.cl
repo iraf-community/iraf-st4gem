@@ -1,15 +1,17 @@
+# {LOAD.CL - LOAD SOME REQUIRED TASKS FROM STSDAS
+
 if ( deftask("tables")) {
     if ( !defpac( "tables" )) {
-tables motd- 
-;
+        tables motd- 
+        ;
     }
 }
 ;
-# {LOAD.CL - LOAD SOME REQUIRED STSDAS TASKS
 
 # Load some of the package so the user can access them without loading.
 # Avoid printing menu, but do not change the
 # default value of the menus switch.
+
       analysis
       fourier
       dither
@@ -21,4 +23,5 @@ tables motd-
       imgtools
       tools
       nttools
+
 keep
