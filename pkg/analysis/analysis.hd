@@ -1,9 +1,9 @@
 # Help directory for the ANALYSIS package
 
 
-$dither		= "stsdas$pkg/analysis/dither/"
-$fitting	= "stsdas$pkg/analysis/fitting/"
-$fourier	= "stsdas$pkg/analysis/fourier/"
+$dither		= "st4gem$pkg/analysis/dither/"
+$fitting	= "st4gem$pkg/analysis/fitting/"
+$fourier	= "st4gem$pkg/analysis/fourier/"
 
 dither		men=dither$dither.men,
 		hlp=..,

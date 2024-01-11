@@ -4,3 +4,4 @@ $dither		= "stsdas$pkg/analysis/dither/"
 $doc		= "dither$doc/"
 
 dq		hlp=doc$dq.hlp
+dither		hlp=dither$dither.men
