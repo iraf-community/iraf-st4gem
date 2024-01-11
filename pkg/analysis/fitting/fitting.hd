@@ -7,6 +7,7 @@ $gfit1d		= "fitting$gfit1d/"
 $errorpars	= "fitting$errorpars.par"
 $samplepars	= "fitting$samplepars.par"
 
+fitting		hlp="fitting$fitting.men"
 errorpars	hlp=doc$errorpars.hlp
 gfit1d		hlp=doc$gfit1d.hlp,	src=gfit1d$gfit1d.x
 samplepars	hlp=doc$samplepars.hlp
