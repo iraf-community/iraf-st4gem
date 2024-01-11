@@ -14,7 +14,6 @@ $imtutil	= "st4gem$pkg/toolbox/imgtools/imtutil/"
 $listarea	= "st4gem$pkg/toolbox/imgtools/listarea/"
 $mkgauss	= "st4gem$pkg/toolbox/imgtools/mkgauss/"
 $moveheader	= "st4gem$pkg/toolbox/imgtools/moveheader/"
-$mstools	= "st4gem$pkg/toolbox/imgtools/mstools/"
 $pixedit	= "st4gem$pkg/toolbox/imgtools/pixedit/"
 $pixlocate	= "st4gem$pkg/toolbox/imgtools/pixlocate/"
 $rbinary	= "st4gem$pkg/toolbox/imgtools/rbinary/"
@@ -37,11 +36,6 @@ improject	hlp=doc$improject.hlp,	src=improject$improject.x
 listarea	hlp=doc$listarea.hlp,	src=listarea$listarea.x
 mkgauss		hlp=doc$mkgauss.hlp,	src=mkgauss$t_mkgauss.x
 moveheader	hlp=doc$moveheader.hlp,	src=moveheader$moveheader.x
-mstools		men=mstools$mstools.men,
-		hlp=..,
-		sys=mstools$mstools.hlp,
-		pkg=mstools$mstools.hd,
-		src=mstools$mstools.cl
 pickfile	hlp=doc$pickfile.hlp,	src=imtutil$pickfile.x
 pixedit		hlp=doc$pixedit.hlp,	src=pixedit$pixedit.x
 pixlocate	hlp=doc$pixlocate.hlp,	src=pixlocate$pixlocate.x
