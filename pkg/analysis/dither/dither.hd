@@ -1,6 +1,6 @@
 # Help for the DITHER package
 
-$dither		= "stsdas$pkg/analysis/dither/"
+$dither		= "st4gem/analysis/dither/"
 $doc		= "dither$doc/"
 
 dq		hlp=doc$dq.hlp
