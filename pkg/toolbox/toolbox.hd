@@ -1,8 +1,8 @@
 # Help directory for the TOOLBOX package
 
-$headers	= "stsdas$pkg/toolbox/headers/"
-$imgtools	= "stsdas$pkg/toolbox/imgtools/"
-$tools		= "stsdas$pkg/toolbox/tools/"
+$headers	= "st4gem$pkg/toolbox/headers/"
+$imgtools	= "st4gem$pkg/toolbox/imgtools/"
+$tools		= "st4gem$pkg/toolbox/tools/"
 
 headers		men=headers$headers.men,
 		hlp=..,
