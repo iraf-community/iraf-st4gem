@@ -1,8 +1,0 @@
-#!/bin/csh -f
-
-/bin/rm -f zz.tab
-mkpkg libtbtables.a
-xc -o xx_opendb.e opendb.x tlcol.x inquotes.x tldtype.x libtbtables.a
-
-./xx_opendb.e opendb
-./xx_opendb.e tlcol table=zz.tab nlist=4
