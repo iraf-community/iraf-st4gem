@@ -2,46 +2,18 @@
 
 $doc      	= "st4gem$pkg/toolbox/imgtools/doc/"
 $addmasks	= "st4gem$pkg/toolbox/imgtools/addmasks/"
-$boxinterp	= "st4gem$pkg/toolbox/imgtools/boxinterp/"
-$gcombine       = "st4gem$pkg/toolbox/imgtools/gcombine/"
-$gcopy          = "st4gem$pkg/toolbox/imgtools/gcopy/"
-$gstatistics    = "st4gem$pkg/toolbox/imgtools/gstatistics/"
 $imcalc		= "st4gem$pkg/toolbox/imgtools/imcalc/"
-$imfill         = "st4gem$pkg/toolbox/imgtools/imfill/"
 $iminsert	= "st4gem$pkg/toolbox/imgtools/iminsert/"
 $improject	= "st4gem$pkg/toolbox/imgtools/improject/"
-$imtutil	= "st4gem$pkg/toolbox/imgtools/imtutil/"
-$listarea	= "st4gem$pkg/toolbox/imgtools/listarea/"
-$mkgauss	= "st4gem$pkg/toolbox/imgtools/mkgauss/"
-$moveheader	= "st4gem$pkg/toolbox/imgtools/moveheader/"
-$pixedit	= "st4gem$pkg/toolbox/imgtools/pixedit/"
-$pixlocate	= "st4gem$pkg/toolbox/imgtools/pixlocate/"
-$rbinary	= "st4gem$pkg/toolbox/imgtools/rbinary/"
 $rd2xy		= "st4gem$pkg/toolbox/imgtools/rd2xy/"
-$stack		= "st4gem$pkg/toolbox/imgtools/stack/"
 $xy2rd		= "st4gem$pkg/toolbox/imgtools/xy2rd/"
 $xyztoim	= "st4gem$pkg/toolbox/imgtools/xyztoim/"
 
 addmasks	hlp=doc$addmasks.hlp,	src=addmasks$addmasks.x
-boxinterp	hlp=doc$boxinterp.hlp,	src=boxinterp$boxinterp.x
-countfiles	hlp=doc$countfiles.hlp,	src=imtutil$countfiles.x
-gcombine        hlp = doc$gcombine.hlp, src = gcombine$t_gcombine.x
-gcopy		hlp=doc$gcopy.hlp,	src=gcopy$t_gcopy.x
-gstatistics     hlp=doc$gstatistics.hlp,src=gstatistics$t_gstat.x
-gstpar		hlp=doc$gstpar.hlp,	src=imgtools$gstpar.par
 imcalc		hlp=doc$imcalc.hlp,	src=imcalc$imcalc.x
-imfill          hlp=doc$imfill.hlp,     src=imfill$imfill.x
 iminsert	hlp=doc$iminsert.hlp,	src=iminsert$iminsert.x
 improject	hlp=doc$improject.hlp,	src=improject$improject.x
-listarea	hlp=doc$listarea.hlp,	src=listarea$listarea.x
-mkgauss		hlp=doc$mkgauss.hlp,	src=mkgauss$t_mkgauss.x
-moveheader	hlp=doc$moveheader.hlp,	src=moveheader$moveheader.x
-pickfile	hlp=doc$pickfile.hlp,	src=imtutil$pickfile.x
-pixedit		hlp=doc$pixedit.hlp,	src=pixedit$pixedit.x
-pixlocate	hlp=doc$pixlocate.hlp,	src=pixlocate$pixlocate.x
-rbinary		hlp=doc$rbinary.hlp,	src=rbinary$rbinary.x
 rd2xy		hlp=doc$rd2xy.hlp,	src=rd2xy$t_rd2xy.x
-stack		hlp=doc$stack.hlp,	src=stack$stack.x
 xy2rd		hlp=doc$xy2rd.hlp,	src=xy2rd$t_xy2rd.x
 xyztable	hlp=doc$xyztable.hlp,	src=xyztoim$xyztable.x
 xyztoim		hlp=doc$xyztoim.hlp,	src=xyztoim$xyztoim.x

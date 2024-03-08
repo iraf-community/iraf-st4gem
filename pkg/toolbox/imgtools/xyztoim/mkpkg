@@ -1,0 +1,16 @@
+# Update the xyztoim and xyztable application codes in the imgtools
+# package library
+# Author: P.Hodge, 08-FEB-1994
+
+$checkout imgtools.a ../
+$update   imgtools.a
+$checkin  imgtools.a ../
+$exit
+
+imgtools.a:
+	xyztoim.x	<imhdr.h> <math/gsurfit.h> <tbset.h>
+	xyztable.x	<imhdr.h> <math/gsurfit.h> <tbset.h>
+	xyzlimits.x
+	xyzread.x	<tbset.h>
+	xyzfit.x	<math/gsurfit.h>
+	;

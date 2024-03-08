@@ -42,4 +42,6 @@ imgtools.a:
 	@iminsert
 	@improject
 	@rd2xy
+	@xy2rd
+	@xyztoim
 	;

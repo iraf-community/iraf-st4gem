@@ -1,0 +1,9 @@
+infile, s, a, "", , ,	">Input data file name"
+x, r, a, , , ,		">X pixel coordinate"
+y, r, a, , , ,		">Y pixel coordinate"
+hms, b, h, yes, , ,	">output in hms/dms?"
+
+ra, s, h, , , ,		">output right ascension"
+dec, s, h, , , ,	">output declination"
+
+mode, s, h, "al"

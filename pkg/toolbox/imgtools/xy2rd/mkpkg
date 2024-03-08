@@ -1,0 +1,11 @@
+# Update the xy2rd application code in the imgtools package library
+# Author: HSU, 29-JUL-1991
+
+$checkout imgtools.a ../
+$update   imgtools.a
+$checkin  imgtools.a ../
+$exit
+
+imgtools.a:
+	t_xy2rd.x 	<math.h>
+	;
