@@ -31,7 +31,7 @@ linkonly:
 	$set    LFLAGS = "-z $(LFLAGS)"
 	$link	x_imgtools.o imgtools.a $(LIBS) \
 		-lxtools -lapplib \
-                -lstxtools -ltbtables -lgflib -lgilib \
+                -lstxtools -ltbtables -lgflib -lgilib -lgsurfit \
 		-o xx_imgtools.e
 	;
 
