@@ -4,6 +4,7 @@
 $dither		= "st4gem$pkg/analysis/dither/"
 $fitting	= "st4gem$pkg/analysis/fitting/"
 $fourier	= "st4gem$pkg/analysis/fourier/"
+$isophote	= "st4gem$pkg/analysis/isophote/"
 
 dither		men=dither$dither.men,
 		hlp=..,
@@ -22,3 +23,9 @@ fourier		men=fourier$fourier.men,
 		sys=fourier$fourier.hlp,
 		pkg=fourier$fourier.hd,
 		src=fourier$fourier.cl
+
+isophote	men=isophote$isophote.men,
+		hlp=..,
+		sys=isophote$isophote.hlp,
+		pkg=isophote$isophote.hd,
+		src=isophote$isophote.cl

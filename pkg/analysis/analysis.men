@@ -3,6 +3,7 @@ Menu for the package ST4GEM.analysis
          dither - Dithered image combination.
         fitting - Curve fitting tools.
         fourier - Fourier analysis.
+       isophote - Elliptical isophote image analysis.
 
 (Type "help analysis option=sysdoc" for general information
 about the `analysis' package.)

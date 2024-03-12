@@ -1,0 +1,33 @@
+# Spectral fitting and plotting tasks
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+personal:
+	$call relink
+	$move	xx_spfitpkg.e x_spfitpkg.e
+	;
+
+relink:
+	$update	specfit.a
+	$call	linkonly
+	;
+
+install:
+	$move	xx_spfitpkg.e st4gembin$x_spfitpkg.e
+	;
+
+linkonly:
+	$set	LIBS = "-lxtools"
+	$omake	x_spfitpkg.x
+	$link	x_spfitpkg.o specfit.a $(LIBS) -o xx_spfitpkg.e
+	;
+
+specfit.a:
+	@specfit
+	;

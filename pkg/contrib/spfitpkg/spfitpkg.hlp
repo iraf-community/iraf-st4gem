@@ -1,0 +1,19 @@
+.help spfitpkg August95 stsdas.contrib
+.ih
+NAME
+spfitpkg
+.ih
+USAGE
+spfitpkg
+.ih
+PARAMETERS
+.ls none
+.le
+.ih
+DESCRIPTION
+The spfitpkg contains a set of programs useful for fitting complex UV and
+optical spectra.  The central task is "specfit", and the tasks "dbcreate"
+and "dbcheck" are useful utilities for creating and checking the input
+database files used by specfit for the parameters of he fit.  See the
+help files for these tasks for further details.
+.endhelp

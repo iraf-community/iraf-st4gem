@@ -1,0 +1,9 @@
+# Help directory for SPFITPKG
+
+$doc            = "./doc/
+
+specfit         hlp=doc$specfit.hlp,            src=specfit.x
+dbcheck         hlp=doc$dbcheck.hlp,            src=dbcheck.x
+dbcreate        hlp=doc$dbcreate.hlp,           src=dbcreate.x
+
+package		hlp=spfitpkg.hlp,		src=x_spfitpkg.x

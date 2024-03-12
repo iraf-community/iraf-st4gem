@@ -1,0 +1,14 @@
+data,f,a,,,,Input data image
+psfs,f,a,,,,Input Point-Spread-Function images
+fracent,f,a,0.1,,,Fractional strength of entropy term
+niter,i,a,50,,,Number of iterations
+decon,f,a,,,,Deconvolved output image
+starlist,f,a,,,,File containing list of star positions
+back,f,h,,,,Smooth background output image
+outtab,f,h,,,,Output text list file
+verbose,b,h,yes,,,Display details of what is being performed?
+accel,b,h,yes,,,Use the accelerated algorithm?
+magzero,f,h,25.0,,,Magnitude zero point
+skernel,f,h,10.0,,,Width of smoothing kernel for floating prior
+xsubsam,i,h,1,,,Sub-sampling in X
+ysubsam,i,h,1,,,Sub-sampling in Y

@@ -1,0 +1,1 @@
+xc -p stsdas plucy.f x_plucy.x timtem.x fftetc.f  /usr/server/stsdas/lib/libiraf77.a

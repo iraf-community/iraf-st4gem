@@ -1,0 +1,14 @@
+This directory contains the "master" version of the standard, two channel
+version of PLUCY (V0.65) as well as the stable ACOADD code (V1.4). 
+
+These were updated in July 1995 to correct bugs and it is
+strongly recommended that the new versions be obtained and implemented.
+
+The files compile_acoadd and compile_plucy contain templates for 
+building these application to run under IRAF. These files should be
+edited to give the local locations for the STSDAS V77/VOS library.
+Once this is done they may simply be executed to compile and link.
+
+Please let me know any problems or suggestions you may have.
+
+Richard Hook, July 1995 (e-mail: rhook@eso.org)

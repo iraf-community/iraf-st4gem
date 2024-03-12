@@ -16,6 +16,8 @@ $ifeq (hostid, unix)  !(date)  $endif
 
 $echo "===================  ANALYSIS  ======================="
 $call @analysis
+$echo "===================  CONTRIB  ========================"
+$call @contrib
 $echo "===================  GRAPHICS  ======================="
 $call @graphics
 $echo "===================  TOOLBOX   ======================="

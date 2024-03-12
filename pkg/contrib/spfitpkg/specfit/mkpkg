@@ -1,0 +1,47 @@
+# Update the specfit routine library
+#
+
+$checkout	specfit.a ../
+$update		specfit.a
+$checkin	specfit.a ../
+$exit
+
+specfit.a:
+	specfit.x	specfit.h specfit.com <imhdr.h> <fset.h> <xwhen.h>
+	xinterrupts.x   specfit.h specfit.com <xwhen.h>
+	sfinit.x	specfit.h specfit.com
+	getspec.x	specfit.h specfit.com
+	getimage.x	specfit.h specfit.com
+	sfdbio.x	specfit.h specfit.com
+	sfdbio2.x	specfit.h specfit.com
+	sflogit.x	specfit.h specfit.com
+	sfparam.x	specfit.h specfit.com
+	sfdosimplex.x	specfit.h specfit.com
+	sfdomarquadt.x	specfit.h specfit.com
+	sfalternate.x	specfit.h specfit.com
+	chispec.x	specfit.h specfit.com
+	fspec.x		specfit.h specfit.com
+	sfinteract.x	specfit.h specfit.com <gset.h> <pkg/gtools.h>
+	replot.x	specfit.h specfit.com
+	sfranges.x	specfit.h specfit.com
+	sfgetflux.x	specfit.h specfit.com
+	sfsigpar.x	specfit.h specfit.com
+	sferrmat.x	specfit.h specfit.com
+	sfplot.x	specfit.h specfit.com
+	sfaddcomp.x 	specfit.h specfit.com
+	sfsetplot.x	specfit.h specfit.com
+	sfdonumrec.x	specfit.h specfit.com
+	numrecipes.x	specfit.h specfit.com <math.h> <mach.h>
+	dbcreate.x	specfit.h specfit.com
+	sfinitcomp.x	specfit.h specfit.com
+	dbcheck.x	specfit.h specfit.com
+	sfdogrid.x	specfit.h specfit.com
+	mat_inverse.x	specfit.h
+	simplex.x
+	marquadt.x
+	julian.x
+	matinv.f
+	extcor.f
+#	Next line only good under SunOS 4.x
+#	ignorefpe.c
+	;

@@ -1,0 +1,67 @@
+.help dbcreate August94 stsdas.contrib.spfitpkg
+.ih
+NAME
+dbcreate - Can be used to create a new database file for use by specfit
+.ih
+USAGE
+dbcreate namedata
+.ih
+PARAMETERS
+.ls namedata
+This is the name of the new database file.  The resulting file will be saved 
+automatically with the leading "sf" extension in the current directory.
+.le
+.ls low_mult
+This number multiplied by the parameter value will create the default lower 
+limit.
+.le
+.ls high_mult
+Same as low_mult but used to create the upper parameter limit.
+.le
+.ls step_mult
+Used to create the default step size.
+.le
+.ls comp_name
+Enter the name for the type of component desired.  See the help for "specfit"
+for a description of the available component types.
+.le
+.ls comment
+A descriptive comment for this component may be entered.  For example,
+"Broad component of Halpha emission".
+.le
+.ls parambool
+yes or no.  Used to affirm a correct entry.
+.le
+.ls parameters
+Enter the number of parameters associated with the chosen component type.
+See the help for "specfit" for details.
+.le
+.ls new_par_value
+The value for the new parameter to be entered in the database.
+.le
+.ls lower_limit
+Lower limit for the new parameter
+.le
+.ls upper_limit
+Upper limit for the new parameter
+.le
+.ls step_size
+Step size for the new parameter
+.le
+.ls param_tolerance
+Tolerance for the new parameter.  Values of 0.01 to 1.e-6 are recommended.
+.le
+.ls fix_or_free
+For freely varying parameters, enter 0.  For fixed parameters, enter -1.
+For parameters linked to another component, enter the positive integer
+giving that component's number.
+(See the help for specfit for details on linking.)
+.le
+.ih
+DESCRIPTION
+This program will create a database file for use by specfit.  It will 
+prompt you for all the required values and write out the new database in the
+correct format.  This is a simpler and more error-free method for creating a new
+database than the usual way of editing a text file.   It calls the task dbcheck
+to verify the new database file.
+.endhelp

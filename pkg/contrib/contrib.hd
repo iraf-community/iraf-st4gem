@@ -1,0 +1,10 @@
+# Help Directory for the CONTRIB package
+
+$doc		= "st4gem$pkg/contrib/doc/"
+$spfitpkg	= "st4gem$pkg/contrib/spfitpkg/"
+
+spfitpkg	men = st4gem$pkg/contrib/spfitpkg/spfitpkg.men,
+		hlp = ..,
+                sys = st4gem$pkg/contrib/spfitpkg/spfitpkg.hlp,
+		pkg = st4gem$pkg/contrib/spfitpkg/spfitpkg.hd,
+		src = st4gem$pkg/contrib/spfitpkg/spfitpkg.cl

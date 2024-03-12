@@ -1,0 +1,79 @@
+*****     This is SPECFIT Version 8.0 installed 6/27/95.     *****
+
+SPECFIT was developed by Gerard Kriss with funding provided by NASA to the
+Hopkins Ultraviolet Telescope project.  Please provide appropriate
+acknowledgment for the use of this code, and please do not distribute to
+additional sites without first notifying the author.  A good reference is
+
+``Fitting Models to UV and Optical Spectral Data: Using SPECFIT in IRAF",
+G. A. Kriss 1994, in ``Astronomical Data Analysis Software and Systems III",
+A.S.P. Conf. Series, Vol. 61, ed. D. R. Crabtree, R. J. Hanisch,
+and J. Barnes, (Astronomical Society of the Pacific: San Francisco), p. 437.
+
+SPECFIT and all associated subroutines are provided "as is" with no associated
+warranties, express or implied.  The code is not asserted to be free of errors,
+and the user assumes all risk.  The author and Johns Hopkins University disclaim
+all liability for direct, incidental, or consequential damages resulting from
+the use of this code or any portion thereof.
+
+--------------------------------------------------------------------------------
+Changes to Version 8.0
+	*  Read the file NewinSpecfit8 for a list of all the new features in
+	   specfit.  This include an improved minimization routine, improved
+	   functionality in the interactive mode, two new specfit tasks, and
+	   several new component types - to name a few.
+
+Installation
+	* Install all three specfit tasks - specfit, dbcheck, dbcreate.  All 
+	  three are defined in the executable file created by compiling 
+	  specfit (xx_specfit.e).  A typical task installation looks like
+
+		task specfit dbcheck dbcreate = specfit$xx_specfit.e
+
+	  where the environment variable "specfit" has been previously
+	  defined to point to the specfit code directory, e.g.
+
+		set specfit="/home/perseus/gak/specfit8/"
+
+	* Global definitions are contained in "specfit.h".  Make changes to
+	  array sizes here if necessary.
+	* the "mkpkg" file may need to be tailored to your specific site.
+	  See the IRAF manuals for appropriate instructions and examples.
+	* For installation of the three "help" files, see instructions 
+	  for the IRAF command "mkhelpdb"
+	* Before running specfit make sure to look at the parameter file 
+	  specfit.par.  Make sure that the variable key_file which 
+	  describes the location of the specfit.key file is defined correctly.
+
+Adding additional fitting functions of your own
+
+	This entails modifications to several routines, but is not complex.
+	The files involved are
+
+	fspec.x	- add your new procedure here near the bottom of the file
+		- declare the procedure in "procedure cspec"
+		- add variables as necessary to cspec
+		- add a new case statement in cspec
+
+	sfinitcomp.x - add the name of the new component and its number of
+		parameters to the initializations here.
+
+	specfit.h - increase the value of "NKEYS" by one
+
+	Optional:  look at sfaddcomp.x and dbcreate.x to see if you would like
+		to add prompts for your new components to these files.  Both 
+		files contain more information in them as commented text.
+
+	Re-compile with mkpkg.
+
+Questions or problems, please contact
+
+	Dr. Gerard A. Kriss
+	Department of Physics and Astronomy
+	The Johns Hopkins University
+	Baltimore, MD 21218
+
+	email: gak@pha.jhu.edu	(Internet)
+	phone: (410)516-7679
+	FAX:   (410)516-8260
+

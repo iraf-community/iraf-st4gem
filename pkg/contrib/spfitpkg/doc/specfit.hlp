@@ -1,0 +1,716 @@
+.help specfit July94 stsdas.contrib.spfitpkg
+.ih
+NAME
+specfit - fit lines and continua to 1D spectra
+.ih
+USAGE
+specfit spectra
+.ih
+PARAMETERS
+.ls spectra
+The input spectrum to be fit.  This input file must be either a 1D  or 2D
+IRAF image or an ASCII file formatted as described
+below.
+.le
+.ls debug = no
+Debugging mode on or off.  (Totally useless for the typical user.)
+.le
+.ls interact = yes
+Selects interactive or non-interactive fitting modes.
+.le
+.ls gridfit = no
+If you are in non-interactive mode and gridfit = yes it will use a grid type of
+fitting algorithm.  This algorithm will take one or two parameters.  Then it 
+will give these parameters a user specified lower limit value and then increase
+this value by a certain user specified step size until an upper limit is
+reached.  For each combination of values it reaches it will call one of the
+other fitting algorithms (see type_of_fit).  This algorithm will remember 
+the best combination of values and then output the entire grid to the log 
+files.  Note that this is a very slow algorithm.
+.le
+.ls errors_from_model = no
+Compute expected variances from the Model?
+If so, the PROS approximation for low count rates is used,
+sigma=1.+sqrt(n+0.75).  The default, "no", is to use the user-supplied
+errors in the data file.
+.le
+.ls plotdata = no
+Determines whether an ASCII file suitable for plotting with MONGO is
+produced upon exit.  This file contains the wavelengths, the data, the errors,
+the model, and the values of the individual components of the model.
+.le
+.ls type_of_fit = "numrecipe"
+In non-interactive mode, selects whether the Simplex, Marquardt, Numrecipe
+minimization algorithms are to be used.
+The Numrecipes algorithm is recommended.
+.le
+.ls logfiles = STDOUT
+Specifies a list of file names for logging the results.
+.le
+.ls database = "sfdb"
+Relative pathname to the database directory.
+.le
+.ls initial_fit = "initial"
+Specifies that the file "sfdb/sfinitial" is the database file containing the
+initial guesses for the parameters.
+.le
+.ls final_fit = "final"
+Specifies that the file "sfdb/sffinal" is the database file containing the
+final best fit values.
+.le
+.ls plot_file = "specfit.plt"
+File name for the plot file.  Not used unless plotdata=yes.
+.le
+.ls flux_intervals = "fluxes"
+Specifies that the database file "sfdb/sffluxes" should be used to select
+spectral regions for integrating fluxes in lines and the continuum.
+If no integrations are desired, enter the null string.
+.le
+.ls Sample_ranges = "*"
+Wavelength intervals to be used in fitting the spectrum.  An asterisk "*" means
+use all the data.  A list such as "3200.5-3290.1,3300-3400" specifies separate
+regions.  This can be used to avoid noisy data or regions that are otherwise
+unsuitable for fitting.  Either real or integer values may be entered.
+.le
+.ls max_iterations = 100
+Maximum number of iterations to be used by the minimizing routine.  This
+frequently constrains when a minimization process exits when one is starting
+a fit, so choose a low number initially to avoid seemingly endless waits.
+.le
+.ls fit_tolerance = 1.e-5
+One of several tolerance parameters governing when a fit exits.  The fractional
+change in chi-square must be less than this value for a fit to exit on its own.
+.le
+
+.ls v0 = 0., v1 = 1.0
+Offset and slope used for calculating the variance if a 1D IRAF image is the
+input.  Errors in the flux will be calculated with the formula
+
+	Err = sqrt( v0 + v1 * Flux ).
+
+If you want uniform weighting, set v0 to an appropriate value (perhaps 10% of
+the mean flux) and v1 = 0.0.  For a spectrum containing raw counts following
+a Poisson error distribution, use v0 = 0.0 and v1 = 1.0.
+.le
+.ls low_mult = .1
+This value is used when you are entering the information about a new component
+in interactive mode.  It multiplies this number and the new parameter value
+together to get the default lower bound to the newly entered parameter.
+.le
+.ls high_mult = 10
+This variable is used much the same as the previous variable low_mult except 
+that it is used to determine the new upper bound on the parameter.
+.le
+.ls step_mult = .01
+Same as before this variable is used to determine the default step size
+when entering a new component.
+.le
+.ls key_file = /home/hut4/student/grimes/specfit/spec8/
+This important value specifies where the file named specfit.key can be found.  
+This file is used in the interactive mode to list what key strokes are 
+allowed.
+.le
+
+The next group of parameters are all used by the gridfit algorithm only.
+.ls grid_num = 2
+This parameter can only have two values, either 1 or 2.  It specifies 
+whether you'd like to use the grid fit algorithm on one or two parameters.
+.le
+.ls grid_comp1 = 5
+This is the number of the component that the first parameter that you want
+to grid can be found in.
+.le
+.ls grid_par1 = 2
+This is the number of the first parameter that you want to grid.
+.le
+.ls grid_blim1 = 1E-16
+This is the value that the first parameter will start incrementing from.
+.le
+.ls grid_tlim1 = 1E-15
+This is the value that the first parameter will stop incrementing at.
+.le
+.ls grid_step1 = 1E-16
+This is the value that the first parameter will be incremented by.
+.le
+.ls grid_comp2, grid_par2, grid_blim2, grid_tlim2, grid_step2
+These parameters are used exactly as above except that these are for the 
+second parameter if two is specified as the value of grid_num.
+.le
+
+The following parameters are used in response to particular keystrokes in
+interactive cursor mode:
+.ls plot_ranges = "*"
+In the interactive mode you can select which components you would like to see
+plotted.  Default is all ("*").
+.le
+.ls new_sample
+Specify new sample ranges for fitting the data.
+.le
+.ls comp_number
+Component number to be changed.
+.le
+.ls param_number
+Parameter number of comp_number to be changed.
+.le
+.ls new_par_value
+New value for the parameter being changed.
+.le
+.ls lower_limit
+New lower limit for a parameter.
+.le
+.ls upper_limit
+New upper limit for a parameter.
+.le
+.ls step_size
+New step size for a parameter.
+.le
+.ls param_tolerance
+New tolerance for fitting a parameter.
+.le
+.ls fix_or_free
+New value for letting a variable vary freely (0), remain fixed at its current
+value (-1), or be linked (n) to the value of the corresponding parameter of
+parameter n.
+.le
+.ls change_iterations
+New number for max_iterations.
+.le
+.ls choice
+Used to answer a YES or NO question.
+.le
+.ls comp_name
+The name of the new component type to be entered.
+.le
+
+.ih
+DESCRIPTION
+SPECFIT provides an interactive facility to fit wide varieties of emission line,
+absorption line, and continuum models to an input spectrum.
+A brief description is given by G. Kriss in the proceedings of the 3rd
+ADASS Conference (1994, PASP Conf. Series, Vol. 61, p. 437).
+The input spectrum
+can either be an IRAF image file or an ASCII file whose format is described
+below.  By selecting a combination of functional forms for various components,
+the user can fit complex spectra with multiple continuum components, blended
+emission lines and absorption lines, absorption edges, and extinction.
+All emission components are assumed to sum linearly.  For each absorption
+component the transmission function is calculated and applied to all PRECEDING
+components in the database file.  This allows the user to specify overlying,
+unabsorbed emission components (e.g., airglow lines) in the model.
+User-provided components supplied as ASCII tables of wavelength and value
+can also be used to model the continuum, emission line profiles, and
+absorption components.  Overall input to SPECFIT is controlled by the usual
+IRAF parameter file system.  However, the complex inputs necessary to specify a
+model are handled via ASCII database files described below.
+
+Fitting is done via Chi-square minimization using one of five different
+algorithms.  The iraf routine based on a marquardt type algorithm from
+numrecipes called Numrecipe seems to be usually the most effective and the
+fastest.  However in some cases the stability and procedures of the Simplex
+algorithm are superior.  The other three algorithms are Marquardt, Gridfit
+(see explanation above with the gridfit parameter), and Alternate
+(which alternates between calling Numrecipe and Simplex).
+The Marquardt algorithm does
+occasionally encounter floating point exceptions in complex non-linear 
+models.  Also, occasionally, both the marquardt and numrecipe algorithms can
+get lost when your initial fit is very far from the minimum.  This can
+be fixed by using the simplex algorithm.  Once the minimization has exited 
+either by meeting the tolerance requirements specified (rare) or by hitting the
+maximum number of iterations, errors for each freely varying parameter are 
+determined by evaluating the curvature matrix around the final value of
+Chi-square with a finite difference calculation.  The curvature matrix is
+inverted to obtain the error matrix.  The error matrix is re-scaled by the
+reduced Chi-square before evaluating the errors, which are one sigma for a
+single interesting parameter.  The user is warned that additional upward
+scalings may be necessary for multi-parameter fits where one is interested 
+in all parameters simultaneously.  (See Lampton, Margon, and Bowyer 1976, 
+Ap.J., 208, 177, and Avni 1976, Ap.J., 210, 642.  The paper by Avni discusses
+a more general case that makes the important distinction between "interesting"
+and "uninteresting" parameters.)  Best fit values and error bars are reported
+in a user-specified log file.
+
+N.B., errors are calculated under the assumption that the errors on the input
+spectrum follow a Gaussian distribution.  If your data do not satisfy this
+assumption, be wary of the error bars returned by SPECFIT.  Poisson-distributed
+data in the small-number limit are a typical example that causes problems.
+
+One may also request that the program perform integrations over various
+line or continuum portions of the fit.  This will give total fluxes with
+error bars for blended emission lines or portions of the continuum.
+The selected regions for integration are specified in an ASCII database file
+described below.
+
+If desired, an ASCII file suitable for plotting with MONGO or SMONGO is also
+produced.  This file has multiple columns in the following format:
+
+Wave Data Errors Model Comp1 Comp2 Comp3 . . . CompN
+
+Where the columns "CompN" are the values of the individual components and
+"Model" is the full model.
+.ih
+INTERACTIVE MODE
+the following keystrokes are active in addition to the normal IRAF
+cursor facilities (available with ":.help"):
+.ls
+.ls I
+Enter the interactive component addition facility.  This allows you to
+add a new component to the fit while running the program.  
+.le
+.ls S
+Delete a component.  Given a component number it will delete the component
+from the fit.
+.le
+.ls G
+List the types of components.
+.le
+.ls a
+Change the fitting tolerance on a parameter.
+.le
+.ls c
+Change the value of a parameter.
+.le
+.ls e
+Evaluate the current fit and display the value of Chi-square.
+.le
+.ls f
+Minimize Chi-square using the simplex method.
+.le
+.ls m
+Minimize Chi-square using a Marquardt algorithm.
+.le
+.ls n
+Minimize Chi-square using Numrecipe, an optimal Marquardt algorithm.
+.le
+.ls i
+Inquire about the value of a parameter.
+.le
+.ls l
+Change the lower limit on a parameter.
+.le
+.ls p
+Overplot the fit on the data.  It is best to first use "r" to refresh the
+screen.
+.le
+.ls o
+Specify which components to plot (p). 
+.le
+.ls q
+Exit SPECFIT.  This may actually take a while if the model has many free
+parameters since the error matrix must be calculated to obtain the error bars.
+If you wish to exit quickly in such a case and re-run the fit in the background,
+simply type "^C" after you have typed "q".  This will leave the database file
+for the final fit updated but the log files incomplete.
+Also during program execution typing ^C or killing the specfit process if it 
+running in the background will cause specfit to quit but will also save to the 
+final database file the current status of the fit.  This will not work for all
+forms of the kill function, however (i.e. "kill -9 pid"),
+so just using "kill pid" is recommended. 
+.le
+.ls s
+Select new sample ranges for the fit.
+.le
+.ls t
+Change the maximum number of iterations permitted in minimization.
+.le
+.ls u
+Change the upper limit on a parameter.
+.le
+.ls x
+Change the fix_or_free status of a parameter.  0 = free to vary; -1 = fixed at
+current value; n = link to the corresponding parameter of component n at a
+ratio given by the step size.
+.le
+.ls z
+Change the step size for a parameter.
+.le
+.ls "space"
+Hitting the space bar (or any other unrecognized key) displays the current
+cursor position in user coordinates.
+.le
+.ls d
+Plot the distribution of Chi-square with wavelength.
+Make sure the window is displayed full scale before issuing this command, or
+the plot will bomb.  Enter the window system with w, then give an "a" for all.
+You can re-window after the Chi-square plot appears.
+.le
+.ls -
+The minus key "-" will plot the residuals of the fit.
+.le
+.ls +
+The "plus" key will plot the model alone.
+.le
+.ls w
+Enter the IRAF windowing function to adjust the region plotted.
+.le
+.ls :
+Issue an IRAF colon command, e.g. :.snap or :.gflush.
+.le
+.ls ?
+Print a help screen summarizing the functions of these cursor commands.
+.le
+.le
+.ih
+INPUT FILE FORMATS
+SPECFIT will accept either an IRAF image file or an ASCII file for the
+input spectrum.  It ascertains the file type by looking for the ".**h" extension
+of an IRAF image file.  If the ".**h" is absent from the given filename, the
+file is assumed to be an ASCII input file as described below.  If the file is an
+IRAF image, the wavelength scale is set using CRVAL1, CDELT1 or W0, WPC.
+If these are missing, the default is to use pixel numbers for the x coordinate.
+For 1D images errors are calculated using the parameters v0 and v1 to
+calculate a scaled variance from the input fluxes.  2D images are assumed to be
+in the format produced by the HUT ballistic process -- fluxes in the first line
+of the image, and corresponding errors in the second line.
+
+The ASCII input file has two header lines followed by the data.  The data
+are in three columns giving wavelength, value, and error bar.  Be certain that
+error bars != 0.0, or you will get floating point errors.  The first line of the
+header is interpreted as purely informational, and is used only to label the
+plots.  The first field of the second line is critical -- it is an integer
+listing the number of points in the spectrum (the number of points is limited
+only by the available memory since data storage is dynamically allocated).
+The second field is optional, and it gives the integration time.
+A portion of a sample file is shown here:
+
+.nf
+NGC4151 HUT 2188s
+    440 2188.
+ 923.87    -0.1380    0.6260
+ 924.39     0.8460    0.3615
+ 924.90     0.3400    0.4426
+ 925.41    -0.5610    0.6260
+ 925.93     1.9960    0.2555
+ 926.44    -0.1080    0.6260
+ 926.95     1.4390    0.2799
+ 927.47     0.6400    0.3615
+.fi
+.ih
+DATABASE FORMAT FOR INITIAL PARAMETER VALUES
+SPECFIT relies on the IRAF database format for inputting and maintaining the
+large number of parameters necessary to describe the model to be fit to the
+data.  Parameters are allowed to vary freely, be fixed at a value selected by
+the user, or to be linked to the value of the corresponding parameter in
+another component of the model.  For example, a model for deblending H alpha
+and the [N II] lines might have three components with the shorter wavelength
+[N II] has its flux, wavelength, and velocity width fixed relative to the
+corresponding parameters in the brighter, longer wavelength component.
+Note that the order of the components in this file is significant since
+absorption components apply only to components preceding them in the database
+file.
+
+Up to 100 components containing a total of 500 parameters are permitted.
+Twenty one different component types are recognized by SPECFIT, and each has
+a specific number of associated parameters:
+
+.nf
+	linear - a linear continuum, 2 parameters
+		1 - flux at 1000 Angstroms
+		2 - continuum slope (change in flux per Angstrom)
+
+	powerlaw - a power law continuum (Flambda), 2 parameters
+		1 - flux at 1000 Angstroms
+		2 - power law index alpha for f = (x/1000)^(-alpha)
+
+	bpl	- a broken power law continuum (Flambda), 4 parameters
+		1 - flux at the break wavelength
+		2 - the break wavelength (Angstroms)
+		3 - power law index below the break
+		4 - power law index above the break
+
+	blackbody - blackbody continuum in Flambda, 2 parameters
+		1 - Flux at 5500 Angstroms (Flambda)
+		2 - temperature (Kelvin)
+
+	gaussian - Gaussian line profile, 4 parameters
+		1 - flux, or area under the Gaussian
+		2 - centroid of the line
+		3 - FWHM of the line in km/sec
+		4 - Skew.  1 == symmetric
+
+	logarith - Power-law line profile, 4 parameters
+		   F = I0 * ( x/centroid )**alpha,
+			I0 and alpha evaluated from flux and FWHM
+		1 - flux, or area under the line
+		2 - centroid of the line
+		3 - FWHM of the line in km/sec
+		4 - Skew.  1 == symmetric
+
+	labsorp	- absorption line described by a Gaussian
+		1 - Equivalent width of the line
+		2 - centroid
+		3 - FWHM in km/sec
+
+	tauabs	- absorption line described by a Gaussian in optical depth
+		1 - Optical depth at line center
+		2 - centroid
+		3 - FWHM in km/sec
+
+	eabsorp - absorption edge; optical depth ~ (lambda/lambda0)^3
+		1 - optical depth at the edge
+		2 - wavelength of the edge (lambda0 above)
+
+	recomb - optically thin recombination continuum, 3 parameters
+		1 - flux at the edge
+		2 - wavelength of the edge
+		3 - electron temperature (K)
+		4 - FWHM in km/s
+
+	extcor - Mean galactic extinction, Seaton law, 1 parameter
+		1 - E(B-V)
+
+	usercont - user-supplied continuum, 4 parameters
+		1 - normalization (1 if model fluxes match data perfectly)
+		2 - linear shift in wavelength
+		3 - redshift
+		4 - value of the "key" parameter (see below)
+		(N.B. 2 and 3 should generally be mutually exclusive)
+		Filenames plus "key" values must be in "continuum.ls".
+
+	userline - user-supplied line profile, 4 parameters
+		1 - normalization (1.0 gives input values from file)
+		2 - linear shift in wavelength
+		3 - redshift
+		4 - value of the "key" parameter (see below)
+		(N.B. 2 and 3 should generally be mutually exclusive)
+		Filenames plus "key" values must be in "profile.ls".
+
+	userabs - user-supplied absorption, 4 parameters
+		    User supplies tau vs. lambda.  Program computes
+			abs = exp( -norm * tau(lambda) )
+		1 - normalization (1.0 gives input values from file)
+		2 - linear shift in wavelength
+		3 - redshift
+		4 - value of the "key" parameter (see below)
+		(N.B. 2 and 3 should generally be mutually exclusive)
+		Filenames plus "key" values must be in "absorption.ls".
+
+	lorentz - Modified Lorentzian line profile, 4 parameters
+		    F = flux * FWHM/2PI / ( (x-centroid)**alpha + FWHM**2/4)
+		1 - flux, or area under the line (only for alpha = 2)
+		2 - centroid of the line
+		3 - FWHM of the line in km/sec (only for alpha = 2)
+		4 - alpha -- exponent of (x - centroid) in denominator
+
+	dampabs	- Damped absorption line, 3 parameters
+		1 - Column density times the oscillator strength
+		2 - centroid of the line
+		3 - Lifetime of the transition (Gamma, sec)
+
+	logabs	- absorption line with tau~|lambda-lambda0|^alpha, 3 params
+		1 - optical depth at line center
+		2 - centroid of the line
+		3 - FWHM of the line in km/sec
+
+	ffree - F = Norm * ( 5500/x )**2 * exp(-1.43E8/x/temp), 2 params
+		1 - Normalization in Flambda at 5500A
+		2 - Temperature in Kelvin
+
+	extdrude - Drude extinction curve, for UV spectra below 3200A.  
+			See paper by Fitzpatrick and Massa ( ApJ, 1988,
+			vol. 328, p. 734 ) for more information, 7 params
+		1 - E(B-V)
+		2 - w0
+		3 - Gamma
+		4 - c1
+		5 - c2
+		6 - c3
+		7 - c4
+
+	disk - F = Norm * ( x**-Beta ) * exp ( -hc/(k * Temp * x ) )
+		1 - Normalized Flux
+		2 - Beta Value
+		3 - Temperature in Kelvins
+
+	ccmext - Extinction Curve using the Cardelli, Clayton, and Mathis
+			method.  (ApJ, 1989, vol 345, pp 245), 2 params
+		1 - E(B-V)
+		2 - RV
+
+
+.fi
+.ih
+FORMATS FOR USER-SUPPLIED MODELS
+A list of filenames for the user-supplied models must be in the files
+"continuum.ls", "profile.ls", or "absorption.ls", as appropriate,
+in the current directory.  On the same line with each file name there must be a
+"key" value which is the physical parameter that varies from file to file.
+The key values are assumed to be given in increasing order.
+SPECFIT calculates the model value by linear interpolation between the model
+files listed.  Key values below the smallest model key return the value in the
+first model file.  Key values greater than the largest model key return values
+from the last model file.  Values are not extrapolated.
+Single model files with a fixed key value are analogous to the previous
+method SPECFIT used for user-supplied models.
+Up to 20 files and associated key parameters may be given. 
+The model files may reside in any directory, but full path names must be
+specified.  Model files are free-format ASCII lists of wavelength and value.
+The wavelengths must increase monotonically at a fixed delta lambda.
+Model files may contain up to 10000 points.  Each model may contain a differing
+number of points.
+
+Note that the list of user-supplied models need not be physically related if
+the values of the key parameters are fixed to identically match a given file.
+This permits one to use several different user-supplied models simultaneously
+by making more than one "usercont" entry in the input database file, each with
+a different, fixed, value of its key parameter.  One then could, for example,
+fit an accretion disk model plus host galaxy starlight to the spectrum of a
+Seyfert galaxy as shown below for NGC 4151.
+.ih
+SAMPLE DATABASE FILE
+A sample database file is illustrated here, used for fitting a portion of the
+HUT NGC 4151 spectrum:
+
+.nf
+begin	n4151
+	task	specfit
+components	7
+		powerlaw
+		gaussian
+		labsorp
+		labsorp
+		userabs
+		usercont
+		usercont
+		powerlaw1	2 #Comments can be placed here
+			1.143721 0. 2. 0.1 0.001 0
+			1.328607 -5. 5. 0.04 0.001 0
+		gaussian2	4 #and here
+			3.666615 0. 10. 0.5 0.001 0
+			1040.954 1035. 1045. 1. 0.001 0
+			2.5466 2.5 15. 0.3 0.001 0
+			1. 0. 1. 0.1 0.001 -1
+		labsorp3	3 # and so on, ...
+			1.364428 0. 4. 0.2 0.001 0
+			1032.501 1032. 1042. 0.99647 0.001 4
+			1.3 1. 2.5 0.1 0.001 -1
+		labsorp4	3
+			1.364428 0. 4. 0.2 0.001 0
+			1039.069 1032. 1042. 0.5 0.001 0
+			1.3 1. 2.5 0.1 0.001 -1
+		userabs5	4	# Molecular hydrogen absorption
+			1.0   0. 1.1 0.02 0.001 0
+			0.0 -10.0 10.0 0.1 0.001 -1
+			3.300000E-4 0. 0.005 1.000000E-4 0.001 0
+			18.50  17.00  20.00  0.5  0.001  0
+		usercont6	4		# accretion disk spectrum
+			1.0   0. 1.1 0.02 0.001 0
+			0.0 -10.0 10.0 0.1 0.001 -1
+			3.300000E-4 0. 0.005 1.000000E-4 0.001 0
+			1.0  1.0  1.0  0.5  0.001  -1
+		usercont7	4		# host galaxy starlight
+			1.0   0. 1.1 0.02 0.001 0
+			0.0 -10.0 10.0 0.1 0.001 -1
+			3.300000E-4 0. 0.005 1.000000E-4 0.001 0
+			2.0  2.0  2.0  0.5  0.001  -1
+.fi
+
+This says to fit the spectrum with seven components: a powerlaw continuum,
+a Gaussian emission line, two absorption features, a user-specified
+absorption spectrum, and two user-supplied continuum spectra.
+Note some of the special features used here: the skew of the Gaussian is
+fixed at 1.0 (symmetric); the widths of the two absorption features (O VI) are
+initially fixed at the HUT resolution, 900 km/sec; the wavelength of the
+shorter wavelength absorption feature is fixed relative to component 4 in the
+ratio of the separation of the O VI doublet by specifying a link to
+component 4 in the last column of the wavelength entry for labsorp3.
+The file "absorption.ls" for this case looks like this:
+
+.nf
+	nh170b50.dat	17.0
+	nh180b50.dat	18.0
+	nh190b50.dat	19.0
+	nh200b50.dat	20.0
+.fi
+
+The listed file names each contain two columns giving wavelength and optical
+depth for the value of log Nh given as the "key" parameter in "absorption.ls".
+The user-supplied continuum models in "continuum.ls" are completed unrelated,
+and their "key" parameters have no physical meaning -- here they merely serve
+as an index for a model to choose.  Note that these key parameters are fixed
+(-1) in the input database file.  The file "continuum.ls" looks like this
+
+.nf
+	m70mdot02.dat	1.0
+	b0star.dat	2.0
+.fi
+
+The parameter entries for a given component have these meanings:
+
+.nf
+	componentN	Npar
+		value1 lowerlimit upperlimit stepsize tolerance fix/free
+.fi
+
+Lower and upper limits are treated as "soft" walls: a parameter may go
+outside these limits on a final iteration, but it is pulled back one step away
+from the limit at the start of the next iteration.
+
+The stepsize is the initial step size used by the minimization algorithms.
+This should generally be less than 10%-20% of the parameter value.
+The stepsize also serves the dual function of supplying the ratio factor
+when one parameter is linked to another as described below.
+
+The tolerance is used to evaluate when a fit is "finished".  This is the
+absolute value of the maximum fractional error permitted before halting
+the minimization process.  ALL parameters plus Chi-square must be within
+their tolerance limits for a fit to exit, so it is usually best to specify
+a maximum number of iterations.
+
+The fix/free column says whether a parameter should vary freely (0), be fixed
+at the value given (-1), or be linked to another parameter (N, where 0 < N <
+Ncomponents).  If linked to another parameter, the step size is used to
+supply the ratio to be applied to the linked parameter to derive the value of
+this parameter.  For example, if I want to fix the wavelength, flux and width
+of [O III] 4959 relative to [O III] 5007, I link parameters 1, 2, and 3 of
+the 4959 component to the component number of 5007, specify a step size of
+0.33 for the flux ratio, a step size of 0.994 = 4959/5007 for the wavelength,
+and a step size of 1.0 for the width.
+.ih
+DATABASE FORMAT FOR FLUX INTERVAL COMPUTATIONS
+The following example shows how to specify flux measurements for two
+different emission line intervals plus one continuum interval:
+
+.nf
+begin	NeVflux
+	task	specfit
+intervals	3
+	3310.0  3390.0	1	4	NeV1
+	2
+	3
+	4
+	5
+	3420.0  3510.0	1	4	NeV2
+	6
+	7
+	8
+	9
+	3395.0	3415.0	1	0	F3400
+.fi
+
+This says to integrate the flux above the fitted continuum (component 1) over
+the specified wavelength intervals, and also to sum the flux in the 4
+separate components used to fit each of the NeV lines -- components 2, 3, 4, and
+5 for NeV1, and components 6, 7, 8, 9 for NeV2.  The continuum interval
+specified at the end has no emission line components (0 in the 4th column).
+
+If one does not wish any integrations performed, the database filename in the
+parameter file must be set to the null string "".
+.ih
+
+BUGS
+The Marquardt minimization algorithm occasionally produces floating point
+exception errors.  The best solution is to start again with fewer iterations,
+then switch to simplex minimization to get the solution past the region giving
+the Marquardt algorithm problems.  One could then switch back, if desired.
+
+The Numrecipes algorithm occasionally gets Matrix Inversion Errors or Singular
+Matrix errors.  Usually this is caused by some incorrectly entered data.
+Singular matrices are often traceable to free parameters that have no effect on
+the fit -- e.g., a Gaussian component whose flux is fixed at zero but whose
+wavelength and FWHM are permitted to vary freely.
+
+The ^C interrupts handler that is invoked when the user hits ^C instead of 
+exiting the program usually correctly saves the current status of the 
+database file to the output database.  However it occasionally does not
+output the corresponding message informing the user that it has done this.
+.endhelp

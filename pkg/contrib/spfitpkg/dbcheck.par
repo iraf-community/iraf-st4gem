@@ -1,0 +1,2 @@
+database,s,a,"none1",,,"Name of database that is to be checked"
+mode,s,h,"ql",,,

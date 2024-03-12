@@ -1,0 +1,24 @@
+#   Make the contrib package
+#
+# Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$ *** can't do this
+#	mkpkg update		update library, link, and give error message
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	@spfitpkg relink
+	;
+
+install:
+	@spfitpkg install
+	;

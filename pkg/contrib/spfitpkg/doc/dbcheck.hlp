@@ -1,0 +1,24 @@
+.help dbcheck August94 stsdas.contrib.spfitpkg
+.ih
+NAME
+dbcheck - Verifies that a specfit database is in the correct format
+.ih
+USAGE
+dbcheck database
+.ih
+PARAMETERS
+.ls database
+This is the name of the database file to be checked.  The file is assumed to
+have a leading "sf" prefix and to reside in the current directory.
+.le
+.ih
+DESCRIPTION
+Dbcheck will check a database 
+file to make sure that it is in a format readable by specfit.  It will also
+check for any minor inconsistencies in the data such as a lower 
+limit with a higher value than the actual parameter.  Please note 
+that the "sf" extension at the beginning of every specfit database file 
+will be added by the program.  It will also take file name expanders 
+like asterisks.  For example, typing "h*" for the database name will 
+check all files in the current directory starting with "sfh".
+.endhelp

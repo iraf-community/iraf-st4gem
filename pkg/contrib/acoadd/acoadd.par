@@ -1,0 +1,11 @@
+images,f,a,,,,List of input data images
+psfs,f,a,,,,List of matching PSF images
+niter,i,a,20,,,Number of iterations
+decon,f,a,,,,Deconvolved output image
+coaddr,f,a,,,,Root name for coadded output images
+verbose,b,h,yes,,,Display details of what is being performed?
+accel,b,h,yes,,,Use acceleration method?
+xsubsam,i,h,1,,,Sub-sampling in X
+ysubsam,i,h,1,,,Sub-sampling in Y
+firstim,f,h,,,,Name of optional first estimate image
+maskim,f,h,,,,Optional binary mask showing valid data

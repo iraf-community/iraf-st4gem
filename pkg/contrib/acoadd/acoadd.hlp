@@ -1,0 +1,222 @@
+.help acoadd V1.6 Mar98 stsdas.contrib
+.ih
+NAME
+acoadd -- Perform image co-addition and restoration using Lucy Method
+.ih
+USAGE
+acoadd images psfs niter decon coaddr 
+.ih
+DESCRIPTION
+This task is an implementation of a method developed by Leon Lucy
+(ST-ECF) for co-adding images which have different point-spread-functions. In
+addition it may be used as a Richardson-Lucy restoration code with the ability
+to handle multiple input images. A further useful application is the combination
+of "dithered" multi-frames.
+A detailed description of the method and its applications is given in 
+the references mentioned below.
+
+This version incorporates an 'acceleration' option (see below for details 
+of what this does) and the option to start the restoration with a given image. 
+In addition sub-sampling may be handled if a finely sampled version of the PSF 
+is available. There is also an option to allow a mask image indicating the
+positions of invalid data points.
+
+This version is V1.6 but is functionally identical to V1.5. The only
+changes have been to ensure better portability and more uniformly
+formatted error messages.  An implementation in the
+MIDAS image processing system is also available via the COADD/IMAGE command
+in the IMRES context.
+This version uses similar code but different interface libraries, the 
+results should be identical.
+.ih
+PARAMETERS
+.ls images = "" [string]
+A list of the images to be co-added, or an image list template.
+The image dimensions must be even and they must be all the same size.
+Any negative values found in the images will be set to zero before 
+processing.
+.le
+.ls psfs = "" [string]
+A list of the names of the PSFs which match the images.
+These images must be the same size and shape as the data images.
+The PSFs should be normalised to one (ie, the sum of all the pixels
+should be 1.0). The PSFs must be positioned so that PSF 1 convolved with 
+data frame 1 is aligned with PSF 2 convolved with data frame 2 and so on.
+If the peaks of the PSFs are displaced in the same direction as the
+shifts in the data frames the alignment will be correct in the output.
+
+In addition the background of the PSF must be removed and the
+images must be non-negative.  Any negative values
+found in the images will be set to zero before processing.
+.le
+.ls niter = 20 [integer]
+The number of iterations to be performed. 
+The Lucy co-addition method is
+interative and based on the Richardson-Lucy restoration algorithm. It is
+recommended that a small number (eg, 10) is used for first experiments but
+the optimum final result for co-addition is normally produced by using the 
+largest value for this parameter that resources permit. For such final
+production runs the acceleration option is strongly recommended.
+.le
+.ls decon = "" [string]
+The name for the output deconvolved image.
+If this task is being used for normal, or multiple image, restoration this 
+will be the image of interest. It is the result of applying a standard 
+Lucy-Richardson restoration on the data. If this string is set to null   
+no image will be produced, this may be useful if you are primarily interested
+in the co-added images.
+.le
+.ls coaddr = "" [string]
+The root name for the output coadded images. There will be one of these 
+for each input image. They are obtained by convolving the final restored 
+image with each of the PSFs. The names are created by appending '_1','_2' 
+etc to this root name string. If this parameter is null no coadded images
+will be produced - this may be useful if you are mainly using the task to
+do image restoration rather than coaddition.
+.le
+.ls verbose = "yes" [boolean]
+Whether or not to give frequent information about the progress of the 
+processing.  If this is switched on quite a lot of diagnostics are given, 
+when it is off none at all. It is recommended that this be switched on, 
+particularly when using the acceleration option.
+.le
+.ls accel = "yes" [boolean]
+Whether or not to use the accelerated algorithm. In this case the 
+correction factor which is applied to the restored image at each iteration 
+is multiplied by a number.  This number is such that the increase in 
+likelihood is maximised within the contraint of non-negativity. It is 
+typically between 1 and 10 and leads to considerably faster
+restoration in most cases. This option is recommended and causes only a small
+increase in the time taken for each iteration.
+.le
+.ls xsubsam = 1 [integer]
+The sub-sampling factor in X. See the examples below for an explanation
+of how sub-sampled restoration may be performed.
+.le
+.ls ysubsam = 1 [integer]
+The sub-sampling factor in Y. See the examples below for an explanation
+of how sub-sampled restoration may be performed.
+.le
+.ls firstim = "" [string]
+This option may be used to start the processing from a known initial guess, 
+or continue processing to further iterations.
+If this is not specified (ie, set to null) the initial guess will be a 
+flat image with the same total flux as the sum of the input images.
+.le
+.ls maskim = "" [string]
+The optional name of an image which acts as a data quality mask. If this
+image is zero at a given point the data at that point will be ignored, if
+it is one it will be used. Note that it is a binary mask, not a weighting
+array. If this is not specified (ie, set to null) the entire image will
+assumed to be valid data.
+.ih
+EXAMPLES
+1. Simple use of this task to do Lucy deconvolution. If the image is 'cena' and
+the PSF is 'psf' the result of 20 iterations can be created as 'cena_dc_20' as 
+follows:
+
+cl> acoadd cena psf 20 cena_dc_20 " "
+
+2. Continue this restoration to another 20 iterations.
+
+cl> acoadd cena psf 20 cena_dc_40 " " firstim=cena_dc_20
+
+3. Coaddition of two frames with acceleration (the default). 
+   If the input frames are 
+'cena' and 'cenb' and the matching PSF images are 'psfa' and 'psfb' 
+then they may be co-added using the command:
+
+cl> acoadd cena,cenb psfa,psfb 20 " " cena_ca 
+
+In this case no output deconvolved image will be produced 
+and the co-added images will be 'cena_ca_1' and 'cena_ca_2'. The 
+acceleration and verbose options will be selected by default.
+
+4. Restoration of a single image with sub-sampling. There are often 
+advantages to creating the restored image on a finer grid than the input 
+data. This application may do such restoration if the PSF is available 
+on a finer grid. The steps in the processing would be:
+
+a) Obtain the PSF on a fine grid. Let's say the PSF on the fine grid is sampled
+   twice as often in X and Y as the original data image and is called 'psfsub'.
+
+b) Block up the data image onto the fine grid by pixel replication. This may be
+   done using a command like:
+
+im> blkrep cena cenasub 2 2
+
+   The image 'cenasub' is then on the fine grid (and is twice the size in 
+X and Y).
+
+c) Do the restoration onto a fine grid:
+
+cl> acoadd cenasub psfsub 20 deconsub  " " xsubsam=2 ysubsam=2 
+.le   
+.ih
+TIMINGS
+Typical timings are 10s per iteration for a single 512 by 512 frame on a 
+SPARC Ultra 1/143MHz using the acceleration option, sub-sampling
+but no data quality mask.
+.ih
+BUGS
+
+.nf
+1. The images must have dimensions which are multiples of two.
+
+2. The use of double precision arithmetic throughout makes this task
+   slightly slower than single precision implementations on many machines.
+
+3. A large amount of memory is used and this may limit the array sizes
+   and numbers of arrays which may be handled.
+
+4. World coordinate systems are ignored.
+.fi
+.ih
+SEE ALSO
+The 'stsdas.analysis.restore' package, 'stsdas.contrib.plucy' and
+the 'dither' package in STSDAS..
+
+.ih
+REFERENCES
+
+Further information may be found in the following references:
+
+.nf
+Adorf, H-M., Hook, R.N., Lucy, L.B. & Murtagh F.M., in Proceedings of the
+    4th ESO/ST-ECF Data Analysis Workshop, Garching, May 1992, p99
+
+    [details of acceleration algorithms]
+
+Hook, R.N. & Lucy L.B., in Proceedings of the Conference `Science with
+    the Hubble Space Telescope', Sardinia, 1992
+
+    [some applications]
+
+Lucy, L.B. & Baade, D., in Proceedings of the 1st ESO/ST-ECF Data
+    Analysis Workshop, Garching, April 1989, p219
+
+    [subsampling discussion]
+
+Lucy, L.B. 1991, ST-ECF Newsletter 16, 6
+
+    [original co-adding description]
+
+Lucy, L.B., Hook, R.N. 1992, in Proceedings of the 1st Annual
+    Conference on Astronomical Data Analysis Software and Systems, Tucson,
+    November 1991, p277
+
+    [more detailed description of the method]
+
+Hook, R.N. & Lucy L.B., 1992, ST-ECF Newsletter 17, p10
+
+    [applications to some real data]
+
+Hook, R.N. & Lucy L.B., 1993, ST-ECF Newsletter 19, p6
+
+    [some new bells and whistles]
+
+Hook, R.N., 1995, ST-ECF Newsletter 22, p16
+
+    [applications to combining sub-stepped WFPC2 data]
+.fi
+.endhelp

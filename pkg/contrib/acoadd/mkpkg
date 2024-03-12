@@ -1,0 +1,40 @@
+# Image COADDITION task - from Richard Hook, ST-ECF
+#
+# This file updated for V1.0, June 1992
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	acoadd.a
+	$update	plucy.a
+	$call	acoadd
+	;
+
+install:
+	$move	xx_acoadd.e stsdasbin$x_acoadd.e
+	$move	xx_plucy.e stsdasbin$x_plucy.e
+	;
+
+acoadd:
+	$omake	x_acoadd.x
+	$omake	x_plucy.x
+	$link	x_acoadd.o acoadd.a -liraf77 -o xx_acoadd.e
+	$link	x_plucy.o plucy.a -liraf77 -o xx_plucy.e
+	;
+
+acoadd.a:
+	acoadd.f
+	fftetc.f
+	timtem.x
+	;
+plucy.a:
+	plucy.f
+	fftetc.f
+	timtem.x
+	;

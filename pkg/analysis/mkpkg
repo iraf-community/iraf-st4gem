@@ -18,4 +18,6 @@ $echo "-------------------  FITTING  ------------------------"
 $call @fitting
 $echo "-------------------  FOURIER  ------------------------"
 $call @fourier
+$echo "-------------------  ISOPHOTE  -----------------------"
+$call @isophote
 $exit

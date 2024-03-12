@@ -1,0 +1,1 @@
+xc -p stsdas acoadd.f x_acoadd.x timtem.x fftetc.f /usr/server/stsdas/lib/libiraf77.a

@@ -1,0 +1,117 @@
+June 26, 1995
+
+	Several new features have been added to the latest update of Specfit,
+version 8.0.  The new features focus on making Specfit easier to use and also
+give it some extra power.  Hope you find the new capabilities useful.
+
+MAJOR CHANGES TO SPECFIT
+
+1.  Inserting new components into the fit database can now be done while
+	in specfit`s interactive mode.  Previously you had to quit and 
+	then rerun specfit to add a whole new component.  Deleting 
+	components in the interactive mode is also now possible.
+2.  A new minimization routine has been added called numrecipe.  Normally this
+	function has been found to be both faster and more effective than
+	the old marquadt and simplex routines.  It based on the numrecipe
+	routines in the iraf libraries (xtools$numrecipes.x).  This is the
+	recommended minimization method.
+3.  Now when you press ^C while in specfit it will output the current status
+	of the fit values to the final fit database file.  Then, as 
+	previously, it will exit specfit.  This will also work with some forms 
+	of the kill function.  For example typing "kill pid" will save the
+	database file before exiting but "kill -9 pid" will exit without 
+	saving the database file.   
+4.  We think Specfit will now compile on VMS systems. (But how well it works 
+	is unknown.)
+5.  In the interactive mode you can now specify which components you would
+	like to see plotted.  
+6.  Four new fitting functions called tauabs, extdrude, ccmext, disk,
+	and ffree have been added.  See the specfit help file for more details.
+7.  Specfit will now read both imh and hhh files, in addition to the standard
+	ascii format.  Specfit will first look to see if a file exists that
+	has the exact same filename that you entered.  If that doesn't exist
+	it will add the iraf variable imtype to the end of the filename and 
+	see if that file exists.
+8.  Specfit's memory requirements have been reduced.
+9.  A grid-search fitting algorithm has been added.  It can be run in 
+	noninteractive mode only, however.  This algorithmn systematically 
+	runs through a variety of values for either one or two parameters 
+	and then calls one of the other fitting routines like numrecipes or 
+	simplex to optimize the remaining free parameters.  It keeps the best
+	fit and then outputs the whole grid to the log files. 
+
+NEW TASKS
+
+1.  In addition to the main task, specfit, two others have been added 
+	to create a specfit package.  'dbcreate' is an iraf task that 
+	simplifies creating a specfit database file.
+2.  'dbcheck' will look at your database files and check to see that they
+	are formatted correctly, can be read properly by specfit, and
+	do not can contain any inconsistencies in the data.
+
+MINOR CHANGES TO SPECFIT
+
+1.  Pressing 'G' in the interactive mode will list the names of the component
+	types.
+2.  When you insert a new component you will, of course, be asked for the 
+	component's parameter values, step sizes, upper bounds, lower bounds,
+	and fix/free status.  The default step sizes, lower bounds, and
+	upper bounds are calculated by multiplying the relevant parameter by
+	x.  By default x = 10 for upper bounds, x = .1 for lower bounds, and
+	x = .001 for step sizes.  You can, however,change the x values as they
+	are defined in the parameter files.
+3.  In Interactive Mode when changing parameter values, the  default is to use
+	the old value.  So if you decide you don't want to change the value 
+	just press return and the old value will be retained.
+4.  In interactive mode when you enter a component number that is more than
+	the number of components actually present it will work as if you had
+	entered the number of the last component.
+5.  A problem with the Simplex algorithm has been fixed which caused it to
+	get stuck at a non-minimal value for chi-square.
+6.  Several improvements in error reporting have been made.
+7.  All user-supplied models ignore lines beginning with '#' in the input 
+	files.
+8.  Usercont, userline, and userabs figure out which model has the most
+	number of points and allocate storage based on that rather than relying
+	on the first model to have the most points in it.
+9.  Added a new algorithm to calculate Julian dates.  It is more general and 
+	should work for any year after 1900.
+10.  Changed the command 'e' in interactive mode to output additional 
+	information about the fit, not just the chi-square.
+11.  Added capability to put comments in the database file that will be 
+	outputted in the final database file.  These comments can be placed 
+	on the lines that hold the name of the component and the number of 
+	parameters to that component.  For example your line could look like
+
+	gaussian3 	4 #This component fits the spectral component...
+	
+	Note:  You must preface the comment with the '#' symbol.
+12.  The output database files now have fixed-width fields for the parameters
+	to keep things lined up and make editing a bit easier.
+12.  The directory location of the specfit.key file is now entered as
+	a parameter and is no longer hard coded into the program.
+13.  Several minor bug fixes have been made. 
+14.  Specfit can now handle real valued numbers for the sample ranges.
+	Previously only integer values were used.  For example, 3500.3-3600.9
+	would have previously been interpreted as 3500-3600.  Now it will
+	read the full floating point value.  This is useful for high-resolution
+	data.
+
+KNOWN DIFFICULTIES/PROBLEMS
+
+1.  The interrupt handler normally outputs telling the user that it has
+	saved the final fit values in a database.  Sometimes however you 
+	will not see the message but it will output the final fit anyway.
+
+Thanks to
+
+	Knox Long, Harry Ferguson, Van Dixon, and other members of the HUT
+	team for suggested improvements;
+	Jeff Odom and many HUT team members for beta testing.
+
+Suggestions for more improvements are welcome, but a new release is not expected
+until late in 1995.
+
+						-- Jerry Kriss (gak@pha.jhu.edu)
+						and
+						   John Grimes (reaper@jhu.edu)

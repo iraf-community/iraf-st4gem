@@ -1,0 +1,6 @@
+        specfit - Fitting spectra with non-linear chi-square minimization
+        dbcheck - Check format of specfit database files
+       dbcreate - Task for interactively creating specfit database files
+
+(Type "help spfitpkg opt=sys" for more information about the spfitpkg package).
+
