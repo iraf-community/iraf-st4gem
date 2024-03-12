@@ -30,7 +30,6 @@ string  extraopt  "|neither|first|both|"
 string	badextra  "Illegal value for extrarows"
 string	badjnum   "Number of join columns do not match"
 string	badtolnum "Number of tolereances and join columns do not match"
-string	badcolnam "Column name not found in table (%s)"
 
 bool	clgetb()
 int	strdic()

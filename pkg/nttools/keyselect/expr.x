@@ -17,7 +17,6 @@ include	"keyselect.com"
 pointer	op, sp, errmsg
 
 string	badtype  "Expression is not of boolean type"
-string	badname  "Warning: header keyword %s not found in %s\n"
 
 int	errget()
 pointer	evexpr(), locpr()

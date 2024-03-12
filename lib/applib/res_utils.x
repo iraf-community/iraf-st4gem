@@ -44,8 +44,8 @@ pointer	xcoord			# o: pointer to x coord array
 pointer	ycoord			# o: pointer to y coord array
 #--
 
-pointer	rlist, tbtopn(), tp, respt
-pointer	txcoord, tycoord, tcoord, xnull, ynull, nullpt, colptr[2]
+pointer	tbtopn(), tp
+pointer	txcoord, tycoord, tcoord, xnull, ynull, colptr[2]
 long	npts, nres, i
 int	nrows, ncols, tbpsta()
 char	col[SZ_COLNAME, 2]

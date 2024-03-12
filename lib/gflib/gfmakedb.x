@@ -8,12 +8,11 @@ procedure gf_make_db (im, db)
 pointer	im		# i: image descriptor
 pointer	db		# o: database descriptor
 #--
-char	nl, eq
+char	nl
 int	ic, jc, nc, ikey, nkey, line_len, db_len
 pointer	sp, ua, keyword
 
 data	nl  / '\n' /
-data	eq  / '=' /
 
 int	stridx()
 int	gf_inithash(), gf_imtype(), gi_gstfval(), gi_ggpn()

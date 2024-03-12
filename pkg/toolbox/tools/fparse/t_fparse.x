@@ -37,7 +37,7 @@ pointer root                    # Rootname.
 pointer section                 # Section.
 pointer sp                      # Stack pointer.
 
-string  wildcards       "*?"
+#string  wildcards       "*?"
 
 # Function prototypes.
 int     strlen()

@@ -34,7 +34,6 @@ int	stat			# status from read operation
 int	read()
 int	tbalen()
 
-long	note()
 errchk	seek, read
 
 begin

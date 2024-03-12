@@ -31,9 +31,9 @@ pointer	rcode		# Pointer to QPOE code for row selector
 pointer cdp, x
 bool	done
 
-string	ambiguous  "More than one row matches in file"
-string	badtype    "Unrecognized input datatype"
-string	badsize    "All arrays are not the same length"
+#string	ambiguous  "More than one row matches in file"
+#string	badtype    "Unrecognized input datatype"
+#string	badsize    "All arrays are not the same length"
 
 bool	trseval()
 int	tbpsta()

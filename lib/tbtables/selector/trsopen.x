@@ -358,7 +358,6 @@ int	nc, ic, index, delta, size
 
 pointer	sp, token, ptr, valbuf
 
-string	notnum   "not a number"
 string	noroom   "expression too complex"
 string	nostop   "trailing quote not found"
 
