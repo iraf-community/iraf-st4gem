@@ -24,8 +24,7 @@ bool    perim                   # I:  draw perimeter
 
 real  xcen, ycen, x, y
 real  aspect_ratio
-real  x1, x2, y1, y2, ext, xdis, ydis
-data    ext /0.0625/
+real  x1, x2, y1, y2, xdis, ydis
 real  ggetr()
 
 begin
