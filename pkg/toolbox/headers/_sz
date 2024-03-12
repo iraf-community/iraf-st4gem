@@ -1,2 +1,0 @@
-./hdiff/hdiff.x:		len1 = IM_LENHDRMEM(im1) * SZ_STRUCT
-./hdiff/hdiff.x:		len2 = IM_LENHDRMEM(im2) * SZ_STRUCT
