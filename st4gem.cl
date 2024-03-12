@@ -6,6 +6,7 @@ cl < "st4gem$/lib/zzsetenv.def"
 package	st4gem, bin = st4gembin$
 
 task	analysis.pkg	= "analysis$analysis.cl"
+task	contrib.pkg	= "contrib$contrib.cl"
 task	graphics.pkg	= "graphics$graphics.cl"
 task	toolbox.pkg	= "toolbox$toolbox.cl"
 

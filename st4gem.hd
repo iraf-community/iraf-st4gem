@@ -1,6 +1,7 @@
 st4gem		hlp="st4gem$st4gem.men"
 
 $analysis	= "./pkg/analysis/"
+$contrib	= "./pkg/contrib/"
 $graphics	= "./pkg/graphics/"
 $toolbox	= "./pkg/toolbox/"
 
@@ -9,6 +10,12 @@ analysis	men = analysis$analysis.men,
 		sys = analysis$analysis.hlp,
 		pkg = analysis$analysis.hd,
 		src = analysis$analysis.cl
+
+contrib	        men = contrib$contrib.men,
+		hlp = ..,
+		sys = contrib$contrib.hlp,
+		pkg = contrib$contrib.hd,
+		src = contrib$contrib.cl
 
 graphics	men = graphics$graphics.men,
 		hlp = ..,

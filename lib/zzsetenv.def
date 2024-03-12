@@ -6,6 +6,7 @@ set	st4gemlib	= "st4gem$lib/"
 set	st4gempkg	= "st4gem$pkg/"
 
 set	analysis	= "st4gempkg$analysis/"
+set	contrib	        = "st4gempkg$contrib/"
 set	graphics	= "st4gempkg$graphics/"
 set	toolbox		= "st4gempkg$toolbox/"
 

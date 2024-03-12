@@ -1,5 +1,6 @@
 Space Telescope Science Data Analysis Software Package Tasks
 
   analysis - Data analysis packages.
+   contrib - Contributed software.
   graphics - Graphics and image display packages.
    toolbox - General tools packages.
