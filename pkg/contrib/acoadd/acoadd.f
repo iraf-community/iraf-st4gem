@@ -1,4 +1,4 @@
-C 	Copyright restrictions apply - see stsdas$copyright.stsdas 
+C 	Copyright restrictions apply - see st4gem$copyright.stsdas 
 C 
       SUBROUTINE ACOADD   !I
 CM    PROGRAM MCOADD      !M

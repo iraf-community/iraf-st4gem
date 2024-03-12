@@ -1,4 +1,4 @@
-# Copyright restrictions apply - see stsdas$copyright.stsdas 
+# Copyright restrictions apply - see st4gem$copyright.stsdas 
 # 
 include	<error.h>
 include	<gio.h>

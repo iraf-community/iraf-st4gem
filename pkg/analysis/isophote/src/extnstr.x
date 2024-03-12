@@ -1,4 +1,4 @@
-# Copyright restrictions apply - see stsdas$copyright.stsdas 
+# Copyright restrictions apply - see st4gem$copyright.stsdas 
 # 
 # EXTNSTR -- Extracts n-th substring from dictionary list. The same
 # format is used as in strdic.

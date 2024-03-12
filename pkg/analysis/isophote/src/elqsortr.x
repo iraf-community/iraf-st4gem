@@ -1,4 +1,4 @@
-# Copyright restrictions apply - see stsdas$copyright.stsdas 
+# Copyright restrictions apply - see st4gem$copyright.stsdas 
 # 
 define	LOGPTR 	20			# log2(maxpts)  (1e6)
 

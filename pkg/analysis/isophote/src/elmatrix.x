@@ -1,4 +1,4 @@
-# Copyright restrictions apply - see stsdas$copyright.stsdas 
+# Copyright restrictions apply - see st4gem$copyright.stsdas 
 # 
 define	FIK		Memi[ik+$1-1]
 define	FJK		Memi[jk+$1-1]
