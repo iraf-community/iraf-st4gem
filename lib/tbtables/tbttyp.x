@@ -92,7 +92,7 @@ string	naxis    "NAXIS   =                "
 # These are used for checking for an STSDAS binary table.
 int	i_sizinfo[LEN_SIZINFO]	# size information record
 char	c_sizinfo[SZ_SIZINFO * 8]
-char    cache[SZ_FNAME], extn[SZ_FNAME]
+char    cache[SZ_FNAME], src[SZ_FNAME], extn[SZ_FNAME]
 
 equivalence (i_sizinfo[1], c_sizinfo[1])
 int	b_sizinfo[LEN_SIZINFO]	# byte-swapped size information record
