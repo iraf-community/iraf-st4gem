@@ -22,7 +22,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
+
+#if defined(unix) || defined(__unix__)  || defined(__unix) || defined(HAVE_UNISTD_H)
+#include <unistd.h> 
+#endif
 
 
 static int shared_kbase = 0;                    /* base for shared memory handles */
@@ -187,7 +190,7 @@ int     shared_init(int debug_msgs)             /* initialize shared memory stuf
 
    if (SHARED_INVALID == shared_fd)             /* create rw locking file (this file is never deleted) */
      { if (shared_debug) printf(" lockfileinit=");
-       sprintf(buf, "%s.%d.%d", SHARED_FDNAME, shared_kbase, shared_maxseg);
+       snprintf(buf, 1000,"%s.%d.%d", SHARED_FDNAME, shared_kbase, shared_maxseg);
        oldumask = umask(0);
 
        shared_fd = open(buf, O_TRUNC | O_EXCL | O_CREAT | O_RDWR, shared_create_mode);
@@ -735,6 +738,23 @@ int     shared_list(int id)
    return(r);                                           /* table full */
  }
 
+int     shared_getaddr(int id, char **address)
+ { int i;
+   char segname[10];
+
+   if (NULL == shared_gt) return(SHARED_NOTINIT);       /* not initialized */
+   if (NULL == shared_lt) return(SHARED_NOTINIT);       /* not initialized */
+ 
+   strcpy(segname,"h");
+   snprintf(segname+1,9,"%d", id);
+ 
+   if (smem_open(segname,0,&i)) return(SHARED_BADARG);
+ 
+   *address = ((char *)(((DAL_SHM_SEGHEAD *)(shared_lt[i].p + 1)) + 1));
+ /*  smem_close(i); */
+   return(SHARED_OK);
+ }
+
 
 int     shared_uncond_delete(int id)
  { int i, r;
@@ -890,11 +910,11 @@ int     smem_remove(char *filename)
    return(smem_close(h));                       /* detach segment (this will delete it) */
  }
 
-int     smem_size(int driverhandle, OFF_T *size)
+int     smem_size(int driverhandle, LONGLONG *size)
  {
    if (NULL == size) return(SHARED_NULPTR);
    if (shared_check_locked_index(driverhandle)) return(SHARED_INVALID);
-   *size = (OFF_T) (shared_gt[driverhandle].size - sizeof(DAL_SHM_SEGHEAD));
+   *size = (LONGLONG) (shared_gt[driverhandle].size - sizeof(DAL_SHM_SEGHEAD));
    return(0);
  }
 
@@ -904,7 +924,7 @@ int     smem_flush(int driverhandle)
    return(0);
  }
 
-int     smem_seek(int driverhandle, OFF_T offset)
+int     smem_seek(int driverhandle, LONGLONG offset)
  {
    if (offset < 0) return(SHARED_BADARG);
    if (shared_check_locked_index(driverhandle)) return(SHARED_INVALID);

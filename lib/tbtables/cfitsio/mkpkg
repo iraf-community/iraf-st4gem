@@ -9,6 +9,7 @@ libtbtables.a:
 	compress.c
 	drvrfile.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	drvrmem.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
+	drvrnet.c	fitsio2.h
 	editcol.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	edithdu.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	eval_f.c	eval_defs.h fitsio2.h fitsio.h longnam.h drvrsmem.h \
@@ -18,6 +19,8 @@ libtbtables.a:
 	eval_y.c	eval_defs.h fitsio2.h fitsio.h longnam.h drvrsmem.h \
 				region.h
 	fitscore.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
+	fits_hcompress.c	fitsio2.h
+	fits_hdecompress.c	fitsio2.h
 	getcol.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	getcolb.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	getcold.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
@@ -56,11 +59,11 @@ libtbtables.a:
 	putkey.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	quantize.c	fitsio2.h fitsio.h longnam.h
 	region.c	fitsio2.h fitsio.h longnam.h drvrsmem.h region.h
-	ricecomp.c	ricecomp.h fitsio2.h fitsio.h longnam.h
+	ricecomp.c	fitsio2.h fitsio.h longnam.h
 	scalnull.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
+	simplerng.c
 	swapproc.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
 	wcsutil.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
-$ifeq (MACH, _alpha)
 	wcssub.c	fitsio2.h fitsio.h longnam.h drvrsmem.h
-$endif
+	zuncompress.c
 	;

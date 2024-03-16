@@ -1,6 +1,5 @@
 #
 # Makefile for cfitsio library:
-#       libcfits.a
 #
 # Oct-96 : original version by 
 #
@@ -16,32 +15,51 @@
 # and putcol* in SOURCES, modified OBJECTS, mv changed to /bin/mv
 # (to bypass aliasing), cp changed to /bin/cp, add smem and
 # testprog targets. See also changes and comments in configure.in
-#
 
-CFITSIO_LIB =	@CFITSIO_PREFIX@/lib
-CFITSIO_INCLUDE =	@CFITSIO_PREFIX@/include
+
+# Default library name:
+PACKAGE		= cfitsio
+
+# CFITSIO version numbers:
+CFITSIO_MAJOR   = @CFITSIO_MAJOR@
+CFITSIO_MINOR	= @CFITSIO_MINOR@
+CFITSIO_MICRO   = @CFITSIO_MICRO@
+CFITSIO_SONAME	= @CFITSIO_SONAME@
+
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+DESTDIR		=
+CFITSIO_BIN	= ${DESTDIR}@bindir@
+CFITSIO_LIB	= ${DESTDIR}@libdir@
+CFITSIO_INCLUDE	= ${DESTDIR}@includedir@
+INSTALL_DIRS	= ${DESTDIR}@INSTALL_ROOT@ ${CFITSIO_INCLUDE} ${CFITSIO_LIB} ${CFITSIO_LIB}/pkgconfig
+
 
 SHELL =		/bin/sh
+ARCHIVE =	@ARCHIVE@
 RANLIB =	@RANLIB@
 CC =		@CC@
 CFLAGS =	@CFLAGS@
+CPPFLAGS =	@CPPFLAGS@
+SSE_FLAGS =	@SSE_FLAGS@
 FC =		@FC@
-LDFLAGS =	$(CFLAGS)
+LDFLAGS =	@LDFLAGS@
+LDFLAGS_BIN =	@LDFLAGS_BIN@
 DEFS =		@DEFS@
 LIBS =		@LIBS@
+LIBS_CURL =	@LIBS_CURL@
 FLEX =		flex
 BISON =		bison
 
 SHLIB_LD =	@SHLIB_LD@
 SHLIB_SUFFIX =	@SHLIB_SUFFIX@
+CFITSIO_SHLIB =	@CFITSIO_SHLIB@
+CFITSIO_SHLIB_SONAME = @CFITSIO_SHLIB_SONAME@
 
-.c.o:
-		$(CC) -c $(CFLAGS) $(DEFS) $<
 
-
-CORE_SOURCES = 	buffers.c cfileio.c checksum.c compress.c drvrfile.c drvrmem.c \
-		drvrnet.c drvrsmem.c editcol.c edithdu.c eval_l.c eval_y.c \
-		eval_f.c fitscore.c getcol.c getcolb.c getcold.c getcole.c \
+CORE_SOURCES = 	buffers.c cfileio.c checksum.c drvrfile.c drvrmem.c \
+		drvrnet.c drvrsmem.c editcol.c edithdu.c eval_l.c \
+		eval_y.c eval_f.c fitscore.c getcol.c getcolb.c getcold.c getcole.c \
 		getcoli.c getcolj.c getcolk.c getcoll.c getcols.c getcolsb.c \
 		getcoluk.c getcolui.c getcoluj.c getkey.c group.c grparser.c \
 		histo.c iraffits.c \
@@ -49,13 +67,16 @@ CORE_SOURCES = 	buffers.c cfileio.c checksum.c compress.c drvrfile.c drvrmem.c \
 		putcolj.c putcolk.c putcoluk.c putcoll.c putcols.c putcolsb.c \
 		putcolu.c putcolui.c putcoluj.c putkey.c region.c scalnull.c \
 		swapproc.c wcssub.c wcsutil.c imcompress.c quantize.c ricecomp.c \
-		pliocomp.c
+		pliocomp.c fits_hcompress.c fits_hdecompress.c \
+		simplerng.c @GSIFTP_SRC@
 
-SOURCES = ${CORE_SOURCES} @F77_WRAPPERS@
+ZLIB_SOURCES =	zcompress.c zuncompress.c
+
+SOURCES = ${CORE_SOURCES} ${ZLIB_SOURCES} @F77_WRAPPERS@
 
 OBJECTS = 	${SOURCES:.c=.o}
 
-CORE_OBJECTS = 	${CORE_SOURCES:.c=.o}
+CORE_OBJECTS = 	${CORE_SOURCES:.c=.o} ${ZLIB_SOURCES:.c=.o}
 
 
 FITSIO_SRC =	f77_wrap1.c f77_wrap2.c f77_wrap3.c f77_wrap4.c
@@ -73,73 +94,140 @@ all:
 all-nofitsio:
 		${MAKE} stand_alone "FITSIO_SRC="
 
-stand_alone:	libcfitsio.a
+stand_alone:	lib${PACKAGE}.a shared
 
-libcfitsio.a:	${OBJECTS}
-		ar rv libcfitsio.a ${OBJECTS}; \
-		${RANLIB} libcfitsio.a;
+lib${PACKAGE}.a:	${OBJECTS}
+		${ARCHIVE} $@ ${OBJECTS}; \
+		${RANLIB} $@;
 
-shared: libcfitsio${SHLIB_SUFFIX}
+shared: lib${PACKAGE}${SHLIB_SUFFIX}
 
-libcfitsio${SHLIB_SUFFIX}: ${OBJECTS}
-		${SHLIB_LD} -o $@ ${OBJECTS}
+lib${PACKAGE}${SHLIB_SUFFIX}: ${OBJECTS}
+		${SHLIB_LD} ${LDFLAGS} -o ${CFITSIO_SHLIB} ${OBJECTS} -lm ${LIBS_CURL} ${LIBS}
+		@if [ "x${CFITSIO_SHLIB_SONAME}" != x ]; then \
+			ln -sf ${CFITSIO_SHLIB} ${CFITSIO_SHLIB_SONAME}; \
+			ln -sf ${CFITSIO_SHLIB_SONAME} $@; \
+		fi
 
-install:	libcfitsio.a ${CFITSIO_LIB} ${CFITSIO_INCLUDE}
-		@if [ -f libcfitsio.a ]; then \
-			/bin/mv libcfitsio.a ${CFITSIO_LIB}; \
-		fi; \
-		if [ -f libcfitsio${SHLIB_SUFFIX} ]; then \
-			/bin/mv libcfitsio${SHLIB_SUFFIX} ${CFITSIO_LIB}; \
-		fi; \
-		/bin/cp fitsio.h fitsio2.h longnam.h drvrsmem.h ${CFITSIO_INCLUDE}/
+install:	lib${PACKAGE}.a ${INSTALL_DIRS}
+		@for lib in lib${PACKAGE}.a lib${PACKAGE}${SHLIB_SUFFIX} \
+				${CFITSIO_SHLIB} ${CFITSIO_SHLIB_SONAME}; do \
+		    if [ -f $$lib ]; then \
+			echo "/bin/rm -f ${CFITSIO_LIB}/$$lib"; \
+			/bin/rm -f ${CFITSIO_LIB}/$$lib; \
+			echo "/bin/cp -a $$lib ${CFITSIO_LIB}"; \
+			/bin/cp -a $$lib ${CFITSIO_LIB}; \
+		    fi; \
+		done
+		/bin/cp fitsio.h fitsio2.h longnam.h drvrsmem.h ${CFITSIO_INCLUDE}
+		/bin/cp cfitsio.pc ${CFITSIO_LIB}/pkgconfig
+		@for task in ${FPACK_UTILS} ${UTILS}; do \
+		    if [ -f $$task ]; then \
+			if [ ! -d ${CFITSIO_BIN} ]; then mkdir -p ${CFITSIO_BIN}; fi; \
+			echo "/bin/cp $$task ${CFITSIO_BIN}"; \
+			/bin/cp $$task ${CFITSIO_BIN}; \
+		    fi; \
+		done
 
-smem:		smem.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o smem smem.o -L. -lcfitsio -lm
+%.o: %.c
+		${CC} -c -I. -o ${<D}/${@F} ${CFLAGS} ${CPPFLAGS} ${DEFS} $<
 
-testprog:	testprog.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o testprog testprog.o -L. -lcfitsio -lm ${LIBS}
+swapproc.o:	swapproc.c
+		${CC} -c ${CFLAGS} ${CPPFLAGS} ${SSE_FLAGS} ${DEFS} $<
 
-fitscopy:	fitscopy.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o fitscopy fitscopy.o -L. -lcfitsio -lm ${LIBS}
+# UTILITIES: =============================================================
 
-speed:		speed.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o speed speed.o -L. -lcfitsio -lm ${LIBS}
+FPACK_UTILS	= fpack funpack
 
-imcopy:		imcopy.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o imcopy imcopy.o -L. -lcfitsio -lm ${LIBS}
+UTILS		= cookbook fitscopy imcopy smem speed testprog fitsverify
 
-listhead:	listhead.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o listhead listhead.o -L. -lcfitsio -lm ${LIBS}
+# Optional build target:
+utils:		${FPACK_UTILS} ${UTILS}
 
-cookbook:	cookbook.o libcfitsio.a ${OBJECTS}
-		${CC} $(CFLAGS) $(DEFS) -o cookbook cookbook.o -L. -lcfitsio -lm ${LIBS}
+FVERIFY_SRC	= utilities/ftverify.c utilities/fvrf_data.c \
+		  utilities/fvrf_file.c utilities/fvrf_head.c \
+		  utilities/fvrf_key.c utilities/fvrf_misc.c
 
+FVERIFY_OBJ	= ${FVERIFY_SRC:.c=.o}
+
+utilities/ftverify.o: utilities/ftverify.c
+		${CC} -c -I. -I./utilities -DSTANDALONE $< -o $@
+
+utilities/fvrf_data.o: utilities/fvrf_data.c
+		${CC} -c -I. -I./utilities -DSTANDALONE $< -o $@
+
+utilities/fvrf_file.o: utilities/fvrf_file.c
+		${CC} -c -I. -I./utilities -DSTANDALONE $< -o $@
+
+utilities/fvrf_head.o: utilities/fvrf_head.c
+		${CC} -c -I. -I./utilities -DSTANDALONE $< -o $@
+
+utilities/fvrf_key.o: utilities/fvrf_key.c
+		${CC} -c -I. -I./utilities -DSTANDALONE $< -o $@
+
+utilities/fvrf_misc.o: utilities/fvrf_misc.c
+		${CC} -c -I. -I./utilities -DSTANDALONE $< -o $@
+
+fitsverify:	lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS} ${FVERIFY_OBJ}
+		${CC} ${LDFLAGS_BIN} -o $@ ${FVERIFY_OBJ} -L. -l${PACKAGE} -lm ${LIBS}
+
+fpack:		utilities/fpack.o utilities/fpackutil.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< utilities/fpackutil.o -L. -l${PACKAGE} -lm ${LIBS}
+
+funpack:	utilities/funpack.o utilities/fpackutil.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< utilities/fpackutil.o -L. -l${PACKAGE} -lm ${LIBS}
+
+smem:		utilities/smem.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< -L. -l${PACKAGE} -lm
+
+testprog:	utilities/testprog.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< -L. -l${PACKAGE} -lm ${LIBS}
+
+fitscopy:	utilities/fitscopy.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< -L. -l${PACKAGE} -lm ${LIBS}
+
+speed:		utilities/speed.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< -L. -l${PACKAGE} -lm ${LIBS}
+
+imcopy:		utilities/imcopy.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< -L. -l${PACKAGE} -lm ${LIBS}
+
+cookbook:	utilities/cookbook.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${CC} ${LDFLAGS_BIN} ${DEFS} -o $@ $< -L. -l${PACKAGE} -lm ${LIBS}
+
+testf77:	utilities/testf77.o lib${PACKAGE}${SHLIB_SUFFIX} ${OBJECTS}
+		${FC} ${LDFLAGS_BIN} -o $@ $< -L. -l${PACKAGE} -lm ${LIBS}
+
+# eval: ==================================================================
+
+# Tested with bison 3.8 and flex 2.6.4
 eval:		# Rebuild eval_* files from flex/bison source
-		$(FLEX) -t eval.l > eval_l.c1
-		/bin/sed -e 's/yy/ff/g' -e 's/YY/FF/g' eval_l.c1 > eval_l.c
-		/bin/rm -f eval_l.c1
-		$(BISON) -d -v -y eval.y
-		/bin/sed -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.c > eval_y.c
-		/bin/sed -e 's/yy/ff/g' -e 's/YY/FF/g' y.tab.h > eval_tab.h
-		/bin/rm -f y.tab.c y.tab.h
+		${FLEX} -o eval_l.c eval.l 
+		${BISON} -o eval_y.c --header=eval_tab.h eval.y
+
+# cleanup: ===============================================================
 
 clean:
-	-	/bin/rm -f *.o libcfitsio.a libcfitsio${SHLIB_SUFFIX} \
-			smem testprog y.output
+	-	/bin/rm -rf *.o zlib/*.o utilities/*.o lib${PACKAGE}* \
+		${FPACK_UTILS} ${UTILS} testf77 \
+		testf77.fit testprog.fit *.dSYM y.output so_locations
 
 distclean:	clean
-	-	/bin/rm -f Makefile config.*
+	-	/bin/rm -f Makefile cfitsio.pc config.log config.status configure.lineno
 
 # Make target which outputs the list of the .o contained in the cfitsio lib
 # usefull to build a single big shared library containing Tcl/Tk and other
-# extensions.  used for the Tcl Plugin. 
+# extensions used for the Tcl Plugin.
 
 cfitsioLibObjs:
 	@echo ${CORE_OBJECTS}
+
+cfitsioLibSrcs:
+	@echo ${SOURCES}
 
 # This target actually builds the objects needed for the lib in the above
 # case
 objs: ${CORE_OBJECTS}
 
-${CFITSIO_LIB} ${CFITSIO_INCLUDE}:
-	@if [ ! -d $@ ]; then mkdir $@; fi
+${INSTALL_DIRS}:
+	@if [ ! -d $@ ]; then mkdir -p $@; fi

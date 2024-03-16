@@ -1,31 +1,55 @@
-To build the CFITSIO library on Mac OS-X systems, follow the
-instructions for Unix platforms given in the CFITSIO User's Reference
-Guide (cfitsio.doc).
+By default, the CFITSIO library will be a "Universal Binary" (i.e.
+32- and 64-bit compatible) under Mac OS X when built in the standard
+way, i.e.
 
-To build the MacOS port on classic Mac OS-9 or earlier:
+- tar xzf cfitsio3370.tar.gz (or whatever version this is)
+- cd cfitsio/
 
-1. Un binhex and unstuff cfitsio_mac.sit.hqx
-2. put CFitsioPPC.mcp in the cfitsio directory.
-2. Load CFitsioPPC.mcp into CodeWarrior Pro 5 and make.
-   This builds the cfitsio library for PPC.  There are also targets for both 
-   the test program and the speed test program.
+- ./configure
+- make
+- make install
 
-To use the MacOS port you can add Cfitsio PPC.lib to your Codewarrior Pro 5
-project.  Note that this only has been tested for the PPC. It probably
-won't work on 68k macs.  Also note that the fortran bindings aren't
-included.  I haven't worked with the codewarrior f2c plugin so I don't know
-how these would work.  If one is interested, please write and I can look
-into this.
+---------------------------------------------------------------------
+To install CFITSIO using MacPorts:
+---------------------------------------------------------------------
 
-bruce.oneel@obs.unige.ch
+If you have MacPorts installed, you may install CFITSIO simply with
+the command
 
-Modifications...
+  $ sudo port install cfitsio +universal
 
-10/22/98:  pwilson@sewanee.gsfc.nasa.gov
-      New files added for project.  Converted to CodeWarrior Pro 3.
-      The speed test program does not run... complains about a missing library?
-11/09/98:  pwilson@sewanee.gsfc.nasa.gov
-      Fixed speed test problem thanks to Tom Andersen.
-07/17/00:  pwilson@milkyway.gsfc.nasa.gov
-      Updated to CodeWarrior Pro 5 and CFITSIO 2.037.
+For more information, please visit:
 
+http://macports.org
+https://trac.macports.org/browser/trunk/dports/science/cfitsio/Portfile
+
+---------------------------------------------------------------------
+To install CFITSIO using Homebrew:
+---------------------------------------------------------------------
+
+If you have Homebrew installed, you may install CFITSIO simply with
+the command
+
+  $ brew install cfitsio
+
+For more information, please visit:
+
+http://brew.sh
+http://brewformulas.org/Cfitsio
+
+---------------------------------------------------------------------
+To build CFITSIO using the XCode GUI:
+---------------------------------------------------------------------
+
+- tar xzf cfitsio3370.tar.gz (or whatever version this is)
+- cd cfitsio/
+
+- Start Xcode and open cfitsio.xcodeproj/project.pbxproj,
+  or just "open" the file from a terminal command line,
+
+   $ open cfitsio.xcodeproj/project.pbxproj
+
+  and this will start up XCode for you.
+
+- Press the Build (or "Play") button in the upper left
+  corner of the GUI.

@@ -11,9 +11,9 @@
 /*--------------------------------------------------------------------------*/
 int ffgcvl( fitsfile *fptr,   /* I - FITS file pointer                       */
             int  colnum,      /* I - number of column to read (1 = 1st col)  */
-            long  firstrow,   /* I - first row to read (1 = 1st row)         */
-            long  firstelem,  /* I - first vector element to read (1 = 1st)  */
-            long  nelem,      /* I - number of values to read                */
+            LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
+            LONGLONG  firstelem,  /* I - first vector element to read (1 = 1st)  */
+            LONGLONG  nelem,      /* I - number of values to read                */
             char  nulval,     /* I - value for null pixels                   */
             char *array,      /* O - array of values                         */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
@@ -34,9 +34,9 @@ int ffgcvl( fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcl(  fitsfile *fptr,   /* I - FITS file pointer                       */
             int  colnum,      /* I - number of column to read (1 = 1st col)  */
-            long  firstrow,   /* I - first row to read (1 = 1st row)         */
-            long  firstelem,  /* I - first vector element to read (1 = 1st)  */
-            long  nelem,      /* I - number of values to read                */
+            LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
+            LONGLONG  firstelem,  /* I - first vector element to read (1 = 1st)  */
+            LONGLONG  nelem,      /* I - number of values to read                */
             char *array,      /* O - array of values                         */
             int  *status)     /* IO - error status                           */
 /*
@@ -57,9 +57,9 @@ int ffgcl(  fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcfl( fitsfile *fptr,   /* I - FITS file pointer                       */
             int  colnum,      /* I - number of column to read (1 = 1st col)  */
-            long  firstrow,   /* I - first row to read (1 = 1st row)         */
-            long  firstelem,  /* I - first vector element to read (1 = 1st)  */
-            long  nelem,      /* I - number of values to read                */
+            LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
+            LONGLONG  firstelem,  /* I - first vector element to read (1 = 1st)  */
+            LONGLONG  nelem,      /* I - number of values to read                */
             char *array,      /* O - array of values                         */
             char *nularray,   /* O - array of flags = 1 if nultyp = 2        */
             int  *anynul,     /* O - set to 1 if any values are null; else 0 */
@@ -78,9 +78,9 @@ int ffgcfl( fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
             int  colnum,      /* I - number of column to read (1 = 1st col)  */
-            long  firstrow,   /* I - first row to read (1 = 1st row)         */
-            OFF_T  firstelem, /* I - first vector element to read (1 = 1st)  */
-            long  nelem,      /* I - number of values to read                */
+            LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
+            LONGLONG  firstelem, /* I - first vector element to read (1 = 1st)  */
+            LONGLONG  nelem,      /* I - number of values to read                */
             int   nultyp,     /* I - null value handling code:               */
                               /*     1: set undefined pixels = nulval        */
                               /*     2: set nularray=1 for undefined pixels  */
@@ -93,10 +93,11 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
   Read an array of logical values from a column in the current FITS HDU.
 */
 {
+    double dtemp;
     int tcode, maxelem, hdutype, ii, nulcheck;
-    long twidth, incre, rownum;
-    long tnull, remain, next, ntodo;
-    OFF_T repeat, startpos, elemnum, readptr, rowlen;
+    long twidth, incre;
+    long ntodo;
+    LONGLONG repeat, startpos, elemnum, readptr, tnull, rowlen, rownum, remain, next;
     double scale, zero;
     char tform[20];
     char message[FLEN_ERRMSG];
@@ -110,12 +111,12 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
        *anynul = 0;
 
     if (nultyp == 2)      
-       memset(nularray, 0, nelem);   /* initialize nullarray */
+       memset(nularray, 0, (size_t) nelem);   /* initialize nullarray */
 
     /*---------------------------------------------------*/
     /*  Check input and get parameters about the column: */
     /*---------------------------------------------------*/
-    if (ffgcpr( fptr, colnum, firstrow, firstelem, nelem, 0, &scale, &zero,
+    if (ffgcprll( fptr, colnum, firstrow, firstelem, nelem, 0, &scale, &zero,
         tform, &twidth, &tcode, &maxelem, &startpos,  &elemnum, &incre,
         &repeat, &rowlen, &hdutype, &tnull, snull, status) > 0)
         return(*status);
@@ -138,7 +139,7 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
     remain = nelem;           /* remaining number of values to read */
     next = 0;                 /* next element in array to be read   */
     rownum = 0;               /* row number, relative to firstrow   */
-    ntodo = remain;           /* max number of elements to read at one time */
+    ntodo = (long) remain;           /* max number of elements to read at one time */
 
     while (ntodo)
     {
@@ -146,8 +147,8 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
          limit the number of pixels to read at one time to the number that
          remain in the current vector.    
       */
-      ntodo = minvalue(ntodo, maxelem);      
-      ntodo = minvalue(ntodo, (repeat - elemnum));
+      ntodo = (long) minvalue(ntodo, maxelem);      
+      ntodo = (long) minvalue(ntodo, (repeat - elemnum));
 
       readptr = startpos + (rowlen * rownum) + (elemnum * incre);
 
@@ -174,15 +175,23 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
         }
         else  /* some other illegal character; return the char value */
         {
-          array[next] = (char) *buffptr;
+          if (*buffptr == 1) {
+            /* this is an unfortunate case where the illegal value is the same
+               as what we set True values to, so set the value to the character '1'
+               instead, which has ASCII value 49.  */
+            array[next] = 49;
+          } else {
+            array[next] = (char) *buffptr;
+          }
         }
       }
 
       if (*status > 0)  /* test for error during previous read operation */
       {
-        sprintf(message,
-          "Error reading elements %ld thruough %ld of logical array (ffgcl).",
-           next+1, next + ntodo);
+	dtemp = (double) next;
+        snprintf(message,FLEN_ERRMSG,
+          "Error reading elements %.0f thruough %.0f of logical array (ffgcl).",
+           dtemp+1., dtemp + ntodo);
         ffpmsg(message);
         return(*status);
       }
@@ -201,7 +210,7 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
             rownum++;
           }
       }
-      ntodo = remain;  /* this is the maximum number to do in next loop */
+      ntodo = (long) remain;  /* this is the maximum number to do in next loop */
 
     }  /*  End of main while Loop  */
 
@@ -210,9 +219,9 @@ int ffgcll( fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcx(  fitsfile *fptr,  /* I - FITS file pointer                       */
             int   colnum,    /* I - number of column to write (1 = 1st col) */
-            long  frow,      /* I - first row to write (1 = 1st row)        */
-            long  fbit,      /* I - first bit to write (1 = 1st)            */
-            long  nbit,      /* I - number of bits to write                 */
+            LONGLONG  frow,      /* I - first row to write (1 = 1st row)        */
+            LONGLONG  fbit,      /* I - first bit to write (1 = 1st)            */
+            LONGLONG  nbit,      /* I - number of bits to write                 */
             char *larray,    /* O - array of logicals corresponding to bits */
             int  *status)    /* IO - error status                           */
 /*
@@ -222,9 +231,9 @@ int ffgcx(  fitsfile *fptr,  /* I - FITS file pointer                       */
   The binary table column being read from must have datatype 'B' or 'X'. 
 */
 {
-    OFF_T bstart;
-    long offset, fbyte, bitloc, ndone;
-    long ii, repeat, rstart, estart;
+    LONGLONG bstart;
+    long offset, ndone, ii, repeat, bitloc, fbyte;
+    LONGLONG  rstart, estart;
     int tcode, descrp;
     unsigned char cbuff;
     static unsigned char onbit[8] = {128,  64,  32,  16,   8,   4,   2,   1};
@@ -250,8 +259,8 @@ int ffgcx(  fitsfile *fptr,  /* I - FITS file pointer                       */
         if ( ffrdef(fptr, status) > 0)               
             return(*status);
 
-    fbyte = (fbit + 7) / 8;
-    bitloc = fbit - 1 - ((fbit - 1) / 8 * 8);
+    fbyte = (long) ((fbit + 7) / 8);
+    bitloc = (long) (fbit - 1 - ((fbit - 1) / 8 * 8));
     ndone = 0;
     rstart = frow - 1;
     estart = fbyte - 1;
@@ -340,8 +349,8 @@ int ffgcx(  fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcxui(fitsfile *fptr,   /* I - FITS file pointer                       */
             int  colnum,      /* I - number of column to read (1 = 1st col)  */
-            long  firstrow,   /* I - first row to read (1 = 1st row)         */
-            long  nrows,      /* I - no. of rows to read                     */
+            LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
+            LONGLONG  nrows,      /* I - no. of rows to read                     */
             long  input_first_bit, /* I - first bit to read (1 = 1st)        */
             int   input_nbits,     /* I - number of bits to read (<= 32)     */
             unsigned short *array, /* O - array of integer values            */
@@ -357,7 +366,7 @@ int ffgcxui(fitsfile *fptr,   /* I - FITS file pointer                       */
     int firstbyte, lastbyte, nbytes, rshift, lshift;
     unsigned short colbyte[5];
     tcolumn *colptr;
-    char message[81];
+    char message[FLEN_ERRMSG];
 
     if (*status > 0 || nrows == 0)
         return(*status);
@@ -365,21 +374,21 @@ int ffgcxui(fitsfile *fptr,   /* I - FITS file pointer                       */
     /*  check input parameters */
     if (firstrow < 1)
     {
-          sprintf(message, "Starting row number is less than 1: %ld (ffgcxui)",
-                firstrow);
+          snprintf(message,FLEN_ERRMSG, "Starting row number is less than 1: %ld (ffgcxui)",
+                (long) firstrow);
           ffpmsg(message);
           return(*status = BAD_ROW_NUM);
     }
     else if (input_first_bit < 1)
     {
-          sprintf(message, "Starting bit number is less than 1: %ld (ffgcxui)",
+          snprintf(message,FLEN_ERRMSG, "Starting bit number is less than 1: %ld (ffgcxui)",
                 input_first_bit);
           ffpmsg(message);
           return(*status = BAD_ELEM_NUM);
     }
     else if (input_nbits > 16)
     {
-          sprintf(message, "Number of bits to read is > 16: %d (ffgcxui)",
+          snprintf(message, FLEN_ERRMSG,"Number of bits to read is > 16: %d (ffgcxui)",
                 input_nbits);
           ffpmsg(message);
           return(*status = BAD_ELEM_NUM);
@@ -402,10 +411,10 @@ int ffgcxui(fitsfile *fptr,   /* I - FITS file pointer                       */
 
     if (colnum > (fptr->Fptr)->tfield)
     {
-      sprintf(message, "Specified column number is out of range: %d (ffgcxui)",
+      snprintf(message, FLEN_ERRMSG,"Specified column number is out of range: %d (ffgcxui)",
                 colnum);
         ffpmsg(message);
-        sprintf(message, "  There are %d columns in this table.",
+        snprintf(message, FLEN_ERRMSG,"  There are %d columns in this table.",
                 (fptr->Fptr)->tfield );
         ffpmsg(message);
 
@@ -477,8 +486,8 @@ int ffgcxui(fitsfile *fptr,   /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffgcxuk(fitsfile *fptr,   /* I - FITS file pointer                       */
             int  colnum,      /* I - number of column to read (1 = 1st col)  */
-            long  firstrow,   /* I - first row to read (1 = 1st row)         */
-            long  nrows,      /* I - no. of rows to read                     */
+            LONGLONG  firstrow,   /* I - first row to read (1 = 1st row)         */
+            LONGLONG  nrows,      /* I - no. of rows to read                     */
             long  input_first_bit, /* I - first bit to read (1 = 1st)        */
             int   input_nbits,     /* I - number of bits to read (<= 32)     */
             unsigned int *array,   /* O - array of integer values            */
@@ -494,7 +503,7 @@ int ffgcxuk(fitsfile *fptr,   /* I - FITS file pointer                       */
     int firstbyte, lastbyte, nbytes, rshift, lshift;
     unsigned int colbyte[5];
     tcolumn *colptr;
-    char message[81];
+    char message[FLEN_ERRMSG];
 
     if (*status > 0 || nrows == 0)
         return(*status);
@@ -502,21 +511,21 @@ int ffgcxuk(fitsfile *fptr,   /* I - FITS file pointer                       */
     /*  check input parameters */
     if (firstrow < 1)
     {
-          sprintf(message, "Starting row number is less than 1: %ld (ffgcxuk)",
-                firstrow);
+          snprintf(message, FLEN_ERRMSG,"Starting row number is less than 1: %ld (ffgcxuk)",
+                (long) firstrow);
           ffpmsg(message);
           return(*status = BAD_ROW_NUM);
     }
     else if (input_first_bit < 1)
     {
-          sprintf(message, "Starting bit number is less than 1: %ld (ffgcxuk)",
+          snprintf(message, FLEN_ERRMSG,"Starting bit number is less than 1: %ld (ffgcxuk)",
                 input_first_bit);
           ffpmsg(message);
           return(*status = BAD_ELEM_NUM);
     }
     else if (input_nbits > 32)
     {
-          sprintf(message, "Number of bits to read is > 32: %d (ffgcxuk)",
+          snprintf(message, FLEN_ERRMSG,"Number of bits to read is > 32: %d (ffgcxuk)",
                 input_nbits);
           ffpmsg(message);
           return(*status = BAD_ELEM_NUM);
@@ -539,10 +548,10 @@ int ffgcxuk(fitsfile *fptr,   /* I - FITS file pointer                       */
 
     if (colnum > (fptr->Fptr)->tfield)
     {
-      sprintf(message, "Specified column number is out of range: %d (ffgcxuk)",
+      snprintf(message, FLEN_ERRMSG,"Specified column number is out of range: %d (ffgcxuk)",
                 colnum);
         ffpmsg(message);
-        sprintf(message, "  There are %d columns in this table.",
+        snprintf(message, FLEN_ERRMSG,"  There are %d columns in this table.",
                 (fptr->Fptr)->tfield );
         ffpmsg(message);
 

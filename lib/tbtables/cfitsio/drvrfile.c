@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "fitsio2.h"
+#include "group.h"  /* needed for fits_get_cwd in file_create */
 
 #if defined(unix) || defined(__unix__)  || defined(__unix)
 #include <pwd.h>         /* needed in file_openfile */
@@ -18,8 +19,22 @@
 
 #endif
 
+#if defined(_WIN32)
+/*
+*  The following #undef is required before the #include <windows.h> 
+*  because the TBYTE definition in fitsio.h conflicts with the usage
+*  of TBYTE as a typedef name in winnt.h.
+*  
+*/ 
+#undef TBYTE
+#include <windows.h>
+#include <malloc.h>
+#endif
+
 #ifdef HAVE_FTRUNCATE
-#include <unistd.h>      /* contains prototype of UNIX file truncate fn  */
+#if defined(unix) || defined(__unix__)  || defined(__unix) || defined(HAVE_UNISTD_H)
+#include <unistd.h>  /* needed for getcwd prototype on unix machines */
+#endif
 #endif
 
 #define IO_SEEK 0        /* last file I/O operation was a seek */
@@ -31,7 +46,7 @@ static char file_outfile[FLEN_FILENAME];
 typedef struct    /* structure containing disk file structure */ 
 {
     FILE *fileptr;
-    OFF_T currentpos;
+    LONGLONG currentpos;
     int last_io_op;
 } diskdriver;
 
@@ -91,15 +106,18 @@ int file_open(char *filename, int rwmode, int *handle)
     {
       /* open the original file, with readonly access */
       status = file_openfile(filename, READONLY, &diskfile);
-      if (status)
+      if (status) {
+        file_outfile[0] = '\0';
         return(status);
- 
+      }
+      
       /* create the output file */
       status =  file_create(file_outfile,handle);
       if (status)
       {
         ffpmsg("Unable to create output file for copy of input file:");
         ffpmsg(file_outfile);
+        file_outfile[0] = '\0';
         return(status);
       }
 
@@ -107,8 +125,10 @@ int file_open(char *filename, int rwmode, int *handle)
       while(0 != (nread = fread(recbuf,1,2880, diskfile)))
       {
         status = file_write(*handle, recbuf, nread);
-        if (status)
+        if (status) {
+	   file_outfile[0] = '\0';
            return(status);
+        }
       }
 
       /* close both files */
@@ -119,7 +139,7 @@ int file_open(char *filename, int rwmode, int *handle)
 
       /* reopen the new copy, with correct rwmode */
       status = file_openfile(file_outfile, rwmode, &diskfile);
-
+      file_outfile[0] = '\0';
     }
     else
     {
@@ -152,10 +172,15 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
    lowest level routine to physically open a disk file
 */
 {
+#if defined(_WIN32)
+    wchar_t mode[4];
+#else
     char mode[4];
+#endif
+
 
 #if defined(unix) || defined(__unix__) || defined(__unix)
-    char tempname[512], *cptr, user[80];
+    char tempname[1024], *cptr, user[80];
     struct passwd *pwd;
     int ii = 0;
 
@@ -169,6 +194,16 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
 
 #endif
 
+#if defined(_WIN32)
+    if (rwmode == READWRITE)
+    {
+        wcscpy(mode, L"r+b");    /* open existing file with read-write */
+    }
+    else
+    {
+        wcscpy(mode, L"rb");     /* open existing file readonly */
+    }
+#else
     if (rwmode == READWRITE)
     {
           strcpy(mode, "r+b");    /* open existing file with read-write */
@@ -177,6 +212,7 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
     {
           strcpy(mode, "rb");     /* open existing file readonly */
     }
+#endif
 
 #if MACHINE == ALPHAVMS || MACHINE == VAXVMS
         /* specify VMS record structure: fixed format, 2880 byte records */
@@ -194,11 +230,17 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
             cptr = getenv("HOME");
             if (cptr)
             {
+                 if (strlen(cptr) + strlen(filename+1) > 1023)
+		      return(FILE_NOT_OPENED); 
+
                  strcpy(tempname, cptr);
                  strcat(tempname, filename+1);
             }
             else
             {
+                 if (strlen(filename) > 1023)
+		      return(FILE_NOT_OPENED); 
+
                  strcpy(tempname, filename);
             }
         }
@@ -218,6 +260,9 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
             pwd = getpwnam(user);
 
             /* copy user's home directory */
+            if (strlen(pwd->pw_dir) + strlen(cptr) > 1023)
+		      return(FILE_NOT_OPENED); 
+
             strcpy(tempname, pwd->pw_dir);
             strcat(tempname, cptr);
         }
@@ -242,6 +287,10 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
            {
               if ((f1 = fopen(filename, "rb")) != 0) /* try opening READONLY */
               {
+
+                 if (strlen(filename) + 7 > 1023)
+		      return(FILE_NOT_OPENED); 
+
                  strcpy(tempname, filename);
                  strcat(tempname, ".TmxFil");
                  if ((f2 = fopen(tempname, "wb")) != 0) /* create temp file */
@@ -278,12 +327,58 @@ int file_openfile(char *filename, int rwmode, FILE **diskfile)
 
     }
 
+#elif defined(_WIN32)
+    /* Windows 
+    * 
+	*  Assume that the input filename is in UTF-8 encoding and convert to UTF-16.
+   	*/
+    {
+        UINT inputCodePage = CP_UTF8;
+        /*
+        *  For UTF-8, dwFlags must be set to either 0 or
+        *  MB_ERR_INVALID_CHARS.
+        */
+        DWORD flags = 0;
+        int outputLength = 0, rc = 0;
+        /*
+        *  Call MultiByteToWideChar with an output buffer size of zero to determine
+        *  how large an output buffer is actually necessary.
+        */
+        outputLength = MultiByteToWideChar(
+            inputCodePage,
+            flags,
+            filename,
+            -1,
+            NULL,
+            0
+        );
+
+        /*
+        *  Actually convert the file name to UTF-16
+        */
+        wchar_t *wideFilename = (wchar_t*)malloc(sizeof(wchar_t) * outputLength);
+
+        rc = MultiByteToWideChar(
+            inputCodePage,
+            flags,
+            filename,
+            -1,
+            wideFilename,
+            outputLength
+        );
+
+        /*
+        *  If the conversion worked, open the file.
+        */
+        if (0 != rc)
+            *diskfile = _wfopen(wideFilename, mode);
+        free(wideFilename);
+    }
 #else
-
     /* other non-UNIX machines */
-    *diskfile = fopen(filename, mode); 
-
+	*diskfile = fopen(filename, mode);
 #endif
+
 
     if (!(*diskfile))           /* couldn't open file */
     {
@@ -296,8 +391,103 @@ int file_create(char *filename, int *handle)
 {
     FILE *diskfile;
     int ii;
+#if defined(_WIN32)
+    wchar_t mode[4];
+#else
     char mode[4];
+#endif
+ 
+    int status = 0, rootlen, rootlen2, slen;
+    char *cptr, *cpos;
+    char cwd[FLEN_FILENAME], absURL[FLEN_FILENAME];
+    char rootstring[256], rootstring2[256];
+    char username[FLEN_FILENAME], userroot[FLEN_FILENAME], userroot2[FLEN_FILENAME];
 
+    cptr = getenv("HERA_DATA_DIRECTORY");
+    if (cptr) {
+	/* This environment variable is defined in the Hera data analysis environment. */
+	/* It specifies the root directory path to the users data directories.  */
+	/* CFITSIO will verify that the path to the file that is to be created */
+	/* is within this root directory + the user's home directory name. */
+
+/*
+printf("env = %s\n",cptr);
+*/	
+        if (strlen(cptr) > 200)  /* guard against possible string overflows */
+	    return(FILE_NOT_CREATED); 
+
+	/* environment variable has the form "path/one/;/path/two/" where the */
+	/* second path is optional */
+
+	strcpy(rootstring, cptr);
+	cpos = strchr(rootstring, ';');
+	if (cpos) {
+	    *cpos = '\0';
+	    cpos++;
+	    strcpy(rootstring2, cpos);
+	} else {
+	  *rootstring2 = '\0';
+	}
+/*
+printf("%s, %s\n", rootstring, rootstring2);
+printf("CWD = %s\n", cwd); 
+printf("rootstring=%s, cwd=%s.\n", rootstring, cwd);
+*/
+	/* Get the current working directory */
+	fits_get_cwd(cwd, &status);  
+	slen = strlen(cwd);
+	if ((slen < FLEN_FILENAME) && cwd[slen-1] != '/') strcat(cwd,"/"); /* make sure the CWD ends with slash */
+
+
+	/* check that CWD string matches the rootstring */
+	rootlen = strlen(rootstring);
+	if (strncmp(rootstring, cwd, rootlen)) {
+	    ffpmsg("invalid CWD: does not match root data directory");
+	    return(FILE_NOT_CREATED); 
+	} else {
+
+	    /* get the user name from CWD (it follows the root string) */
+	    strncpy(username, cwd+rootlen, 50);  /* limit length of user name */
+            username[50]=0;
+	    cpos=strchr(username, '/');
+	    if (!cpos) {
+               ffpmsg("invalid CWD: not equal to root data directory + username");
+               return(FILE_NOT_CREATED); 
+	    } else {
+	        *(cpos+1) = '\0';   /* truncate user name string */
+
+		/* construct full user root name */
+		strcpy(userroot, rootstring);
+		strcat(userroot, username);
+		rootlen = strlen(userroot);
+
+		/* construct alternate full user root name */
+		strcpy(userroot2, rootstring2);
+		strcat(userroot2, username);
+		rootlen2 = strlen(userroot2);
+
+		/* convert the input filename to absolute path relative to the CWD */
+		fits_relurl2url(cwd,  filename,  absURL, &status);
+
+/*
+printf("username = %s\n", username);
+printf("userroot = %s\n", userroot);
+printf("userroot2 = %s\n", userroot2);
+printf("filename = %s\n", filename);
+printf("ABS = %s\n", absURL);
+*/
+		/* check that CWD string matches the rootstring or alternate root string */
+
+		if ( strncmp(userroot,  absURL, rootlen)  &&
+		   strncmp(userroot2, absURL, rootlen2) ) {
+		   ffpmsg("invalid filename: path not within user directory");
+		   return(FILE_NOT_CREATED); 
+		}
+	    }
+	}
+	/* if we got here, then the input filename appears to be valid */
+    }
+    
     *handle = -1;
     for (ii = 0; ii < NMAXFILES; ii++)  /* find empty slot in table */
     {
@@ -310,20 +500,77 @@ int file_create(char *filename, int *handle)
     if (*handle == -1)
        return(TOO_MANY_FILES);    /* too many files opened */
 
+#if defined(_WIN32)
+    wcscpy(mode, L"w+b");    /* create new file with read-write */
+    /* Windows
+    *
+    *  Assume that the input filename is in UTF-8 encoding and convert to UTF-16.
+    */
+    UINT inputCodePage = CP_UTF8;
+    /*
+    *  For UTF-8, dwFlags must be set to either 0 or
+    *  MB_ERR_INVALID_CHARS.
+    */
+    DWORD flags = 0;
+    int outputLength = 0, rc = 0;
+
+    /*
+    *  Call MultiByteToWideChar with an output buffer size of zero to determine
+    *  how large an output buffer is actually necessary.
+    */
+    outputLength = MultiByteToWideChar(
+        inputCodePage,
+        flags,
+        filename,
+        -1,
+        NULL,
+        0
+    );
+
+    /*
+    *  Actually convert the file name to UTF-16
+    */
+    wchar_t* wideFilename = (wchar_t*)malloc(sizeof(wchar_t) * outputLength);
+
+    rc = MultiByteToWideChar(
+        inputCodePage,
+        flags,
+        filename,
+        -1,
+        wideFilename,
+        outputLength
+    );
+    
+    if (0 == rc) return (FILE_NOT_CREATED);
+
+#else
     strcpy(mode, "w+b");    /* create new file with read-write */
+#endif
 
+#if defined(_WIN32)
+    diskfile = _wfopen(wideFilename, L"r");  /* does file already exist? */
+    if (diskfile)
+    {
+        fclose(diskfile);         /* close file and exit with error */
+        free(wideFilename);
+        return(FILE_NOT_CREATED); 
+    }
+#else
     diskfile = fopen(filename, "r"); /* does file already exist? */
-
     if (diskfile)
     {
         fclose(diskfile);         /* close file and exit with error */
         return(FILE_NOT_CREATED); 
     }
+#endif
 
 #if MACHINE == ALPHAVMS || MACHINE == VAXVMS
         /* specify VMS record structure: fixed format, 2880 byte records */
         /* but force stream mode access to enable random I/O access      */
     diskfile = fopen(filename, mode, "rfm=fix", "mrs=2880", "ctx=stm"); 
+#elif defined (_WIN32)
+    diskfile = _wfopen(wideFilename, mode);
+    free(wideFilename);
 #else
     diskfile = fopen(filename, mode); 
 #endif
@@ -340,7 +587,7 @@ int file_create(char *filename, int *handle)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int file_truncate(int handle, OFF_T filesize)
+int file_truncate(int handle, LONGLONG filesize)
 /*
   truncate the diskfile to a new smaller size
 */
@@ -350,27 +597,47 @@ int file_truncate(int handle, OFF_T filesize)
     int fdesc;
 
     fdesc = fileno(handleTable[handle].fileptr);
-    ftruncate(fdesc, filesize);
+    ftruncate(fdesc, (OFF_T) filesize);
+    file_seek(handle, filesize);
 
     handleTable[handle].currentpos = filesize;
-    handleTable[handle].last_io_op = IO_WRITE;
+    handleTable[handle].last_io_op = IO_SEEK;
 
 #endif
 
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int file_size(int handle, OFF_T *filesize)
+int file_size(int handle, LONGLONG *filesize)
 /*
   return the size of the file in bytes
 */
 {
-    OFF_T position1;
+    OFF_T position1,position2;
     FILE *diskfile;
 
     diskfile = handleTable[handle].fileptr;
 
-#if _FILE_OFFSET_BITS - 0 == 64
+#if defined(_MSC_VER) && (_MSC_VER >= 1400)
+ 
+/* call the VISUAL C++ version of the routines which support */
+/*  Large Files (> 2GB) if they are supported (since VC 8.0)  */
+
+    position1 = _ftelli64(diskfile);   /* save current postion */
+    if (position1 < 0)
+        return(SEEK_ERROR);
+
+    if (_fseeki64(diskfile, 0, 2) != 0)  /* seek to end of file */
+        return(SEEK_ERROR);
+
+    position2 = _ftelli64(diskfile);     /* get file size */
+    if (position2 < 0)
+        return(SEEK_ERROR);
+
+    if (_fseeki64(diskfile, position1, 0) != 0)  /* seek back to original pos */
+        return(SEEK_ERROR);
+
+#elif _FILE_OFFSET_BITS - 0 == 64
 
 /* call the newer ftello and fseeko routines , which support */
 /*  Large Files (> 2GB) if they are supported.  */
@@ -382,8 +649,8 @@ int file_size(int handle, OFF_T *filesize)
     if (fseeko(diskfile, 0, 2) != 0)  /* seek to end of file */
         return(SEEK_ERROR);
 
-    *filesize = ftello(diskfile);     /* get file size */
-    if (*filesize < 0)
+    position2 = ftello(diskfile);     /* get file size */
+    if (position2 < 0)
         return(SEEK_ERROR);
 
     if (fseeko(diskfile, position1, 0) != 0)  /* seek back to original pos */
@@ -398,8 +665,8 @@ int file_size(int handle, OFF_T *filesize)
     if (fseek(diskfile, 0, 2) != 0)  /* seek to end of file */
         return(SEEK_ERROR);
 
-    *filesize = ftell(diskfile);     /* get file size */
-    if (*filesize < 0)
+    position2 = ftell(diskfile);     /* get file size */
+    if (position2 < 0)
         return(SEEK_ERROR);
 
     if (fseek(diskfile, position1, 0) != 0)  /* seek back to original pos */
@@ -407,6 +674,8 @@ int file_size(int handle, OFF_T *filesize)
 
 #endif
 
+    *filesize = (LONGLONG) position2;
+    
     return(0);
 }
 /*--------------------------------------------------------------------------*/
@@ -455,20 +724,28 @@ int file_flush(int handle)
     return(0);
 }
 /*--------------------------------------------------------------------------*/
-int file_seek(int handle, OFF_T offset)
+int file_seek(int handle, LONGLONG offset)
 /*
   seek to position relative to start of the file
 */
 {
 
-#if _FILE_OFFSET_BITS - 0 == 64
+#if defined(_MSC_VER) && (_MSC_VER >= 1400)
+    
+     /* Microsoft visual studio C++ */
+     /* _fseeki64 supported beginning with version 8.0 */
+ 
+    if (_fseeki64(handleTable[handle].fileptr, (OFF_T) offset, 0) != 0)
+        return(SEEK_ERROR);
+	
+#elif _FILE_OFFSET_BITS - 0 == 64
 
-    if (fseeko(handleTable[handle].fileptr, offset, 0) != 0)
+    if (fseeko(handleTable[handle].fileptr, (OFF_T) offset, 0) != 0)
         return(SEEK_ERROR);
 
 #else
 
-    if (fseek(handleTable[handle].fileptr, offset, 0) != 0)
+    if (fseek(handleTable[handle].fileptr, (OFF_T) offset, 0) != 0)
         return(SEEK_ERROR);
 
 #endif
@@ -543,7 +820,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
 */
 {
     FILE *indiskfile, *outdiskfile;
-    int status, clobber = 0;
+    int status;
     char *cptr;
 
     /* open the compressed disk file */
@@ -562,7 +839,6 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
     if (*cptr == '!')
     {
         /* clobber any existing file with the same name */
-        clobber = 1;
         cptr++;
         remove(cptr);
     }
@@ -575,6 +851,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
           ffpmsg("uncompressed file already exists: (file_compress_open)");
           ffpmsg(file_outfile);
           fclose(outdiskfile);         /* close file and exit with error */
+	  file_outfile[0] = '\0';
           return(FILE_NOT_CREATED); 
         }
     }
@@ -584,6 +861,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
     {
         ffpmsg("could not create uncompressed file: (file_compress_open)");
         ffpmsg(file_outfile);
+	file_outfile[0] = '\0';
         return(FILE_NOT_CREATED); 
     }
 
@@ -598,6 +876,7 @@ int file_compress_open(char *filename, int rwmode, int *hdl)
         ffpmsg(filename);
         ffpmsg(" into new output file:");
         ffpmsg(file_outfile);
+	file_outfile[0] = '\0';
         return(status);
     }
 
@@ -622,10 +901,19 @@ int file_is_compressed(char *filename) /* I - FITS file name          */
     /* Open file.  Try various suffix combinations */  
     if (file_openfile(filename, 0, &diskfile))
     {
+      if (strlen(filename) > FLEN_FILENAME - 5)
+          return(0);
+
       strcpy(tmpfilename,filename);
       strcat(filename,".gz");
       if (file_openfile(filename, 0, &diskfile))
       {
+#if HAVE_BZIP2
+        strcpy(filename,tmpfilename);
+        strcat(filename,".bz2");
+        if (file_openfile(filename, 0, &diskfile))
+        {
+#endif
         strcpy(filename, tmpfilename);
         strcat(filename,".Z");
         if (file_openfile(filename, 0, &diskfile))
@@ -653,6 +941,9 @@ int file_is_compressed(char *filename) /* I - FITS file name          */
             }
           }
         }
+#if HAVE_BZIP2
+        }
+#endif
       }
     }
 
@@ -669,7 +960,10 @@ int file_is_compressed(char *filename) /* I - FITS file name          */
          (memcmp(buffer, "\120\113", 2) == 0) ||  /* PKZIP */
          (memcmp(buffer, "\037\036", 2) == 0) ||  /* PACK  */
          (memcmp(buffer, "\037\235", 2) == 0) ||  /* LZW   */
-         (memcmp(buffer, "\037\240", 2) == 0) )   /* LZH   */
+#if HAVE_BZIP2
+         (memcmp(buffer, "BZ",       2) == 0) ||  /* BZip2 */
+#endif
+         (memcmp(buffer, "\037\240", 2) == 0))  /* LZH   */
         {
             return(1);  /* this is a compressed file */
         }
@@ -719,12 +1013,124 @@ int file_checkfile (char *urltype, char *infile, char *outfile)
         /* and copied to this newly created output file.  The original file */
         /* will be closed, and the copy will be opened by CFITSIO for     */
         /* subsequent processing (possibly with READWRITE access).        */
-        if (strlen(outfile))
-            strcpy(file_outfile,outfile);
+        if (strlen(outfile)) {
+	    file_outfile[0] = '\0';
+            strncat(file_outfile,outfile,FLEN_FILENAME-1);
+        }
     }
 
     return 0;
 }
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+
+/****  driver routines for stream//: device (stdin or stdout)  ********/
 
 
+/*--------------------------------------------------------------------------*/
+int stream_open(char *filename, int rwmode, int *handle)
+{
+    /*
+        read from stdin
+    */
+    if (filename)
+      rwmode = 1;  /* dummy statement to suppress unused parameter compiler warning */
+
+    *handle = 1;     /*  1 = stdin */   
+
+    return(0);
+}
+/*--------------------------------------------------------------------------*/
+int stream_create(char *filename, int *handle)
+{
+    /*
+        write to stdout
+    */
+
+    if (filename)  /* dummy statement to suppress unused parameter compiler warning */
+       *handle = 2;
+    else
+       *handle = 2;         /*  2 = stdout */       
+
+    return(0);
+}
+/*--------------------------------------------------------------------------*/
+int stream_size(int handle, LONGLONG *filesize)
+/*
+  return the size of the file in bytes
+*/
+{
+    handle = 0;  /* suppress unused parameter compiler warning */
+    
+    /* this operation is not supported in a stream; return large value */
+    *filesize = LONG_MAX;
+    return(0);
+}
+/*--------------------------------------------------------------------------*/
+int stream_close(int handle)
+/*
+     don't have to close stdin or stdout 
+*/
+{
+    handle = 0;  /* suppress unused parameter compiler warning */
+    
+    return(0);
+}
+/*--------------------------------------------------------------------------*/
+int stream_flush(int handle)
+/*
+  flush the file
+*/
+{
+    if (handle == 2)
+       fflush(stdout);  
+
+    return(0);
+}
+/*--------------------------------------------------------------------------*/
+int stream_seek(int handle, LONGLONG offset)
+   /* 
+      seeking is not allowed in a stream
+   */
+{
+    offset = handle;  /* suppress unused parameter compiler warning */
+    return(1);
+}
+/*--------------------------------------------------------------------------*/
+int stream_read(int hdl, void *buffer, long nbytes)
+/*
+     reading from stdin stream 
+*/
+
+{
+    long nread;
+    
+    if (hdl != 1)
+       return(1);  /* can only read from stdin */
+
+    nread = (long) fread(buffer, 1, nbytes, stdin);
+
+    if (nread != nbytes)
+    {
+/*        return(READ_ERROR); */
+        return(END_OF_FILE);
+    }
+
+    return(0);
+}
+/*--------------------------------------------------------------------------*/
+int stream_write(int hdl, void *buffer, long nbytes)
+/*
+  write bytes at the current position in the file
+*/
+{
+    if (hdl != 2)
+       return(1);  /* can only write to stdout */
+
+    if((long) fwrite(buffer, 1, nbytes, stdout) != nbytes)
+        return(WRITE_ERROR);
+
+    return(0);
+}
 

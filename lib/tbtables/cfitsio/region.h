@@ -2,7 +2,9 @@
 /*                   REGION STUFF                              */
 /***************************************************************/
 
+#include "fitsio.h"
 #define myPI  3.1415926535897932385
+#define RadToDeg 180.0/myPI
 
 typedef struct {
    int    exists;
@@ -21,10 +23,14 @@ typedef enum {
    ellipse_rgn,
    elliptannulus_rgn,
    box_rgn,
+   boxannulus_rgn,
    rectangle_rgn,
    diamond_rgn,
    sector_rgn,
-   poly_rgn
+   poly_rgn,
+   panda_rgn,
+   epanda_rgn,
+   bpanda_rgn
 } shapeType;
 
 typedef enum { pixel_fmt, degree_fmt, hhmmss_fmt } coordFmt;
@@ -32,13 +38,17 @@ typedef enum { pixel_fmt, degree_fmt, hhmmss_fmt } coordFmt;
 typedef struct {
    char      sign;        /*  Include or exclude?        */
    shapeType shape;       /*  Shape of this region       */
+   int       comp;        /*  Component number for this region */
+
+   double xmin,xmax;       /*  bounding box    */
+   double ymin,ymax;
 
    union {                /*  Parameters - In pixels     */
 
       /****   Generic Shape Data   ****/
 
       struct {
-	 double p[8];        /*  Region parameters       */
+	 double p[11];       /*  Region parameters       */
 	 double sinT, cosT;  /*  For rotated shapes      */
 	 double a, b;        /*  Extra scratch area      */
       } gen;
@@ -48,8 +58,6 @@ typedef struct {
       struct {
          int    nPts;        /*  Number of Polygon pts   */
          double *Pts;        /*  Polygon points          */
-	 double xmin,xmax;   /*  Polygon bounding box    */
-	 double ymin,ymax;
       } poly;
 
    } param;
@@ -62,19 +70,13 @@ typedef struct {
    WCSdata   wcs;
 } SAORegion;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*  SAO region file routines */
+int  fits_read_rgnfile( const char *filename, WCSdata *wcs, SAORegion **Rgn, int *status );
+int  fits_in_region( double X, double Y, SAORegion *Rgn );
+void fits_free_region( SAORegion *Rgn );
+void fits_set_region_components ( SAORegion *Rgn );
+void fits_setup_shape ( RgnShape *shape);
+int fits_read_fits_region ( fitsfile *fptr, WCSdata * wcs, SAORegion **Rgn, int *status);
+int fits_read_ascii_region ( const char *filename, WCSdata * wcs, SAORegion **Rgn, int *status);
 
-int  ffrrgn( const char *filename, WCSdata *wcs, SAORegion **Rgn, int *status );
-int  fftrgn( double X, double Y, SAORegion *Rgn );
-void fffrgn( SAORegion *Rgn );
-
-#ifdef __cplusplus
-    }
-#endif
-
-#define fits_read_rgnfile ffrrgn
-#define fits_in_region    fftrgn
-#define fits_free_region  fffrgn
 

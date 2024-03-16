@@ -11,9 +11,9 @@
 /*--------------------------------------------------------------------------*/
 int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
             int  colnum,     /* I - number of column to write (1 = 1st col) */
-            long  firstrow,  /* I - first row to write (1 = 1st row)        */
-            long  firstelem, /* I - first vector element to write (1 = 1st) */
-            long  nelem,     /* I - number of strings to write              */
+            LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
+            LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
+            LONGLONG  nelem,     /* I - number of strings to write              */
             char  **array,   /* I - array of pointers to strings            */
             int  *status)    /* IO - error status                           */
 /*
@@ -21,9 +21,9 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
 */
 {
     int tcode, maxelem, hdutype, nchar;
-    long twidth, incre, rownum, remain, next;
-    long ii, jj, ntodo, tnull;
-    OFF_T repeat, startpos, elemnum, wrtptr, rowlen;
+    long twidth, incre;
+    long ii, jj, ntodo;
+    LONGLONG repeat, startpos, elemnum, wrtptr, rowlen, rownum, remain, next, tnull;
     double scale, zero;
     char tform[20], *blanks;
     char message[FLEN_ERRMSG];
@@ -52,7 +52,7 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
     /*---------------------------------------------------*/
     if (colnum < 1 || colnum > (fptr->Fptr)->tfield)
     {
-        sprintf(message, "Specified column number is out of range: %d",
+        snprintf(message, FLEN_ERRMSG,"Specified column number is out of range: %d",
                 colnum);
         ffpmsg(message);
         return(*status = BAD_COL_NUM);
@@ -68,21 +68,39 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
       nchar = maxvalue(1,strlen(array[0])); /* will write at least 1 char */
                                           /* even if input string is null */
 
-      if (ffgcpr( fptr, colnum, firstrow, 1, nchar, 1, &scale, &zero,
+      if (ffgcprll( fptr, colnum, firstrow, 1, nchar, 1, &scale, &zero,
+        tform, &twidth, &tcode, &maxelem, &startpos,  &elemnum, &incre,
+        &repeat, &rowlen, &hdutype, &tnull, snull, status) > 0)
+        return(*status);
+	
+      /* simply move to write position, then write the string */
+      ffmbyt(fptr, startpos, IGNORE_EOF, status); 
+      ffpbyt(fptr, nchar, array[0], status);
+
+      if (*status > 0)  /* test for error during previous write operation */
+      {
+         snprintf(message,FLEN_ERRMSG,
+          "Error writing to variable length string column (ffpcls).");
+         ffpmsg(message);
+      }
+
+      return(*status);
+    }
+    else if (tcode == TSTRING)
+    {
+      if (ffgcprll( fptr, colnum, firstrow, firstelem, nelem, 1, &scale, &zero,
         tform, &twidth, &tcode, &maxelem, &startpos,  &elemnum, &incre,
         &repeat, &rowlen, &hdutype, &tnull, snull, status) > 0)
         return(*status);
 
-      remain = 1;
-      twidth = nchar;
-      blanks = 0;          /* initialize null pointer */
-    }
-    else if (tcode == TSTRING)
-    {
-      if (ffgcpr( fptr, colnum, firstrow, firstelem, nelem, 1, &scale, &zero,
-        tform, &twidth, &tcode, &maxelem, &startpos,  &elemnum, &incre,
-        &repeat, &rowlen, &hdutype, &tnull, snull, status) > 0)
-        return(*status);
+      /* if string length is greater than a FITS block (2880 char) then must */
+      /* only write 1 string at a time, to force writein by ffpbyt instead of */
+      /* ffpbytoff (ffpbytoff can't handle this case) */
+      if (twidth > IOBUFLEN) {
+        maxelem = 1;
+        incre = twidth;
+        repeat = 1;
+      }   
 
       blanks = (char *) malloc(twidth); /* string for blank fill values */
       if (!blanks)
@@ -112,10 +130,10 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
          will fit in the buffer space or to the number of pixels that remain
          in the current vector, which ever is smaller.
       */
-      ntodo = minvalue(remain, maxelem);      
-      ntodo = minvalue(ntodo, (repeat - elemnum));
+      ntodo = (long) minvalue(remain, maxelem);      
+      ntodo = (long) minvalue(ntodo, (repeat - elemnum));
 
-      wrtptr = startpos + ((OFF_T)rownum * rowlen) + (elemnum * incre);
+      wrtptr = startpos + (rownum * rowlen) + (elemnum * incre);
       ffmbyt(fptr, wrtptr, IGNORE_EOF, status);  /* move to write position */
 
       buffer = (char *) cbuff;
@@ -154,9 +172,9 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
 
       if (*status > 0)  /* test for error during previous write operation */
       {
-         sprintf(message,
-          "Error writing elements %ld thru %ld of input data array (ffpcls).",
-             next+1, next+ntodo);
+         snprintf(message,FLEN_ERRMSG,
+          "Error writing elements %.0f thru %.0f of input data array (ffpcls).",
+             (double) (next+1), (double) (next+ntodo));
          ffpmsg(message);
 
          if (blanks)
@@ -188,9 +206,9 @@ int ffpcls( fitsfile *fptr,  /* I - FITS file pointer                       */
 /*--------------------------------------------------------------------------*/
 int ffpcns( fitsfile *fptr,  /* I - FITS file pointer                       */
             int  colnum,     /* I - number of column to write (1 = 1st col) */
-            long  firstrow,  /* I - first row to write (1 = 1st row)        */
-            long  firstelem, /* I - first vector element to write (1 = 1st) */
-            long  nelem,     /* I - number of values to write               */
+            LONGLONG  firstrow,  /* I - first row to write (1 = 1st row)        */
+            LONGLONG  firstelem, /* I - first vector element to write (1 = 1st) */
+            LONGLONG  nelem,     /* I - number of values to write               */
             char  **array,   /* I - array of values to write                */
             char  *nulvalue, /* I - string representing a null value        */
             int  *status)    /* IO - error status                           */
@@ -200,7 +218,9 @@ int ffpcns( fitsfile *fptr,  /* I - FITS file pointer                       */
   null value in the output FITS file. 
 */
 {
-    long repeat, width, first, ngood = 0, nbad = 0, ii, fstelm, fstrow;
+    long repeat, width;
+    LONGLONG ngood = 0, nbad = 0, ii;
+    LONGLONG first, fstelm, fstrow;
 
     if (*status > 0)
         return(*status);
