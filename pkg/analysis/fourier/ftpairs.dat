@@ -1,0 +1,24 @@
+# Fourier transform coordinate-type pairs.
+# FITS standard CTYPEs are used where possible.
+
+TIME       FREQ
+
+LAMBDA     WAVENUMB
+
+VELO       FTVELO	# Velocity, spatial frequency
+
+PIXEL      PIXEL
+
+LL         UU		# E-W tangent plane, U coordinate of visibility
+MM         VV		# N-S tangent plane, V coordinate of visibility
+NN         WW		# normal (radial) "plane", W coordinate of visibility
+
+RA         FTRA		# Equatorial coords
+DEC        FTDEC
+RA---TAN   FTRA-T	# Equatorial coords
+DEC--TAN   FTDEC-T
+
+GLON       FTGLON	# Galactic coords
+GLAT       FTGLAT
+
+ANGLE      FTANGLE	# Arbitrary angular separation
