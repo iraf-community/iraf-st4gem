@@ -1,4 +1,4 @@
-.help iscursor Sep96 stsdas.analysis.isophote
+.help iscursor Sep96 st4gem.analysis.isophote
 .ih
 NAME
 iscursor -- Interactive cursor commands for 'isoexam' task.

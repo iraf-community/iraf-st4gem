@@ -1,4 +1,4 @@
-.help gcombine Jul97 "stsdas.toolbox.imgtools"
+.help gcombine Jul97 "st4gem.toolbox.imgtools"
 .ih
 NAME
 gcombine -- Combine multi-group images while rejecting outliers.
@@ -207,7 +207,7 @@ images which are below or above the thresholds given by the parameters
 mean that no threshold value is applied.  Threshold rejection may be used
 to exclude very bad pixel values or as an alternative way of masking
 images.  In the latter case one can use a task like `imedit', `imreplace',
-or `stsdas.toolbox.imgtools.pixedit' to set parts of the images to be 
+or `st4gem.toolbox.imgtools.pixedit' to set parts of the images to be 
 excluded to some very low or high magic value.
 
 
@@ -948,8 +948,8 @@ on particular combinations of input parameters.
 .ih
 REFERENCES
 This task was written by CY Zhang. It was based on the (IRAF V2.10) 
-'images.imcombine' task written by F. Valdes (NOAO), the STSDAS 'wfpc.combine'
-task by R. Shaw (STScI), the STSDAS 'wfpc.crrej' by JC Hsu (STScI), and the 
+'images.imcombine' task written by F. Valdes (NOAO), the ST4GEM 'wfpc.combine'
+task by R. Shaw (STScI), the ST4GEM 'wfpc.crrej' by JC Hsu (STScI), and the 
 'mdscombine' task by K. Ratnatunga (JHU). The 
 'gcombine' task is enhanced to be able to deal with the GEIS images more 
 flexibly. In addition to the masking operation using mask images, including 

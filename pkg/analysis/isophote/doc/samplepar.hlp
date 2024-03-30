@@ -1,4 +1,4 @@
-.help samplepar Jan97 stsdas.analysis.isophote
+.help samplepar Jan97 st4gem.analysis.isophote
 .ih
 NAME
 samplepar -- Set the image sampling parameters for the 'ellipse' task.

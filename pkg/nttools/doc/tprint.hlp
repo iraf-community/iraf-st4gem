@@ -2,13 +2,13 @@
 .nj
 .ih
 NAME
-tprint -- Convert an STSDAS table to a readable ASCII file.
+tprint -- Convert an ST4GEM table to a readable ASCII file.
 .ih
 USAGE
 tprint table
 .ih
 DESCRIPTION
-This task is similar to the 'tdump' task in that it takes an STSDAS
+This task is similar to the 'tdump' task in that it takes an ST4GEM
 table and produces a file in ASCII format;
 however, this task offers more control over the appearance
 of the final product and better prepares it for printing.

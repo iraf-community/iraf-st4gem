@@ -1,4 +1,4 @@
-.help iminfo Jun03 stsdas.toolbox.headers
+.help iminfo Jun03 st4gem.toolbox.headers
 .ih
 NAME
 iminfo -- Print an instrument-specific header for a list of HST images,

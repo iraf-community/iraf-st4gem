@@ -1,4 +1,4 @@
-.help forward Jul93 stsdas.analysis.fourier
+.help forward Jul93 st4gem.analysis.fourier
 .ih
 NAME
 forward -- Compute the forward Fourier transform of an image.

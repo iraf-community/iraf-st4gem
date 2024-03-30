@@ -1,4 +1,4 @@
-.help dither Jun96 stsdas.analysis
+.help dither Jun96 st4gem.analysis
 
 This package contains tasks which can be used to combine dithered images 
 using the "drizzle" algorithm. Some tasks are specialized for WFPC data 

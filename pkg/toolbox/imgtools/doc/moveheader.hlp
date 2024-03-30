@@ -1,4 +1,4 @@
-.help moveheader Aug91 stsdas.toolbox.imgtools
+.help moveheader Aug91 st4gem.toolbox.imgtools
 .ih
 NAME
 moveheader -- Combine the header from one image with the pixels from a 

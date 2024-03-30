@@ -1,0 +1,6 @@
+Menu for the package st4gem.hst_calib
+
+    synphot - Tasks for synthetic photometry and modelling instrument response. 
+
+(Type "help hst_calib option=sysdoc" for detailed information about the 
+`hst_calib' package.)

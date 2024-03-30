@@ -1,13 +1,13 @@
-.help stplot Jul93 stsdas.graphics
+.help stplot Jul93 st4gem.graphics
 
 The 'stplot' package includes general purpose plotting tasks
-tailored toward STSDAS data formats; that is, tables and group format
+tailored toward ST4GEM data formats; that is, tables and group format
 image files. These tasks include:
 
 .ls sgraph
 The 'sgraph' task 
 includes all of the functions of the IRAF 'plot.graph' task, but adds
-the ability to plot from STSDAS tables (images and text files were supported
+the ability to plot from ST4GEM tables (images and text files were supported
 by 'graph'). In 'sgraph', you can plot a single column against a row, or
 a column against another column.
 .le
@@ -17,7 +17,7 @@ values from two one-dimensional images to STDOUT.  This may be piped to
 'sgraph' or 'plot.graph' to plot one image line (spectrum) against another.
 .le
 .ls skymap
-The 'skymap' task interprets an STSDAS table as a catalog of
+The 'skymap' task interprets an ST4GEM table as a catalog of
 coordinates and brightnesses to produce a star chart.  That is, it
 plots symbols whose size depends on brightness and whose position
 on the plot is a projection of the celestial coordinates.  There is an
@@ -25,7 +25,7 @@ interactive interface that allows a user to roam among different
 parts of the catalog, change the chart scale, and perform other actions.
 .le
 .ls Group Format
-Three tasks support group format STSDAS images and plot more
+Three tasks support group format ST4GEM images and plot more
 than one group member on a single graph.
 .ls grlist
 A generic task to permit converting a range of groups to a list of image names.  The output list may be used by any task that accepts alist of images as input.
@@ -52,7 +52,7 @@ arbitrarily.
 The 'igi' task is an interactive interpreter for producing
 arbitrary plots.  The syntax of the commands is based on Mongo, but 'igi'
 operates within IRAF and is device independent. (A complete reference
-manual for 'igi' is available on request from the STSDAS group.)
+manual for 'igi' is available on request from the ST4GEM group.)
 .le
 .ls newcont
 The 'newcont' task is an improved version of 'plot.contour'.  The

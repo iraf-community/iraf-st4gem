@@ -1,0 +1,51 @@
+.help refdata Jun97 st4gem.hst_calib.synphot
+.ih
+NAME
+refdata -- Edit the parameter set that contains synphot reference data.
+.ih
+USAGE
+refdata
+.ih
+DESCRIPTION
+The 'refdata' parameters specify certain quantities that are common to
+all tasks in the synphot package.
+
+Note that this is a pset, not an executable task;  it defines a set of 
+parameters used by other tasks.  Invoking the pset by name runs
+'eparam' on the parameter set, allowing the user to modify the
+parameters.  Alternatively, the parameters may be modified on the
+command line by specifying the pset name and parameter name.
+For example, you can type "refdata.area=7853.98" to set the
+collecting area to that of a 1-meter telescope.
+Parameters can also be edited by using
+'eparam' on the calling task (e.g., by typing "eparam calcphot"), in 
+which case, 'refdata' will appear as one of the task parameters. The
+'refdata' parameters may then be edited by positioning the cursor on
+the line containing the 'refdata' name and typing ":e".  After editing
+the pset parameters, type Control-D (or :q) to return to the main task 
+parameter menu.
+.ih
+PARAMETERS
+.ls (area = 45238.93416) [real]
+Telescope area in square centimeters.  The default is the value for the HST.
+.le
+.ls (grtbl = "mtab$*.tmg") [string]
+File name template specifying the name of the instrument graph table.
+The default string, containing the "*" wildcard, will search for the
+latest available version of the table.
+.le
+.ls (cmptbl = "mtab$*.tmc") [string]
+File name template specifying the name of the instrument component table.
+The default string, containing the "*" wildcard, will search for the
+latest available version of the table.
+.le
+.ih
+EXAMPLES
+.ih
+BUGS
+.ih
+SEE ALSO
+
+Type "help synphot opt=sys" for a more detailed description of the
+format and contents of the instrument graph and component tables.
+.endhelp

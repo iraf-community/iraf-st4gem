@@ -1,4 +1,4 @@
-.help hdiff Dec91 stsdas.toolbox.headers
+.help hdiff Dec91 st4gem.toolbox.headers
 .ih 
 NAME 
 hdiff -- Display the differences between two image headers.

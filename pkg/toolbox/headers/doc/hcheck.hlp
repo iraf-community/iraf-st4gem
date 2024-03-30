@@ -1,4 +1,4 @@
-.help hcheck Aug91 stsdas.toolbox.headers
+.help hcheck Aug91 st4gem.toolbox.headers
 .ih
 NAME
 hcheck -- Check image header keywords.

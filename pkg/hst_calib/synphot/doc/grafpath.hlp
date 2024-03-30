@@ -1,0 +1,86 @@
+.help grafpath Oct94 st4gem.hst_calib.synphot
+.ih
+NAME
+grafpath -- Create a list of component table names for an observing mode.
+.ih
+USAGE
+grafpath obsmode
+.ih
+DESCRIPTION
+This task produces a list of component table names for the components
+which lie in the optical path of a specified observation mode. The
+other taks in the synphot package compute the combined throughput for
+an observation mode by multiplying the individual throughputs of the
+components in the optical path together. These component throughputs
+are stored in SDAS tables. This task shows you the component tables
+that synphot uses for a specified observation mode if you want to
+investigate why the other synphot tasks produce the results they do.
+
+An observation mode is a list of keywords separated by blanks or
+commas which uniquely specifies an optical path through the telescope.
+The keywords which make up the observing mode specify the instrument,
+detector, aperture, filters, and/or gratings used. These keywords may
+occur in any order and in either lower or upper case. Defaults are
+available in many cases so that if some keywords are omitted, the
+defaults will be used.
+
+This task and other tasks in the synphot package determine the
+components in the optical path for an observing mode from the graph
+table. The tasks then find the ST4GEM tables containing the
+throughputs for these components in the component lookup table. The
+names of these two tables are read from the 'grtbl' and 'cmptbl'
+parameters in the refdata parameter set. The default values of these
+parameters are set to get the tables most recently installed in the
+CDBS database.
+.ih
+PARAMETERS
+.ls obsmode [string]
+A string containing observation mode keywords. Keywords within the
+string are separated by whitespace or commas. Keywords are used to
+match optical components from the graph table. Matching is not case
+sensitive. A warning message is printed if the keyword is not found in
+the optical path. At the user's option, the observation mode string
+may be placed within the band() function.
+.le
+.ls (refdata = "") [pset name]
+Parameter set for reference data used in calculations.
+This pset contains the following parameters:
+.nf
+
+area = 45238.93416:  HST telescope area in cm**2.
+
+grtbl = "crcomp$hstgraph_*":  HST graph table.  By default, this
+        uses the most recent version. 
+
+cmptbl = "crcomp$hstcomp_*"  Instrument component table.  By 
+        default, this uses the most recent version.
+.fi
+.le
+.ih
+EXAMPLES
+1. Write a list of component table names for the default observing mode
+of the WFPC:
+
+.nf
+  sy> grafpath wfpc
+.fi
+
+2. Create the list of component table names for the FOC f/96 observing mode:
+
+.nf
+  sy> grafpath foc,f/96
+.fi
+
+3. Enclose the obsmode expression in a band function:
+
+.nf
+  sy> grafpath "band(foc,f/96)"
+.fi
+.ih
+REFERENCES
+Written by B.Simon based on XCAL code written by Keith Horne
+.ih
+SEE ALSO
+calcband
+
+.endhelp

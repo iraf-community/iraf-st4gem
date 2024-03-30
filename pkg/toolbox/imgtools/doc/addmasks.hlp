@@ -1,4 +1,4 @@
-.help addmasks Jan00 stsdas.toolbox.imgtools
+.help addmasks Jan00 st4gem.toolbox.imgtools
 .ih
 NAME
 addmasks -- Combine several masks or bad pixel lists.

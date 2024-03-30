@@ -1,4 +1,4 @@
-.help pickfile Aug95 stsdas.toolbox.imgtools
+.help pickfile Aug95 st4gem.toolbox.imgtools
 .ih
 NAME
 pickfile -- Get the file name picked from the input file template

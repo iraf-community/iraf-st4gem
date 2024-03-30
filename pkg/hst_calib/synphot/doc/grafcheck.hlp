@@ -1,0 +1,52 @@
+.help grafcheck Jun97 st4gem.hst_calib.synphot
+.ih
+NAME
+grafcheck -- Find bad rows in an instrument graph table.
+.ih
+USAGE
+grafcheck grftable
+.ih
+DESCRIPTION
+This task reads an instrument graph table, checks it for four types of errors,
+and displays an error message on the terminal screen (i.e., errors are
+written to STDOUT).
+
+The following errors are detected by 'grafcheck':
+.ls * Component name, keyword, input node, or output node are undefined.
+.le
+.ls * Output node number is less than input node number.
+.le
+.ls * Two or more nodes with the same input node have the same keywords.
+Leading blanks and case are ignored in determining uniqueness of keyword names,
+names that differ only in case are considered to be identical.
+.le
+.ls * A row cannot be reached from the graph's starting node.
+.le
+
+When errors are located, a row will be printed for each type of error detected,
+along with the offending row.  When a row is in error, the component name is
+displayed, followed by the keyword, the input node, and the output node.  
+Component name and keyword are converted to lower case in the output
+and are enclosed in quotes.  No output is produced if no errors are located.
+.ih
+PARAMETERS
+.ls grftable = mtab$*.tmg [file name]
+The name of the graph table(s) to be checked. If a filename template
+is specified, the task will check the most recent graph table matching
+the template.
+.le
+.ih
+EXAMPLES
+Check the graph table 'hstgraph.tab'.
+
+.nf
+  sy> grafcheck hstgraph.tab
+.fi
+
+.ih
+REFERENCES
+Written by B.Simon
+.ih
+SEE ALSO
+graflist, grafpath, grafplot
+.endhelp

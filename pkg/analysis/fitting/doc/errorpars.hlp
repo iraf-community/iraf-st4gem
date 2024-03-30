@@ -1,4 +1,4 @@
-.help errorpars Oct96 stsdas.analysis.fitting
+.help errorpars Oct96 st4gem.analysis.fitting
 .ih
 NAME
 errorpars -- Edit parameters related to data and coefficient errors.
@@ -166,7 +166,7 @@ This seems to be highly dependent on functional form and signal-to-noise
 ratio.
 .ih
 REFERENCES
-"Error and bias in the STSDAS fitting package", I. Busko, ADASS VI,
+"Error and bias in the ST4GEM fitting package", I. Busko, ADASS VI,
 PASP Conf. Series 1997. 
 .ih
 SEE ALSO

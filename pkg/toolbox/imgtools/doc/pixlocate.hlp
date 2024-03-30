@@ -1,4 +1,4 @@
-.help pixlocate May95 stsdas.toolbox.imgtools
+.help pixlocate May95 st4gem.toolbox.imgtools
 .ih
 NAME
 pixlocate -- Print positions of all points inside (or outside) a 

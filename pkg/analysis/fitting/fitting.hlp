@@ -1,14 +1,14 @@
 .help fitting Apr23 st4gem
 
 This package contains tasks that perform function fitting operations on
-images, STSDAS table columns, or lists.  Both linear and non-linear
+images, ST4GEM table columns, or lists.  Both linear and non-linear
 functions are supported.
 
 When fitting 1-dimensional functions with input data from 2- (or
 more) dimensional images, the data are projected over a 1-dimensional vector
 before fitting the function. 
 
-The fitting tasks write their results to STSDAS tables.  A common table
+The fitting tasks write their results to ST4GEM tables.  A common table
 format is used by all tasks in the package, with the same column headers
 and formats. 
 
@@ -42,7 +42,7 @@ which can be  used to minimize chi-squared: downhill simplex (amoeba) or
 Levenberg-Marquardt.
 
 There is one task to do the inverse operation, that is, to read the table
-with fitting results and build images, STSDAS tables or lists.  Another
+with fitting results and build images, ST4GEM tables or lists.  Another
 task is available to list or print the fitting table contents in a
 human-readable format.
 .endhelp

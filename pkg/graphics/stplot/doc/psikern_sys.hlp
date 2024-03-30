@@ -68,7 +68,7 @@ rendering are two different operations, using the LUT's in different
 ways.  Most graphics applications will only be concerned with the
 graphics LUT.
 
-A lookup table may either be a text or binary STSDAS table.  If the table
+A lookup table may either be a text or binary ST4GEM table.  If the table
 is a text table, the columns are defined as follows.  Lines that begin
 with a pound sign, "#", or totally blank lines, are considered
 comments.  The first four columns must be present.  The last column,
@@ -208,7 +208,7 @@ six fill styles.  In general, this should always be present.
 .le
 .ls kf (string)
 The file name of the kernel executable.  The default value is
-"stsdas$bin/x_psikern.e".
+"st4gem$bin/x_psikern.e".
 .le
 .ls li (int)
 The number of lines of text that can fit within the GIO plotting area.
@@ -343,7 +343,7 @@ generally not necessary for most PostScript devices.
 .ls IF (string)
 The file containing the psikern PostScript prolog commands.  Must
 always be specified.  The default value is
-"stsdas$lib/psikern_prolog.ps".
+"st4gem$lib/psikern_prolog.ps".
 .le
 .ls LG (string)
 The name of the file containing the lookup table (LUT) to use for
@@ -571,7 +571,7 @@ psi_def|psi_land|Postscript Kernel Default 8.5x11in 300dpi Landscape:\
 	:DD=psi_def,tmp$psk,!{ echo $F; }&:\
 	:FB=Times-Bold:FG=Symbol:FI=Times-Italic:FR=Times-Roman:\
 	:IF=develop$psikern_prolog.ps:\
-	:LG=stsdas$lib/invxgterm:\
+	:LG=st4gem$lib/invxgterm:\
 	:MF#100:PI#1.:PW#.00011:TD#.01221:TP#.001221:TS#.006104:\
 	:XO#0.01:YO#0.01:
 .fi
@@ -710,8 +710,8 @@ lookup tables.
 
 10. Define and use the suggested color table, "invxgterm".  This
 table is a text table and has the following contents.  Note that this
-table is distributed with STSDAS in the file
-"stsdas$lib/invxgterm".
+table is distributed with ST4GEM in the file
+"st4gem$lib/invxgterm".
 
 .nf
 	# Inverse xgterm colormap for psikern.
@@ -767,7 +767,7 @@ name of the file in the 'graphics_lut' parameter:
 devices are laser printers.  Though they render color as different
 levels of gray, the output may not be pleasing.  One can force black
 on white by using a two-color graphics lookup table.  The contents of
-such a table would be as follows.  Note that STSDAS distributes this
+such a table would be as follows.  Note that ST4GEM distributes this
 table in the file "lib$mono"
 
 .nf
@@ -783,7 +783,7 @@ table in the file "lib$mono"
 
 12.  A user has written an IGI script which requires a 256 color
 graphics LUT, which mimics a rainbow from red to magenta.  The
-contents of the LUT would be as follows.  Note that STSDAS distributes
+contents of the LUT would be as follows.  Note that ST4GEM distributes
 this table in the file "lib$rain256".  This table demonstrates the
 use of the color interpolation that psikern provides.
 

@@ -1,0 +1,245 @@
+.help simulators Aug95 st4gem.hst_calib.synphot
+
+The tasks in the simulators package simulate the instruments aboard
+the HST. The tasks have been written so that as much information about
+the instruments as possible is stored in data files. This help file
+describe the format of these files.
+
+.ls Input Table of Objects
+The input table describes the objects to be viewed, and contains one 
+row for each object. There are five fields for each object. The fields
+specify the right ascension, declination, magnitude, spectrum, and
+shape.  The right ascension and declination determine the position
+of the object on the image. Objects are rotated into the coordinate
+frame of the detector, which is specified by the three task 
+parameters: "det_ra", "det_dec", and "det_ang". Any object whose center
+does not lie within the detector is excluded from the output. If no
+objects lie within the detector, the task exits with an error
+message. The magnitude is used to scale the integrated flux of the
+object. The magnitude passband and form are specified by the hidden
+task parameters "magband" and "magform". The spectrum is an expression
+evaluated by the synphot expression evaluator.  (The syntax for a
+synphot expression is described in the help file for `calcspec' and in 
+the Synphot User's Guide.) The spectrum is used to compute the object 
+flux as a function of wavelength. The flux is renormalized to the 
+object magnitude over the magnitude passband. The object shape 
+specifies the shape and extent of non-point source objects. 
+
+The input table can either be an ST4GEM binary table or a text table. 
+If a binary table, the five columns containing the object description 
+are named by the task parameter "colnames".  (The defaults are meant 
+to be self describing.)  If the input table is a text table, the first 
+five columns are the right ascension, declination, magnitude, spectrum, 
+and shape, respectively.  Text table entries (fields) cannot contain 
+embedded spaces unless the fields are enclosed in quotes. The spectrum 
+and shape columns are optional in the input table: in a binary table 
+they would just be left blank, but in a text table they can be either 
+omitted or set to a pair of adjacent quote marks. If the "spectrum" 
+field for any object is omitted, the spectrum specified by the task 
+parameter "spectrum" is used in its place. If the shape field is 
+omitted the object is assumed to be a point source, i.e., a star. 
+If the input table is a text table, any extended objects (i.e., objects 
+with a "shape" field) must be placed first in the table, so that the 
+table library knows the maximum number of columns in the table. 
+Units for the right ascension and declination are read from the column 
+units if the input table is an ST4GEM table. If it is a text table, the 
+units for right ascension are assumed to be hours, and that for 
+declination are assumed to be degrees. Brightness units are read from
+the parameter "magform".
+.le
+.ls Object Extent/Shape
+The shape specification is very much like a function call--that is, 
+the type of the shape is followed by a parenthesized list of 
+function arguments. Most shapes take three arguments. The first is the 
+radius, which is the radius of a circle (or the semi-major axis of an 
+ellipse) containing half the flux of the object. The radius is measured 
+in arcseconds. The second argument is the axial ratio, the ratio 
+between the semimajor and semiminor axes of the ellipse. (Recall that 
+the axial ratio is one for circular objects.) The third argument is the 
+position angle: the angle between the positive (detector) x-axis and
+the semimajor axis. The following is a list of the available shape 
+functions.
+
+.ls gauss(r,ar,pa)		Gaussian (normal) distribution
+.nf
+r: radius in seconds
+ar: axial ratio 
+pa: position angle
+.fi
+
+The gaussian distribution is described by the equation
+.nf
+    z = exp (- d ** 2)
+.fi
+where d is the distance from the center of the distribution along the
+major axis
+
+.le
+.ls moffat(r,ar,pa,beta)	Moffat distribution
+.nf
+r: radius in seconds
+ar: axial ratio
+pa: position angle
+beta: distribution exponent
+.fi
+
+The moffat distribution is described by the equation
+.nf
+    z = 1.0 / ((1.0 + d ** 2) ** beta)
+.fi
+.le
+.ls exp(r,ar,pa)		Exponential distribution
+.nf
+r: radius in seconds
+ar: axial ratio
+pa: position angle
+.fi
+
+The exponential distribution is described by the equation
+.nf
+    z = exp (- d)
+.fi
+.le
+.ls devauc(r,ar,pa)		Devaucalors distribution
+.nf
+r: radius in seconds
+ar: axial ratio
+pa: position angle
+.fi
+
+The Devaucalors distribution is described by the equation
+.nf
+    z = exp (- d  ** 0.25)
+.fi
+.le
+.ls prof(tab,r,ar,pa)		Tabulated profile
+.nf
+tab: table name
+r: radius in seconds
+ar: axial ratio
+pa: position angle
+.fi
+
+The profile an evenly spaced array of points read from a table. The
+first point is the value at the center of the distribution and the last
+point is the value at the specified radius. If the table in a binary
+table, the profile is read from column PROFILE; if it is a text table,
+the profile is read from the first column.
+.le
+
+.ls img(im,r)			Image template
+.nf
+im: image name
+r: radius in seconds
+.fi
+
+An image template is an object shape read from an image. The image
+size is calculated from the world coordinate information (the CD 
+matrix) in the image header and then the image is rescaled so its size 
+is equal to the specified radius.
+.le
+.le
+
+.ls Detector Background
+The instrument noise is calculated from the NOISE parameter stored in
+the throughput table headers. The NOISE parameter contains an
+expression which is used to compute the mean of a Poisson random
+process. The distribution is sampled and the random noise minus its
+mean is added to each pixel.  If more than one throughput table
+contains a NOISE parameter, the strings will be concatenated with the
+& operator (explained later). The noise expression can contain
+constants and the three variables t, n, and x. These represent the
+exposure time, the number of reads, and the pixel flux. If the noise
+expression is a function of x, the mean of the noise will vary from
+pixel to pixel. Otherwise, the mean will be constant over the
+image. The noise expression may contain the following operators and
+functions:
+
+.nf
++	addition
+-	subtraction or negation
+*	multiplication 
+/	division
+**	exponentiation
+&	magnitude (e.g., 3 & 4 = sqrt(3 ** 2 + 4 ** 2) = 5)
+log()	natural logarithm
+sqrt()	square root
+.fi
+
+Operator precedence and associativity are the same as in Fortran,
+though these can be changed by grouping with parentheses. The
+magnitude operator has lower precedence than any of the other
+operators. 
+
+The calculated background has contributions due to zodiacal light,
+earthlight, and thermal background. Zodiacal light is a function of
+the relative position of the telescope and sun. The telescope position
+is set by task parameters "det_ra" and "det_dec", the sun position is
+set by task parameter "time", which controls the date of the
+observation.  The earthlight background is calculated from task
+parameter "earthtab", which specifies the maximum earthlight spectrum,
+and task parameter "eshine", which specifies a fraction of the maximum
+eathlight. The thermal background is calculated from "thermtab", which
+specifies the spectrum of the thermal background.
+.le
+
+.ls Aperture Catalog
+The aperture descriptions are stored in the aperture catalog. The
+catalog has two columns. The first column contains the observation
+mode associated with that aperture. The second column countains a
+string describing the aperture shape. The string is written as a
+function call, that is, the name of the aperture type followed by a
+parenthesized list of numeric arguments. Four types of aperture shapes
+are supported: rectangles, barred rectangles, planetary, and
+multislit. The corresponding function calls are:
+
+.ls rect(w,l)		Rectangular aperture
+.nf
+w: aperture width
+l: aperture length
+.fi
+The aperture is a simple aperture. The width is the rectangle length
+in the x dimension and the length is the length in the y dimension.
+.le
+.ls barred(w,l1,g1,...) Barred aperture
+.nf
+w: aperture width
+l1: length of first part of aperture
+g1: gap between first and second parts of aperture
+.fi
+The lengths and gaps may alternate an arbitrary number of times, but
+must end with a length. The length represents an open area in the
+aperture and the gap an obscured area. The dimensions of the aperture
+parts are listed from left to right.
+.le
+.ls planet(w1,l1,w2,l2,w3,l3,ang) Planetary aperture
+.nf
+w1: width of first part of aperture
+l1: length of first part of aperture
+w2: width of second part of aperture
+l2: length of second part of aperture
+w3: width of third part of aperture
+l3: length of third part of aperture
+ang: rotation angle of aperture
+.fi
+The planetary apertures are dumbell shaped, narrower at the middle
+than at the ends. They are also rotated with respect to the dispersion
+axis. The dimensions of the three rectangles making up the dumbell
+shape are specified from the leftmost (unrotated) end, followed by the
+rotation angle. The rotation angle is specified in
+degrees. Counterclockwise rotations from the x axis are positive.
+.le
+.ls multi(w,l,y1,x1,...) Multiple aperture
+.nf
+w: width of all apertures
+l: length of all apertures
+y1: y offset to midpoint of first aperture
+x1: x distance between first and second apertures
+.fi
+Multiple apertures are collections of several simple rectangular
+apertures, each which has the same width and length. The location of
+each subaperture is specified by the offset to the midpoint of the
+aperture and distance between successive apertures.
+.le
+.le
+.endhelp

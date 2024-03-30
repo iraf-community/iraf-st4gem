@@ -1,0 +1,232 @@
+.help countrate Oct98 st4gem.hst_calib.synphot
+.ih
+NAME
+countrate -- Evaluate the count rate for a target and observing mode.
+.ih
+USAGE
+countrate instrument
+.ih
+DESCRIPTION
+This task computes the predicted flux for a specified source spectrum
+and telescope observing mode. At the user's option, it can also create
+an output spectrum containing the flux as a function of
+wavelength. The observing mode of the HST is specified in several task
+parameters.  These are 'instrument', 'detector', 'spec_elem', and
+'aperture'. The instrument must always be specified, but the other
+three parameters may be blank, depending on which instrument and
+instrument configuration is used. If you set the instrument to "hrs"
+or "stis", you should also specify 'cenwave', the central wavelength
+of the spectrum. This parameter has no effect on any of the other
+instruments. More than one observing mode keyword may be specified in
+a task parameter by separating the keywords with a comma. The obsmode
+task has more information on the legal observing mode keywords.
+
+The target spectrum is specified in the spectrum' parameter.  The
+'crcalspec$' and 'crgrid$' directories contain some tables which can be 
+used as source spectra.  The spectrum may also be one of several
+functions. The functions have the form of a function name followed by
+one or more arguments in parentheses.  Here are a few of the supported
+functions. More are described in the help for calcspec.
+
+.nf
+bb(temp)		A black body at the specified temperature
+hi(temp,colden)		Emission spectrum of an LTE slab of hydrogen at 
+			the specified temperature and column density
+pl(refval,exp,units)	Powerlaw spectrum of the form 
+			(wavelength/refval)**exp
+.fi
+
+The 'magnitude' parameter is used to normalize the spectrum to a
+chosen absolute flux level by specifying an integrated broadband
+magnitude for the spectrum. This parameter has two words. The first is
+the integrated magnitude, in units of 'magform'. The second is the
+passband over which the magnitude is integrated. This may be fully
+specified in the usual syntax (eg, "johnson,V" or "sdss,g") or
+abbreviated by specifying a single letter. If no system name is given
+for any of the UBVRIJHK bands, the defaults are Johnson UBV, Cousins
+RI, and Bessell JHK.
+
+The output table is specified by the parameter 'output'. If this
+parameter is set to "none" (the default) or left blank, no output
+table will be created. Otherwise, the task will create a table of
+wavelength versus flux.
+.ih
+PARAMETERS
+.ls spectrum [string]
+A file name or function string specifying the spectrum to be
+evaluated.  If this parameter is a file name, it must be a table
+containing two columns, WAVELENGTH and FLUX. The WAVELENGTH column
+must have units of Angstroms and must be in ascending or descending
+order. If it is a function string, the first word in the string gives
+the functional form of the spectrum and the remaining words are a
+parentehsized list of arguments to the function. The following
+functions are a few of the supported functions:
+
+.nf
+bb(temp)		A black body at the specified temperature
+hi(temp,colden)		Emission spectrum of an LTE slab of hydrogen at 
+			the specified temperature and column density
+pl(refval,exp,unit)	Powerlaw spectrum of the form 
+			(wavelength/refval)**exp
+.fi
+.le
+.ls magnitude [string]
+The integrated magnitude of the spectrum. The first word gives the
+magnitude in units of VEGAMAG and the second word specifies the
+desired passband. The passband is generally abbreviated with a single
+letter, although it may be fully specified in the usual syntax (eg,
+"johnson,V" or "sdss,g"). If no system name is given for any of the
+UBVRIJHK bands, the defaults are Johnson UBV, Cousins RI, and Bessell
+JHK. If this parameter is left blank or set to "none", the spectrum
+will not be renormalized.
+.le
+.ls instrument [string]
+The name of the telescope instrument used in the observation.
+.le
+.ls (detector = " ") [string]
+The name of the instrument detector, if there is more than one available
+for the instrument being used.
+.le
+.ls (spec_elem = " ") [string]
+The name of the spectral elements, such as filters or gratings, used
+in the observation.
+.le
+.ls (aperture = " ") [string]
+The name of the instrument aperture, if there is more than one available 
+for the instrument being used.
+.le
+.ls (cenwave = INDEF) [real] [min = 1.0,  max = 200000.]
+The central wavelength of the observation, in Angstroms. The output
+spectrum will be centered on this wavelength. If this parameter is set
+to INDEF, the output spectrum will contain the entire wavelength range
+that the observation mode covers. This parameter only effects the HRS
+and STIS, because they are the only instrument where the detector
+cannot cover the entire wavelength range of the observation.
+.le
+.ls (exptime = 1.0) [real] [min = 0.0, max = INDEF]
+The exposure time in seconds.
+.le
+.ls (reddening = 0.0) [real]
+The E(B-V) extinction to be applied to the input spectrum.  Either the
+user spectrum or a synthetic spectrum may be modified by this
+parameter.
+.le
+.ls (redlaw = "gal1") [string, allowed values: gal1|gal2|gal3|smc|lmc|xgal]
+The type of reddening law used to compute the extinction. The task
+supports three galactic reddening laws (gal1 to gal3) and one law each
+for the Small Magellanic Cloud (smc), Large Magellanic Cloud (lmc),
+and extra-galactic objects (xgal). The laws are derived from the
+following papers.
+.nf
+gal1	Seaton (1979) MNRAS, vol 187, p. 75 
+gal2	Savage & Mathis (1979) ARA&A, vol. 17, p. 73-111
+gal3	Cardelli, Clayton & Mathis (1989) ApJ vol. 345, p. 245-256
+smc	Prevot et al. (1984) A&A, vol. 132, p. 389-392
+lmc	Howarth (1983) MNRAS, vol. 203, p. 301
+xgal	Calzetti, Kinney and Storchi-Bergmann, (1994) ApJ, vol. 429, p.582
+.fi
+.le
+.ls (output = "none") [string]
+The name of the output spectrum produced by this task. If this
+parameter is set to "none" (the default) or a blank string, no output
+table will be created. Otherwise, it will create an ST4GEM table with
+two columns, WAVELENGTH and FLUX. The WAVELENGTH column will contain
+wavelengths in Angstroms. The FLUX column will contain the flux at the
+corresponding wavelengths. The table will also contain the header
+parameters GRFTABLE, CMPTABLE, OBSMODE, SPECTRUM, and EXPTIME. These
+will contain the name of the graph table, the component lookup table,
+the observation mode and spectral expression constructed from the task
+parameters, and the exposure time.
+.le
+.ls (form = "counts") [string]
+Desired output form for the calculation.  The following forms are 
+recognized:
+.nf
+
+	FNU		ergs / s / cm^2 / Hz
+	FLAM		ergs / s / cm^2 / A
+	PHOTNU		photons / s / cm^2 / Hz
+	PHOTLAM		photons / s / cm^2 / A
+	COUNTS		photons / s 
+	ABMAG		-2.5 log_10 (FNU)  - 48.60
+	STMAG		-2.5 log_10 (FLAM) - 21.10
+	OBMAG		-2.5 log_10 (COUNTS)
+	VEGAMAG		-2.5 log_10 (F/F_vega)
+	JY		10^-23 ergs / s / cm^2 / Hz
+ 	MJY		10^-26 ergs / s / cm^2 / Hz
+.fi
+Note that if form = counts or obmag, the result will be integrated
+over the passband and normalized to the collecting area of the HST.
+
+A standard magnitude system is VEGAMAG, for which Vega by definition
+has magnitude 0 at all wavelengths. The AB and ST magnitude systems are
+based on constant flux per unit frequency and per unit wavelength,
+respectively.  The zero points for these two systems are set for
+convenience so that Vega has magnitude 0 in both systems for the
+Johnson V passband.
+.le
+.ls (magform = "vegamag") [string]
+Form of the magnitude units. The definition of the units is the same
+as those given above for parameter 'form'.
+.le
+.ls (wavecat = "crmodewave$wavecat.dat") [string]
+The name of the wavelength catalog. The catalog is a table with two
+columns. The first column contains an observation mode string and the
+second contains a wavelength table name. This task reads the
+wavelength catalog and searches for the observation mode that best
+matches the input observation mode (constructed from task parameters)
+it then uses the wavelength table to resample the spectrum on the
+wavelength grid of the detector.  If the wavelength catalog is an
+ST4GEM table, the observation mode column must be named OBSMODE and
+the wavelength table column must be named FILE. If the wavelength
+catalog is a text table, the observation mode column and the
+wavelength table columns are the first and second columns,
+respectively.
+.le
+.ls (refwave = INDEF) [real] [min = 1.0, max = 200000.]
+The reference wavelength in the spectrum. If this parameter is not
+INDEF, the output will contain the flux at this wavelength.
+.le
+.ls (verbose = yes) [boolean]
+Write calculated quantities to STDOUT?
+.le
+.ls (flux_tot = INDEF) [real]
+The integrated flux combination of observation mode and passband. This
+is an output parameter, the user should not supply a value.
+.le
+.ls (flux_ref = INDEF) [real]
+The flux at the reference wavelenth. This parameter will be set to
+INDEF if 'refwave' is set to INDEF. This is an output parameter, the
+user should not supply a value.
+.le
+.ls (refdata = " ") [pset name]
+A parameter set containing the HST telescope area, the name of the HST
+graph table, and the name of the component lookup table. These
+parameters have been placed in a pset because they are common to most
+of the tasks in this package.
+.le
+.ih
+EXAMPLES 
+
+1. Compute the results of a 100 second observation of a 17th
+magnitude G0V star using the HRS with the large science aperture
+('lsa') and the G270M grating. Store the result in table 'hrsobs.fits':
+
+.nf
+  sy> countrate.spectrum = "crgrid$bpgs/bpgs_36.fits"
+  sy> countrate.magnitude = "17 v"
+  sy> countrate.instrument = "hrs"
+  sy> countrate.spec_elem = "g270m"
+  sy> countrate.aperture = "lsa"
+  sy> countrate.cenwave = 2700.
+  sy> countrate.exptime = 100.
+  sy> countrate.output = "hrsobs.fits"
+  sy> countrate mode=h
+.fi
+.ih
+REFERENCES
+Written by B.Simon based on XCAL code written by Keith Horne
+.ih
+SEE ALSO
+calcphot, calcspec
+.endhelp

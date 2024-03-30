@@ -7,7 +7,7 @@ USAGE
 tread table
 .ih
 DESCRIPTION
-The 'tread' task is a read-only version of 'tedit', the screen editor for STSDAS
+The 'tread' task is a read-only version of 'tedit', the screen editor for ST4GEM
 tables.  'tread' lets you view a table by moving the cursor around the
 screen with the cursor keys.  The screen scrolls both sideways and up
 and down as you move the cursor, so all elements of the table can be

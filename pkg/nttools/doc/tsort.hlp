@@ -7,7 +7,7 @@ USAGE
 tsort table columns
 .ih
 DESCRIPTION
-This task sorts an STSDAS-format table.  The sort is done in place, so if you want
+This task sorts an ST4GEM-format table.  The sort is done in place, so if you want
 to keep a copy of the unsorted table, you should copy it with the 'tcopy'
 task before you
 do the sort.  The column, or columns, on which to sort are specified

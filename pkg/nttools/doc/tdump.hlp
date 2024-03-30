@@ -2,13 +2,13 @@
 .nj
 .ih
 NAME
-tdump -- Convert an STSDAS table to ASCII format.
+tdump -- Convert an ST4GEM table to ASCII format.
 .ih
 USAGE
 tdump table
 .ih
 DESCRIPTION
-This task converts an STSDAS table to ASCII format.
+This task converts an ST4GEM table to ASCII format.
 The output does not include row numbers or column names;
 use the 'tprint' task for more readable output.
 
@@ -48,7 +48,7 @@ then prints all rows for the next set of columns.
 .ih
 PARAMETERS
 .ls table [file name]
-The name of the STSDAS table to be dumped.
+The name of the ST4GEM table to be dumped.
 .le
 .ls (cdfile = STDOUT) [file name]
 If 'cdfile' is not null (i.e., it is not passed a value of "")

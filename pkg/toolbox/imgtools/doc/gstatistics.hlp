@@ -1,4 +1,4 @@
-.help gstatistics Aug93  stsdas.toolbox.imgtools
+.help gstatistics Aug93  st4gem.toolbox.imgtools
 .ih
 NAME
 gstatistics -- compute and print pixel statistics of image groups
@@ -194,11 +194,11 @@ used, the amount of memory available, and other factors.
 .ih
 REFERENCES
 The gstatistics program was based on the IRAF task imstatistics by Frank
-Valdes of the NOAO/IRAF group and the STSDAS task wstatistics
-by Richard A. Shaw of the STScI/STSDAS group. While the algorithms for 
+Valdes of the NOAO/IRAF group and the ST4GEM task wstatistics
+by Richard A. Shaw of the STScI/ST4GEM group. While the algorithms for 
 calculating statistical quantities in gstatistics are adopted from the 
 imstatistics and wstatistics, the gstatistics can deal with the IRAF (OIF)
-format and the STSDAS (GEIS) format images with masking operations.  
+format and the ST4GEM (GEIS) format images with masking operations.  
 See the source code for further information.
 .ih
 SEE ALSO

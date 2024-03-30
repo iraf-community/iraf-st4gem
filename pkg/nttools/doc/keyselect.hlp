@@ -1,15 +1,15 @@
 .help keyselect Mar92 tables
 .ih
 NAME
-keyselect -- Copy selected image header keywords to an STSDAS table.
+keyselect -- Copy selected image header keywords to an ST4GEM table.
 .ih
 USAGE
 keyselect input output cols
 .ih
 DESCRIPTION
-This task copies the specified image header keywords to an STSDAS
+This task copies the specified image header keywords to an ST4GEM
 table. The required parameters are the input list of image names, the
-output STSDAS table name, and the list of header keywords. All groups of
+output ST4GEM table name, and the list of header keywords. All groups of
 each image will be examined if the list of header keywords contains a
 group parameter. Otherwise only the first group of each image will be
 examined. The task appends rows to the output table if it exists or
@@ -167,7 +167,7 @@ all groups of each image will be examined unless a group is explicitly
 specified as part of the image name.
 .le
 .ls output [file name]
-The name of the output STSDAS table. If the table already exists new
+The name of the output ST4GEM table. If the table already exists new
 rows will be added to the existing table. Column names must match
 names in the existing table. If the table does not exist a new table
 will be created and any column names may be used.
@@ -198,7 +198,7 @@ parameter (except for case).
 .le
 .ih
 EXAMPLES
-1. Create an STSDAS table from the headers of the dead diode reference
+1. Create an ST4GEM table from the headers of the dead diode reference
 images: 
 
 .nf

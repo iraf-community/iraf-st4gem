@@ -1,13 +1,13 @@
 .help tcheck Aug91 tables
 .ih
 NAME
-tcheck -- Check STSDAS table values.
+tcheck -- Check ST4GEM table values.
 .ih
 USAGE
 tcheck input chkfile
 .ih
 DESCRIPTION
-This task allows the user to check the correctness of an STSDAS table by
+This task allows the user to check the correctness of an ST4GEM table by
 printing the rows, column names, and values of selected table
 elements.  The table elements selected are controlled by lines in the
 check file.  Table elements are printed by placing their names on a

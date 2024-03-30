@@ -1,0 +1,71 @@
+.help genwave Jun94 st4gem.hst_calib.synphot
+.ih
+NAME
+genwave -- Generate a wavelength set.
+.ih
+USAGE
+genwave output minwave maxwave dwave
+.ih
+DESCRIPTION
+This task creates a wavelength set based on user specified values for
+the minimum and maximum of the desired wavelength range and the sampling
+interval.  The sampling interval may be expressed in terms of Angstroms 
+per pixel ('dwave') or in terms of km/s/pixel ('dvelocity').  The
+default is to use the value passed to the 'dwave' parameter, unless the
+value of 'dwave' is INDEF.
+.ih
+PARAMETERS
+.ls output [file name]
+File name for the wavelength table that will be created by this task.
+The wavelength table is a set of sampling points for both spectral flux
+and throughput transmission, and is used by various tasks in the 'synphot'
+package.
+.le
+.ls minwave [real]
+Minimum value for wavelength range (in Angstroms).
+.le
+.ls maxwave [real]
+Maximum value for wavelength range (in Angstroms).
+.le
+.ls dwave = INDEF [real]
+Wavelength interval between sampling points (in Angstroms/sample).
+The value of this parameter is ignored if it is set to INDEF, and the
+value of 'dvelocity' is used instead.
+.le
+.ls (dvelocity = INDEF) [real]
+Velocity interval between sampling points (in km/s/sample).  If set to
+INDEF, this parameter is ignored and the wavelength interval is
+calculated from the value of 'dwave'.
+.le
+.ls (wavecol = "WAVELENGTH") [string]
+Name for the column in 'waveset' that will contain the wavelength
+values. Values written to this column will be in Angstrom units. The
+default column name "WAVELENGTH" creates a wavelength table that can
+be used by other task in the synphot package.
+.le
+.ih
+EXAMPLES
+1. Generate a wavelength set having a range of 3000 
+to 8000 Angstroms, and an interval of 10 A per sample.
+Results will be written to the column 'WAVELENGTH' in the table file 
+'samplset.tab'.
+
+.nf
+  sy> genwave samplset.tab 3000. 8000. 10.
+.fi
+
+2. Generate a wavelength set having the same range as above, but set
+the sampling interval to be 100 km/s/pixel.
+
+.nf
+  sy> genwave samplset.tab 3000. 8000. INDEF dv=100.
+.fi
+.ih
+REFERENCES
+Written by B.Simon based on XCAL code written by Keith Horne
+.ih
+SEE ALSO
+
+Type "help synphot opt=sys" for a description of table structures used
+by synthetic photometry tasks.
+.endhelp

@@ -1,4 +1,4 @@
-.help controlpar Oct97 stsdas.analysis.isophote
+.help controlpar Oct97 st4gem.analysis.isophote
 .ih
 NAME
 controlpar -- Set the algorithm control parameters for the 'ellipse' task.

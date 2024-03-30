@@ -3,4 +3,6 @@ Space Telescope Science Data Analysis Software Package Tasks
   analysis - Data analysis packages.
    contrib - Contributed software.
   graphics - Graphics and image display packages.
+ hst_calib - HST Science Instrument calibration packages.
+   nttools - NOIRLab port of TTOOLS package
    toolbox - General tools packages.

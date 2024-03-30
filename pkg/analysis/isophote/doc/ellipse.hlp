@@ -1,4 +1,4 @@
-.help ellipse Nov95 stsdas.analysis.isophote
+.help ellipse Nov95 st4gem.analysis.isophote
 .ih
 NAME
 ellipse -- Fit elliptical isophotes to galaxy images.

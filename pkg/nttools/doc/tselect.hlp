@@ -70,9 +70,9 @@ must be in CDBS date format:  i.e., character strings of the form
 YYYYMMDD:HHMMSSCC.  Any field after the colon is optional.  The last
 date field (CC) is hundreths of a second.
 
-One concept in most databases and in STSDAS tables is the concept of a
+One concept in most databases and in ST4GEM tables is the concept of a
 null value: a value which indicates that the element is unknown or
-non-existent.  An element in an STSDAS table is null if it is INDEF in a
+non-existent.  An element in an ST4GEM table is null if it is INDEF in a
 numeric column or a zero length string in a text column. Evaluating
 expressions involving nulls requires a three valued logic:  true,
 false, and unknown. Any arithmetic operation on a null element should

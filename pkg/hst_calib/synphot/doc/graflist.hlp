@@ -1,0 +1,60 @@
+.help graflist Oct94 st4gem.hst_calib.synphot
+.ih
+NAME
+graflist -- List all components downstream from a given component.
+.ih
+USAGE
+graflist grftable compname
+.ih
+DESCRIPTION
+This task prints the names of all components downstream from a specified
+component.  The specified component is called the "root".  A component is
+downstream from the root if a path passes through both the component and
+the root and the root occurs first in the path.  A root is always considered
+to be downstream from itself, so at least one component name will be 
+printed whenever this task is run.
+
+The list of component names is printed in the order they occur along the
+path.  When component names are printed, each component name is indented
+to show the distance between it and the root.
+.ih
+PARAMETERS
+.ls grftable = "mtab$*.tmg" [file name]
+The name of the graph table to be listed. If a filename template is
+specified, the task will list from the most recent graph table
+matching the template. 
+.le
+.ls compname [string]
+The name of the root component. All components downstream from the root
+component are listed. The component name is not case sensitive and leading
+or trailing white space will not affect the match. If more than one component
+in the graph matches 'compname', the component with the smallest value in
+the 'INNODE' column will be used. (The 'INNODE' and 'OUTNODE' columns are
+used to navigate through the graph table).  The user can make the component
+name unique by optionally specifying an 'INNODE' number as part of the 
+value passed to 'compname'.  The desired 'INNODE' number follows the component
+name, separated by a white space.  If no value is passed to 'compname', the
+entire graph will be listed.
+.le
+.ih
+EXAMPLES
+1. List all components that are downstream from "hrs_echa":
+
+.nf
+  sy> graflist hstgraph.tab hrs_echa
+.fi
+
+2. List all components that are downstream from clear, where 'INNODE=1000':
+
+.nf
+  sy> graflist hstgraph.tab "clear 1000"
+.fi
+
+.ih
+REFERENCES
+Written by B.Simon
+.ih
+SEE ALSO
+grafpath, grafplot
+
+.endhelp

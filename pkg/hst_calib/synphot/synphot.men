@@ -1,0 +1,30 @@
+Menu for the package st4gem.hst_calib.synphot
+
+        bandpar - Calculate photometric parameters of a passband
+       calcband - Calculate a model passband.
+       calcphot - Calculate photometric quantities for spectra and passbands.
+       calcspec - Calculate a model spectrum.
+      countrate - Evaluate the photometric count rate of the HST.
+        fitband - Fit a passband model to data using Amoeba simplex method.
+        fitgrid - Fit a spectrum model to a grid of spectral data.
+        fitspec - Fit a spectrum model to data using Amoeba simplex method.
+        genwave - Interactively generate a wavelength set.
+      grafcheck - Check an instrument graph table for bad rows.
+       graflist - List the components downstream from a given component.
+       grafpath - Print keywords and component names for a path through 
+                  the graph table.
+         imspec - Convert an image to a synphot spectrum or vice versa.
+	 mkthru - Create a throughput table for installation in CDBS
+	obsmode - List observation mode keywords
+         plband - Plot a set of passbands.
+        plratio - Plot the ratio of observed to synthetic spectral or
+                  photometric data.
+         plspec - Plot spectral and photometric data.
+        pltrans - Plot photometric transformation diagrams (e.g., color-color
+                  or color-magnitude).
+	refdata - Pset to specify common synphot parameters.
+      showfiles - Print a list of filenames used in a synphot expression.
+     simulators - Synthetic photometry simulation package.
+      thermback - Evaluate thermal background count rate for an observing mode.
+
+Type "help synphot opt=sys" for a description of files used by these tasks.

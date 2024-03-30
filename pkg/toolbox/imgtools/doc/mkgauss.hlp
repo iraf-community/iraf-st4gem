@@ -1,4 +1,4 @@
-.help mkgauss Oct92 stsdas.toolbox.imgtools
+.help mkgauss Oct92 st4gem.toolbox.imgtools
 .ih
 NAME
 mkgauss -- Generate a 2-D image having an object of Gaussian type.

@@ -1,4 +1,4 @@
-.help inverse Jul93 stsdas.analysis.fourier
+.help inverse Jul93 st4gem.analysis.fourier
 .ih
 NAME
 inverse -- Compute the inverse Fourier transform.

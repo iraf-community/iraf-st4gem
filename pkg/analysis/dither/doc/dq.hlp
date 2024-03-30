@@ -1,4 +1,4 @@
-.help dq Apr97 stsdas.analysis.dither
+.help dq Apr97 st4gem.analysis.dither
 .ih
 NAME
 dq -- Pset with Data Quality bit settings for 'sky' task.

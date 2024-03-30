@@ -1,4 +1,4 @@
-.help imcalc Feb2003 stsdas.toolbox.imgtools
+.help imcalc Feb2003 st4gem.toolbox.imgtools
 .ih
 NAME
 imcalc -- Perform general arithmetic operations on images.

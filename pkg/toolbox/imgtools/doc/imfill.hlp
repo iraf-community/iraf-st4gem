@@ -1,4 +1,4 @@
-.help imfill May91 stsdas.toolbox.imgtools
+.help imfill May91 st4gem.toolbox.imgtools
 .ih
 NAME
 imfill -- Set fill value in image according to a mask.
@@ -54,8 +54,8 @@ group will be modified.
 .le
 .ls mask [file name]
 The mask file name. This task supports both full images used as masks
-and two compressed formats: iraf pixel list (.pl) format and STSDAS
-table format. For a description of how masks are stored in an STSDAS
+and two compressed formats: iraf pixel list (.pl) format and ST4GEM
+table format. For a description of how masks are stored in an ST4GEM
 table, see the help file for the 'copymask' task.
 .le
 .ls expr [string]

@@ -7,7 +7,7 @@ USAGE
 tedit table
 .ih
 DESCRIPTION
-This task is a screen editor for STSDAS tables. You edit a table by
+This task is a screen editor for ST4GEM tables. You edit a table by
 moving the cursor around the screen with the cursor keys and typing in
 the new value of the table element. The screen scrolls both sideways
 and up and down as you move the cursor, so all elements of the table

@@ -1,4 +1,4 @@
-.help crosscor Aug93 stsdas.analysis.fourier
+.help crosscor Aug93 st4gem.analysis.fourier
 .nj
 .ih
 NAME
@@ -219,7 +219,7 @@ fo> crosscor file1 file2 xc
 .fi
 .ih
 BUGS
-Beginning with STSDAS version 1.3,
+Beginning with ST4GEM version 1.3,
 the output from this task is the transpose of the complex conjugate
 of what it used to produce.
 The current output agrees with the definition of cross correlation

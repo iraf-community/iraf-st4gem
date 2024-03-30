@@ -1,4 +1,4 @@
-.help rd2xy Sep95 stsdas.toolbox.imgtools
+.help rd2xy Sep95 st4gem.toolbox.imgtools
 .ih
 NAME
 rd2xy -- Translate right ascension and declination to a 2-D image pixel 

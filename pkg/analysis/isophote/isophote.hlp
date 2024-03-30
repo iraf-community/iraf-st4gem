@@ -1,10 +1,10 @@
-.help isophote Nov95 stsdas.analysis
+.help isophote Nov95 st4gem.analysis
 
 This package contains tasks which perform elliptical isophote analysis.
 The main task is 'ellipse', which fits a set of elliptical isophotes over 
 an image. The algorithm is closely based on the description given by 
 Jedrzejewski (Mon.Not.R.Astr.Soc., 226, 747, 1987). The output of 
-isophote fitting is a STSDAS table.
+isophote fitting is a ST4GEM table.
 
 The table containing isophote information is used as input by the remaining
 tasks in this package. Task 'bmodel' reads the table and builds an artificial 

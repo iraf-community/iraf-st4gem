@@ -1,4 +1,4 @@
-.help stack Jun94 stsdas.toolbox.imgtools
+.help stack Jun94 st4gem.toolbox.imgtools
 .ih
 NAME
 stack -- Stack images along a specified axis, increasing the number of 

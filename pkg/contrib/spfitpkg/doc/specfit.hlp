@@ -1,4 +1,4 @@
-.help specfit July94 stsdas.contrib.spfitpkg
+.help specfit July94 st4gem.contrib.spfitpkg
 .ih
 NAME
 specfit - fit lines and continua to 1D spectra

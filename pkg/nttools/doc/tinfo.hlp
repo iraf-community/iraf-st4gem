@@ -48,7 +48,7 @@ For a row-ordered table,
 'rowlen' is the amount of space allocated for each row in the table file.
 The unit of 'rowlen' is the size of a single-precision real number.
 
-This is only relevant for row-ordered STSDAS format tables.
+This is only relevant for row-ordered ST4GEM format tables.
 .le
 .ls (rowused) [real]
 'rowused' is the amount of the row length ('rowlen')
@@ -61,11 +61,11 @@ then 'rowused' would be four.
 If the table contains only one column of data type short,
 then 'rowused' would be 0.5.
 
-This is only relevant for row-ordered STSDAS format tables.
+This is only relevant for row-ordered ST4GEM format tables.
 .le
 .ls (allrows) [integer]
 The number of allocated rows.
-This is relevant only for column-ordered STSDAS format tables.
+This is relevant only for column-ordered ST4GEM format tables.
 .le
 .ls (maxpar) [integer]
 The space allocated for header parameters.
@@ -90,14 +90,14 @@ For text tables the subtype can be either
 The latter subtype means there are column definition lines in the file,
 in the format:  "#c column_name datatype print_format units".
 A simple text table has column names c1, c2, etc., and no units.
-For STSDAS format tables
+For ST4GEM format tables
 the subtype will be either "row ordered" or "column ordered",
 which indicates the way the elements are stored in the table file.
 .le
 .ls (tblversion) [integer]
 The version code is an integer that identifies the version of
 the tables package that created or last modified the table.
-For STSDAS tables, the version code is stored in the table file;
+For ST4GEM tables, the version code is stored in the table file;
 for other formats this parameter is just
 the current tables version code number.
 This number is zero for 'stsdas' and 'tables' versions 1.2.3 and earlier,

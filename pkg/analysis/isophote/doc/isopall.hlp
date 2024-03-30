@@ -1,4 +1,4 @@
-.help isopall Nov95 stsdas.analysis.isophote
+.help isopall Nov95 st4gem.analysis.isophote
 .ih
 NAME
 isopall -- Plot "all" results of the isophotal analysis.

@@ -1,4 +1,4 @@
-.help iminsert Mar93 stsdas.toolbox.imgtools
+.help iminsert Mar93 st4gem.toolbox.imgtools
 .ih
 NAME
 iminsert -- Insert a small image into a larger image.

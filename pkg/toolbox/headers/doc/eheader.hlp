@@ -1,4 +1,4 @@
-.help eheader Aug93 stsdas.toolbox.headers
+.help eheader Aug93 st4gem.toolbox.headers
 .ih
 NAME
 eheader -- Interactively edit an image header.

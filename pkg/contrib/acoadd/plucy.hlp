@@ -1,4 +1,4 @@
-.help plucy V0.70 Mar98 stsdas.contrib
+.help plucy V0.70 Mar98 st4gem.contrib
 .ih
 NAME
 plucy -- Multiple channel photometric image restoration
@@ -390,5 +390,5 @@ Photometric Image Restoration", ST-ECF Newsletter 21, pp. 16-18, 1994.
 The PLUCY implementation and this help file were written by Richard Hook.
 .ih
 SEE ALSO
-The 'stsdas.analysis.restore' package. 
+The 'st4gem.analysis.restore' package. 
 .endhelp

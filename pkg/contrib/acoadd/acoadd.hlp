@@ -1,4 +1,4 @@
-.help acoadd V1.6 Mar98 stsdas.contrib
+.help acoadd V1.6 Mar98 st4gem.contrib
 .ih
 NAME
 acoadd -- Perform image co-addition and restoration using Lucy Method
@@ -173,8 +173,8 @@ BUGS
 .fi
 .ih
 SEE ALSO
-The 'stsdas.analysis.restore' package, 'stsdas.contrib.plucy' and
-the 'dither' package in STSDAS..
+The 'st4gem.analysis.restore' package, 'st4gem.contrib.plucy' and
+the 'dither' package in ST4GEM..
 
 .ih
 REFERENCES

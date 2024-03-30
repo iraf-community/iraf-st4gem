@@ -1,4 +1,4 @@
-.help isoexam Sep96 stsdas.analysis.isophote
+.help isoexam Sep96 st4gem.analysis.isophote
 .ih
 NAME
 isoexam  --  Interactive exam of isophote table using the image display.

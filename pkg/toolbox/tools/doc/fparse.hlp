@@ -1,4 +1,4 @@
-.help fparse Aug98 stsdas.toolbox.tools
+.help fparse Aug98 st4gem.toolbox.tools
 .ih
 NAME
 fparse -- Parse a pathname specification into its component parts.

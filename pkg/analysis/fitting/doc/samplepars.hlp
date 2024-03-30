@@ -1,4 +1,4 @@
-.help samplepars Jan96 stsdas.analysis.fitting
+.help samplepars Jan96 st4gem.analysis.fitting
 .ih
 NAME
 samplepars -- Edit parameters related to data sampling and rejection.

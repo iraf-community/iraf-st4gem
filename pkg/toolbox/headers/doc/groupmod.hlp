@@ -1,4 +1,4 @@
-.help groupmod Aug92 stsdas.toolbox.headers
+.help groupmod Aug92 st4gem.toolbox.headers
 .ih
 NAME
 groupmod -- Add or delete group parameters in multi-group images.
@@ -9,7 +9,7 @@ groupmod input output keywords operation
 DESCRIPTION
 This task will add or delete group parameters in multi-group GEIS
 format images, which are described in the "Data Formats" chapter
-of the "STSDAS Users Guide" (available from STScI).
+of the "ST4GEM Users Guide" (available from STScI).
 
 Group parameters are read from the table specified by the 'keywords'
 parameter.  If you are adding parameters, there are two required columns and

@@ -17,7 +17,7 @@ the psikern task are not available when run as a device.
 
 The casual IRAF user will probably not know whether they are using
 psikern to render graphics produced by IRAF graphics.  If the local
-STSDAS system administrator has set up graphics output devices to use
+ST4GEM system administrator has set up graphics output devices to use
 psikern, usage is no different than any other IRAF graphics device.
 Since the set up of output devices in IRAF are site-specific, one will
 need to talk to their IRAF system administrator to find out what has
@@ -90,7 +90,7 @@ rendering are two different operations, using the LUT's in different
 ways.  Most graphics applications will only be concerned with the
 graphics LUT.
 
-A lookup table may either be a text or binary STSDAS table.  If the table
+A lookup table may either be a text or binary ST4GEM table.  If the table
 is a text table, the columns are defined as follows.  Lines that begin
 with a pound sign, "#", or totally blank lines, are considered
 comments.  The first four columns must be present.  The last column,
@@ -365,37 +365,37 @@ The following examples demonstrate how to define and modify the color
 lookup tables.
 
 9. Define and use the color table, "invxgterm".  This
-table is a text table distributed with STSDAS in the file
-"stsdas$lib/invxgterm".
+table is a text table distributed with ST4GEM in the file
+"st4gem$lib/invxgterm".
 
 .nf
 	cl> prow dev$pix 101 >G prow.gki
 	cl> psikern prow.gki device=psi_land \
-	graphics_lut=stsdas$lib/invxterm
+	graphics_lut=st4gem$lib/invxterm
 .fi
 
 10.  Define a two-color graphics lookup table.  Many PostScript
 devices are laser printers.  Though they render color as different
 levels of gray, the output may not be pleasing.  One can force black
-on white by using a two-color graphics lookup table.  STSDAS
-distributes this table in the file "stsdas$lib/mono"
+on white by using a two-color graphics lookup table.  ST4GEM
+distributes this table in the file "st4gem$lib/mono"
 
 11.  A user has written an IGI script which requires a 256 color
-graphics LUT, which mimics a rainbow from red to magenta.  STSDAS
-distributes this table in the file "stsdas$lib/rain256".  This
+graphics LUT, which mimics a rainbow from red to magenta.  ST4GEM
+distributes this table in the file "st4gem$lib/rain256".  This
 table demonstrates the use of the color interpolation that psikern
 provides.
 
 .nf
 	cl> igi <manycolor.igi >G igi.gki
 	cl> pskern igi.gki device=apsikerndevice \
-	graph_lut=stsdas$lib/rain256
+	graph_lut=st4gem$lib/rain256
 .fi
 
 12.  A user has written an IGI script which renders an image.  However,
 the user would like to use a 256 color image LUT, which mimics a
-rainbow from red to magenta.  STSDAS distributes this table as
-"stsdas$lib/imgrain256".  The only difference between
+rainbow from red to magenta.  ST4GEM distributes this table as
+"st4gem$lib/imgrain256".  The only difference between
 the table below and the one in example 11 is that an image LUT need
 not worry about background/foreground colors.  Hence the first two
 entries can be part of the whole color continuum.
@@ -410,7 +410,7 @@ BUGS
 The kernel does not recognize changes in the txspacing.
 .ih
 REFERENCES
-STSDAS Contact: Jonathan Eisenhamer, <eisenhamer@stsci.edu>
+ST4GEM Contact: Jonathan Eisenhamer, <eisenhamer@stsci.edu>
 
 For a technical/programming description of psikern, including how to
 modify IRAF'S graphcap file to install psikern devices, execute the
@@ -443,8 +443,8 @@ reference is
 	Addison-Wesley Publishing Company, Inc.
 .fi
 
-A number of color lookup tables are distributed with STSDAS in the
-directory "stsdas$lib".  The following tables are currently available:
+A number of color lookup tables are distributed with ST4GEM in the
+directory "st4gem$lib".  The following tables are currently available:
 
 .nf
 	defxgterm	-- Similar color map as the default xgterm colormap

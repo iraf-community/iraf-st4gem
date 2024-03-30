@@ -1,0 +1,228 @@
+.help plratio Jul94 st4gem.hst_calib.synphot
+.ih
+NAME
+plratio -- Plot the ratio of observed to predicted spectrophotometry 
+and photometry.
+.ih
+USAGE
+plratio obsmode spectrum form spfile
+.ih
+DESCRIPTION 
+This task will calculate and plot the ratio of observed
+spectrophotometric data to a synthetic HST spectrum.  It also
+optionally plots the ratios of photometric observations to the
+synthetic photometry computed from the synthetic HST spectrum. This
+task produces plots similar to those produced by plspec, except that
+it plots ratios of the observed data (the spectrophotometric and
+photometric tables) to the predicted data (the combination of obsmode
+and spectrum) instead of plotting the data themeselves. The task also
+plots chi quared error of the fit, and the bias and root mean squared
+errors in magnitudes.
+
+Spectrophotometric ratios are plotted as histograms if the form is
+counts or obmag and as continuous curves if the form is
+not. Photometric ratios are plotted as horizontal lines whose
+midpoints are marked by a circle. The horizontal line has its x value
+set to the pivot wavelength of the observation mode passband and its y
+value set to the ratio of the effective stimulus taken from the
+photometric table to the effective stimulus calculated from the
+spectrum and obsmode. The length of the line is set to the full width
+half maximum of the equivalent gaussian of the observation mode
+passband. The observation mode passbands are overplotted at the base
+of the plot.
+
+Which plots are produced are controlled by the task parameters 'spfile'
+and 'pfile'. If spectophotometric ratios are not desired, 'spfile'
+should be set to "none" or left blank. If photometric ratios are not
+desired, 'pfile' should be set to "none" or left blank.
+Spectrophotometric ratios are computed for every combination of
+synthetic spectra and spectrophotometric files. Synthetic spectra are
+matched to rows in the photometic table by matching the obsmode and
+spectrum parameters to the OBSMODE and TARGETID columns in the
+photometric table. The strings must be exactly the same in order to
+make the match.
+
+The obsmode string may be set to "none". In this case, the task uses
+an observation mode that is one over the wavelength set of the
+spectrum. If photometric errors are being computed, however, the form
+must be set to counts or obmag, because otherwise the task cannot
+compute the effective stimulus of the synthetic spectrum.
+
+.ih
+PARAMETERS
+.ls obsmode [string]
+This is a sequence of commands that creates the synthetic passband.
+The name of a command file can be passed to 'obsmode' by preceding the
+file name with a "@" character, for example, "@filename".
+
+Each command may either be a simple bandpass, which is represented by
+a comma separated string of keywords uniquely specifying an observing
+mode of the telescope or a more complex command, described in the help
+file for 'calcband'. The keywords which make up the observing mode are
+explained further in the obsmode task. If this parameter is left blank
+or set to "none", a default observation mode that is everywhere one
+will be used.
+.le
+.ls spectrum [string]
+This is a sequence of commands that create the synthetic spectrum.
+The commands can be placed in a file, whose name is passed to this
+parameter, preceded by a "@" character, e.g., '@filename'. Each line
+in this command file is treated as a separate set of commands. If this
+parameter is left blank or set to none, no spectra will be plotted.
+
+The commands that can be passed to this parameter are described in
+detail in the help file for the 'calcspec' task.
+.le
+.ls form [string]
+Desired output form. The following forms are recognized:
+.nf
+
+	FNU		erg / s / cm^2 / Hz
+	FLAM		erg / s / cm^2 / A
+	PHOTNU		photons / s / cm^2 / Hz
+	PHOTLAM		photons / s / cm^2 / A
+	COUNTS		photons / s 
+	ABMAG		-2.5 log_10 (FNU)  - 48.60
+	STMAG		-2.5 log_10 (FLAM) - 21.10
+	VEGAMAG		-2.5 log_10 (F/F_vega)
+	OBMAG		-2.5 log_10 (COUNTS)
+	JY		10^-23 erg / s / cm^2 / Hz
+ 	MJY		10^-26 erg / s / cm^2 / Hz
+
+.fi
+A standard magnitude system is VEGAMAG, for which Vega by definition
+has magnitude 0 at all wavelengths. The AB and ST magnitude systems are
+based on constant flux per unit frequency and per unit wavelength,
+respectively.  The zero points for these two systems are set for
+convenience so that Vega has magnitude 0 in both systems for the
+Johnson V passband.
+.le
+.ls (vzero = " ") [string]
+A list of values to substitute for variable zero. Each value in the
+list is substituted in turn for the string '$0' wherever it occurs in
+the input spectrum. The values must be real numbers.  Using vzero is
+the equivalent of placing the input spectrum several times in a
+file, with each spectrum containing one of the values in the list. The
+list may contain single values or ranges. The endpoints of the ranges
+are separated by a dash. An optional step size follows the range,
+preceded by the letter 'x'. If the step size is not present, the step
+size defaults to 1 or -1, depending on the order of the endpoints.
+The following table gives several examples of valid lists
+.nf
+
+	.1,.2,.3,.4	A list of single values
+	.1-.4x.1	The same list expressed as a range
+	-1 - -4 	A range with an implicit step size of -1
+	1-9,10-20x2	A list of more than one range
+.fi
+.le
+.ls spfile [file name]
+A table or ascii file containing spectrophotometry data; a list of one
+or more files can be specified using the "@filename" syntax.  If the
+value of this parameter is set to "none" or blank, the ratio of the
+spectrophotometric data to the theoretical spectra will not be
+plotted. In this case, the 'pfile' parameter should have a value other
+than "none". The spectrophotometric table can have the columns
+WAVELENGTH, FLUX, STATERROR, and FWHM.  The STATERROR and FWHM columns
+can be missing or all INDEF. The WAVENGTH and FLUX columns contain the
+wavelength and values of flux at that wavelength, respectively. The
+STATERROR and FWHM collumns contain the respective errors of the FLUX
+and WAVELENGTH columns. If the spectrophotometry file is an ascii
+file, the first through fourth columns are the wavelength, flux,
+staterror, and flux and the third and fourth columns are optional.
+.le
+.ls (pfile = "none") [string]
+A file containing photometric data, generated by the calcphot task. A
+list of files can be passed as "@filename".  If the value of this
+parameter is "none" or blank, the ratio of the photometric data to the
+photometric data generated from the synthtic spectra will not be
+plotted. A table generated by calcphot will have column names DATUM,
+FORM, OBSMODE and TARGETID.  These columns contain the effective
+stimulus, its form, the observation mode, and spectrum passed to
+calcphot. If the photometric file is an ascii file, the file will have
+four columns in the order specified above. This task matches the
+photometic data to the data generated from the spectra by the strings
+in the OBSMODE and TARGETID columns.
+.le
+.ls (left = INDEF) [real]
+Minimum wavelength to plot. If set to INDEF, the task will set it to
+the minimum wavelength in the wavelength set.
+.le
+.ls (right = INDEF) [real]
+Maximum wavelength to plot. If set to INDEF, the task will set it to
+the maximum wavelength in the wavelength set.
+.le
+.ls (bottom = INDEF) [real]
+Minimum flux value to plot. If set to INDEF, the task will set it
+to the minimum value of the ratios.
+.le
+.ls (top = INDEF) [real]
+Maximum flux value to plot. If set to INDEF, the task will set it
+to the maximum value of the ratios.
+.le
+.ls (append = no) [boolean]
+Append results to an existing plot? 
+.le
+.ls (ltype = "solid") [string]
+The line type to be used for plotting the mode1 passband.  The allowed
+values are: clear, solid, dashed, dotted, and dotdash.
+.le
+.ls (device = "stdgraph") [string]
+Send output to the designated device.
+.le
+.ls (wavetab = "") [file name]
+Name of an optional wavelength table or file. An appropriate table can
+be generated by using the 'genwave' task. If a table is used, the
+wavelength column name must be "WAVELENGTH". If an ASCII file is used
+the first column is taken to be the wavelength column.  The
+subdirectory 'synphot$data has ASCII wavelength tables useful for
+specific HST passbands.  
+
+If no wavelength table is specified, the task generates a wavelength
+set which covers the range between the left and right plot limits. If
+there is no wavelength table, and plot limits are not specified, a
+default wavelength set is used. The default wavelength set covers the
+wavelength range where the spectrum is non-zero. Wavelengths are
+spaced logarithmically over this range. If more than one spectrum is
+plotted, the range is computed based on the first spectrum. If the
+wavelength range of the spectra differ significantly, a wavelength
+table should be specified explicitly or plot limits should be set.
+.le
+.le
+.ls (refdata = " ") [pset name]
+Parameter set for reference data used in calculations.  The following 
+parameters are stored in this set.
+.nf
+
+     area = 45238.93416:  HST telescope area in cm**2.
+
+     grtbl = "mtab$*.tmg":  HST graph table.  Uses the
+	       most recent version by default.
+
+     cmptbl = "mtab$*.tmc":  Instrument component table.  
+                The most recent version is used by default.
+
+.fi
+.le
+.ls (device = "stdgraph") [real]
+Send output to the designated device.
+"stdgraph" plots to the screen, "stdplot" sends output to your
+default laser printer.
+.le
+.ih
+EXAMPLES
+1.  Calculate the ratio of a 15000 K blackbody spectrum to that of Vega.
+We first renormalize the blackbody spectrum to have magnitude 0 in the
+V passband (to match the absolute flux level of Vega).  The ratio is
+plotted in units of flam.
+.nf
+sy> plratio none "rn(bb(15000),band(v),0,vegamag)" flam \
+>>> crcalspec$alpha_lyr_stis_002.fits
+.fi
+.ih
+REFERENCES
+Written by B.Simon based on XCAL code written by Keith Horne
+.ih
+SEE ALSO
+plspec
+.endhelp

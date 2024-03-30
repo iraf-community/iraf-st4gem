@@ -1,4 +1,4 @@
-.help improject Jun94 stsdas.toolbox.imgtools
+.help improject Jun94 st4gem.toolbox.imgtools
 .ih
 NAME
 improject -- Project an image along a chosen axis, decreasing the number 

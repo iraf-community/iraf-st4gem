@@ -1,4 +1,4 @@
-.help dbcreate August94 stsdas.contrib.spfitpkg
+.help dbcreate August94 st4gem.contrib.spfitpkg
 .ih
 NAME
 dbcreate - Can be used to create a new database file for use by specfit

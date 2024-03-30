@@ -1,4 +1,4 @@
-.help boxinterp Jul97 stsdas.toolbox.imgtools
+.help boxinterp Jul97 st4gem.toolbox.imgtools
 .ih
 NAME
 boxinterp -- Fill in rectangular areas with values interpolated from the 

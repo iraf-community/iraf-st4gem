@@ -24,7 +24,7 @@ a warning will be printed
 ('hedit' is silent in this case).
 
 Such parameters as the number of rows or columns in the table
-are stored differently in FITS, STSDAS, and text tables.
+are stored differently in FITS, ST4GEM, and text tables.
 The following special "keywords" can be used
 to reference such information regardless of table type.
 These may be used in the 'keywords' parameter when value=".",

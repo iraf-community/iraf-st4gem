@@ -1,0 +1,115 @@
+.help imspec Jan94 st4gem.hst_calib.synphot
+.ih
+NAME
+imspec -- Convert an image to or from a 'synphot' spectrum.
+.ih
+USAGE
+imspec input output
+.ih
+DESCRIPTION 
+This task will convert a one-dimensional image into an ST4GEM table that
+can be used by the other 'synphot' tasks, or convert a 'synphot' table
+to a one-dimensional image. The type of conversion performed is
+determined automatically from the type of the input file.  More than
+one file may be converted at a time by using a list of input and
+output files. An optional wavelength image may be supplied along with
+the input and output files. If the input file is an image and no
+wavelength image is supplied, the wavelengths are computed from the
+world coordinate system in the input image. If a wavelength image is
+supplied, the world coordinate system in the input image is ignored
+and the wavelengths are copied from the wavelength image, which are
+assumed to be in a one-to-one correspondence with the fluxes in the
+input image. If the input file is a table and a wavelength image is
+specified, the flux column in the input table is copied to the output
+image and the wavelength column is copied to the wavelength image.
+
+You can optionally specify the length of the output file by
+setting the parameter 'olength'. The length of an image is its number
+of pixels and the length of a table is the number of rows. If the
+output file is a table, the flux units can be set by the parameter
+'form'. If an input table has INDEF values, these will be replaced in
+the output image by the value specified in the parameter 'badpix'.
+
+If a wavelength image is supplied, the wavelengths must be in
+monotonic order. If no wavelength image is supplied, the input image
+must be one-dimensional and have a linear world coordinate system.  An
+input table must contain two columns, labeled WAVELENGTH and FLUX (or
+FLUX1). All other columns will be ignored. The values in the
+wavelength column must be in monotonic order. If wavelength and flux
+units are specified in the table, they must be units supported by the
+synphot package.
+.ih
+PARAMETERS
+.ls input [string]
+List of input files. Files may be either images or tables. This task
+will determine the type of each input file and create an output file
+of the opposite type. Only one group can be copied from each input
+file. If the group is not specified in the file name, the first group
+will be copied.
+.le
+.ls output [string]
+List of output files. The number of output files must match the number
+of input files. The type of the output file will be determined from
+the corresponding input file.
+.le
+.ls (wave = " ") [file name]
+The name of the wavelength file. If this name is blank (the default),
+no wavelength file will be used. If wavelength files are used, the
+number of wavelength files must match the number of input and output
+files. If a wavelength file is used and the input file is an image,
+the world coordinates of the input image are ignored and the
+wavelengths are copied from the wavelength image. If a wavelength file
+is used and the input file is a table, the wavelength column from the
+table is used to create the wavelength image.
+.le
+.ls (inform = "counts") [string, allowed values: obmag | stmag |
+vegamag | counts | mjy | jy | fnu | flam | photnu | photlam]
+
+The flux units of the input spectrum. If the input spectrum is a
+table, the flux units will be read from the flux column units and this
+parameter will be ignored unless the column units are blank.
+.le
+.ls (outform = "counts") [string, allowed values: obmag | stmag |
+vegamag | counts | mjy | jy | fnu | flam | photnu | photlam]
+
+The flux units of the output spectrum.
+.le
+.ls (olength = INDEF) [integer] [min = 1, max = INDEF]
+Length of the output file.
+If this parameter is set to INDEF (the default), the length of the
+output file will be the same as the length of the input file.
+Otherwise, the length of the output file will be that specified by
+this parameter.
+.le
+.ls (badpix = 0.0) [real]
+The value of this parameter will be used to replace flux values from
+the input table when they are INDEF.
+.le
+.ls (refdata = "") [pset name]
+Parameter set for reference data for tasks in the synphot package. The
+only parameter in this pset used by this task is 'area', the HST
+telescope area in cm^2.
+.le
+.ih
+EXAMPLES
+1. Copy a 'synphot' table to an image. Set the length of the output
+image to 512 pixels:
+
+.nf
+  sy> imspec crrefer$calspec/eta_uma_002.tab eta_uma.hhh olength=512
+.fi
+
+2.Copy a set of FOS spectra into tables with the same rootname as the
+input file, but an extension of '.tab'.  Use the FOS wavelength images
+("c0h" images) to determine the wavelength array in the output table:
+
+.nf
+  sy> imspec y*.c1h y*.%c1h%tab% wave=y*.c0h
+.fi
+
+.ih
+SEE ALSO
+ttools.imtab, ttools.tabim
+
+Type "help synphot opt=sys" for a description of table formats.
+.endhelp

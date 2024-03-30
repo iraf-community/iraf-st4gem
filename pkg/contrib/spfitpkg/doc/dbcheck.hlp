@@ -1,4 +1,4 @@
-.help dbcheck August94 stsdas.contrib.spfitpkg
+.help dbcheck August94 st4gem.contrib.spfitpkg
 .ih
 NAME
 dbcheck - Verifies that a specfit database is in the correct format

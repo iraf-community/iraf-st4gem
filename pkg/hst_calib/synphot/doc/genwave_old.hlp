@@ -1,0 +1,71 @@
+.help genwave Nov89 st4gem.hst_calib.synphot
+.ih
+NAME
+genwave -- Interactively generate a wavelength set.
+.ih
+USAGE
+genwave waveset wavecol maxrow
+.ih
+DESCRIPTION
+This task creates a wavelength set and allows the user to interactively
+define the wavelength range, sampling interval, velocity interval, or
+total number of pixels used to create the output table.  Throughout the
+interactive session, the task displays information about the status of
+the table that will be created, and warns the user when out-of-range
+values are entered.
+
+Once the user begins an interactive session, the task waits for the
+user to enter commands telling the task which attribute of the
+wavelength set is to be changed.  Commands can be abbreviated by
+entering only the first letter of the command.  After entering a
+command, the task will prompt for a value to be entered, for example,
+entering the "R" command will cause the following prompt to appear
+"Set Angstrom range", at which point the user will enter two values
+representing the lower and upper bounds for the wavelength.  The following
+commands are recognized by 'genwave':
+.nf
+
+	Command		Meaning
+	=======		=======
+	Range		Set wavelength range (in Angstroms)
+	Ang		Set wavelength interval (in Angstroms/pixel)
+	Vel		Set velocity interval
+	Pixel		Set number of pixels
+	Quit		Write the table and stop this task
+	?		Same as "Quit" command
+
+.fi
+Entering an invalid command will display the list of valid commands.
+
+.ih
+PARAMETERS
+.ls waveset [file name]
+File name for the wavelength table that will be created by this task.
+The wavelength table is a set of sampling points for both spectral flux
+and throughput transmission, and is used by various tasks in the 'synphot'
+package.
+.le
+.ls wavecol = WAVELENGTH [string]
+Name for the column in 'waveset' that will contain the wavelength
+set.  The default value 'WAVELENGTH' is used to easily define a
+table that can be associated with tables in the Calibration Data Base (CDBS).
+Values written to this column will be in Angstrom units.
+.le
+.ls maxrow = 15000 [integer]
+The maximum allowable number of wavelength sampling points to be returned.
+.le
+.ih
+EXAMPLES
+1. Generate a wavelength set with a maximum of 12000 sampling points.
+Results will be written to the 'WAVE' column of a table file called
+'samplset.tab'.
+
+.nf
+  sy> genwave samplset.tab "WAVE" 12000
+.fi
+.ih
+SEE ALSO
+
+Type "help synphot opt=sys" for a description of table structures used
+by synthetic photometry tasks.
+.endhelp

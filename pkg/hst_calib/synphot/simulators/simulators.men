@@ -1,0 +1,8 @@
+Menu for the package st4gem.hst_calib.synphot
+
+      simbackgd - Two-dimensional HST background simulator
+	 simimg - Two-dimensional HST imaging instrument simulator
+       simnoise - Two-dimensional HST noise simulator
+	simspec - Two-dimensional HST spectral instrument simulator
+
+Type "help synphot opt=sys" for a description of files used by these tasks.

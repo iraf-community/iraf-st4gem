@@ -1,4 +1,4 @@
-.help geompar Oct97 stsdas.analysis.isophote
+.help geompar Oct97 st4gem.analysis.isophote
 .ih
 NAME
 geompar -- Set the geometric parameters for the 'ellipse' task.

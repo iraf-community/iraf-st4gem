@@ -3,7 +3,7 @@
 
 This package contains tasks for working with tables.
 Tables are files that contain data in row & column format.
-The supported table formats are FITS, STSDAS, and ASCII text.
+The supported table formats are FITS, ST4GEM, and ASCII text.
 Different columns may have different data types,
 but all the values in one column have the same data type.
 In addition to the tabular data,
@@ -17,7 +17,7 @@ Each column has the following four items of information:
     (4) "units", a string (default is null).
 .fi
 
-For STSDAS tables the column names and units
+For ST4GEM tables the column names and units
 can be up to 20 characters in length.
 For FITS tables the limit is 68 characters.
 The default column names for ASCII tables are "c1", "c2", "c3", etc.;
@@ -137,7 +137,7 @@ a format may be given with that syntax when using ttools tasks,
 and the format will be converted to SPP style.
 
 SPP formats (and Fortran equivalents) that are supported
-for STSDAS tables are as follows.
+for ST4GEM tables are as follows.
 
 .nf
 	SPP    Fortran      meaning
@@ -215,7 +215,7 @@ Here are some examples.
 	ttools            %-10s      ttools
 .fi
 
-FITS and STSDAS tables can have columns that contain arrays ("3-D tables").
+FITS and ST4GEM tables can have columns that contain arrays ("3-D tables").
 That is, each cell (designated by both a column name and a row number)
 stores a 1-dimensional array of elements instead of a single value.
 

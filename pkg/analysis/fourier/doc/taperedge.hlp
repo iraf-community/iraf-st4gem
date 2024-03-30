@@ -1,4 +1,4 @@
-.help taperedge May93 stsdas.analysis.fourier
+.help taperedge May93 st4gem.analysis.fourier
 .ih
 NAME
 taperedge -- Apply a taper function to image edges.

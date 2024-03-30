@@ -1,4 +1,4 @@
-.help rbinary Jan92 stsdas.toolbox.imgtools
+.help rbinary Jan92 st4gem.toolbox.imgtools
 .ih
 NAME
 rbinary -- Create an image from a binary file.
@@ -44,7 +44,7 @@ The value passed to 'offset' must be divisible by two.
 .le
 .ih
 EXAMPLES
-1.  Suppose you have an STSDAS table containing a single column of real data
+1.  Suppose you have an ST4GEM table containing a single column of real data
 starting 112 bytes after the beginning of the file.
 You can convert the table to an image using 'naxis = 1',
 setting 'dimen' to the number of rows, and setting 'offset = 112'.

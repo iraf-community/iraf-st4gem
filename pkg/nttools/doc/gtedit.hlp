@@ -1,14 +1,14 @@
 .help gtedit Aug93 tables
 .ih
 NAME
-gtedit -- Graphically edit an STSDAS table.
+gtedit -- Graphically edit an ST4GEM table.
 .ih
 USAGE
 gtedit input xcolumn ycolumn
 .ih
 DESCRIPTION
 The 'gtedit' task lets you graphically edit 
-an STSDAS table.
+an ST4GEM table.
 You can use the editor to delete rows. You can
 also choose whether to overwrite the existing
 file (by setting 'inplace=yes') or you
