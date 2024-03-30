@@ -30,7 +30,6 @@ string	errcol    "ERROR"
 string	errsuffix "_err"
 string	nullwave  "Indef found in wavelength column"
 string	badunits  "Wavelength units not found, angstroms assumed"
-string	nullthru  "Emissivity column all indef"
 string	wavorder  "Wavelength column is not sorted"
 
 int	tbpsta(), stridx(), anytoang(), wavedir()

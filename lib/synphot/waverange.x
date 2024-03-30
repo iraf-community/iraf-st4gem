@@ -14,8 +14,6 @@ real	maxwave			# o: maximum wavelength
 int	icomp, status
 real	onelow, onehigh
 
-string	wavecol  "WAVELENGTH"
-string	thrucol  "THROUGHPUT"
 string	nocomp   "No components in optical path"
 string	badfile  "Cannot compute wavelength range for file"
 	

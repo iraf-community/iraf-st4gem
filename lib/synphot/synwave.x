@@ -197,7 +197,6 @@ pointer	sp, strbuf, rbuf, temp
 
 string	badexpr  "Synthetic photometry expression too complex"
 string	badcode  "Illegal code in expression evaluator"
-string	nullvar  "A variable is not legal in this expression"
 string	badstat  "Error while evaluating synthetic photometry expression"
 string	badfile  "Cannot read table"
 string	nullexpr "Synthetic photometry expression is blank"
