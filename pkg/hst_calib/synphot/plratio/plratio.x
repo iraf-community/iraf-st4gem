@@ -23,12 +23,10 @@ pointer	grtbl		# graph table
 pointer	cmptbl		# component lookup table
 real	area		# telescope area
 
-bool	ylog
 int	gmode, nstat, pstat, ntgt
 pointer	sp, gp, dspec, dsphot, dphot, dratio, tgtlist
 real	chisq, bias, rms, pchisq, pbias, prms, outlimit[4]
 
-data	ylog       / false /
 string	title      "SYNPHOT.PLRATIO"
 string	obslabel   "OBSMODE ="
 string	speclabel  "REFSPEC ="

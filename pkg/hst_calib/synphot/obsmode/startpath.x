@@ -22,7 +22,6 @@ int	irow, nrow, imode, umode
 int	node, inode, onode, topnode, toplevel, newlevel
 pointer	sp, used, keyword, compid, topkey, topid
 
-string	backnode  "Output node in graph table points backward. Component name"
 string	notused   "Observation mode keyword not used"
 
 bool	streq()

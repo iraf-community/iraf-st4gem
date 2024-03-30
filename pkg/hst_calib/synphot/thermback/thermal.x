@@ -59,9 +59,9 @@ real   asumr()    # function call
                           # HgCdTE (eg NICMOS) gain 1 between e and photons
                           # CCDs: gain adjustable by read electronics
                           # other detector physics... ???
-string  filecol  "FILENAME"
+#string  filecol  "FILENAME"
 string  obscol   "OBSMODE"
-string  thlcol   "THLMODE"
+#string  thlcol   "THLMODE"
 int	    oncomp   # number of optical components found in lookup table
 int	    tncomp   # number of thermal components found in lookup table
 
@@ -91,10 +91,10 @@ int nmode
 
 pointer sp
 
-string  compname  "COMPNAME"
-string  keyname   "KEYWORD"
-string  tcompname "THCOMPNAME"
-string  tkeyname  "KEYWORD"
+#string  compname  "COMPNAME"
+#string  keyname   "KEYWORD"
+#string  tcompname "THCOMPNAME"
+#string  tkeyname  "KEYWORD"
 
 
 double scale, apscale
