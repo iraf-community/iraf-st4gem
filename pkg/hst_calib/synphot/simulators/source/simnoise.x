@@ -28,7 +28,6 @@ int	apx, apy, nwave, degree
 pointer	sp, mode, pcode, ncode, wave, thruput
 pointer	im, imi, out, in
 
-string	raform	 RA_UNITS
 string	notband  "Observation mode is not a bandpass"
 string	badsize  "Input image size does not match detector size"
 

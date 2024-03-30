@@ -24,7 +24,6 @@ pointer	buf
 real	xstart, ystart, mean, sigma, max, oldtot, total, avgtot, range
 
 string	baddimen   "PSF image is not two dimensional"
-string	badcenter  "Could not locate PSF center"
 
 int	aravr(), checkdim()
 pointer	imgl2r(), imgs2r()

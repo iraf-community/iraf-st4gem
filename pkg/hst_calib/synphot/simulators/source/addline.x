@@ -23,9 +23,6 @@ int	iwave, ix, jx, jy, kx
 pointer	sp, lpos, rpos
 real	xside, xpos, ldist, rdist, total, matrix[3]
 
-string	badmatrix  "addline: inconsistent matrix calculation"
-string	debugfmt   "jx = %d, jy = %d, line = %g, l = %f, c = %f, r = %f\n"
-
 real	asumr()
 
 begin
