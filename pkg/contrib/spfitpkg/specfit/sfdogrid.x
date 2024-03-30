@@ -33,8 +33,6 @@ int	fit_type
 
 real	chisq_best
 
-extern chispec
-
 include	"specfit.com"
 
 int	grid_num	#No of parameterrs to be gridded
