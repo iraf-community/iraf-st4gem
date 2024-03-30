@@ -1,0 +1,42 @@
+#   Make the simulators package
+#   Author: bsimon 22-Aug-95
+#   Author: laidler 31-may-02	patch to fix circular reference with synphot
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$update	simulators.a
+	$call	simulators
+	;
+
+libonly:				#patch
+	$update simulators.a
+	;
+
+install:
+	$move	xx_simulators.e st4gembin$x_simulators.e
+	;
+
+simulators:
+linkonly: 
+	$omake	x_simulators.x
+	$link	x_simulators.o simulators.a  ../synphot.a -lsynphot \
+		-lapplib -lstxtools -ltbtables -o xx_simulators.e
+	;
+
+simulators.a:
+	@source
+	;

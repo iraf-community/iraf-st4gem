@@ -1,0 +1,6 @@
+define	MAXROW	2000
+define	MAXCOL	4
+define	MAXSTAR	300
+define	MAXLIST	8
+define	MAXPT	MAXLIST*MAXSTAR
+define	MAXFIT	100

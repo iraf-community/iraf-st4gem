@@ -1,0 +1,12 @@
+spectrum,s,h,crcalspec$alpha_lyr_stis_002.fits,,, Default spectrum
+psfcat,s,h,"scidata$synphot_psf.cat",,, Catalog of point spread functions
+lsfcat,s,h," ",,, Catalog of line spread functions
+dsfcat,s,h," ",,, Catalog of detector point spread functions
+detcat,s,h,"simulators$data/detectors.dat",,, Catalog of detector information
+apercat,s,h,"simulators$data/apertures.dat",,, Catalog of aperture shapes
+gratecat,s,h,"simulators$data/gratings.dat",,, Catalog of grating parameters
+limitcat,s,h,"simulators$data/limits.dat",,, Catalog of count rate limits
+flatcat,s,h,"simulators$data/flatfields.dat",,, Catalog of inverse flat fields
+zodtab,s,h,"simulators$data/zodiac.dat",,, Zodiacal light table
+earthtab,s,h,"simulators$data/earth.dat",,, earthlight spectrum
+thermtab,s,h,"simulators$data/thermal.dat",,, thermal background spectrum

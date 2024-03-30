@@ -1,0 +1,64 @@
+task	ttt
+
+include <math.h>
+define	DIM	2
+
+procedure ttt()
+
+pointer mw, ct
+pointer bufptr
+double	r[DIM]		# crpix
+double	w[DIM]		# crval
+double	cd[DIM,DIM]	# CD matrix
+double	pa, scale
+double	x, y, ra, dec
+int	ndim
+bool	done
+pointer mw_open(), mw_sctran()
+double	clgetd()
+
+begin
+	ndim = DIM
+	pa = DEGTORAD(30.d0)
+	scale = 0.1d0			# 0.1 degree / pixel
+	r[1] = 0.d0
+	r[2] = 0.d0
+	w[1] = 30.d0		# ra
+	w[2] = 60.d0		# dec
+	cd[1,1] = -scale * cos (pa)
+	cd[2,1] = scale * sin (pa)
+	cd[1,2] = scale * sin (pa)
+	cd[2,2] = scale * cos (pa)
+
+	bufptr = NULL
+	mw = mw_open (bufptr, ndim)
+
+	call mw_newsystem (mw, "world", ndim)
+
+	call mw_swtermd (mw, r, w, cd, ndim)
+	call mw_swattrs (mw, 1, "axtype", "ra")
+	call mw_swattrs (mw, 1, "wtype", "tan")
+	call mw_swattrs (mw, 2, "axtype", "dec")
+	call mw_swattrs (mw, 2, "wtype", "tan")
+
+	# Initialize for converting pixel coords to ra & dec.
+	ct = mw_sctran (mw, "logical", "world", 3b)
+
+	done = false
+	while (!done) {
+	    x = clgetd ("x")
+	    if (x == 999.d0) {			# termination flag
+		done = true
+	    } else {
+		y = clgetd ("y")
+		call mw_c2trand (ct, x, y, ra, dec)
+		call eprintf ("%8.4f %8.4f\n")
+		    call pargd (ra)
+		    call pargd (dec)
+	    }
+	}
+
+	call mw_ctfree (ct)
+	call mw_close (mw)
+end
+

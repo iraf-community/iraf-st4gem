@@ -1,0 +1,147 @@
+# Update the synphot library.
+# Author: B.Simon 12-May-93
+
+$call update
+$exit
+
+relink:
+	$call update
+	;
+debug:
+        $set    XFLAGS = "-fgqC $(XFLAGS)"
+        $set    LFLAGS = "$(LFLAGS) -/Bdynamic"
+	$call   relink
+        ;
+
+linkonly:
+	;
+
+install:
+	;
+
+update:
+	$checkout libsynphot.a ../
+	$update libsynphot.a
+	$checkin libsynphot.a ../
+	;
+
+libsynphot.a:
+##	evalband.f	
+##	getband.f	
+##	getphot.f	
+	adjparlis.x	"libsynphot.h"
+	angtoany.x	<tbset.h>
+	anytoang.x	<tbset.h>
+	anytophot.x	"libsynphot.h"
+	avglam.x	
+	bandfunc.x	"libsynphot.h"
+	bandname.x	"libsynphot.h"
+	bbfunc.x	"libsynphot.h"
+	bbsi.x		"libsynphot.h"
+	boxfunc.x	
+	breakcomp.x	
+	breakmode.x	"libsynphot.h"
+	breakparam.x	"libsynphot.h"
+	calcfiles.x	"syncalc.h"  "libsynphot.h"
+	calcrange.x	<tbset.h>  <synphot.h>  "libsynphot.h"
+	catfunc.x	<mach.h>  <tbset.h>
+	colcategory.x	<tbset.h>
+	colinterp.x	<tbset.h>
+	colmindist.x	<tbset.h>
+	colscale.x	<tbset.h>
+	compband.x	
+	compfiles.x	<tbset.h>  "libsynphot.h"
+	compnames.x	
+	compspec.x	
+	ebmvfunc.x	
+	ebmvxfunc.x	
+	emfunc.x	"libsynphot.h"
+	evalbandx.x	"libsynphot.h"
+	evalfilt.x	<tbset.h>  "libsynphot.h"
+	evalemiss.x	<tbset.h>  "libsynphot.h"
+	evalspline.x	
+	evlbnd.x	
+	fillnull.x	
+	findthruput.x	"libsynphot.h"
+	flip.x		
+	funinterp.x	
+	funit.x		"libsynphot.h"
+	fwhmlam.x	
+	gaussfunc.x	
+	getbandx.x	"libsynphot.h"
+	getcanned.x	<tbset.h>
+	gethstarea.x	<synphot.h>
+	getnwave.x	<tbset.h>  "syncalc.h"  "libsynphot.h"
+	getparcol.x	<tbset.h>
+	getpath.x	"libsynphot.h"
+	getphotx.x	"libsynphot.h"
+	getthrucol.x	<tbset.h>
+	getthruput.x	
+	getvega.x	"libsynphot.h"
+	graffiles.x	"libsynphot.h"
+	gridfunc.x	<tbset.h>
+	gridname.x	<tbset.h>
+	gtband.x	
+	gtphot.x	
+	hifunc.x	"libsynphot.h"
+	iota.x		
+	iscount.x	"libsynphot.h"
+	ismagunit.x	"libsynphot.h"
+	issimple.x	
+	lastfile.x	
+	lgaussfunc.x	
+	listpath.x	"libsynphot.h"
+	mapgraf.x	<finfo.h>  <tbset.h>  "libsynphot.h"
+	mkmodestr.x	
+	modewarn.x	
+	mysalloc.x	
+	oneinterp.x	<mach.h>
+	opnsyntab.x	"libsynphot.h"  "opnsyntab.com"
+	phopar.x	<synphot.h>
+	phottoany.x	"libsynphot.h"
+	pivlam.x	
+	plfunc.x	"libsynphot.h"
+	polyfunc.x	
+	rate.x		"libsynphot.h"
+	rdband.x	<tbset.h>
+	rdspec.x	<tbset.h>
+	rdstospec.x	<tbset.h>  "libsynphot.h"
+	rdtabhd.x	
+	rdthru.x	
+	rdthruhdr.x	"libsynphot.h"
+	rdwave.x	<tbset.h>
+	rebin.x		
+	redlaw.x	<mach.h>
+	renormfunc.x	
+	rmslam.x	
+	searchgraf.x	"libsynphot.h"
+	shiftinterp.x	
+	strfix.x	<ctype.h>
+	sumfilt.x	
+	syncalc.x	<tbset.h>  <error.h>  "syncalc.h"  "libsynphot.h"
+	syncolptr.x	<tbset.h>  "libsynphot.h"
+	syncompile.x	<ctype.h>  "syncalc.h"  "libsynphot.h"  \
+			"syncompile.com"
+	syninterp.x	"libsynphot.h"
+	synphoterr.x	"libsynphot.h"
+	synphotwarn.x	
+	synsort.x	<error.h>
+	synspline.x	
+	syntabname.x	
+	syntegral.x	"libsynphot.h"
+	syntok.x	<ctype.h>
+	synwave.x	<mach.h>  <tbset.h>  <synphot.h>  "syncalc.h"  \
+			"libsynphot.h"
+	tabrange.x	<tbset.h>  "libsynphot.h"
+	thruputcol.x	<tbset.h>  "libsynphot.h"
+	tiltfunc.x	
+	unit.x		"libsynphot.h"
+	unitfunc.x	
+	wavedir.x	
+	wavelimits.x	<tbset.h>  "libsynphot.h"
+	wavemax.x	
+	waverange.x	<tbset.h>  "libsynphot.h"
+	waveset.x	
+	wpath.x		
+	zfunc.x		
+	;

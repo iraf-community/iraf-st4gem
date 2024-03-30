@@ -1,0 +1,8 @@
+spectrum,s,a,,,, Spectrum to calculate
+output,s,a,,,, Output table name
+form,s,h,photlam,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Desired form of output spectrum
+vzero,s,h," ",,,List of values for variable zero
+wavetab,s,h," ",,, Wavelength table name
+refdata,pset,h,,,, Reference data
+mode,s,h,'a',,,

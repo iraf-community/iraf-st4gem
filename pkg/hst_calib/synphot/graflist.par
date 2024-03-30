@@ -1,0 +1,3 @@
+grftable, s, a,"mtab$*_tmg.fits",,, instrument graph table
+compname, s, a,"",,, component name of starting node
+mode,s,h,"a",,,

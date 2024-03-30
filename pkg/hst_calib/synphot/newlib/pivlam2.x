@@ -1,0 +1,34 @@
+#* HISTORY *
+#* B.Simon	12-Jul-94	original
+
+# PIVLAM2 -- Compute pivot wavelength for two bandpasses
+
+real procedure pivlam2 (nwave, wave, nband, band1, band2)
+
+int	nwave		# i: length of wavelength set
+real	wave[ARB]	# i: wavelength set
+int	nband		# i: Number of bandpasses
+real	band1[ARB]	# i: First bandpass 
+real	band2[ARB]	# i: Second bandpass (or zero)
+#--
+pointer	sp, band
+real	result
+
+real	pivlam()
+
+begin
+	if (nband == 1) {
+	    result = pivlam (nwave, wave, band1)
+
+	} else {
+	    call smark (sp)
+	    call salloc (band, nwave, TY_REAL)
+
+	    call asubr (band1, band2, Memr[band], nwave)
+	    result = pivlam (nwave, wave, Memr[band])
+
+	    call sfree (sp)
+	}
+
+	return (result)
+end

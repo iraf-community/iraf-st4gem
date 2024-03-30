@@ -1,0 +1,92 @@
+# Update the library code in the synphot package library
+# Author: BSIMON, 26-JUL-88
+#	  E.Medeiros, Jan 1989
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	@vops	
+	adjbuild.x	"../adjlist.h"
+	adjclose.x	"../adjlist.h"
+	adjopen.x
+	adjtags.x	"../adjlist.h"
+	adjweb.x	"../adjlist.h"
+  	amoeba.f
+	amoebafit.x	"amoebapar.h"
+	applyebmv.x
+	ascphot.x
+	ascspec.x	"dictionaries.h"
+	ascsphot.x	"dictionaries.h"
+	astat.x
+	catpar.x
+	ckform.x
+	errcleanup.x
+	etosf.x
+	evalchi2.x	"../plspec/plspec.h"
+	evalspec.x	<tbset.h>
+	extlmag.x
+	extmag.x
+	extspec.x
+	fakesig.x
+	fibappend.x	"../graferr.h"
+	findsphot.x
+	fitfunk.x
+	formlist.x
+	getbest.x
+	getnode.x	<ctype.h> "../adjlist.h" "../graferr.h"
+	getwave.x	<tbset.h> "../plspec/plspec.h"
+	gtmode.x
+	grfbuild.x	"../grflist.h"
+	grfclose.x	"../grflist.h"
+	grfopen.x
+	insertpar.x	"amoebafit.h"
+	insertpard.x	"amoebafit.h"
+	intcompare.x
+	linterp.x
+	loadgraf.x	<tbset.h> "../graferr.h"
+	loadlist.x
+	loadphot.x	<tbset.h>
+	loadsphot.x	<tbset.h>
+	loadtargets.x	"../plspec/plspec.h" "targets.h"
+	loadtext.x	<tbset.h>
+	makewave.x	<tbset.h>
+	mark2int.x	<gset.h>
+	mergesort.x	"../graferr.h"
+	mgetpar.x	"amoebapar.h"
+	mputpar.x	"amoebapar.h"
+	nodeorder.x	"../adjlist.h"
+	parsedat.x
+	parsepar.x	"amoebapar.h"
+	photform.x
+	putphot.x	<tbset.h>
+	ratespec.x
+	rdvega.x	"vega.dat"
+	resetpar.x	"amoebapar.h"
+	savesf.x	<tbset.h>
+	scount.x
+	selectc.x	<tbset.h>
+	setnull.x
+	simperr.x	"amoebapar.h"
+	sortgraf.x
+	specform.x	<synphot.h>
+	sphotform.x
+	splitmode.x
+	stats.x
+	strcompare.x
+	strjust.x	<ctype.h>
+	strput.x
+	strreplace.x
+	strtosub.x
+	sumfiltspec.x
+	synphot.x	"mac.h"
+	toindef.x
+	usrlim.x
+	unbang.x
+	whichspec.x	"targets.h"
+	xlimit.x
+	xylimit.x
+	ylimit.x
+	;

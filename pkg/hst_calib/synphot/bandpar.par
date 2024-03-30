@@ -1,0 +1,7 @@
+obsmode,s,a,,,, Instrument observation mode(s)
+output,s,h,none,,, Output table name
+photlist,s,h,all,,, Photometric parameters to calculate
+refwave,r,h,INDEF,1.,, Wavelength used in computing EMFLX
+wavetab,s,h," ",,, Wavelength table name
+refdata,pset,h,,,, Reference data
+mode,s,h,'a',,,

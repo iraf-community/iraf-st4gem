@@ -1,0 +1,8 @@
+define	MAXMODE	200
+define	MAXSPEC	200
+define	MAXPHOT	200
+define	MAXPDAT	200
+define	MAXWAVE	14000
+define	MAXSP	200
+define	MINWAVE 500.0
+define	NWAVEDEF 1200

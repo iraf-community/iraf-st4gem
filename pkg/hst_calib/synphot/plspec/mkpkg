@@ -1,0 +1,37 @@
+#   Make the plspec task
+#   Author: Dave Bazell 9-Nov-1989
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$checkout	synphot.a ../
+$update		synphot.a
+$checkin	synphot.a ../
+$exit
+
+synphot.a:
+	clsdphot.x	"dphot.h"
+	clsdspec.x	"dspec.h"
+	clsdsphot.x	"dsphot.h"
+	fluxlimit.x
+	getdphot.x	"dphot.h"
+	getdspec.x	"dspec.h"
+	getdsphot.x	"dsphot.h"
+	limdphot.x	"dphot.h"  "../limit.h"
+	limdspec.x	"dspec.h"
+	limdsphot.x	"dsphot.h"
+	mapdband.x	"dphot.h"  "../limit.h"
+	plspec.x	"../limit.h"
+	pltbar.x	<gset.h>
+	pltdphot.x	<gset.h>  "dphot.h"
+	pltdspec.x	<gset.h>  "dspec.h"
+	pltdsphot.x	<gset.h>  "dsphot.h"
+	rdphotband.x	<tbset.h>
+	rdphotstat.x	<tbset.h>
+	rdphotwave.x	
+	rdsphot.x	<tbset.h>
+	;

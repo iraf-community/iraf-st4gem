@@ -1,0 +1,10 @@
+obsmode,s,a,,,, Telescope observation mode
+output,s,a,,,, Output image name
+input,s,h,none,,, Optional input image name
+noise,s,h,none,,, Optional noise expression
+exptime,r,h,1.0,0.0,, Exposure time (seconds)
+nread,i,h,1,1,, Number of readouts
+wavetab,s,h,none,,, Wavelength table name
+simcatp,pset,h,,,, Catalog and file parameters
+refdata,pset,h,,,, Reference data parameters
+mode,s,h,'a',,,

@@ -1,0 +1,74 @@
+# Update the library code in the synphot package library
+# Author: BSIMON, 16-JUN-94
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	adjbuild.x	"../adjlist.h"
+	adjclose.x	"../adjlist.h"
+	adjopen.x	
+	adjtags.x	"../adjlist.h"
+	adjweb.x	"../adjlist.h"
+	arndr.x
+	bandmul.x	
+	barlam.x	
+	calcnoise.x	"calcnoise.h"
+	chkform.x	
+	choplim.x	
+	compnoise.x	<ctype.h>  "calcnoise.h"  "compnoise.com"
+	crosswave.x
+	efflam.x	
+	effstim.x	
+	effstim2.x	
+	errform.x	
+	errphot.x	
+	expcompile.x	
+	exprewrite.x	
+	fibappend.x	
+	fillexpr.x	<ctype.h>
+	findmode.x	<tbset.h>
+	fwhmlam2.x	
+	getnaked.x	
+	getnode.x	<ctype.h>  "../adjlist.h"
+	getresid.x	
+	getwavelen.x	<mach.h>  <tbset.h>  <synphot.h>
+	goodfit.x	
+	grfbuild.x	"../grflist.h"
+	grfclose.x	"../grflist.h"
+	grfopen.x	
+	histplot.x	
+	intcompare.x	
+	label.x		<gset.h>
+	list.x		
+	listwave.x	<tbset.h>  "../limit.h"
+	loadgraf.x	<tbset.h>
+	makename.x	
+	mergesort.x	
+	mknoise.x	<mach.h>  <math.h>
+	monolam.x	
+	nodeorder.x	"../adjlist.h"
+	peaklam.x	
+	photrate.x	
+	pivlam2.x	
+	pltbox.x	<gset.h>  <mach.h>  "../limit.h"
+	plwaveset.x	"../limit.h"
+	printerr.x	
+	qtlam.x		
+	rdfittab.x	<tbset.h>
+	rdnoise.x	
+	setlimit.x	"../limit.h"
+	setmarker.x	<gset.h>
+	setphotform.x	
+	sortgraf.x	
+	splitexp.x	
+	strcompare.x	
+	syncalc2.x	
+	synvar.x	
+	vzero.x		<ctype.h>  "vzero.com"
+	widthlam.x	
+	wrtcommand.x	
+	wrtfittab.x	<tbset.h>
+	;

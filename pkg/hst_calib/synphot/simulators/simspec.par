@@ -1,0 +1,25 @@
+obsmode,s,a,,,, Telescope observation mode
+input,s,a,,,, Object description file
+output,s,a,,,, Output image name
+exptime,r,h,1.0,0.0,, Exposure time (seconds)
+nread,i,h,1,1,, Number of readouts
+cenwave,r,h,INDEF,1.0,100000, Central wavelength (angstroms)
+cenorder,i,h,INDEF,1,1000, Central order
+lsf_flag,b,h,no,,, Use line spread function?
+dsf_flag,b,h,no,,, Use detector point spread function?
+calcback,b,h,yes,,, Add calculated background to output?
+calcnoise,b,h,yes,,, Add calculated noise to output?
+quant,b,h,no,,, Round results to whole number?
+verbose,b,h,no,,, Print diagnostic mesages?
+det_ra,r,h,0.0,0.0,24.0, Telescope right ascension (hours)
+det_dec,r,h,0.0,-90.0,90.0, Telescope declination (degrees)
+det_ang,r,h,0.0,,, Telescope position angle (degrees)
+noise,s,h,none,,, Optional noise expression
+backfile,s,h,none,,, Background file
+noisefile,s,h,none,,, Noise file
+wavetab,s,h,none,,, Wavelength table name
+simmodp,pset,h,,,, Simulation model parameters
+simbackp,pset,h,,,, Background parameters
+simcatp,pset,h,,,, Catalog and file parameters
+refdata,pset,h,,,, Reference data parameters
+mode,s,h,'a',,,

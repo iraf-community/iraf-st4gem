@@ -1,0 +1,12 @@
+obsmode, s, a, "nicmos,2,f222m" , , ,           Instrument observation mode(s)
+output, s, h, none, , ,                         Output table name
+tcmptb, s, h, "mtab$*_tmt.fits", , ,            Instrument thermal component table
+detcat, s, h, "synphot$simulators/data/detectors.dat", , ,         Detector pixel scale table
+wavetab, s, h, " ", , ,                         Wavelength table name
+refdata, pset, h, , , ,                         Reference data
+verbose, b, h, no, , ,                         Print results to STDOUT ?
+mode, s, h, 'a', , , 
+output,s,h,"none", , , 				Output table name
+form,s,h,counts,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, 			Form for magnitude
+thermflux, r, h, INDEF, , ,                     Estimated output thermal flux

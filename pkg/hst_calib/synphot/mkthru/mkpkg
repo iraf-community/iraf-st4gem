@@ -1,0 +1,22 @@
+#   Make the mkthru task
+#   Author: BSIMON 11-MAY-2000
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$checkout	synphot.a ../
+$update		synphot.a
+$checkin	synphot.a ../
+$exit
+
+synphot.a:
+	hdrcopy.x	<time.h>  <tbset.h>
+	mkfitsname.x	
+	mkthru.x	
+	opencopy.x	<tbset.h>  <ctype.h>
+	tabcopy.x	<tbset.h>
+	;

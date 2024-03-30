@@ -1,0 +1,19 @@
+input,s,a,,,, Observed bandpass
+obsmode,s,a,,,, Model bandpass
+output,s,h,none,,, Table containing fitted bandpass
+ftol,r,h,1.0e-5,0.0,, Fractional tolerance termination condition
+maxiter,i,h,500,1,, Maximum number of iterations
+nprint,i,h,0,0,, Number of iterations between diagnostic prints
+slow,b,h,no,,, Use slow method (simplex) to compute fit?
+equal,b,h,no,,, Use equal weighting on the data points?
+vone,r,h,INDEF,,, Value of variable one
+vtwo,r,h,INDEF,,, Value of variable two
+vthree,r,h,INDEF,,, Value of variable three
+vfour,r,h,INDEF,,, Value of variable four
+vfive,r,h,INDEF,,, Value of variable five
+vsix,r,h,INDEF,,, Value of variable six
+vseven,r,h,INDEF,,, Value of variable seven
+veight,r,h,INDEF,,, Value of variable eight
+vnine,r,h,INDEF,,, Value of variable nine
+refdata,pset,h,,,, Reference data
+mode,s,h,a,,,

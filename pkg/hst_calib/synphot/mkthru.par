@@ -1,0 +1,10 @@
+input,s,a,,,, Filename template
+instrume,s,q,,fgs|acs|wfp2|hsp|wfpc|foc|fos|hrs|nicmos|stis|wfc3,, Instrument name
+compname,s,q,,,, Component name
+useafter,s,q,,,, Useafter date
+pedigree,s,q,,inflight|ground|model|dummy,, Reference file pedigree
+descrip,s,q,,,, Description of file
+comment,s,q,,,, Comment about file
+title,b,h,no,,, First line of file has column names
+verbose,b,h,no,,, Verbose message switch
+mode,s,h,'a',,,

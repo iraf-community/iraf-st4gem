@@ -1,0 +1,6 @@
+magband,s,h,v,,, Passband of object magnitude
+magform,s,h,vegamag,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Form of object magnitude
+colnames,s,h,"ra dec mag spectrum shape",,, Input file column names (if table)
+dynrange,r,h,1000.,1.,1e7, Dynamic range of extended objects
+nsub,i,h,5,1,100, Number of pixel subdivisions

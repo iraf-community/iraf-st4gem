@@ -1,0 +1,14 @@
+obsmode,s,a,,,, Instrument mode or @list
+left,r,h,INDEF,,, x value for left side of plot
+right,r,h,INDEF,,, x value for right side of plot
+bottom,r,h,INDEF,,, y value for bottom of plot
+top,r,h,INDEF,,, y value for top of plot
+normalize,b,h,no,,, Normalization all curves to 1?
+ylog,b,h,no,,, Take log of y values?
+append,b,h,no,,, Append to existing plot?
+ltype,s,h,solid,clear|solid|dashed|dotted|dotdash,\
+, "Line type: clear,solid,dashed,dotted,dotdash"
+device,s,h,stdgraph,,, Graphics device
+wavetab,s,h," ",,, Wavelength table name
+refdata,pset,h,,,, Reference data
+mode,s,h,'a',,,

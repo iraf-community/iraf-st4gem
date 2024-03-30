@@ -1,0 +1,23 @@
+spectrum,s,a,,,, Spectrum to calculate
+magnitude,s,a,,,, Magnitude and passband of spectrum
+instrument,s,a,,,, Science instrument
+detector,s,h," ",,, Detector used
+spec_elem,s,h," ",,, Spectral elements used
+aperture,s,h," ",,, Aperture / field of view
+cenwave,r,h,INDEF,1.,200000., Central wavelength (HRS and STIS only)
+exptime,r,h,1.,0.,, Exposure time in seconds
+reddening,r,h,0.0,,, Interstellar reddening E(B-V)
+redlaw,s,h,gal1,gal1|gal2|gal3|smc|lmc|xgal,, Reddening law used \
+(gal1|gal2|gal3|smc|lmc|xgal)
+output,s,h,"none",,, Output table name
+form,s,h,counts,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Form for output data
+magform,s,h,vegamag,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Form for magnitude
+wavecat,s,h,"synphot$data/wavecat.dat",,, Catalog of wavelength tables
+refwave,r,h,INDEF,1.,200000., Reference wavelength
+verbose,b,h,yes,,, Print results to STDOUT ?
+flux_tot,r,h,INDEF,,, Estimated total flux (output)
+flux_ref,r,h,INDEF,,, Estimated flux at reference wavelength (output)
+refdata,pset,h,,,, Reference data
+mode,s,h,'a',,,

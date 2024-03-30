@@ -1,0 +1,177 @@
+Code for a 1d convolution:
+
+int	no		# i: length of object profile
+int	np		# i: length of psf profile
+real	obj[no] 	# i: the object profile
+real	psf[np]		# i: the psf profile
+real	out[no]		# o: convolved profile
+
+int	io, ip, jp
+real	sum
+
+do io = 1, no {
+    jp = min (np, no-(io-1))
+
+    sum = 0.0
+    do ip = 1, jp
+	sum = sum + psf[ip] * obj[io+ip-1]
+
+    out[io] = sum
+}
+
+Code for a centralized 1d convolution:
+
+int	no		# i: length of object profile
+int	np		# i: length of psf profile
+int	nt		# i: length of convolved output
+real	obj[no] 	# i: the object profile
+real	psf[np]		# i: the psf profile
+real	out[nt]		# o: convolved profile
+
+int	it, io, ip
+
+nt = no + np - 1	# for reference
+
+call aclrr (out, nt)
+
+do io = 1, no {
+    it = np + (io - 1)
+    do ip = 1, np {
+	out[it] = out[it] + psf[ip] * obj[io]
+	it = it - 1
+    }
+}
+
+Code for a 2d convolution:
+
+int	nox, noy	# i: dimensions of object
+int	npx, npy	# i: dimensions of psf
+int	ntx, nty	# i: dimensions of output
+real	obj[nox,noy]	# i: object flux
+real	psf[npx,npy]	# i: psf 
+real	out[ntx,nty]	# o: convolved object
+
+int	itx, ity, iox, ioy, ipx, ipy
+
+ntx = nox + npx - 1
+nty = noy + npy - 1	# for reference
+
+call aclrr (out, ntx*nty)
+
+do iox = 1, nox {
+    itx = npx + (iox - 1)
+
+    do ioy = 1, noy {
+	ity = npy + (ioy - 1)
+
+	do ipx = 1, npx {
+	    do ipy = 1, npy {
+		out[itx,ity] = out[itx,ity] + psf[ipx,ipy] * obj[iox,ioy]
+		ity = ity - 1
+	    }
+	    itx = itx - 1
+	}
+    }
+}
+
+Code for convolution with star:
+
+real	ox, oy		# i: object position
+real	flux		# i: object flux
+int	nsx, nsy	# i: subsamples per pixel
+int	npx, npy	# i: dimensions of psf
+int	ntx, nty	# i: dimensions of output
+real	psf[npx,npy]	# i: psf 
+real	out[ntx,nty]	# o: convolved object
+
+int	jsx, jsy, itx, ity, isx, isy, ipx, ipy
+
+ntx = npx / nsx + 1
+nty = npy / nsy + 1	# reference
+
+call aclrr (out, ntx*nty)
+
+jsx = (ox - int (ox)) / nsx
+jsy = (oy - int (oy)) / nsy
+
+itx = ntx
+isx = nsx - 1
+isx = mod (isx + (nsx - 1) / 2 - jsx, nsx)
+
+do ipx = 1, npx {
+
+    ity = nty
+    isy = nsy - 1
+    isy = mod (isy + (nsy - 1) / 2 - jsy, nsy)
+
+    do ipy = 1, npy {
+	out[itx,ipy] = out[itx,ity] + psf[ipx,ipy]
+	if (isy == 0) {
+	    isy = nsy
+	    ity = ity - 1
+	} else {
+	    isy = isy - 1
+	}
+    }
+
+    if (isx == 0) {
+	isx = nsx
+	itx = itx - 1
+    } else {
+	isx = isx - 1
+    }
+}
+
+call amulkr (flux, out, ntx*nty)
+
+Code for a 2d convolution with subsampling:
+
+int	nsx, nsy	# i: subsamples per pixel
+int	nox, noy	# i: dimensions of object
+int	npx, npy	# i: dimensions of psf
+int	ntx, nty	# i: dimensions of output
+real	obj[nox,noy]	# i: object flux
+real	psf[npx,npy]	# i: psf 
+real	out[ntx,nty]	# o: convolved object
+
+int	iox, ioy, ipx, ipy, isx, isy
+
+ntx = (nox + npx) / nsx + 1
+nty = (noy + npy) / nsy	+ 1	# for reference
+
+call aclrr (out, ntx*nty)
+
+jsx = (ox - int (ox)) / nsx
+jsy = (oy - int (oy)) / nsy
+
+itx = npx + 1
+isx = nsx - 1
+isx = mod (isx + (nsx - 1) / 2 - jsx, nsx)
+
+do iox = 1, nox {
+
+    ity = npy + 1
+    isy = nsy - 1
+    isy = mod (isy + (nsy - 1) / 2 - jsy, nsy)
+
+    do ioy = 1, noy {
+	do ipx = 1, npx
+	    do ipy = 1, npy
+		out[itx,ity] = out[itx,ity] + psf[ipx,ipy] * obj[iox,ioy]
+
+	if (isy == 0) {
+	    isy = nsy
+	    ity = ity - 1
+	} else {
+	    isy = isy - 1
+	}
+    }
+
+    if (isx == 0) {
+	isx = nsx
+	itx = itx - 1
+    } else {
+	isx = isx - 1
+    }
+}
+

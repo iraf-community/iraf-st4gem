@@ -1,0 +1,23 @@
+#   Make the bandpar task
+#   Author: BSIMON 07-OCT-994
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$checkout	synphot.a ../
+$update		synphot.a
+$checkin	synphot.a ../
+$exit
+
+synphot.a:
+	bandpar.x	
+	comppar.x	
+	lenexpr.x	
+	multiwave.x	<tbset.h>  <synphot.h>
+	parmatrix.x
+	photnames.x	
+	;

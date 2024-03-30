@@ -1,0 +1,13 @@
+obsmode,s,a,,,, Telescope observation mode
+output,s,a,,,, Output image name
+exptime,r,h,1.0,0.0,, Exposure time (seconds)
+det_ra,r,h,0.0,0.0,24.0, Telescope right ascension (hours)
+det_dec,r,h,0.0,-90.0,90.0, Telescope declination (degrees)
+det_ang,r,h,0.0,,, Telescope position angle (degrees)
+verbose,b,h,yes,,, Print results to screen?
+counts,r,h,,,, Background counts (output)
+wavetab,s,h,none,,, Wavelength table name
+simbackp,pset,h,,,, Background parameters
+simcatp,pset,h,,,, Catalog and file parameters
+refdata,pset,h,,,, Reference data parameters
+mode,s,h,'a',,,

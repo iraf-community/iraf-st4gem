@@ -1,0 +1,25 @@
+#   Make the fitband directory
+#   Author: Dave Bazell April 1990
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$checkout	synphot.a ../
+$update		synphot.a ../
+$checkin	synphot.a ../
+$exit
+
+synphot.a:
+	fitband.x	"../lib/amoebapar.h" "../lib/amoebafit.h" \
+			"../plspec/plspec.h" "../lib/targets.h"
+	bandchi2.x	"../plspec/plspec.h" "../lib/targets.h"
+	abandfit.x	"../lib/amoebapar.h" "../lib/amoebafit.h"
+	bandfunk.x	"../lib/amoebafit.h"
+	insertmode.x
+	wplotdat.x	"../lib/amoebafit.h" "../lib/targets.h"
+	;
+

@@ -1,0 +1,20 @@
+# Update the minpack library code in the synphot package library
+# Author: BSIMON, 05-AUG-94
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	dpmpar.x	<mach.h>
+	levmarfit.x
+	enorm.f
+	fdjac2.f
+	lmdif.f
+	lmpar.f
+	qrfac.f
+	qrsolv.f
+	simplexfit.x
+	simplex.x
+	;

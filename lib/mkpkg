@@ -20,6 +20,8 @@ $echo "------------------------  GILIB    --------------------------"
 $update libgilib.a
 $echo "------------------------  STXTOOLS --------------------------"
 $update libstxtools.a
+$echo "------------------------  SYNPHOT ---------------------------"
+$update libsynphot.a
 $echo "------------------------  TBTABLES --------------------------"
 $update libtbtables.a
 
@@ -38,6 +40,9 @@ libapplib.a:
 libstxtools.a:
 	@stxtools
 	;
+libsynphot.a:
+        @synphot
+        ;
 libtbtables.a:
 	@tbtables
 	;

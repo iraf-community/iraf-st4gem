@@ -1,0 +1,372 @@
+This file describes the files in the synphot library intended as the
+external interface. These files are guaranteed to remain as part of
+the library through all versions and not to change their calling
+sequence. THe interface can be divided into four different parts: high
+middle and low interaces to the library, along with some auxiliary
+routines that can be used with any level. Several different of the
+interface levels exist because different users of the library have
+different purposes and for historical reasons. The pipeline
+procedures, for example use the low level interface because they have
+no need for a general expression evaluator and they were developed
+before the expression evaluator was written.
+
+The high level interface to synphot is backwards compatible with the
+old version of the synphot library. The routines, compband and
+compspec, are subroutine callable versions of the tasks calcband and
+calcspec. These procedures should be used when one needs to compute a
+single throughput (passband) or spectrum from a synphot
+expression. The calling sequences are:
+
+# COMPBAND -- Passband expression evaluator
+
+procedure compband (command, iw, graphtab, comptab, nwave, wave, band)
+
+char	command[ARB]	# i: string containing expression to evaluate
+int	iw		# i: position in string where expression starts
+char	graphtab[ARB]	# i: graph table name
+char	comptab[ARB]	# i: component lookup table name
+int	nwave		# i: number of wavelengths
+pointer	wave		# u: wavelength array
+pointer	band		# o: passband array, calling subroutine must free
+
+# COMPSPEC -- Spectrum expression evaluator
+
+procedure compspec (command, iw, graphtab, comptab, nwave, wave, spec, form)
+
+char	command[ARB]	# i: string containing expression to evaluate
+int	iw		# i: position in string where expression starts
+char	graphtab[ARB]	# i: graph table name
+char	comptab[ARB]	# i: component lookup table name
+int	nwave		# i: number of wavelengths
+pointer	wave		# u: wavelength array
+pointer	spec		# o: spectrum array, calling array must free
+char	form[ARB]	# o: form (units) of spectrum
+
+The argument iw will probably always be 1. It is included for
+backwards compatibility with the old version of synphot. The
+wavelength array must be allocated in the calling procedure. These
+tasks have the capability of computing a default wavelength set
+internally. This is flagged by setting the first wavelength in the
+wavelength array to INDEFR. The form argument is an output and not an
+input parameter. Its value will always be the string "photlam" as all
+synphot calculations are done in units of photlam internally. It is
+included for backwards compatibility with the old version of
+synphot. The spectrum can be converted to another form with procedure
+phottoany, described below.
+
+The middle layer interface breaks out some of the functionality
+encased in the compband and compspec procedures for the sake of
+greater efficiency. I think it also has a cleaner interface than the
+high level procedures. These procedures, along with the auxiliary
+procedures described later,  are the ones called by the synphot
+package. They are to be preferred over the high level interface when
+one needs to evaluate multiple synphot expressions in a task.
+
+The synphot library increases its efficiency by caching table
+descriptors. That is, once tables are opened they remain open for the
+length of the task. The cache is created by procedure inisyntab and
+destroyed by procedure clssyntab. When using the middle level
+interface, all calls to synphot library procedures should be bracketed
+by calls to inisyntab and clssyntab. The calling sequences are:
+
+# INISYNTAB -- Initialize persistent variables used by opnsyntab
+
+procedure inisyntab ()
+
+# CLSSYNTAB -- Close cached tables
+
+procedure clssyntab ()
+
+Neither procedure takes any arguments.
+
+The heart of synphot is the expression evaluator.  The expression
+evaluator allows the user to pass a string containg a synphot
+expression as input and receive a spectrum or bandpass as output. The
+expression evaluator is broken into two parts. The first procedure,
+syncompile, compiles the expression into pseudocode and the second
+procedure, syncalc, evaluates the pseudocode. Breaking the procedures
+apart allows the same expression to be evaluated repeatedly more
+efficiently than a single procedure would.  There is also a procedure,
+calcrange, which uses the pseudocode to compute a wavelength range
+which covers the spectrum or throughput.  The calling sequences are:
+
+# SYNCOMPILE -- Compile an synphot expression into psedocode instructions
+
+procedure syncompile (expr, pcode, maxcode)
+
+char	expr[ARB]	# i: Expression to be parsed
+int	pcode[ARB]	# o: Array of pseudocode instructions
+int	maxcode		# i: Maximum length of pseudocode array
+
+# SYNCALC -- Calculate the result of a synthetic photometry expression
+
+procedure syncalc (pcode, maxcode, getvar, nwave, wave,
+		   graphtab, comptab, output, units)
+
+int	pcode[ARB]	# i: pseudocode used by calculator
+int	maxcode		# i: maximum length of pseudocode
+pointer	getvar		# i: pointer to subroutine to fetch variable values
+int     nwave           # i: length of wavelength and output arrays
+real    wave[ARB]       # i: wavelengths at which output is computed
+char    graphtab[ARB]   # i: graph table name
+char    comptab[ARB]    # i: component lookup table name
+real	output[ARB]	# o: result of calculation
+int	units		# o: power of FLAM (spectrum = 1, throughput = 0)
+
+# CALCRANGE -- Calculate wavelength range appropriate for expression
+
+procedure calcrange (pcode, maxcode, graphtab, comptab, minwave, maxwave)
+
+int	pcode[ARB]	# i: pseudocode used by calculator
+int	maxcode		# i: maximum length of pseudocode
+char    graphtab[ARB]   # i: graph table name
+char    comptab[ARB]    # i: component lookup table name
+real	minwave		# o: short end of wavelength range
+real	maxwave		# o: long end of wavelength range
+
+The argument getvar is a pointer to a procedure which returns a
+variable value given its number. The synphot expression can contain
+variables of the form $0 through $9 and the number is passed to this
+procedure. If you do not need to support variables, set getvar to NULL
+and any expression containing a variable will return a runtime error.
+The routine getsynvar is an example of a getvar procedure. It is not
+part of the synphot interface.
+
+# GETSYNVAR -- Get the value of a variable for a synphot expression
+
+procedure getsynvar (ivar, value)
+
+int     ivar            # i: variable number
+real    value           # o: variable value
+
+The low level interface to synphot was originally written for the
+calibration pipeline tasks. There are several variations on the same
+theme as each of the original authors of the pipeline tasks wanted a
+slightly different interface.  They do not use the synphot expression
+evaluator and only compute combind throughputs (passbands). There are
+Fortran and SPP versions of these procedures, as some calibration
+pipeines are written in Fortran and others in SPP. The SPP versions
+end in the letter x. The calling seqeunces are identical except that
+the Fortran versions use Fortran character strings and the SPP version
+use SPP character strings.
+
+The first two procedures are getphotx and gtphot. The routines
+calculate the four photometric quantities that the calxxx tasks write
+into the image header. These are, in order, the inverse sensitivity
+(PHOTFLAM), the photometric zero point (PHOTZPT), the pivot wavelength
+(PHOTPLAM), and the rms bandwidth (PHOTBW). The calling sequences are:
+
+# GETPHOTX -- Get the photometric parameters for an instrument mode
+
+procedure getphotx (mode, graphtab, comptab, path, mxpath, phot)
+
+char	mode[ARB]	# i: instrument mode
+char	graphtab[ARB]	# i: graph table name
+char	comptab[ARB]	# i: component lookup table name
+char	path[ARB]	# o: list of component throughput tables
+int	mxpath		# i: maximum length of path string
+real	phot[4]		# o: photometric parameters
+
+The next two are getbandx and gtband, procedures that calculate the
+grand throughput for an instrument mode and its associated error. The
+procedures also determine the wavelength set that the throughput and
+error are computed at and output this as well.
+
+# GETBANDX -- Calculate the wavelength and passband for an instrument mode
+
+procedure getbandx (mode, graphtab, comptab, logspace, nwave, 
+		    wave, thruput, thruerr)
+
+char	mode[ARB]	# i: instrument mode
+char	graphtab[ARB]	# i: graph table name
+char	comptab[ARB]	# i: component lookup table name
+bool	logspace	# i: use log spacing for wavelengths?
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# o: wavelength array
+real	thruput[ARB]	# o: grand throughput
+real	thruerr[ARB]	# o: throughput error
+
+Procedures evalbandx and evlbnd should be used instead of getbandx and
+gtband if you know the wavelengths you want the throughput and
+throughput error calculated at. The dufference is that they wavelength
+array is an input for evalbandx and an output for getbandx.
+
+# EVALBANDX -- Calculate the passband for all components in the instrument path
+
+procedure evalbandx (mode, nwave, wave, graphtab, comptab, thruput, thruerr)
+
+char	mode[ARB]	# i: instrument mode
+int	nwave		# i: length of wavelength and output arrays
+real	wave[ARB]	# i: wavelengths at which output is computed
+char	graphtab[ARB]	# i: graph table name
+char	comptab[ARB]	# i: component lookup table name
+real	thruput[ARB]	# o: grand throughput
+real	thruerr[ARB]	# o: grand throughput error
+
+The four photometric quantities produced by getphotx can be coumputed
+form the output of getbandx or evalbandx by calling phopar. The same
+procedure is callable from both Fortran and SPP, as there are no
+character strings in the argument list.
+
+# PHOPAR -- Calculate the four photometric parameters for HST
+
+procedure phopar (nwave, wave, thruput, phot)
+
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# i: wavelength array
+real	thruput[ARB]	# i: throughput array
+real	phot[4]		# o: photometric parameters
+
+In addition to the main interface routines, which calculate the
+spectrum or throughput for an expression or observation mode, there
+are a number of auxiliary routines which can be called outside the
+package. These perform units conversion and compute functions of a
+spectrum or throughput. Internally in synphot, all calculations are
+done in units of angstroms and photlam. Procedures anytoang and
+angtoany convert wavelength units to and from angstroms
+respectively. Procedures anytophot and phottoany convert flux to and
+from units of photlam, respectively. Their calling sequences are:
+
+# ANYTOANG -- Convert wavelength units to angstroms
+
+int procedure anytoang (units, wave, nwave)
+
+char	units[ARB]	# i: wavelength units
+real	wave[ARB]	# u: wavelength array
+int	nwave		# i: number of wavelengths
+
+# ANGTOANY -- Convert wavelength units from angstroms
+
+int procedure angtoany (units, wave, nwave)
+
+char	units[ARB]	# i: wavelength units
+real	wave[ARB]	# u: wavelength array
+int	nwave		# i: number of wavelengths
+
+# ANYTOPHOT -- Convert flux units to photlam (photons cm-2 s-1 A-1)
+
+int procedure anytophot (units, nwave, wave, flux)
+
+char	units[ARB]	# i: input flux units
+int	nwave		# i: length of wavelength and flux arrays
+real	wave[ARB]	# i: wavelengths, in angstroms
+real	flux[ARB]	# u: flux
+
+# PHOTTOANY -- Convert flux units from photlam (photons cm-2 s-1 A-1)
+
+int procedure phottoany (units, nwave, wave, flux)
+
+char	units[ARB]	# i: input flux units
+int	nwave		# i: length of wavelength and flux arrays
+real	wave[ARB]	# i: wavelengths, in angstroms
+real	flux[ARB]	# u: flux
+
+Several procedures are available to compute integrated quantities fof
+a passband. These are avglam and pivlam, which compute the average
+wavelength of a passband, rmslam and fwhmlam, which compute measures
+of the passband width, and flam, which computes the stimulus in units
+of flam needed to produce a unit response. These quantities are
+defined by the formulas below. In these formulas lam is the
+wavelength, dlam it differential, and P(lam) the passband, which is a
+function of wavealnegth.
+
+avglam = Int (lam P(lam) dlam) / Int (P(lam) dlam)
+pivlam = sqrt( INT(lam * P(lam) * dlam) / INT(P(lam) * dlam / lam) )
+
+rmslam^2 = barlam^2 <[ln{lam/barlam}]^2> ,
+	where barlam is the bar wavelength, defined by 
+	Schneider, Gunn and Hoessel ( 1983 ApJ 264,337 ) as
+        barlam = exp{<ln{lam}>} ,
+  	and < > denotes an average over the passband in ln{lam}
+ 	<X{lam}> = ( Int P{lam} X{lam} dlam/lam ) / ( Int P{lam} dlam/lam ) .
+fwhmlam = sqrt (8 * log(2)) * rmslam
+
+funit = hc / [ A * INT(P(lam) * lam * dlam) ]
+
+The calling sequence for these routines are;
+
+# AVGLAM -- Compute the average wavelength of a passband
+
+real procedure avglam (nwave, wave, thruput)
+
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# i: wavelength array
+real	thruput[ARB]	# i: throughput array
+
+# PIVLAM -- Compute the pivot wavelength of a passband
+
+real procedure pivlam (nwave, wave, thruput)
+
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# i: wavelength array
+real	thruput[ARB]	# i: throughput array
+
+# RMSLAM -- Compute the rms bandwidth of a passband
+
+real procedure rmslam (nwave, wave, thruput)
+
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# i: wavelength array
+real	thruput[ARB]	# i: throughput array
+
+# FWHMLAM -- Compute the full width half maximum wavelength
+
+real procedure fwhmlam (nwave, wave, thruput)
+
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# i: wavelength array
+real	thruput[ARB]	# i: throughput array
+
+# FUNIT -- Compute the stimulus needed to produce a unit response
+
+real procedure funit (area, nwave, wave, thruput)
+
+real	area		# i: telescope area
+int	nwave		# i: number of wavelengths
+real	wave[ARB]	# i: wavelength array
+real	thruput[ARB]	# i: throughput array
+
+Three other auxiliary procedures return the spectrum of vega, stored
+in a table in the synphot library or return a list of throughput
+tables used to compute the total throughput for a specified
+observation mode. They are named getvega, graffiles, and listpath,
+repectively. The distinction between graffiles and listpath is that
+graffiles returns the filenames as an array of strings, while listpath
+returns the filenames as a single concatenated string. Listpath calls
+graffiles internally and can be used to produce a history record for
+tasks using the synphot library. The subroutine arguments are:
+
+# GETVEGA -- Read a spectrum of Vega, sampled on the wavelength set
+
+procedure getvega (nwave, wave, spec)
+
+int     nwave           # i: length of wavelength and spectrum arrays
+real    wave[ARB]       # i: wavelengths at which spectrum is computed
+real	spec[ARB]	# o: spectrum flux
+
+# GRAFFILES -- Return an array of component throughput table names
+
+procedure graffiles (mode, graphtab, comptab, maxname, maxthru, nthru, thruput)
+
+char	mode[ARB]			# i: instrument mode
+char	graphtab[ARB]			# i: graph table name
+char	comptab[ARB]			# i: component lookup table name
+int	maxname				# i: max length of thruput table name
+int	maxthru				# i: max number of throughput tables
+int	nthru				# o: actual number of throughput tables
+char	thruput[maxname,maxthru]	# o: throughput table names
+
+# LISTPATH -- Create list of component throughput tables
+
+procedure listpath (mode, graphtab, comptab, path, mxpath)
+
+char	mode[ARB]	# i: instrument mode
+char	graphtab[ARB]	# i: graph table name
+char	comptab[ARB]	# i: component lookup table name
+char	path[ARB]	# o: list of component throughput tables
+int	mxpath		# i: maximum length of path string
+
+These two procedures complete the list of auxiliary procedures in the
+synphot library, although it is possible that some of the procedures
+in the synphot package might be moved to this library if there were a
+more general need for them.

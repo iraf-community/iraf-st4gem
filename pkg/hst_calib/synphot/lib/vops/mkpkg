@@ -1,0 +1,20 @@
+# Update the library code in the synphot package library
+# Author: BSIMON, 26-JUL-88
+#	  E.Medeiros, Jan 1989
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	baddkr.x
+	baddr.x
+	bdivkr.x
+	bhivr.x
+	blovr.x
+	bmulkr.x
+	bmulr.x
+	bsubkr.x
+	bsubr.x
+	;

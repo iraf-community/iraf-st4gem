@@ -1,0 +1,11 @@
+# Update the grafpath application code in the synphot package library
+# Author: BSIMON, 08-JUN-88
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	showfiles.x     		
+	;

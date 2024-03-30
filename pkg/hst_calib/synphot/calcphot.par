@@ -1,0 +1,13 @@
+obsmode,s,a,,,, Instrument observation mode
+spectrum,s,a,,,, Synthetic spectrum to calculate
+form,s,a,photlam,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Form for output data
+func,s,h,effstim,effstim|rmslam|fwhmlam|barlam|avglam|efflerg|efflphot,, \
+Function of output data
+vzero,s,h," ",,, List of values for variable zero
+output,s,h,"none",,, Output table name
+append,b,h,"no",,, Append to existing table?
+wavetab,s,h," ",,, Wavelength table name
+result,r,h,,,, Result of synphot calculation for form
+refdata,pset,h,,,, Reference data
+mode,s,h,'a',,,

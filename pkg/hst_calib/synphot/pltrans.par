@@ -1,0 +1,20 @@
+spectrum,s,a,,,, Synthetic spectrum or @list
+xmode,s,a,,,, X axis mode
+ymode,s,a,,,, Y axis mode
+xform,s,a,,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, X axis form
+yform,s,a,,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Y axis form
+vzero,s,h," ",,,List of values for variable zero
+input,s,h,none,,, Input table
+output,s,h,none,,, Output table
+left,r,h,INDEF,,,x value for left side of graph
+right,r,h,INDEF,,, x value for right side
+bottom,r,h,INDEF,,, y value for bottom
+top,r,h,INDEF,,, y value for top
+append,b,h,no,,, Append to existing plot?
+mktype,s,h,plus,,, Marker type
+device,s,h,"stdgraph",,, Graphics device
+wavetab,s,h,"",,, Wavelength table name
+refdata, pset, h,,,, Reference data
+mode,s,h,'a',,,

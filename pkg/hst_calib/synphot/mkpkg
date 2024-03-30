@@ -1,0 +1,70 @@
+#   Make the synphot package
+#   Author: bazell 18-Jan-90#	           grafplot, wavtab applications
+#   Author: anands 08-Feb-201#             added thermback task
+#   Author: laidler 31-may-02	patch to fix circular reference with simulators
+#                   07-aug-02   uncommented install@simulators from install
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+debug:
+        $set    XFLAGS = "-fgqC $(XFLAGS)"
+        $set    LFLAGS = "$(LFLAGS) -/Bdynamic"
+
+	$call   relink
+        ;
+update:
+	$call	relink
+	$call	install
+	;
+
+relink:
+	$call   libonly@simulators	#patch
+	$update	synphot.a
+	$call	synphot
+	$call	linkonly@simulators	#patch
+	;
+
+install:
+	$move	x_synphot.e st4gembin$x_synphot.e
+	$call	install@simulators
+	;
+
+synphot:
+linkonly:
+	$omake	x_synphot.x
+	$link	x_synphot.o synphot.a simulators/simulators.a -lsynphot\
+		-lapplib -lstxtools -ltbtables \
+		-o x_synphot.e
+	;
+
+synphot.a:
+	@minlib
+	@newlib
+	@bandpar
+	@calcspec
+	@calcphot
+	@countrate
+	@genwave
+	@fitgrid
+	@fitspec
+	@grafcheck
+	@graflist
+	@grafpath
+	@imspec
+	@mkthru
+	@obsmode
+	@plband
+	@plratio
+	@plspec
+	@pltrans
+	@showfiles
+	@thermback
+	;

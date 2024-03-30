@@ -1,0 +1,4 @@
+area, r, h, 45238.93416,,, Telescope area in cm^2
+grtbl, s, h,"mtab$*_tmg.fits",,, Instrument graph table
+cmptbl, s, h, "mtab$*_tmc.fits",,, Instrument component table
+mode, s, h, 'a',,,

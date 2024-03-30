@@ -1,0 +1,18 @@
+obsmode,s,a,,,, Observation mode or @list
+spectrum,s,a,,,, Synthetic spectrum or @filename
+form,s,a,,photlam|counts|flam|fnu|photnu|jy|mjy|\
+abmag|stmag|vegamag|obmag,, Form of output graph
+spfile,s,a,,,, Spectrophotometry or @filename
+pfile,s,h,none,,, Photometry or @filename
+vzero,s,h," ",,,List of values for variable zero
+left,r,h,INDEF,,,x value for left side of graph
+right,r,h,INDEF,,, x value for right side
+bottom,r,h,INDEF,,, y value for bottom
+top,r,h,INDEF,,, y value for top
+append,b,h,no,,, Append to existing plot?
+ltype,s,h,solid,clear|solid|dashed|dotted|dotdash,\
+, "Line type: clear,solid,dashed,dotted,dotdash"
+device,s,h,"stdgraph",,, Graphics device
+wavetab,s,h,"",,, Wavelength table
+refdata,pset,h,,,, Reference data
+mode,s,h,'al',,,

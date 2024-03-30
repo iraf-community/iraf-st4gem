@@ -1,0 +1,9 @@
+# Help directory for the HST_CALIB package
+
+$synphot	= "st4gem$pkg/hst_calib/synphot/"
+
+synphot		men=synphot$synphot.men,
+		hlp=..,
+		sys=synphot$synphot.hlp,
+		pkg=synphot$synphot.hd,
+		src=synphot$synphot.cl

@@ -1,0 +1,6 @@
+left,r,h,0.,,,x value for left side of graph
+right,r,h,0.,,, x value for right side
+bottom,r,h,0.,,, y value for bottom
+top,r,h,0.,,, y value for top
+device,s,h,"stdgraph",,, Output device
+errtyp,s,h,,,, p[oints] c[ontinuous] v[ertical] h[orizontal]

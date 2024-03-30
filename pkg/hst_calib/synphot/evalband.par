@@ -1,0 +1,5 @@
+obsmode, s, a,,,,Observing mode
+output, s, a,,,,Output table
+wavetab, s, h," ",,,Wavelength table name
+refdata,pset,h,,,, Reference data
+mode, s, h, 'a',,,

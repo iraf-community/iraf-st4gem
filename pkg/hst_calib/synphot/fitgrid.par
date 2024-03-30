@@ -1,0 +1,11 @@
+input,s,a,,,, Observed spectrum
+spectrum,s,a,,,, List of spectra
+output,s,h,none,,, Table containing fitted spectrum
+vzero,s,h," ",,,List of values for variable zero
+ftol,r,h,1.0e-5,0.0,, Fractional tolerance termination condition
+maxiter,i,h,500,1,, Maximum number of iterations
+nprint,i,h,0,0,, Number of iterations between diagnostic prints
+slow,b,h,no,,, Use slow method (simplex) to compute fit?
+equal,b,h,no,,, Use equal weighting on the data points?
+refdata,pset,h,,,, Reference data
+mode,s,h,a,,,

@@ -1,0 +1,10 @@
+	boxtrans.x	<gset.h>  "../limit.h"
+	clsdtrans.x	"dtrans.h"
+	getdtrans.x	"dtrans.h"
+	hpovwrite.x	
+	inpdtrans.x	<tbset.h>  "dtrans.h"
+	limdtrans.x	"../limit.h"  "dtrans.h"
+	pltdtrans.x	"dtrans.h"
+	pltrans.x	"../limit.h"
+	wrtdtrans.x	<tbset.h>  "dtrans.h"
+	x_pltrans.x	

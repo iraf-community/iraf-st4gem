@@ -1,0 +1,7 @@
+output,s,a,,,, Wavelength set table name
+minwave,r,a,,0.,, Minimum of wavelength range (Angstroms)
+maxwave,r,a,,0.,, Maximum of wavelength range (Angstroms)
+dwave,r,a,INDEF,0,, Wavelength interval (Angstroms/pixel)
+dvelocity,r,h,INDEF,0,, Velocity interval (km/s/pixel)
+wavecol,s,h,"WAVELENGTH",,, Wavelength set table column name
+mode,s,h,'a',,,

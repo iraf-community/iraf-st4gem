@@ -1,0 +1,12 @@
+# Update the evalband application code in the synphot package library
+# Author: BSIMON, 08-JUN-88
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	evalband.x     		
+	putband.x
+	;

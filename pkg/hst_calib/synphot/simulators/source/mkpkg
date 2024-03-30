@@ -1,0 +1,110 @@
+#   Make the calcspec task
+#   Author: bsimon 22-Aug-95
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$checkout	simulators.a ../
+$update		simulators.a
+$checkin	simulators.a ../
+$exit
+
+simulators.a:
+	addline.x	
+	addmask.x	
+	addnoise.x	
+	addobject.x	
+	addsource.x	"source.h"  "grating.h"
+	angtodeg.x	<math.h>  <tbset.h>
+	apershape.x	
+	bilinset.x	"bilin.com"
+	bilinval.x	"bilin.com"
+	blazefunc.x	<math.h>  "grating.h"
+	breakfunc.x	"function.h"
+	centroid.x	<imhdr.h>
+	chkdefault.x	
+	chklimits.x	<mach.h>  "limit.h"
+	chopmask.x
+	convspec.x	
+	coordtrans.x	<math.h>
+	crossdisp.x	<math.h>  "grating.h"
+	daytime.x	
+	disperse.x	<math.h>  "simtwo.h"  "grating.h"
+	dropaper.x	"simtwo.h"
+	dsfconv.x	"otf.h"
+	dsfimage.x	"otf.h"
+	dsfshift.x
+	earthshine.x	"simtwo.h"
+	ecliptic.x	<math.h>
+	fileops.x	<imio.h>  <imhdr.h>  "simtwo.h"
+	fndevauc.x	"simtwo.h"  "fndevauc.com"
+	fnexp.x		"simtwo.h"  "fnexp.com"
+	fngauss.x	"simtwo.h"  "fngauss.com"
+	fnimage.x	<imhdr.h>  "simtwo.h"  "function.h"  "fnimage.com"
+	fnlist.x	<tbset.h>  "simtwo.h"  "function.h"  "fnlist.com"
+	fnmoffat.x	"simtwo.h"  "fnmoffat.com"
+	freefunc.x	"function.h"
+	freeobjects.x	"object.h"
+	ftcmplx.x
+	getflat.x	<tbset.h>
+	getgrating.x	"grating.h"
+	getlimits.x	"limit.h"
+	getscale.x	<tbset.h>  "simtwo.h"
+	inbackgd.x	
+	jdate.x		
+	linearset.x	"linear.com"
+	linearval.x	"linear.com"
+	lsfconv.x	
+	lsfimage.x	<imhdr.h>  "otf.h"
+	lsfinterp.x	<imhdr.h>
+	lsfregion.x	<imio.h>  <imhdr.h>
+	magdisp.x	<math.h>  "grating.h"
+	makemask.x	<math.h>  "simtwo.h"  "function.h"
+	message.x	<fset.h>  <ctype.h>  "function.h"
+	namefunc.x	"function.h"
+	normspec.x	
+	objconv.x	
+	otfcalc.x	"otf.h"
+	otfopen.x	<tbset.h>
+	outbackgd.x	
+	pixinterp.x	<imhdr.h>
+	pixregion.x	<imio.h>  <imhdr.h>
+	pixsize.x
+	polyarea.x	
+	polymask.x	
+	profinterp.x	
+	psfimage.x	<imhdr.h>  "otf.h"
+	psfshift.x
+	psfweights.x	
+	putobjects.x	"otf.h"  "object.h"
+	putsource.x	"source.h"
+	radcalc.x	<math.h>
+	ralimit.x	
+	rdobjects.x	<tbset.h>  "simtwo.h"  "object.h"  "otf.h"
+	rdsource.x	<tbset.h>  "simtwo.h"  "source.h"  "otf.h"
+	rdzodiac.x	<tbset.h>
+	realargs.x	"function.h"
+	setgrid.x	
+	setzero.x
+	shapefuncs.x	"function.h"
+	simbackgd.x	<imhdr.h>  "simtwo.h"
+	simimg.x	<imhdr.h>  "simtwo.h"
+	simnoise.x	<imhdr.h>  "simtwo.h"
+	simpson1.x	
+	simpson2.x	
+	simspec.x	<imhdr.h>  "simtwo.h"  "grating.h"  "limit.h"
+	specbackgd.x	"source.h"
+	specconv.x	"grating.h"
+	splitobj.x	
+	starconv.x	
+	sunlong.x	<math.h>
+	thermal.x	"simtwo.h"
+	tiltgrating.x	<math.h>  "grating.h"
+	timefield.x	<ctype.h>
+	vecrebin.x
+	zodiacal.x	"simtwo.h"
+	;

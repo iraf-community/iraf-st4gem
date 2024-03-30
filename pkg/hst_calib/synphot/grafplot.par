@@ -1,0 +1,7 @@
+grftable, s, a,"mtab$*_tmg.fits",,, instrument graph table
+compname, s, a,"",,, component name of starting node
+title, s, h, "",,, plot title
+txsize, r, h, 0.5,,, text size as factor of normal size
+device, s, h, stdgraph,,, graphics device
+cur,*gcur,h,,,,Image cursor
+mode, s, h, 'a',,,

@@ -1,0 +1,23 @@
+#   Make the thermback task
+#   Author: anands 02-088-01
+#
+#   Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to bin$
+#	mkpkg update		update object library, link, and move to lib$
+
+$checkout	synphot.a ../
+$update		synphot.a
+$checkin	synphot.a ../
+$exit
+
+synphot.a:
+	getkeyval.x
+	putspec.x
+	thermback.x
+	thermal.x
+	tcptloop.x
+	thcompkey.x
+	;

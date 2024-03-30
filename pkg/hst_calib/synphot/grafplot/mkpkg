@@ -1,0 +1,16 @@
+# Update the grafplot application code in the synphot package library
+# Author: BSIMON, 11-AUG-88
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	grafplot.x	"../adjlist.h"  "grafplot.h"
+	nodechild.x	"../adjlist.h"
+	nodedepth.x	"../adjlist.h"
+	nodeplot.x	"../adjlist.h"  "grafplot.h"
+	nodewidth.x	"../adjlist.h"
+	plotscale.x	"../adjlist.h"  "grafplot.h"  <gset.h>
+	;

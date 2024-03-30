@@ -1,0 +1,11 @@
+input,s,a,,,, List of input files
+output,s,a,,,, List of output files
+wave,s,h," ",,, Optional wavelength images
+inform,s,h,"counts",obmag|stmag|vegamag|counts|mjy|jy|fnu|flam|photnu|photlam,,\
+ Form of input spectrum
+outform,s,h,"counts",obmag|stmag|vegamag|counts|mjy|jy|fnu|flam|photnu|photlam,,\
+ Form of output spectrum
+olength,i,h,INDEF,0,, Length of output file
+badpix,r,h,0.0,,, Value to substitute for INDEF in output image
+refdata,pset,h,,,, Reference data
+mode,s,h,'a',,,

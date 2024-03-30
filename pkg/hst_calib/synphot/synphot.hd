@@ -1,0 +1,62 @@
+# Help directory for the SYNPHOT package
+
+$synphot	= "st4gem$pkg/hst_calib/synphot/"
+$doc		= "st4gem$pkg/hst_calib/synphot/doc/"
+$bandpar	= "st4gem$pkg/hst_calib/synphot/bandpar/"
+$calcband	= "st4gem$pkg/hst_calib/synphot/calcband/"
+$calcphot	= "st4gem$pkg/hst_calib/synphot/calcphot/"
+$calcspec	= "st4gem$pkg/hst_calib/synphot/calcspec/"
+$countrate	= "st4gem$pkg/hst_calib/synphot/countrate/"
+$fitband	= "st4gem$pkg/hst_calib/synphot/fitband/"
+$fitgrid	= "st4gem$pkg/hst_calib/synphot/fitgrid/"
+$fitspec	= "st4gem$pkg/hst_calib/synphot/fitspec/"
+$genwave	= "st4gem$pkg/hst_calib/synphot/genwave/"
+$grafcheck      = "st4gem$pkg/hst_calib/synphot/grafcheck/"
+$graflist       = "st4gem$pkg/hst_calib/synphot/graflist/"
+$grafpath       = "st4gem$pkg/hst_calib/synphot/grafpath/"
+$grafplot       = "st4gem$pkg/hst_calib/synphot/grafplot/"
+$imspec	        = "st4gem$pkg/hst_calib/synphot/imspec/"
+$mkthru		= "st4gem$pkg/hst_calib/synphot/mkthru/"
+$obsmode	= "st4gem$pkg/hst_calib/synphot/obsmode/"
+$plband		= "st4gem$pkg/hst_calib/synphot/plband/"
+$plratio	= "st4gem$pkg/hst_calib/synphot/plratio/"
+$plspec		= "st4gem$pkg/hst_calib/synphot/plspec/"
+$pltrans	= "st4gem$pkg/hst_calib/synphot/pltrans/"
+$simulators	= "st4gem$pkg/hst_calib/synphot/simulators/"
+$showfiles	= "st4gem$pkg/hst_calib/synphot/showfiles/"
+$thermback	= "st4gem$pkg/hst_calib/synphot/thermback/"
+
+bandpar		hlp=doc$bandpar.hlp,	src=bandpar$bandpar.x
+calcband	hlp=doc$calcband.hlp,	src=calcspec$calcband.x
+calcphot	hlp=doc$calcphot.hlp,	src=calcspec$x_calcphot.x
+calcspec	hlp=doc$calcspec.hlp,	src=calcspec$calcspec.x
+countrate       hlp=doc$countrate.hlp,  src=countrate$countrate.x
+
+fitband		hlp=doc$fitband.hlp,	src=fitband$x_fitband.x
+fitgrid		hlp=doc$fitgrid.hlp,	src=fitgrid$x_fitgrid.x
+fitspec		hlp=doc$fitspec.hlp,	src=fitspec$x_fitspec.x
+
+genwave         hlp=doc$genwave.hlp,    src=genwave$x_genwave.x
+grafcheck       hlp=doc$grafcheck.hlp,  src=grafcheck$x_grafcheck.x
+graflist        hlp=doc$graflist.hlp,   src=graflist$x_graflist.x
+grafpath        hlp=doc$grafpath.hlp,   src=grafpath$grafpath.x
+grafplot        hlp=doc$grafplot.hlp,   src=grafplot$x_grafplot.x
+showfiles	hlp=doc$showfiles.hlp,	src=showfiles$showfiles.x
+thermback	hlp=doc$thermback.hlp,	src=thermback$thermback.x
+
+imspec        	hlp=doc$imspec.hlp,   	src=imspec$imspec.x
+mkthru		hlp=doc$mkthru.hlp,	src=mkthru$mkthru.x
+obsmode		hlp=doc$obsmode.hlp,	src=obsmode$obsmode.x
+
+plband		hlp=doc$plband.hlp,	src=plband$x_plband.x
+plratio		hlp=doc$plratio.hlp,	src=plratio$x_plratio.x
+plspec		hlp=doc$plspec.hlp,	src=plspec$x_plspec.x
+pltrans		hlp=doc$pltrans.hlp,	src=pltrans$x_pltrans.x
+
+refdata		hlp=doc$refdata.hlp,	src=synphot$refdata.par
+
+simulators      men=simulators$simulators.men,
+                hlp=..,
+                sys=simulators$simulators.hlp,
+                pkg=simulators$simulators.hd,
+                src=simulators$simulators.cl

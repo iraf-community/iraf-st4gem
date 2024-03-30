@@ -1,0 +1,16 @@
+# Update the obsmode application code in the synphot package library
+# Author: BSIMON, 05-Jan-95
+
+$checkout synphot.a ../
+$update   synphot.a
+$checkin  synphot.a ../
+$exit
+
+synphot.a:
+	addhash.x
+	obsmode.x	"../grflist.h"
+	startkey.x	"../grflist.h"
+	startpath.x	"../grflist.h"
+	wrtkeys.x	
+	wrtmode.x	"../grflist.h"
+	;

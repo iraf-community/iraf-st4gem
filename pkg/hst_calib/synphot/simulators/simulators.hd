@@ -1,0 +1,11 @@
+# Help directory for the SYNPHOT package
+
+$simulators	= "st4gem$pkg/hst_calib/synphot/simulators/"
+$doc		= "st4gem$pkg/hst_calib/synphot/simulators/doc/"
+$source		= "st4gem$pkg/hst_calib/synphot/simulators/source/"
+
+simbackgd	hlp=doc$simbackgd.hlp,	src=source$simbackgd.x
+simimg		hlp=doc$simimg.hlp,	src=source$simimg.x
+simnoise	hlp=doc$simnoise.hlp,	src=source$simnoise.x
+simspec		hlp=doc$simspec.hlp,	src=source$simspec.x
+
