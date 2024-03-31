@@ -1,19 +1,15 @@
 
-    This directory contains the information needed to make STSDAS run as
+    This directory contains the information needed to make ST4GEM run as
 an external package within IRAF.  It also contains special libraries used 
-within STSDAS.
+within ST4GEM.
 
 Libraries in this directory:
-	libapplib	applications subroutines (applib directory)
-	libdisplay	terminal display subroutines (display directory)
-	libf77util	F77VOS utiltity subroutines (f77util directory)
-	libiraf77	F77VOS interface subroutines (iraf77 directory)
-	libstieee	STSDAS special ieee file format subroutines (stieee dir)
-	libstxtools	STSDAS special application tools (xtools directory)
-	libsynphot	STSDAS synthetic photometry library (synphot directory)
-	libtbtables	STSDAS table I/O subroutines (tbtables directory)
-	libuttables	STSDAS table utilities (uttables directory)
-	stalone		F77 stand-alone interface (stalone directory)
+        libapplib	applications subroutines (applib directory)
+        libgflib.a
+        libgilib.a
+        libstxtools	ST4GEM special application tools (xtools directory)
+        libsynphot	ST4GEM synthetic photometry library (synphot directory)
+        libtbtables	ST4GEM table I/O subroutines (tbtables directory)
 
 Other necessary files:
 	helpdb.mip	host independent help database for STSDAS
@@ -21,9 +17,9 @@ Other necessary files:
 	mkpkg		mkpkg for this directory
 	mkpkg.inc	special mkpkg instructions for STSDAS
 	mkpkg.sf.*	operating system specific mkpkg instructions
-	root.hd		root help directory for STSDAS
-	rootstsdas.hd	root task entry for STSDAS help tree
-	strip.stsdas	list of files to be deleted when run `mkpkg strip'
-	zzsetenv.def	STSDAS environment variables used
+	root.hd		root help directory for ST4GEM
+	rootst4gem.hd	root task entry for ST4GEM help tree
+	strip.st4gem	list of files to be deleted when run `mkpkg strip'
+	zzsetenv.def	ST4GEM environment variables used
 	
 

@@ -8,6 +8,8 @@ set	st4gempkg	= "st4gem$pkg/"
 set	analysis	= "st4gempkg$analysis/"
 set	contrib	        = "st4gempkg$contrib/"
 set	graphics	= "st4gempkg$graphics/"
+set	hst_calib	= "st4gempkg$hst_calib/"
+set	nttools	        = "st4gempkg$nttools/"
 set	toolbox		= "st4gempkg$toolbox/"
 
 # Only set these if they havent already been set by the user

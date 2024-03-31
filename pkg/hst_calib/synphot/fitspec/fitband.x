@@ -22,7 +22,6 @@ real	hstarea		# total telescope area
 int	nvar
 pointer sp
 
-extern	fitfunc
 bool	clgetb()
 double	clgetd()
 int	clgeti()
