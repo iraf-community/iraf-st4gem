@@ -20,9 +20,11 @@ $echo "===================  CONTRIB  ========================"
 $call @contrib
 $echo "===================  GRAPHICS  ======================="
 $call @graphics
+$echo "===================  HST_CALIB  ======================"
+$call @hst_calib
 $echo "===================  TOOLBOX   ======================="
 $call @toolbox
 $echo "===================  NTTOOLS   ======================="
-$call @nttools
+#$call @nttools
 $ifeq (hostid, unix)  !(date)  $endif
 $exit
