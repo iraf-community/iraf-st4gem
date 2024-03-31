@@ -2,7 +2,7 @@ include <gset.h>
 include "psi.h"
 
 #---------------------------------------------------------------------------
-.help psi_change_font 1May92 stsdas.stplot
+.help psi_change_font 1May92 st4gem.stplot
 .ih
 NAME
 psi_change_font -- Change the PostScript fonts used for the GKI fonts.

@@ -1,4 +1,4 @@
-.help psicom 1May92 stsdas.stplot
+.help psicom 1May92 st4gem.stplot
 .ih
 NAME
 psi common.  

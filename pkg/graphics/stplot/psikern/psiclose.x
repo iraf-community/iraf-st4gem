@@ -1,7 +1,7 @@
 include "psi.h"
 
 #---------------------------------------------------------------------------
-.help psi_close 1May92 stsdas.stplot
+.help psi_close 1May92 st4gem.stplot
 .ih
 NAME
 psi_close -- Close the PSI translation kernel.  

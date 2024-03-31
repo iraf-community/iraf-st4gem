@@ -3,7 +3,7 @@ include	"nlfit.h"
 
 # NL_COMPILE -- Compiles user function.
 #
-# Uses routine vex_compile in stsdas$lib/xtools/ to parse a fortran 
+# Uses routine vex_compile in st4gem$lib/xtools/ to parse a fortran 
 # expression. The output pointer can be used by nl_userf in latter 
 # calls. Upon termination, everything must be cleared by a call to 
 # nl_freec.
@@ -51,7 +51,7 @@ end
 
 # NL_USERF -- Evaluates pre-compiled user function.
 #
-# Uses routine vex_eval in stsdas$lib/xtools/ to evaluate a fortran
+# Uses routine vex_eval in st4gem$lib/xtools/ to evaluate a fortran
 # expression previously compiled by vex_compile. 
 
 procedure nl_userf (nl, x, z, ydata, ndata, coef, ncoef)

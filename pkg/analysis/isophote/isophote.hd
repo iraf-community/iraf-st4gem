@@ -1,7 +1,7 @@
 # Help for the ISOPHOTE package
 
-$isophote	= "stsdas$pkg/analysis/isophote/"
-$doc		= "stsdas$pkg/analysis/isophote/doc/"
+$isophote	= "st4gem$pkg/analysis/isophote/"
+$doc		= "st4gem$pkg/analysis/isophote/doc/"
 
 ellipse		hlp=doc$ellipse.hlp,	src=isophote$src/t_ellipse.x,
 		sys=doc$ellipse.doc
