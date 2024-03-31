@@ -5,19 +5,19 @@ Report on Calcspec/Countrate discrepancy
 10 July 2008, V. Laidler & H. Bushouse
 
 File location: /eng/ssb/syn_pysyn/calcspec_countrate
-Location of sample case files: 
+Location of sample case files:
   /eng/ssb/syn_pysyn/8jul_r505M/stis_etc_cases/*/
 
 
 Sample syn-pysyn case to look into:
 -----------------------------------
-stis_etc_cases/SpecSourcerateSpecCase23 
-  tda_Obsmode=stis,ccd,g430l 
-  tda_Spectrum=spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag) 
+stis_etc_cases/SpecSourcerateSpecCase23
+  tda_Obsmode=stis,ccd,g430l
+  tda_Spectrum=spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)
 
-stis_etc_cases/SpecSourcerateSpecCase25 
-  tda_Obsmode=stis,ccd,g750l,c7751 
-  tda_Spectrum=spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag) 
+stis_etc_cases/SpecSourcerateSpecCase25
+  tda_Obsmode=stis,ccd,g750l,c7751
+  tda_Spectrum=spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)
 
 These differ only in obsmode, yet:
 
@@ -86,9 +86,9 @@ Appendix: Synphot commands used to generate the test files:
 --> calcspec "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" c25_cs_noobs_counts.fits form=counts wavetab=c25.fits
 --> calcspec "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" c23_cs_noobs_box.fits form=photlam wavetab=c23.fits
 
---> calcspec "box(10000.,30000.)*spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" c25_cs_box_photlam.fits form=photlam wavetab=c25.fits 
---> calcspec "box(10000.,30000.)*spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" c23_cs_box_photlam.fits form=photlam wavetab=c23.fits  
---> countrate "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" "" "box(10000.,30000.)" form=photlam out=c23_cr_box_photlam.fits wavecat=c23.cat    
---> countrate "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" "" "box(10000.,30000.)" form=photlam out=c23_cr_box_photlam.fits wavecat=c23.cat  
---> countrate "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" "" "box(10000.,30000.)" form=photlam out=c25_cr_box_photlam.fits wavecat=c25.cat   
+--> calcspec "box(10000.,30000.)*spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" c25_cs_box_photlam.fits form=photlam wavetab=c25.fits
+--> calcspec "box(10000.,30000.)*spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" c23_cs_box_photlam.fits form=photlam wavetab=c23.fits
+--> countrate "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" "" "box(10000.,30000.)" form=photlam out=c23_cr_box_photlam.fits wavecat=c23.cat
+--> countrate "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" "" "box(10000.,30000.)" form=photlam out=c23_cr_box_photlam.fits wavecat=c23.cat
+--> countrate "spec(earthshine.fits)*0.5+rn(spec(Zodi.fits),band(johnson,v),22.7,vegamag)" "" "box(10000.,30000.)" form=photlam out=c25_cr_box_photlam.fits wavecat=c25.cat
 
