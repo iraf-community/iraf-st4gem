@@ -3,6 +3,8 @@ st4gem		hlp="st4gem$st4gem.men"
 $analysis	= "./pkg/analysis/"
 $contrib	= "./pkg/contrib/"
 $graphics	= "./pkg/graphics/"
+$hst_calib	= "./pkg/hst_calib/"
+$nttools	= "./pkg/nttools/"
 $toolbox	= "./pkg/toolbox/"
 
 analysis	men = analysis$analysis.men,
@@ -22,6 +24,18 @@ graphics	men = graphics$graphics.men,
 		sys = graphics$graphics.hlp,
 		pkg = graphics$graphics.hd,
 		src = graphics$graphics.cl
+
+hst_calib	men = hst_calib$hst_calib.men,
+		hlp = ..,
+		sys = hst_calib$hst_calib.hlp,
+		pkg = hst_calib$hst_calib.hd,
+		src = hst_calib$hst_calib.cl
+
+nttools	        men = nttools$nttools.men,
+		hlp = ..,
+		sys = nttools$nttools.hlp,
+		pkg = nttools$nttools.hd,
+		src = nttools$nttools.cl
 
 toolbox		men = toolbox$toolbox.men,
 		hlp = ..,
