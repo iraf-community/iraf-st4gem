@@ -18,12 +18,24 @@ $echo "------------------------  GFLIB    --------------------------"
 $update libgflib.a
 $echo "------------------------  GILIB    --------------------------"
 $update libgilib.a
-$echo "------------------------  STXTOOLS --------------------------"
-$update libstxtools.a
 $echo "------------------------  SYNPHOT ---------------------------"
 $update libsynphot.a
-$echo "------------------------  TBTABLES --------------------------"
-$update libtbtables.a
+
+$iffile (iraf$bin$(arch)/libtbtables.a)
+    # Use the core library if it exists.
+    ;
+$else
+    $echo "------------------------  TBTABLES --------------------------"
+    $update libtbtables.a
+$endif
+
+$iffile (iraf$bin$(arch)/libstxtools.a)
+    # Use the core library if it exists.
+    ;
+$else
+    $echo "------------------------  STXTOOLS --------------------------"
+    $update libstxtools.a
+$endif
 
 $ifeq (hostid, unix)  !(date)  $endif
 $exit
