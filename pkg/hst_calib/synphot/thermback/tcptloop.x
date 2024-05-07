@@ -179,6 +179,10 @@ begin
 #      }
 
     #Check to be sure we need to do anything.
+	if ( strne(thtype, OPAQUE) ) {  
+            ;   # no-op
+	}
+
 	if ( strne(thtype, CLEAR) ) {  
 
 
