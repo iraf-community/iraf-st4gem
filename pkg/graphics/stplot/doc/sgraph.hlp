@@ -1,4 +1,4 @@
-.help sgraph Sep2000 stsdas.graphics.stplot
+.help sgraph Sep2000 st4gem.graphics.stplot
 .ih
 NAME
 sgraph -- Graph one or more lists, image sections, or tables.
