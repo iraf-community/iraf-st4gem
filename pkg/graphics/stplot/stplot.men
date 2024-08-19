@@ -1,6 +1,7 @@
 Menu for the package st4gem.graphics.stplot
 
             igi - Interactive Graphics Interpreter.
+         sgraph - Graph one or more image sections or lists.
         psikern - IRAF GIO Kernel to produce PostScript output.
 
 (Type "help stplot option=sysdoc" for detailed information about 'stplot').

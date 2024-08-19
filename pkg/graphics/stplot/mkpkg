@@ -55,5 +55,6 @@ linkonly:
 
 stplot.a:
 	@igi
+	@sgraph
         improjection.x
 	;

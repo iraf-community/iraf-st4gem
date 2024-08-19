@@ -2,7 +2,8 @@
 
 package	stplot
 
-task	igi		= "stplot$x_stplot.e"
+task	igi,
+	sgraph		= "stplot$x_stplot.e"
 task    psikern         = "stplot$x_psikern.e"
 
 clbye()

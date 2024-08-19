@@ -3,7 +3,9 @@
 $stplot		= "st4gem$pkg/graphics/stplot/"
 $doc		= "st4gem$pkg/graphics/stplot/doc/"
 $igi		= "st4gem$pkg/graphics/stplot/igi/"
+$sgraph		= "st4gem$pkg/graphics/stplot/sgraph/"
 $psikern	= "st4gem$pkg/graphics/stplot/psikern/"
 
 igi		hlp=doc$igi.hlp,	src=igi$t_igi.x
+sgraph		hlp=doc$sgraph.hlp,	src=sgraph$t_sgraph.x
 psikern		hlp=doc$psikern.hlp,	src=psikern$t_psikern.x, sys=doc$psikern_sys.hlp
