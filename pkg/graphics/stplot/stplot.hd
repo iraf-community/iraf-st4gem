@@ -9,3 +9,7 @@ $psikern	= "st4gem$pkg/graphics/stplot/psikern/"
 igi		hlp=doc$igi.hlp,	src=igi$t_igi.x
 sgraph		hlp=doc$sgraph.hlp,	src=sgraph$t_sgraph.x
 psikern		hlp=doc$psikern.hlp,	src=psikern$t_psikern.x, sys=doc$psikern_sys.hlp
+
+axispar         hlp=doc$axispar.hlp,    src=stplot$axispar.par
+dvpar           hlp=doc$dvpar.hlp,      src=stplot$dvpar.par
+pltpar          hlp=doc$pltpar.hlp,     src=stplot$pltpar.par

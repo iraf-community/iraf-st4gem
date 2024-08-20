@@ -4,4 +4,8 @@ Menu for the package st4gem.graphics.stplot
          sgraph - Graph one or more image sections or lists.
         psikern - IRAF GIO Kernel to produce PostScript output.
 
+        axispar - Specify axis and scaling parameters (pset for 'sgraph')
+          dvpar - Specify device parameters (pset)
+         pltpar - Specify graph parameters (pset for 'sgraph').
+
 (Type "help stplot option=sysdoc" for detailed information about 'stplot').
