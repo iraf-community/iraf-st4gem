@@ -17,8 +17,8 @@ relink:
 	;
 
 install:
-	$move	xx_acoadd.e stsdasbin$x_acoadd.e
-	$move	xx_plucy.e stsdasbin$x_plucy.e
+	$move	xx_acoadd.e st4gembin$x_acoadd.e
+	$move	xx_plucy.e st4gembin$x_plucy.e
 	;
 
 acoadd:
