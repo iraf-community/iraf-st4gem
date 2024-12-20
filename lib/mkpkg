@@ -12,8 +12,6 @@ update:
 
 $ifeq (hostid, unix)  !(date)  $endif
 
-$echo "------------------------  APPLIB  ---------------------------"
-$update libapplib.a
 $echo "------------------------  GFLIB    --------------------------"
 $update libgflib.a
 $echo "------------------------  GILIB    --------------------------"
@@ -45,9 +43,6 @@ libgflib.a:
 	;
 libgilib.a:
 	@gilib
-	;
-libapplib.a:
-	@applib
 	;
 libstxtools.a:
 	@stxtools
