@@ -409,7 +409,7 @@ begin
 	# Initialization section.
 	# Create scratch for NCAR FFT routine and for phase shifting.
 	# We cannot center the output yet.
-	call ft_work_init (work, coord_shift, NO)
+	call ft_work_init (work, coord_shift, FALSE)
 
 	# Compute cosines & sines for first axis.
 	if (coord_shift)
@@ -443,7 +443,7 @@ begin
 	}
 
 	# Deallocate scratch for NCAR, etc (but not work itself).
-	call ft_work_free (work, coord_shift, NO)
+	call ft_work_free (work, coord_shift, FALSE)
 
 	# Flush scratch images so we can read them.
 	call imflush (Re_1)
@@ -572,7 +572,7 @@ begin
 	}
 
 	# No coordinate shifting remains to be done.
-	call ft_work_init (work, NO, center)
+	call ft_work_init (work, FALSE, center)
 
 	fwd = false				# inverse transform
 	# Do for each line that is to be written to output.
@@ -602,7 +602,7 @@ begin
 	    line = line + 1
 	}
 
-	call ft_work_free (work, NO, center)
+	call ft_work_free (work, FALSE, center)
 
 	call ft_del_s (Re_2)
 	call ft_del_s (Im_2)
