@@ -30,10 +30,7 @@ install:
 fourier:
 linkonly:
 	$omake	x_fourier.x
-
-	$link	x_fourier.o fourier.a \
-		-lapplib -lstxtools \
-		-o xx_fourier.e
+	$link	x_fourier.o fourier.a -lstxtools -o xx_fourier.e
 	;
 
 fourier.a:
