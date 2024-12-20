@@ -41,7 +41,7 @@ synphot:
 linkonly:
 	$omake	x_synphot.x
 	$link	x_synphot.o synphot.a simulators/simulators.a -lsynphot\
-		-lapplib -lstxtools -ltbtables \
+		-lstxtools -ltbtables \
 		-o x_synphot.e
 	;
 
