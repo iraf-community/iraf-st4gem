@@ -30,12 +30,13 @@ linkonly:
 	$set 	LIBS = " "
 	$set    LFLAGS = "-z $(LFLAGS)"
 	$link	x_imgtools.o imgtools.a $(LIBS) \
-		-lxtools -lapplib \
+		-lxtools \
                 -lstxtools -ltbtables -lgflib -lgilib -lgsurfit \
 		-o xx_imgtools.e
 	;
 
 imgtools.a:
+        res_utils.x             <pattern.h> <ctype.h> <time.h> <tbset.h>
 	@lib
 	@addmasks
 	@imcalc
