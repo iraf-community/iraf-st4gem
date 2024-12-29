@@ -1,6 +1,0 @@
-# Mkpkg special file list for 64-bit Linux systems (GCC 4.47)
-
-$set	XNO	= '& "$xc -cq &"'
-
-# Compile w/out optimization to avoid gcc 4.4.7 optimizer bug.
-$special "$(st4gem)lib/applib/":		ncarfft.f $(XNO) ;
