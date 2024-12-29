@@ -4,7 +4,6 @@ an external package within IRAF.  It also contains special libraries used
 within ST4GEM.
 
 Libraries in this directory:
-        libapplib	applications subroutines (applib directory)
         libgflib.a
         libgilib.a
         libstxtools	ST4GEM special application tools (xtools directory)
