@@ -246,7 +246,7 @@ begin
 	    case TITLE:
 	    	call pr_gets (o, Command, s1, SZ_LINE)
 	    	if (streq (s1, "default") )
-	    	    call strcpy (EOS, USER_TITLE(pl), SZ_LINE)
+	    	    call strcpy ("", USER_TITLE(pl), SZ_LINE)
 		else 
 	    	    call strcpy (s1, USER_TITLE(pl), SZ_LINE)
 

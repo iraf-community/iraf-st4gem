@@ -200,7 +200,7 @@ bool	streq()			# are two strings equal?
 
 begin
 	call strupr (expression)
-	if ( streq (expression, "DEFAULT") || streq (expression, EOS) ) {
+	if ( streq (expression, "DEFAULT") || expression[1] == EOS) {
 	    if (PL_TYPE(pl) == INTENS_VS_NE)
 		dtype = DENSITY
 

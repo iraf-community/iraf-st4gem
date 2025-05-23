@@ -87,7 +87,7 @@ begin
 	call curve_to_table (otp, "Ref_Te", TEMPERATURE, TE_REF(pl), n_pts)
 
 	# Plot density curves.
-	call strcpy (EOS, expr, SZ_LINE)
+	call strcpy ("", expr, SZ_LINE)
 	call open_curve (tp, colptr, n_rows)
 
 	do i = 1, n_rows {
