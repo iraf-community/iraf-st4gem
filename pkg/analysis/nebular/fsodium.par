@@ -1,0 +1,9 @@
+# nebular.fsodium parameters (pset)
+
+na2805_col,s,h,"NAiv(2805)",,,Flux of Na IV 2805 A
+na3242_col,s,h,"NAiv(3242)",,,Flux of Na IV 3242 A
+na3362_col,s,h,"NAiv(3362)",,,Flux of Na IV 3362 A
+na2569_col,s,h,"NAv(2569)",,,Flux of Na V 2569 A
+na2871_col,s,h,"NAv(2871)",,,Flux of Na V 2871 A
+na2970_col,s,h,"NAv(2970)",,,Flux of Na V 2970 A
+

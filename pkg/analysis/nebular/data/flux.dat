@@ -1,0 +1,55 @@
+#	New nebular test file:	nebular$data/flux.dat		11-Jul-97
+
+# The following is a set of ficticious line intensities that are used for 
+# excercising the "zones" and "abund" tasks. The fluxes and other information 
+# are given in the order specified by the "flux.cols" file. Note that lines 
+# begining with the hash symbol (#) are treated as comments. 
+
+# Object   Region  c_Extinct  ExtCor? ExtLaw  O/UV   4861   6563
+"Test_123"  "UV"      0.10      yes    "gal"  1.0    100.  286.0
+
+# CARBON:
+#   1909  07/09   2327  26/28
+   38.25 1.4510 0.9665 1.9788
+
+# NITROGEN:
+#   1241   1750  49/52   5200  00/98   5755   6548   6583
+   INDEF  7.258  1.463  1.884  0.620  1.602  32.54  95.98
+
+# OXYGEN:
+#   1403  01/05   3727  26/29   4363   4959   5007   6300   7325
+  0.6222  0.935  44.39 2.6496  13.22  273.6  788.0  3.623  4.197
+
+# NEON:
+#   1601  2424  23/25   2975   3342   3426   3869   4725
+  1.5436 27.75  1.355 0.0792 0.2007  15.73  38.78 0.1444
+
+# ALUMINUM:
+#   1671   2666
+  0.6810  10.04
+
+# SILICON:
+#   1206   1887  83/92   2340
+  0.3571  54.18 2.1095  10.08
+
+# SULFUR:
+#   4072   6312   6723  16/31   9069
+   7.172  1.392  23.15 0.5772  12.92
+
+# CHLORINE:
+#   5527  17/37   5807   7531
+   9.359  1.071  1.257  1.014
+
+# ARGON:
+#   2861   4626   4711   4740   5192   6435   7006   7136   7170   7751
+  0.9047 0.2240  11.45  9.505 0.6993  2.850  7.640  43.83  0.107  10.51
+
+# POTASSIUM:
+#   4511   6102   6796
+  0.2458  12.93  2.812
+
+# CALCIUM:
+#   3996   5309   6087
+  0.0566  9.083  1.767
+ 
+#####################

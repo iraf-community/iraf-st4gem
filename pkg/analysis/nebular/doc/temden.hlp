@@ -1,0 +1,178 @@
+.help temden Jul97 st4gem.analysis.nebular
+.ih
+NAME
+temden -- Compute electron temperature or density from diagnostic line ratios.
+.ih
+USAGE	
+temden option ratio
+.ih
+DESCRIPTION
+This task computes the electron temperature (T_e) given an electron 
+density (N_e), or N_e given T_e, of an ionized nebular gas within 
+the N-level atom approximation.  The user specifies the quantity to 
+be calculated, the reddening-corrected diagnostic line ratio, the 
+name and the spectrum of the atom, and an assumed value for the 
+quantity NOT being calculated.  The task output lists the ion and 
+the line ratio for which the calculation is performed, followed by 
+the result of the calculation.  These input task parameters, 
+including those that are "hidden", are written back to the parameter
+file.  The result is also stored in the task parameter "result" for 
+ease of use in CL scripts.  
+
+The following table lists the default diagnostic line ratios in the 
+form I(wave1)/I(wave2), where "wave1" and "wave2" are given in 
+units of Angstroms. 
+
+.nf
+	Table 1. Electron density diagnostics:
+
+	  Ion             Line Ratio
+	-------------------------------------
+	  C ii]        I(2326) / I(2328)
+	  C iii]       I(1907) / I(1909)
+	 [N i]         I(5198) / I(5200)
+	  N iii]       I(1749) / I(1752)
+	  N iv]        I(1483) / I(1487)
+	 [O ii]        I(3726) / I(3729)
+	 [O iv]        I(1401) / I(1405)
+	 [O v]         I(1214) / I(1218)
+	[Ne iv]        I(2423) / I(2425)
+	[Al ii]        I(2661) / I(2670)
+	[Si ii]        I(2335) / I(2345)
+	 Si iii]       I(1883) / I(1892)
+	 [S ii]        I(6716) / I(6731)
+	 [S iv]        I(1406) / I(1417)
+	[Cl iii]       I(5517) / I(5537)
+	[Ar iv]        I(4711) / I(4740)
+	 [K v]         I(6223) / I(6349)
+
+	Table 2. Electron temperature diagnostics:
+
+	  Ion             Line Ratio
+	-------------------------------------
+         [C i]    I(9823+9849) / I(8728)
+         [N i]    I(5198+5200) / I(10397+10407)
+	 [N ii]   I(6548+6583) / I(5755)
+	 [O i]    I(6300+6363) / I(5577)
+	 [O ii]   I(3726+3729) / I(7320+7330)
+	 [O iii]  I(4959+5007) / I(4363)
+	[Ne iii]  I(3869+3969) / I(3342)
+        [Ne iv]   I(2422+2425) / I(1601+1602)
+	[Ne v]    I(3426+3346) / I(2975)
+        [Na iv]   I(3242+3362) / I(2805)
+        [Na vi]   I(2871+2970) / I(2569)
+        [Mg v]    I(2783+2928) / I(2418)
+        [Mg vii]  I(2506+2626) / I(2262)
+        [Al ii]   I(2661+2670) / I(1671)
+	 Si iii]  I(1883+1892) / I(1206)
+	 [S ii]   I(6716+6731) / I(4068+4076)
+	 [S iii]  I(9069+9532) / I(6312)
+        [Cl iii]  I(5517+5537) / I(3353+3343)
+	[Cl iv]   I(7530+8045) / I(5323)
+	[Ar iii]  I(7136+7751) / I(5192)
+	[Ar iv]   I(4711+4740) / I(2854+2868)
+	[Ar v]    I(6435+7006) / I(4626)
+         [K iv]   I(6102+6796) / I(4511)
+         [K v]    I(4123+4163) / I(2515+2495)
+        [Ca v]    I(5309+6087) / I(3996)
+.fi
+
+It is possible to customize the line ratio using the "transition" 
+parameter and an expression for the ratio of interest. See the 
+description of the "transition" parameter and the examples below. 
+Note that the wavelengths corresponding to the various transitions 
+can be obtained by running the "ionic" task. 
+.ih
+PARAMETERS
+.ls option "density" [string]
+Quantity to calculate: "temperature" or "density".
+.le
+.ls flxratio = "" [string]
+Algebraic expression for the ratio of diagnostic line fluxes.  The 
+expression is evaluated with FORTRAN-like rules for supported 
+operators and the order of their evaluation.  
+.le
+.ls (atom = "oxygen") [string]
+Name of the atom, which is one of: carbon, nitrogen, oxygen, 
+neon, sodium, magnesium, aluminum, silicon, sulfur, chlorine, 
+argon, potassium, or calcium. 
+.le
+.ls (spectrum = 2) [int]
+Spectrum number of the atom, e.g. "3" for [O iii], "2" for [S ii], 
+etc.  Must lie in the range 1 <= ion_stage <= 8.  
+.le
+.ls (transition = "default") [string]
+Expression for the transition, if not the "default". Transitions
+are specified with the special function "J" (for the emissivity): 
+the arguments are the upper and lower levels of the transition. For 
+example, the traditional density diagnostic of [O II] is the ratio 
+of the intensities for the transition I(3->1) to that of 
+I(2->1)--i.e., I(3726)/I(3729). The corresponding expression for 
+would be "J(3,1)/J(2,1)". The expression is evaluated with 
+FORTRAN-like expression rules.
+.le
+.ls (assume = INDEF) [real]
+Value to assume for the quantity NOT being calculated.  The units 
+are 1/cm^3 if T_e is being calculated, or Kelvins if N_e is being 
+calculated.  Temperatures must lie in the range 500 to 1.e+5 K, 
+and densities must lie in the range 1. to 1.e+8.  
+.le
+.ls (result = INDEF) [real]
+Result of the calculation.  The units are 1/cm^3 if N_e is being 
+calculated, or Kelvins if T_e is being calculated.  
+.le
+.ls (verbose = no) [boolean]
+Print verbose output for each iteration?  
+.le
+.ls (at_data = at_data) [string]
+Atomic reference data directory name.  
+.le
+.ih
+EXAMPLES
+1. Find the electron density from the [S II] diagnostic ratio 
+I(6716)/I(6731) = 0.9 assuming an electron temerature of 10000 K.  
+
+.nf
+    cl> temden density 0.9 atom=sulfur spectrum=2 assume=10000. 
+    Density ratio [S ii]: I(6716)/I(6731) =   0.9
+    Density: 910.344 /cm^3
+.fi
+
+2. Find the electron temperature from the [O III] diagnostic ratio 
+I(4959+5007)/I(4363), given I(4959)=100., I(5007)=288., and 
+I(4363)=7.405, and  assuming an electron density of 1000/cm^3. 
+
+.nf
+    cl> temden temerature "(100.+288.)/7.40" atom=oxygen \
+    >>> spec=3 assume=1000.
+    Temperature ratio [O iii]: I(4959+5007)/I(4363) = 52.432
+    Temperature: 17158.3 K
+.fi
+
+3. Find the electron temperature from the custom [O III] 
+diagnostic ratio I(1660+1666)/I(4363)=1.0, and assuming an 
+electron density of 10,000/cm^3. 
+
+.nf
+    cl> temden temerature 1.0 atom=oxygen spec=3 assume=1.e4 \
+    >>> transition="(j(6,2)+j(6,3))/j(5,4)"
+    Temperature ratio [O iii]: (J(6,2)+J(6,3))/J(5,4) = 1.
+    Temperature: 17158.3 K
+.fi
+.ih
+REFERENCES
+The 5-level atom program, upon which this package is based, was 
+originally written by M.M. DeRobertis, R. Dufour, and R. Hunt.  
+This package was written by R.A. Shaw (STScI); a description was 
+published by R.A. Shaw & R.J. Dufour (1994).  Type "help nlevel" 
+for additional information about the N-level atom approximation, 
+and for references to the atomic parameters and the other 
+literature references.  Support for this software development was 
+provided by the Astrophysics Data Program through NASA grant 
+NAG5-1432, and through STScI internal research funds.  
+.ih
+SEE ALSO
+nlevel, ionic, zones 
+
+For further information type "help nebular opt=sysdoc".  
+.endhelp

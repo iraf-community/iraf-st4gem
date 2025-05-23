@@ -4,6 +4,7 @@ Menu for the package ST4GEM.analysis
         fitting - Curve fitting tools.
         fourier - Fourier analysis.
        isophote - Elliptical isophote image analysis.
+        nebular - Tasks for analyzing nebular emission lines
 
 (Type "help analysis option=sysdoc" for general information
 about the `analysis' package.)

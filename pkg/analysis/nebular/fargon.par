@@ -1,0 +1,13 @@
+# nebular.fargon parameters (pset)
+
+ar69890_col,s,h,"ARii(69890)",,,Flux of Ar II 69890 A
+ar5192_col,s,h,"ARiii(5192)",,,Flux of Ar III 5192 A
+ar7136_col,s,h,"ARiii(7136)",,,Flux of Ar III 7136 A
+ar7751_col,s,h,"ARiii(7751)",,,Flux of Ar III 7751 A
+ar2861_col,s,h,"ARiv(2861)",,,Flux of Ar IV 2854 + 2868 AA doublet
+ar4711_col,s,h,"ARiv(4711)",,,Flux of Ar IV 4711 A
+ar4740_col,s,h,"ARiv(4740)",,,Flux of Ar IV 4740 A
+ar7170_col,s,h,"ARiv(7170)",,,Flux of Ar IV 7170 A 
+ar4626_col,s,h,"ARv(4626)",,,Flux of Ar V 4625.54 A
+ar6435_col,s,h,"ARv(6435)",,,Flux of Ar V 6435 A
+ar7006_col,s,h,"ARv(7006)",,,Flux of Ar V 7006 A

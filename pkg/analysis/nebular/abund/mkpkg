@@ -1,0 +1,18 @@
+#-------------------------------------------------------------------------------
+#  Update the "abund" task in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	ab_col.x	<tbset.h> "../flux.h" 
+	abund.x		"../at.h" "../flux.h" 
+	abund_ref.x	<tbset.h> "../neberr.h" 
+	f_ratios.x	<tbset.h> <mach.h> "../fivel.h" "../neberr.h" 
+	t_abund.x	<tbset.h> <error.h> "../fivel.h" "../neberr.h" \
+			"../neb_io.h" "../zones.h" 
+	;
+
+$exit

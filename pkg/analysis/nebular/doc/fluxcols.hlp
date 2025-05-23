@@ -1,0 +1,121 @@
+.help fluxcols Jul97 st4gem.analysis.nebular
+.ih
+NAME
+fluxcols -- Column names for input table of emission line fluxes
+.ih
+USAGE
+fluxcols
+.ih
+DESCRIPTION
+The `fluxcols' parameters specify the column names in the table 
+used in the `zones' and `abund' nebular modelling tasks.  These 
+columns include the object name and region code, the nebular 
+extinction constant and extinction correction flag, an optical-to-
+UV scale factor, and the line fluxes or line ratios that will be 
+used for computing the electron temperature and density.  
+
+The default values are usable even if these columns are not present 
+in the input table, and are really intended to give the user some 
+flexibility in naming the table columns.  If a column with the 
+specified name already exists in the input table its contents will 
+be used; if one does not exist the line flux is assumed to be 
+INDEF, and the corresponding physical diagnostic and/or ionic 
+abundance will not be based upon that line unless its value can be 
+otherwise calculated.  
+
+Note that this is a pset, not an executable task; it defines a set 
+of parameters used by other tasks.  Invoking the pset by name runs 
+`eparam' on the parameter set, allowing the user to modify the 
+parameters.  Alternatively, the parameters may be modified on the 
+command line by specifying the pset name and parameter name.  For 
+example, the user can type `fluxcols.o5007_col="Oiii(5007)"' to set 
+the name of the table column containing the [O iii] 5007 A flux to 
+the string "Oiii(5007)".  (Note that the column names are always 
+converted to upper-case in the table.)  Parameters can also be 
+edited by using `eparam' on the calling task (e.g., by typing 
+"eparam zones"), in which case `fluxcols' will appear as one of the 
+task parameters; the `fluxcols' parameters may then be edited by 
+positioning the cursor on the line containing the pset name and 
+typing ":e".  After editing the pset parameters, exit normally from 
+eparam (with an EOF, usually <cntr-Z>) to return to the main task 
+parameter menu.  
+
+.ih
+PARAMETERS
+.ls (object_col = "Object_ID", region_col = "Region") [string]
+Names of columns containing the target name, and the region 
+within the target, if any.  
+.le
+.ls (opt2uv_col = "Scale(Opt/UV)") [string]
+Name of the table column containing the optical-to-UV flux 
+scale factor.  Often the nebular fluxes are listed on a scale 
+of F(H-beta) = 100, but UV fluxes are given in scaled physical 
+units (such as 10^{-14} erg/cm^2/s).  This parameter can be 
+used to relate the two relative scales; the default is 1.0, 
+even if this column is not found in the input table.  
+.le
+.ls (c_ext_col = "c_Extinct", extcorr_col = "Ext_Corr") [string]
+Names of columns containing the logarithmic extinction at 
+H-Beta (traditionally denoted by "c" in the literature), and 
+the flag indicating whether the correction for I.S. extinction 
+has already been applied to the fluxes.  If the "c_Extinct" and 
+"Ext_Corr" columns are both missing, no reddening correction is 
+applied.  
+.le
+.ls (redlaw_col = "Ext_Law") [string]
+Name of the column containing the choice of interstellar extinction 
+law to apply.  If the "Ext_Law" column is missing, the average 
+extinction law for the Galaxy (Savage & Mathis 1979) will be 
+used if the reddening correction is performed.  
+.le
+.ls (h4861_col = "Hi(4861)") [string]
+Name of the column containing the flux of H-beta, 4861.3 Ang. 
+Emission line fluxes are normalized to H(beta)=100 during the 
+abundance calculations.  
+.le
+.ls (faluminum = "") [pset]
+Parameter set to specify column names for aluminum line fluxes.  
+.le
+.ls (fargon = "") [pset]
+Parameter set to specify column names for argon line fluxes.  
+.le
+.ls (fcalcium = "") [pset]
+Parameter set to specify column names for calcium line fluxes.  
+.le
+.ls (fcarbon = "") [pset]
+Parameter set to specify column names for carbon line fluxes.  
+.le
+.ls (fchlorine = "") [pset]
+Parameter set to specify column names for chlorine line fluxes.  
+.le
+.ls (fmagnesium = "") [pset]
+Parameter set to specify column names for magnesium line fluxes.  
+.le
+.ls (fneon = "") [pset]
+Parameter set to specify column names for neon line fluxes.  
+.le
+.ls (fnitrogen = "") [pset]
+Parameter set to specify column names for nitrogen line fluxes.  
+.le
+.ls (foxygen = "") [pset]
+Parameter set to specify column names for oxygen line fluxes.  
+.le
+.ls (fpotassium = "") [pset]
+Parameter set to specify column names for potassium line fluxes.  
+.le
+.ls (fsilicon = "") [pset]
+Parameter set to specify column names for silicon line fluxes.  
+.le
+.ls (fsodium = "") [pset]
+Parameter set to specify column names for sodium line fluxes.  
+.le
+.ls (fsulfur = "") [pset]
+Parameter set to specify column names for sulfur line fluxes.  
+.le
+.ih
+SEE ALSO
+abund, nlevel, zones
+
+Type "help nebular opt=sys" for a general description of the tasks 
+in the `nebular' package.  
+.endhelp

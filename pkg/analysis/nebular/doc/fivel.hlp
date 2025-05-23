@@ -1,0 +1,505 @@
+.help fivel May95 playpen.nebular
+.ih
+NAME
+fivel -- Tasks for deriving T_e, N_e, and nebular ionic abundances
+.ih
+INTRODUCTION
+Some of the tasks in the `nebular' package are based upon the FIVEL 
+program developed by De Robertis, Dufour & Hunt (1987).  They can 
+be used to calculate the physical conditions in a low density 
+(nebular) gas given appropriate diagnostic emission line ratios; 
+and line emissivities given appropriate emission line fluxes, the 
+electron temeperature (T_e), and density (N_e).  These tasks have 
+been extended beyond the original FIVEL program to provide 
+diagnostics from a greater set of ions and emission lines, most 
+particularly those in the vacuum ultraviolet that are now available 
+from the IUE and HST archives.  
+
+It should be noted that these routines are not intended as a full 
+nebular photoionization model, such as G. Ferland's CLOUDY. Rather, 
+they are intended for the fairly common instances where one has 
+somewhat incomplete information about a complicated physical system 
+(such as a narrow-line region in an active galactic nucleus), or 
+somewhat more information about a physically simple system, such as 
+a fairly evolved planetary nebula.  In these cases it is useful to 
+calculate nebular densities or temperatures from the traditional 
+diagnostic line ratios, either to provide some resonable input 
+parameters for a more complicated physical model, or to calculate 
+ionic abundances (or other quantities) within some simplifying 
+assumptions.  
+
+The physical basis for line emission from a photoionized nebula has 
+been discussed in many excellent references and will not be 
+repeated here, save for a very brief description of the equations 
+to be solved and the method of solution.  The following discussion 
+is taken primarily from De Robertis, Dufour & Hunt (1987) and also 
+from Osterbrock (1989).  
+.ih
+CALCULATION OF THE EMISSION LINE SPECTRUM 
+These routines make use of the fact that that most of the common 
+ions that dominate the nebular cooling rate have either p^2, p^3, 
+or p^4 ground-state electron configurations, which have five low-
+lying levels.  The major physical assumption within this algorithm 
+is that only these five levels are physically relevant for 
+calulating the observed emission line spectrum; higher levels in 
+these ions are not significantly populated through collisions, 
+recombinations, or other mechanisms.  A schematic of the energy-
+level diagrams for the ground electron configurations are shown 
+below:
+
+.bp
+.nf
+		Energy-Level Diagrams for 
+	      Ground Electron Configurations
+    
+    		    1				2
+    _______________  S		===============  P
+    		      0				  (3/2, 1/2)
+    
+    		    1				2
+    _______________  D		===============  D
+    		      2				  (5/2, 3/2)
+    
+    		    3
+    _______________  P				4
+    ===============  (2,1,0)	_______________  S
+    						  3/2
+
+     2      4			    3
+    p  and p  Atoms		   p  Atoms
+.fi
+
+For such ions, collisional and radiative transitions can occur 
+between any of the levels.  For each excitation level "i" for a 
+given ion, the equations of statistical equilibrium may be written:
+
+.nf
+   ___             ___           ___             ___
+   \   n  N  q   + \   n  A   =  \   n  N  q   + \   n  A 	(1)
+   /__  j  e  ji   /__  j  ji    /__  i  e  ij   /__  i  ij
+   j!=i            j>i           j!=i             j<i
+.fi
+
+where n_j is the fraction in level "j", N_e is the electron density 
+(1/cm^3), q_{ij} are the electron (de)excitation rate coefficients 
+(cm^3/s^1), and A_{ij} are the radiative transition probabilities 
+(1/s).  The first term on the left includes the collisional 
+(de)excitation rate from the (upper) lower levels, and the second 
+term gives the radiative transition rate from an upper level.  The 
+third term is the collisional (de)excitation rate from (upper) 
+lower levels, and the last term is the radiative transition rate 
+from the level itself.  
+
+The A_{ij} are independent of temperature, and are inversely 
+proportional to the lifetimes of the upper level, but the q_{ij} 
+are temperature dependent.  The de-excitation rate (i.e., i > j) is 
+given by:
+
+.nf
+	        8.629E-6  Omega(j,i)
+	q    =  --------  ----------- 	 	(1/cm^3/s) 	(2)
+	 ij     sqrt(T )     w
+	              e       i
+.fi
+
+where w_i is the statistical weight of level "i", and Omega(j,i) is 
+the mean (dimensionless) collision strength which is temperature 
+dependent.  The collisional excitation rate is related to the de-
+excitation rate via:
+
+.nf
+		        w 
+		         i 
+		q    = ----  q   exp (-X  /kT)			(3)
+		 ji     w     ij        ij
+		         j
+.fi
+
+where X_{ij} is the excitation energy difference between levels i 
+and j; and "k" is Boltzmann's constant.  It is equation (1), with 
+the additional constraint that the relative level populations sum 
+to unity, that is solved within the FIVEL routines to determine the 
+level populations.  
+
+The atomic data that are independent of temperature -- A_{ij}, w_i, 
+and E_i (the energy level separations above the ground state in 
+1/Angstroms) -- are tabulated within the FIVEL library and are 
+selected at run time for a given ion.  The temperature dependent 
+atomic data -- Omega(j,i) -- are computed at run time for a 
+specified temperature.  While the collision strengths are really 
+continuous functions of temperature, they are often tabulated 
+in the literature at only a few fixed temperatures between 5000 and 
+20,000 K.  In the FIVEL routines, the actual collision strengths 
+for a given T_e are computed at run time by evaluating a quadratic 
+fit of Omega(j,i) as a function of temperature.  
+
+For a given emission line, the emission rate of line photons 
+resulting from a downward transition from i-->k, j(i,k), is given 
+by:
+
+.nf
+		              l
+	4(pi) j(i,k) = A   N(X ) n  h v	 	(erg/cm^3/s)	(4)
+		        ij        i    ik
+.fi
+
+where "pi" = 3.14159..., n_i is the relative population in the 
+upper level of ion X^l, "h" is Planck's constant, and v_{ik} is the 
+frequency of the photon emitted in the transition.  As the density 
+increases, collisional de-excitation becomes important.  A bench-
+mark called the "critical density" for a level "i" is defined as 
+the density at which the collisional de-excitation rate equals the 
+radiative transition rate.  That is: 
+
+.nf
+		 ___        / ___
+	n  (i) = \   A     /  \   q    		(1/cm^3)	(5)
+	 cr	 /__  ij  /   /__  ij
+                 j<i     /    j!=i
+.fi
+
+In the low density limit it can be shown that the emissivity is 
+proportional to n_e * N(X^l), whereas for densities exceeding the 
+critical density, the emissivity goes as N(X^l).  Thus, line 
+emission in a nebula occurs most efficiently near the critical 
+density.  
+.ih
+NEBULAR DIAGNOSTICS AND IONIC ABUNDANCES
+Certain emission line ratios in five-level atoms are very useful as 
+diagnostics of electron temperature or density.  The p^2 and p^4 
+ions have ground state configurations such that some transitions 
+from upper levels have very different excitation energies; ratios 
+of the resulting emission lines can serve as very effective 
+temperature indicators because they are insensitive to density.  
+Conversely, in p^3 ions some transitions to the ground state have 
+upper levels with nearly the same excitation energy.  Ratios of 
+these lines can serve as very effective density indicators because 
+the level populations are quite insensitive to temperature.  The available diagnostic line ratios for the FIVEL tasks are tabulated 
+in the next section. 
+
+The ionic abundances, relative to H+, can be derived from the 
+observed ratio of a forbidden line intensity relative to H-beta.  
+Aller (1984) provides a convenient fitting formula for the H-beta 
+emissivity which is accurate to within about 4% for densities less 
+than about 10**6/cm^3.  The formula:
+
+.nf
+  4(pi) j(H-beta) = 
+				+   -0.983
+		1.387E-25 N  N(H ) t       dex(-0.0424/t)	(6)
+			   e	                        
+.fi
+
+in units of (erg/cm^3/s), is used within the FIVEL routines; here, 
+t = T_e / 10^4 K.  The H-beta emissivity is calculated for the same 
+temperature as the specified ion, and the ionic abundance ratio is 
+calculated from:
+
+.nf
+		   i
+	        N(X )    I(line)    j(H-beta)
+		----- = --------- * --------- 		 	(7)
+		N(H+)   I(H-beta)    j(line)
+.fi
+
+where I(line)/I(H-beta) is the observed line ratio.  Note that ALL 
+of the line emissivities output by the "ionic" task are per unit 
+ion density per unit electron density.  That is, the true volume 
+emissivity (j_true) is related to by:
+
+.nf
+                                     i
+          4 * pi * j(true) = N  * N(X ) * j(task)               (8)
+                              e
+.fi
+
+Any of the "five-level" transitions for any of the ions can be used 
+to derive the ionic abundance, but the strongest lines that are 
+typically used in the FIVEL tasks are tabulated in the next 
+section. 
+
+It should be noted that the nebular routines give line emissivities
+and diagnostic ratios for metastable-level magnetic dipole or 
+electric quadrapole transitions under the assumption of pure 
+statistical equilibrium and do not account for radiation transfer 
+effects such as self-absorption in some levels.  For some 
+astrophysical situations such as giant H ii regions and AGNs, the 
+optical depths of the ^3P multiplet levels of p^2 and p^4 ions such 
+as [O iii], [N ii], and [Ne iii] can become significant, which will 
+affect the observed far-infrared line strengths for such objects 
+compared to the program predictions.  While no nebular task currently 
+makes use of N_e and T_e diagnostics from the far-infrared lines, 
+one can make use of these lines with the 
+"abund" task (see below) for low-density H ii regions and planetary
+nebulae. However, caution is advised for such use on giant H ii 
+regions or dense, highly ionized planetary nebulae for which the 
+optical depth in the ^3P levels could become important.  
+
+.ih
+3-ZONE NEBULAR MODEL
+In order to calculate ionic abundances in a real nebula, it is 
+necessary to know the electron temperature and density where the 
+various ionic emissions are produced.  In some physical contexts 
+it makes sense to view the structure of a nebula an an "onion 
+skin", where the ionization drops off radially from some central 
+source of ionizing radiation, and T_e drops somewhat as N_e 
+increases (on average) with distance.  Different ions are found 
+in spherical shells of various radii, depending on the ionization 
+potential of the ion.  
+
+Two tasks in this package were designed to model nebulae in just 
+this way, with 3 zones of low-, intermediate-, and high-ionization. 
+The nebular physical parameters are derived within each zone by 
+making simultaneous use of temperature- and density-sensitive line 
+ratios from different ions with similar ionization potentials.  The 
+small dependence of the temperature indicators upon N_e, and of the 
+density indicators upon T_e, is removed with an iterative technique 
+and ultimately results in an average T_e and N_e within each zone.  
+
+The modelling tasks are layered upon the TABLES external package in 
+order to provide a simple and powerful data structure and ancillary 
+tools for access to the observed data and the derived results.  The 
+input tables may contain line fluxes for many nebulae and/or many 
+regions within nebulae, one object/region per row.  The flux(es) 
+for a given emission line (usually, but not necessarily, given 
+relative to I[H-beta]=100) are placed in separate columns.  The 
+tasks locate particular emission line fluxes and temeratures/
+densities via names of specific columns in the input table(s).  
+These columns have suggestive default names, but are entirely user-
+definable.  
+
+Since it is often difficult to provide a complete set of diagnostic 
+line ratios (owing to limited signal-to-noise ratio, spectral 
+resolution, wavelength coverage, etc., of the observed spectra) 
+these tasks were designed to make use of whatever information is 
+available, and to use reasonable defaults (e.g., T_e = 10,000 K, 
+N_e = 1000/cm^3) when necessary.  In particular, any emission line 
+flux that is unavailable (e.g. the relevant line fluxes are INDEF, 
+or the column name for that line flux is not found) is excluded 
+from the calculations.  If there are no valid diagnostic line 
+fluxes available for a given ion, the result for that ion is INDEF. 
+
+The available diagnostic line ratios, the ionization potential of 
+the associated ion, and the nebular ionization zone to which they 
+are attributed, are listed by ion below.  The line ratio is in the 
+form I(wave1)/I(wave2), where "wave1" and "wave2" are in units of 
+Angstroms; ratios involving sums of line strengths are given as 
+I(wave1+wave2)/I(wave3+wave4).  Diagnostics marked with an asterisk 
+are not currently used in the 3-zone nebular model, described 
+below.  
+
+.nf
+              Table 1. Electron Density Diagnostics
+
+    Ion    Spectrum       Line Ratio              I.P.   Zone
+  -------------------------------------------------------------
+    C(+1)    C ii]        I(2326) / I(2328)       11.3   Low  *
+    C(+2)    C iii]       I(1907) / I(1909)       24.4   Med  
+    N(0)    [N i]         I(5198) / I(5200)        0.0   Low  *
+    N(+2)    N iii]       I(1749) / I(1752)       29.6   Med  *
+    O(+1)   [O ii]        I(3726) / I(3729)       13.6   Low
+    O(+3)    O iv]        I(1401) / I(1405)       54.9   High *
+   Ne(+3)  [Ne iv]        I(2423) / I(2425)       63.5   High
+   Si(+2)   Si iii]       I(1883) / I(1892)       16.3   Low  *
+    S(+1)   [S ii]        I(6716) / I(6731)       10.4   Low
+   Cl(+2)  [Cl iii]       I(5517) / I(5537)       23.8   Med
+   Ar(+3)  [Ar iv]        I(4711) / I(4740)       40.9   Med
+  -------------------------------------------------------------
+.fi
+
+.nf
+             Table 2. Electron Temperature Diagnostics
+
+    Ion    Spectrum       Line Ratio              I.P.   Zone
+  -------------------------------------------------------------
+    N(+1)   [N ii]   I(6548+6583) / I(5755)       14.5   Low
+    O(+1)   [O ii]   I(3726+3729) / I(7320+7330)  13.6   Low
+    O(+2)   [O iii]  I(4959+5007) / I(4363)       35.1   Med
+   Ne(+2)  [Ne iii]  I(3869+3969) / I(3342)       41.1   Med
+   Ne(+4)  [Ne v]    I(3426+3346) / I(2975)       97.0   High
+   Si(+2)   Si iii]  I(1883+1892) / I(1206)       16.3   Low  *
+    S(+1)   [S ii]   I(6716+6731) / I(4068+4076)  10.4   Low
+    S(+2)   [S iii]  I(9069+9532) / I(6312)       23.4   Med
+   Cl(+3)  [Cl iv]   I(7530+8045) / I(5323)       39.9   Med  *
+   Ar(+2)  [Ar iii]  I(7136+7751) / I(5192)       27.6   Med
+   Ar(+3)  [Ar iv]   I(4711+4740) / I(2854+2868)  40.9   Med  *
+   Ar(+4)  [Ar v]    I(6435+7006) / I(4626)       59.8   High
+  -------------------------------------------------------------
+.fi
+
+The diagnostic line ratios are derived from the input line fluxes, 
+corrected for interstellar reddening.  The reddening corrected line 
+flux "I" is derived from the input line flux "F" by: 
+
+.nf
+				{-c * f(lambda)}
+	  I(line) = F(line) * 10 
+.fi
+
+where "c" is the extinction constant (i.e. the logarithmic 
+extinction at H-beta, 4861 Ang), and "f(lambda)" is derived from 
+one of a few possible extinction functions.  The choices for 
+Galactic extinction are: Savage & Mathis (1979), Cardelli, Clayton, 
+& Mathis (1989), and the function of Kaler (1976), which is based 
+on Whitford (1958).  The choices for extra-Galactic extinction laws 
+are Howarth (1983) for the LMC, and Prevot et al. (1984) for the 
+SMC.  
+
+The abundance calculations in the 3-zone model are based upon the 
+diagnostics appropriate for each ion, and are listed below in the 
+"Ionization Zone" column.  The emission lines that are actually 
+used in the 3-zone model (which are generally also the strongest) 
+are also tabulated below (wavelengths are in Angstroms) by ion: 
+
+.nf
+      Table 3. Line Fluxes Often Used for Ionic Abundances
+
+	         			       Ionization
+        Ion    Spectrum    Lines Used             Zone
+      ----------------------------------------------------
+        C(+1)    C ii]     2326+28		   Low
+        C(+2)    C iii]    1907+09		   Med
+
+        N(0)    [N i]      5198+5200		   Low
+        N(+1)   [N ii]     5755, 6548, 6583 	   Low
+        N(+2)    N iii]    1749+52		   Med
+
+        O(0)    [O i]      6300, 6363		   Low
+        O(+1)   [O ii]     3726+29, 7320+30	   Low
+        O(+2)   [O iii]    4363, 4959, 5007 	   Med
+        O(+3)   [O iv]     1400+01+05+07	   High
+
+       Ne(+2)  [Ne iii]    3342, 3869, 3968 	   Med
+       Ne(+3)  [Ne iv]     2423+25, 4724+25        High
+       Ne(+4)  [Ne v]      2975, 3426, 3346 	   High
+
+       Si(+2)   Si iii]    1206, 1883+92 	   Low
+
+        S(+1)   [S ii]     4068+76, 6716+31 	   Low
+        S(+2)   [S iii]    6312, 9069, 9532 	   Med
+
+       Cl(+1)  [Cl ii]     3679, 5807, 9383	   Low
+       Cl(+2)  [Cl iii]    5517+37		   Med
+       Cl(+3)  [Cl iv]     5323, 7531, 8045	   Med
+
+       Ar(+2)  [Ar iii]    5192, 7136, 7751 	   Med
+       Ar(+3)  [Ar iv]     2854+68, 4711, 4740, 
+                           7170			   Med
+       Ar(+4)  [Ar v]      4626, 6435, 7006 	   High
+  -------------------------------------------------------------
+.fi
+
+Note that some fluxes are really sums from closely spaced line 
+pairs.  The calculated ionic abundance is the weighted average of
+that derived from each of the emission lines for that ion.  
+
+A CAUTION ABOUT THE WAVELENGTHS:  Please note that the wavelengths 
+used throughout these help files are those commonly used in the 
+astronomical literature.  However, the wavelengths used in the 
+program are derived from the published atomic data for each ion.  
+These derived wavelengths are used partly for consistency with the 
+models, and partly because there is as yet no good reference for 
+ALL the wavelengths of all the ions used in these tasks.  But be 
+aware that there are differences with the accepted values (usually 
+around +1 Angstroms).  The wavelength discrepancy is only likely 
+to cause confusion when using the "ionic" task to compute an ionic 
+abundance from a particular line.  In this case, be sure the 
+"wave" or "wv_toler" parameters are set appropriately.  
+
+These wavelength discrepancies (in the fourth decimal place) are a 
+reminder of the imperfections inherent in all the models from 
+which the atomic data are derived, although the uncertainties in 
+the cross-sections probably range from 5% to 30%.  
+.ih
+REFERENCES
+The atomic data for hydrogen were taken from Brocklehurst (1970, 
+1971); in particular, we adopt an empirical formula from Aller 
+(1984) for the H-beta line emissivity.  The other atomic data were 
+generally taken from the compilation by Mendoza (1983), except 
+where noted below for the following ions: 
+
+.nf
+	Table 4. References for Recent Atomic Data
+
+	 Ion     Reference
+	----------------------------------------------------
+	C(+1)    Blum & Pradham (1992)
+	N(+2)    Blum & Pradham (1992)
+	O(+3)    Blum & Pradham (1992)
+	Ne(+2)   Butler & Mendoza (1984)
+	Si(+2)   Dufton & Kingston (1989)
+	S(+1)    Cai & Pradhan (1993)
+	Cl(+2)   Butler & Zeippen (1987)
+	Ar(+3)   Zeippen, Butler & Le Bourlot (1987)
+	K(+4)    Butler, Zeippen & Le Bourlot (1987)
+.fi
+
+The 5-level atom program was originally published by DeRobertis, 
+Dufour & Hunt (1987).  These tasks are intended to provide all the 
+functionality of their original "FIVEL" FORTRAN program, although
+some of the atomic data have been corrected or updated since that 
+code was published.  These tasks also offer additional options and 
+flexibility, including tasks for computing all available 
+diagnostics at once within a simple physical context.  The IRAF 
+front-ends were written in SPP, and two of the original subroutines 
+were re-written in SPP by R.A. Shaw (STScI).  Additional 
+enhancements and a discussion of the scientific problem domain are 
+described by Shaw & Dufour (1995).  Support for this software 
+development was provided from the NASA Astrophysics Data Program 
+through grant NAG5-1432 to Space Telescope Science Institute.  
+
+.nf
+			LITERATURE CITED
+
+Aller, L.H. 1984, "Physics of Thermal Gaseous Nebulae" (Dordrecht:
+D. Reidel)
+
+Blum & Pradham 1992, ApJS, 80, 425
+
+Brocklehurst, M. 1970, MNRAS, 148, 417
+
+Brocklehurst, M. 1971, MNRAS, 153, 471
+
+Butler, K., & Mendoza, C. 1984, MNRAS, 208, 17P
+
+Butler, K., & Zeippen, C. 1987, (preprint)
+
+Butler, K., Zeippen, C., & Le Bourlot, J. 1987, (preprint)
+
+Cai, W. & Pradhan, A. K. 1993, ApJSup, 88, 329
+
+Cardelli, J.A., Clayton, G.C., & Mathis, J.S., 1989, ApJ, 345, 245
+
+De Robertis, M., Dufour, R. & Hunt, R. 1987, Jou. Roy. Astron. Soc. 
+Canada, Vol. 81, No. 6, p. 195
+
+Dufton & Kingston 1989, MNRAS, 241, 209
+
+Hayes, M. & Nussbaumer, H. 1984 A&A, 134, 193
+
+Howarth, I.D. 1983, MNRAS, 203, 301
+
+Kaler, J.B. 1976, ApJS, 31, 517
+
+Mendoza, C. 1983, in "Planetary Nebulae, I.A.U. Symposium No. 103", 
+ed. D.R. Flower, (Dordrecht:D. Reidel), 143 
+
+Osterbrock, D. 1989, "Astrophysics of Gaseous Nebulae and Active 
+Galactic Nuclei" (Mill Valley:University Science Books)
+
+Prevot, M, Lequeux, J., Maurice, E., Prevot, L., and 
+Rocca-Volmerange, B. 1984, A&A, 132, 389
+
+Savage, B. & Mathis, J. 1979, ARA&A, 17, 73
+
+Shaw, R.A. & Dufour, R.J. 1995, PASP, 107, in press
+
+Whitford, A. 1958, A.J., 63, 201
+
+Zeippen, C., Butler, K., & Le Bourlot, J. 1987, A&A, 188, 251
+.fi
+.ih
+SEE ALSO
+Type "help nebular opt=sys" for a general description of the tasks 
+in the `nebular' package.  
+.endhelp

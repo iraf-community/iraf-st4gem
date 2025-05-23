@@ -1,0 +1,9 @@
+# nebular.fcarbon parameters (pset)
+
+c8728_col,s,h,"Ci(8728)",,,Flux of C I 8728 A
+c9823_col,s,h,"Ci(9823)",,,Flux of C I 9823 A
+c9849_col,s,h,"Ci(9849)",,,Flux of C I 9849 A
+c2327_col,s,h,"Cii(2327)",,,Flux of C II 2326.1 + 2327.6 AA doublet
+r_c2_col,s,h,"R[Cii(2326/28)]",,,Ratio of C II I(2326.1)/I(2327.6)
+c1909_col,s,h,"Ciii(1909)",,,Flux of C III 1907 + 1909 AA doublet
+r_c3_col,s,h,"R[Ciii(1907/09)]",,,Ratio of C III I(1907)/I(1909)

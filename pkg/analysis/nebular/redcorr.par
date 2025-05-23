@@ -1,0 +1,8 @@
+#  nebular.redcorr task parameters				14 Mar 95
+
+wave,r,a,4861.,1000.,,Wavelength of feature
+flux,r,a,0.,0.,,Emission line flux 
+c_ext,r,h,0.,,,Log extinction @ H-beta
+red_func,s,hl,"gal","gal|ccm|lmc|smc|jbk",,Extinction law
+result,r,h,INDEF,,,Reddening-corrected flux
+mode,s,h,"ql",,,

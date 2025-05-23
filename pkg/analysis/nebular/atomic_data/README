@@ -1,0 +1,68 @@
+README for reference atomic data files used in NEBULAR. 	27-Aug-2008
+
+The nebular package retrieves atomic data at run-time from 
+files in this (nebular$atom_data) directory. The data are 
+divided according to ion, and further into two FITS files 
+per ion: a table with the temperature-dependent collision 
+strengths and a table with all other data, including the 
+energy levels, Einstein A-coefficients, and statistical 
+weights. The names of these files are stored in the ASCII 
+file "at_refer.dat"; the naming convention for the collision 
+strength tables is <ion>_coll.fits, and the other tables is 
+<ion>_atom.fits, where <ion> refers to the atomic symbol and 
+spectrum number. An example would be "ne_v_coll.fits" for 
+the collision strengths for Ne V.  
+
+NOTE: it is essential that these atomic data tables both 
+exist and be listed in the at_refer.dat file if the nebular 
+tasks are to support a given ion.  However, support for new 
+ions requires some (minor) changes to the nebular source code. 
+
+FORMAT OF ATOMIC DATA
+
+Each atomic data table is stored as a FITS BINTABLE. Keywords 
+in these tables give the following information: 
+
+  ATOM    = '       ' / name of the atom 
+  SPECTRUM=           / spectrum designation (integer >= 1)
+  N_LEVEL =           / no. levels supported for this ion
+  SOURCE1 = '       ' / literature source for data
+  NOTE1   = '       ' / comment about literature source
+  GSCONFIG= '       ' / ground-state electron configuration
+
+In the collision strength files, there is an additional keyword: 
+
+  FIT_FUNC= '       ' / function used to fit coll. strength vs. T_e
+
+These tables contain a column for the electron temperature, and 
+one column each for the collision strength at the tabulated 
+temperature. The column names are "Omega(n->m)" where n is the 
+number of the upper level, and m the lower level. The column 
+units specify the order of the function used to characterize 
+the run of collision strength with T_e. 
+
+For the atomic data files, there is one column each for the 
+energy levels (in units of 1/Angstroms), the statistical weights, 
+and spontaneous radiative transition probabilities/s for each 
+level to each available lower level.  Note that values of zero 
+in the table cells may mean that the transition is strictly 
+forbidden or that the atomic data are not available in the 
+literature. 
+
+OTHER DATA
+
+Besides the catalog of supported ions and the associated atomic 
+data files (at_refer.dat mentioned above), the file "ntplot.dat" 
+lists those diagnostic curves that are plotted by the "ntplot" 
+task. This makes the application more table-driven, and allows 
+the source code to be more general.  
+
+UPDATES TO ATOMIC DATA
+
+From time to time new/improved atomic data become available. 
+When this happens the files in the atomic_data directory are 
+updated with the new values, and the files that had been used 
+are moved to the "/old" subdirectory. Users who wish to use the 
+older files (perhaps for comparison with prior abundance 
+calculations) can substitute the old files for the new ones, 
+and the "nebular" package will automatically be updated. 

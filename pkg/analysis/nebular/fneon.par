@@ -1,0 +1,14 @@
+# nebular.fneon parameters (pset)
+
+ne128216_col,s,h,"NEii(128216)",,,Flux of Ne II 12.82 um
+ne3342_col,s,h,"NEiii(3342)",,,Flux of Ne III 3342 A
+ne3869_col,s,h,"NEiii(3869)",,,Flux of Ne III 3869 A
+ne3969_col,s,h,"NEiii(3969)",,,Flux of Ne III 3969 A
+ne1601_col,s,h,"NEiv(1601)",,,Flux of Ne IV 1601 A
+ne2424_col,s,h,"NEiv(2424)",,,Flux of Ne IV 2423 + 2425 AA doublet
+r_ne4_col,s,h,"R[NEiv(2423/25)]",,,Ratio of Ne IV I(2423)/I(2425)
+ne4725_col,s,h,"NEiv(4725)",,,Flux of Ne IV 4724.2+4725.6 AA doublet
+ne2975_col,s,h,"NEv(2975)",,,Flux of Ne V 2975 A
+ne3346_col,s,h,"NEv(3346)",,,Flux of Ne V 3346 A
+ne3426_col,s,h,"NEv(3426)",,,Flux of Ne V 3426 A
+

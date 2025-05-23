@@ -1,0 +1,49 @@
+#--------------------------------------------------------------------27 Aug 08--
+#  at_data/ntplot.tab - List of diagnostic curves for nt_plot task to plot.
+#
+# Atom   Ion Zone  Column      DiagType 
+ 
+CARBON    1   1   "Ne_Cii]"    DENSITY  
+NITROGEN  0   1   "Ne_[Ni]"    DENSITY  
+OXYGEN    1   1   "Ne_[Oii]"   DENSITY  
+NEON      1   1   "Ne_[NEii]"  DENSITY  
+ALUMINUM  1   1   "Ne_ALii]"   DENSITY  
+SILICON   2   1   "Ne_SIiii]"  DENSITY  
+SULFUR    1   1   "Ne_[Sii]"   DENSITY  
+ARGON     1   1   "Ne_[ARii]"  DENSITY  
+#SULFUR    3   2   "Ne_[Siv]"   DENSITY  
+
+CARBON    2   2   "Ne_Ciii]"   DENSITY  
+NITROGEN  2   2   "Ne_Niii]"   DENSITY  
+CHLORINE  2   2   "Ne_[CLiii]" DENSITY  
+ARGON     3   2   "Ne_[ARiv]"  DENSITY  
+
+OXYGEN    3   3   "Ne_Oiv]"    DENSITY  
+NEON      3   3   "Ne_[NEiv]"  DENSITY  
+POTASSIUM 4   3   "Ne_[Kv]"    DENSITY  
+
+NITROGEN  1   1   "Te_[Nii]"   TEMPERATURE 
+OXYGEN    0   1   "Te_[Oi]"    TEMPERATURE 
+OXYGEN    1   1   "Te_[Oii]"   TEMPERATURE 
+SODIUM    3   3   "Te_[NAiv]"  TEMPERATURE 
+SODIUM    5   3   "Te_[NAvi]"  TEMPERATURE 
+MAGNESIUM 4   3   "Te_[MGv]"   TEMPERATURE 
+MAGNESIUM 6   3   "Te_[MGvii]" TEMPERATURE 
+ALUMINUM  1   1   "Te_ALii]"   TEMPERATURE 
+SILICON   2   1   "Te_SIiii]"  TEMPERATURE 
+SULFUR    1   1   "Te_[Sii]"   TEMPERATURE 
+
+OXYGEN    2   2   "Te_[Oiii]"  TEMPERATURE 
+NEON      2   2   "Te_[NEiii]" TEMPERATURE 
+SULFUR    2   2   "Te_[Siii]"  TEMPERATURE 
+CHLORINE  3   2   "Te_[CLiv]"  TEMPERATURE 
+ARGON     2   2   "Te_[ARiii]" TEMPERATURE 
+ARGON     3   2   "Te_[ARiv]"  TEMPERATURE 
+
+NEON      3   3   "Te_[NEiv]"  TEMPERATURE 
+NEON      4   3   "Te_[NEv]"   TEMPERATURE 
+ARGON     4   3   "Te_[ARv]"   TEMPERATURE 
+POTASSIUM 3   3   "Te_[Kiv]"   TEMPERATURE 
+POTASSIUM 4   3   "Te_[Kv]"    TEMPERATURE 
+CALCIUM   4   3   "Te_[CAv]"   TEMPERATURE 
+

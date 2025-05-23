@@ -1,0 +1,12 @@
+#  nebular.temden task parameters				8-Jul-97
+
+option,s,a,"density","density|temperature",,Quantity to calculate: density or temperature
+flxratio,s,a,"",,,Expression for flux ratio
+atom,s,h,"oxygen","|carbon|nitrogen|oxygen|neon|sodium|magnesium|aluminum|silicon|sulfur|chlorine|argon|potassium|calcium",,"Atom name"
+spectrum,i,h,2,1,8,"Atomic spectrum number (e.g., [S ii] = 2)"
+transition,s,h,"default",,,"Transition description"
+assume,r,h,10000.,1.,1.e+8,Assumed electron temperature/density
+result,r,h,INDEF,,,Result of calculation
+verbose,b,h,no,,,Print info for each iteration?
+at_data,s,h,"at_data",,,"Atomic reference data directory"
+mode,s,h,"ql",,,

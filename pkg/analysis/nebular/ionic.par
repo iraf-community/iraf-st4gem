@@ -1,0 +1,13 @@
+#  nebular.ionic task parameters				 13 Apr 97
+
+atom,s,al,"oxygen","|carbon|nitrogen|oxygen|neon|sodium|magnesium|aluminum|silicon|sulfur|chlorine|argon|potassium|calcium",,"Atom name"
+spectrum,i,a,2,1,8,"Atomic spectrum number (e.g., [S ii] = 2)"
+temperature,r,h,1.e+4,500.,1.e+5,Electron temperature
+density,r,h,1.e+3,1.,1.e+8,Electron density
+wave,r,h,INDEF,1.e-7,,Wavelength of emission line(s) (Angstroms)
+wv_toler,r,h,1.,0.,,Wavelength tolerance for abundance calculation
+flxratio,r,h,INDEF,1.e-7,,Emission line flux relative to H(beta) = 100
+result,r,h,INDEF,,,Ionic abundance relative to H-beta (output)
+verbose,b,h,yes,,,Print level populations and critical densities?
+at_data,s,h,"at_data",,,"Atomic reference data directory"
+mode,s,h,"ql",,,

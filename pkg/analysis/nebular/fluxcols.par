@@ -1,0 +1,25 @@
+# nebular.fluxcols parameters (pset)			9-Jul-97
+
+object_col,s,h,"Object_ID",,,Object name
+region_col,s,h,"Region",,,Region code
+opt2uv_col,s,h,"Scale(Opt/UV)",,,Optical / UV scale factor
+extcorr_col,s,h,"Ext_Corr",,,I.S. extinction correction flag 
+c_ext_col,s,h,"c_Extinct",,,Log extinction (@ H-beta)
+redlaw_col,s,h,"Ext_Law",,,Extinction law
+h4861_col,s,h,"Hi(4861)",,,Col name for flux of H-beta 4861 A
+#
+faluminum,pset,h,"",,,Aluminum line column names
+fargon,pset,h,"",,,Argon line column names
+fcalcium,pset,h,"",,,Calcium line column names
+fcarbon,pset,h,"",,,Carbon line column names
+fchlorine,pset,h,"",,,Chlorine line column names
+fmagnesium,pset,h,"",,,Magnesium line column names
+fneon,pset,h,"",,,Neon line column names
+fnitrogen,pset,h,"",,,Nitrogen line column names
+foxygen,pset,h,"",,,Oxygen line column names
+fpotassium,pset,h,"",,,Potassium line column names
+fsilicon,pset,h,"",,,Silicon line column names
+fsodium,pset,h,"",,,Sodium line column names
+fsulfur,pset,h,"",,,Sulfur line column names
+#
+mode,s,h,"ql",,,

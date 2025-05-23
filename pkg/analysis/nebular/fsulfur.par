@@ -1,0 +1,12 @@
+# nebular.fsulfur parameters (pset)
+
+s4072_col,s,h,"Sii(4072)",,,Flux of S II 4068 + 4076 AA doublet
+s6723_col,s,h,"Sii(6723)",,,Flux of S II 6716 + 6731 AA doublet
+r_s2_col,s,h,"R[Sii(6716/31)]",,,Ratio of S II I(6716)/I(6731)
+s6312_col,s,h,"Siii(6312)",,,Flux of S III 6312 A 
+s9069_col,s,h,"Siii(9069)",,,Flux of S III 9069 A 
+s9532_col,s,h,"Siii(9532)",,,Flux of S III 9532 A 
+s1412_col,s,h,"Siv(1412)",,,Flux of S II 1406 + 1417 AA doublet
+r_s4_col,s,h,"R[Siv(1406/1410)]",,,Ratio of S IV I(1406)/I(1410)
+
+

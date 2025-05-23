@@ -1,0 +1,21 @@
+#-------------------------------------------------------------------------------
+#  Update the at_struct source in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	at_debug.x	"../at.h"
+	at_diag.x	<evvexpr.h> "../at.h" "../neberr.h" 
+	at_list.x	"../at.h" "../neberr.h" 
+	at_struct.x	<error.h> "../at.h" "../neberr.h" 
+	at_util.x	"../at.h" 
+	atomic.x	<tbset.h> <error.h> "../at.h" "../fivel.h" "../neberr.h" 
+	collision.x	<tbset.h> <error.h> <math/curfit.h> "../at.h" \
+			"../neberr.h" 
+	;
+
+$exit
+

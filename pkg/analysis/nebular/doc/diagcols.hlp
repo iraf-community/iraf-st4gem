@@ -1,0 +1,65 @@
+.help diagcols Jun97 st4gem.analysis.nebular
+.ih
+NAME
+diagcols -- Column names in output table for T_e, N_e in each zone
+.ih
+USAGE
+fluxcols
+.ih
+DESCRIPTION
+The `diagcols' parameters specify the names of the table columns 
+containing electron temperatures and densities in each of three 
+ionization zones.  These values are computed by the `zones' task 
+and used by the `abund' nebular modelling task.  The default values 
+are usable even if these columns are not present in the input 
+table, and are really intended to give the user some flexibility in 
+naming the table columns.  If a column with the specified name 
+already exists in the input table when running `zones' its contents 
+will be overwritten. 
+
+Note that this is a pset, not an executable task; it defines a set 
+of parameters used by other tasks.  Invoking the pset by name runs 
+`eparam' on the parameter set, allowing the user to modify the 
+parameters.  Alternatively, the parameters may be modified on the 
+command line by specifying the pset name and parameter name.  For 
+example, the user can type `diagcols.te_med_col="Te_Med"' to set 
+the name of the table column containing the electron temperature 
+for the medium-ionization zone to the string "Te_Med".  (Note that 
+the column names are always converted to upper-case in the table.)  
+Parameters can also be edited by using `eparam' on the calling task 
+(e.g., by typing "eparam abund"), in which case `diagcols' will 
+appear as one of the task parameters; the `diagcols' parameters may 
+then be edited by positioning the cursor on the line containing the 
+pset name and typing ":e".  After editing the pset parameters, exit 
+normally from eparam (with an EOF, usually <cntr-Z>) to return to 
+the main task parameter menu.  
+.ih
+PARAMETERS
+.ls (ne_low_col = "Ne_Low") [string]
+Name of the column containing the electron density in the low-
+ionization zone.  
+.le
+.ls (ne_med_col = "Ne_Med") [string]
+Name of the column containing the electron density in the 
+medium-ionization zone.  
+.le
+.ls (ne_hi_col = "Ne_Hi") [string]
+Name of the column containing the electron density in the 
+high-ionization zone.  
+.le
+.ls (te_low_col = "Te_Low") [string]
+Name of the column containing the electron temperature in the 
+low-ionization zone.  
+.le
+.ls (te_med_col = "Te_Med") [string]
+Name of the column containing the electron temperature in the 
+medium-ionization zone.  
+.le
+.ls (te_hi_col = "Te_Hi") [string]
+Name of the column containing the electron temperature in the 
+high-ionization zone.  
+.le
+.ih
+SEE ALSO
+abund, nlevel, fluxcols, zones
+.endhelp

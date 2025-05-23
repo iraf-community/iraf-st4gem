@@ -1,0 +1,8 @@
+# nebular.fsilicon parameters (pset)
+
+si2340_col,s,h,"SIii(2340)",,,Flux of Si II 2335+2345 AA doublet 
+r_si2_col,s,h,"R[SIii(2325/2345)]",,,Ratio of Si II I(2335)/I(2345)
+si1206_col,s,h,"SIiii(1206)",,,Flux of Si III 1206 A 
+si1887_col,s,h,"SIiii(1887)",,,Flux of Si III 1883+1892 AA doublet
+r_si3_col,s,h,"R[SIiii(1883/92)]",,,Ratio of Si III I(1883)/I(1892)
+

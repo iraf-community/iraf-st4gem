@@ -1,0 +1,33 @@
+	      NEBULAR Package V3.9 Update Kit
+		    (30 Aug. 2008)
+
+
+This patch introduces support for new ions, and updates the help file 
+in the analysis.nebular package of STSDAS V3.9 (scheduled for late 
+2008). Versions of nebular in later releases of STSDAS do not require 
+the application of this patch. The details of the update is described 
+below. 
+
+To install this patch, move the patch tar file to the nebular$ 
+directory (i.e., the top level directory of the nebular package), 
+and untar the patch file, e.g.: 
+
+	% tar xvpf nebularUpdate_39.tar 
+
+
+------------ Atomic Data Update Aug. 2008 ------------
+
+Support for two new ions, Ne^+ and Ar^+, have been introduced with 
+this version of nebular. References to the literature source of 
+the atomic data may be found in the at_data help file, and in the 
+headers of the atomic data files, located in the atomic_data/ 
+subdirectory. Adopting these sources follows the recommendation of 
+Badnell, et al. 2007, Proc. Asymmetrical Planetary Nebulae IV, ed. 
+R. Corradi, A. Manchado, N. Soker (in press).  
+
+These new ions have p5 ground-state electron configurations, which 
+is to say that they are 2-level atoms from the point of view of 
+relevant collisionally excited lines. However, these lines are 
+commonly observed in infrared spectra of moderate resolution, and 
+abundances derived from them are quite insensitive to the adopted 
+electron temperature. 

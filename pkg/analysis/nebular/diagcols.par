@@ -1,0 +1,11 @@
+# nebular.diagcols parameters (pset)
+#	26 Aug 93 by RAShaw
+
+ne_low_col,s,h,"Ne_Low",,,Density for low-ionization zone
+ne_med_col,s,h,"Ne_Med",,,Density for medium-ionization zone
+ne_hi_col,s,h,"Ne_Hi",,,Density for high-ionization zone
+te_low_col,s,h,"Te_Low",,,Temperature for low-ionization zone
+te_med_col,s,h,"Te_Med",,,Temperature for medium-ionization zone
+te_hi_col,s,h,"Te_Hi",,,Temperature for high-ionization zone
+
+

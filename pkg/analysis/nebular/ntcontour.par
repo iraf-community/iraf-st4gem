@@ -1,0 +1,35 @@
+#  nebular.ntcontour task parameters				7-Jul-97
+
+atom,s,al,"oxygen","|carbon|nitrogen|oxygen|neon|sodium|magnesium|aluminum|silicon|sulfur|chlorine|argon|potassium|calcium",,"Atom name"
+spectrum,i,a,2,1,8,"Atomic spectrum number (e.g., [S ii] = 2)"
+primary,s,a,"",,,"Expression for primary curve value"
+output,s,h,"",,,"Output table of plotted curves"
+#
+plot_type,s,h,"TN","|TN|IN|IT",,"Plot type: TN|IN|IT for Te vs.Ne, I vs.Ne, I vs.Te"
+diag_type,s,h,"density","|density|temperature|intensity",,"Compute one of density|temperature|intensity"
+transition,s,h,"default",,,"Transition description"
+#
+clist,s,h,"",,,"List of secondary contours"
+interval,r,h,0.,0.,,"Interval (in dex) of secondary curves"
+ncontours,i,h,1,0,,"Number of contours above/below reference curve"
+min_dens,r,h,10.,1.,1.e+7,"Minimum N_e to plot"
+max_dens,r,h,1.e+8,10.,1.e+8,"Maximum N_e to plot"
+log_ne,b,h,yes,,,"Plot log of density?"
+min_temp,r,h,2000.,500.,5.0e+4,"Minimum T_e to plot"
+max_temp,r,h,3.e+4,1000.,1.e+6,"Maximum T_e to plot"
+log_te,b,h,no,,,"Plot log of temperature?"
+min_intens,r,h,1.e-2,1.e-7,,"Minimum intensity to plot"
+max_intens,r,h,10.,1.e-6,,"Maximum intensity to plot"
+log_intens,b,h,no,,,"Plot log of intensity?"
+resolution,i,h,51,10,,"No. calculated points per curve"
+ref_color,i,h,3,1,9,"Color for reference curve"
+delta_color,i,h,1,1,9,"Color for secondary curves"
+title,s,h,"default",,,"Optional plot title"
+#
+interactive,b,h,yes,,,"Run task interactively?"
+device,s,h,"stdgraph",,,"Output device for plot"
+cursor,*gcur,h,,,,"Graphics cursor input"
+append,b,h,"no",,,"Append next plot to previous?"
+at_data,s,h,"at_data",,,"Atomic reference data directory"
+mode,s,h,"ql",,,
+

@@ -1,0 +1,80 @@
+.help redcorr Mar95 st4gem.analysis.nebular
+.ih
+NAME
+redcorr -- Correct line flux for interstellar reddening.
+.ih
+USAGE	
+redcorr wave flux
+.ih
+DESCRIPTION
+This task corrects the input flux for the effects of interstellar 
+reddening.  The reddening corrected line flux "I" is derived from 
+the input line flux "F" by: 
+
+.nf
+				{-c * f(lambda)}
+	  I(line) = F(line) * 10 
+.fi
+
+where "c" is the extinction constant (i.e. the logarithmic 
+extinction at H-beta, 4861 Ang), and "f(lambda)" is derived from 
+one of a few possible extinction functions.  The choices for 
+Galactic extinction are: Savage & Mathis (1979), Cardelli, Clayton, 
+& Mathis (1989), and the function of Kaler (1976) which is based 
+on Whitford (1958).  The choices for extra-Galactic extinction laws 
+are Howarth (1983) for the LMC, and Prevot et al. (1984) for the 
+SMC.  
+
+The task output gives the selected reddening function and the 
+corrected flux.  The dereddened flux is also stored in the task 
+parameter "result" for ease of use in CL scripts.  
+.ih
+PARAMETERS
+.ls wave = 4861.3 [real]
+Wavelength of emission line, in Angstroms.  
+.le
+.ls flux = 0. [real]
+Oberved flux of the emission line.  
+.le
+.ls (red_func = "gal") [string]
+Choice of interstellar redding function, which is one of: "gal", 
+"ccm", "jbk", "lmc", or "smc".  
+.le
+.ls (c_ext = 0.) [real]
+Value to assume for the extinction constant--i.e., the logarithmic 
+extinction at H(beta) 4861.3 Ang.  Note that this value may be 
+negative to "un-correct" the flux.  
+.le
+.ls (result = INDEF) [real]
+Result of the calculation--i.e, the redding-corrected flux.  
+.le
+.ls (verbose = no) [boolean]
+Print verbose output for each iteration?  
+.le
+.ih
+EXAMPLES
+1. The observed flux of the [O ii] 3727 Ang doublet, relative to 
+I(H-beta) = 100, is 12.4.  Find the unreddened flux if the 
+extinction constant is 0.24, using the reddening function of 
+Seaton (1979). 
+
+.nf
+    cl> redcorr 3727 12.4 c_ext=0.24 red_func=seaton 
+    # Redding correction using SEATON function:
+      Flux: 14.62217
+.fi
+.ih
+BUGS
+.ih
+REFERENCES
+This auxilliary task was written by R.A. Shaw (STScI).  Type "help 
+nlevel" for additional information about how the reddening correction 
+is used throughout the `nebular' package, and for literature 
+references for the reddening functions.  
+.ih
+SEE ALSO
+nlevel 
+
+For general information about this package, type "help nebular 
+opt=sysdoc".  
+.endhelp

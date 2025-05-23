@@ -1,0 +1,9 @@
+# nebular.fmagnesium parameters (pset)
+
+mg2418_col,s,h,"MGv(2418)",,,Flux of Mg V 2418 A
+mg2783_col,s,h,"MGv(2783)",,,Flux of Mg V 2783 A
+mg2928_col,s,h,"MGv(2928)",,,Flux of Mg V 2928 A
+mg2262_col,s,h,"MGvii(2262)",,,Flux of Mg VII 2262 A
+mg2506_col,s,h,"MGvii(2506)",,,Flux of Mg VII 2506 A
+mg2626_col,s,h,"MGvii(2626)",,,Flux of Mg VII 2626 A
+

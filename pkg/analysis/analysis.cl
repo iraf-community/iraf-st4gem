@@ -8,6 +8,7 @@ begin
 	set fitting    = "analysis$fitting/"
 	set fourier    = "analysis$fourier/"
 	set isophote   = "analysis$isophote/"
+        set nebular    = "analysis$nebular/"
 
 	package analysis
 
@@ -15,6 +16,7 @@ begin
 	task fitting.pkg 	= "fitting$fitting.cl"
 	task fourier.pkg 	= "fourier$fourier.cl"
 	task isophote.pkg 	= "isophote$isophote.cl"
+        task nebular.pkg        = "nebular$nebular.cl"
 
 	cl()
 end

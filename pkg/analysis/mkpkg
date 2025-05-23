@@ -1,4 +1,4 @@
-# mkpkg for the STSDAS analysis packages   
+# mkpkg for the ST4GEM analysis packages   
 #
 #   Special keywords recognized by IRAF mkpkg files:
 #
@@ -20,4 +20,6 @@ $echo "-------------------  FOURIER  ------------------------"
 $call @fourier
 $echo "-------------------  ISOPHOTE  -----------------------"
 $call @isophote
+$echo "-------------------  NEBULAR  ------------------------"
+$call @nebular
 $exit

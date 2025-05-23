@@ -1,0 +1,27 @@
+#-------------------------------------------------------------------------------
+#  Update the lib source in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	diagnostic.x	"../at.h" "../atom.h" 
+	emisiv.x	
+	flerr.x		<error.h> "../flerr.com" "../neberr.h" 
+	lf_list.x	<error.h> "../flux.h" 
+	lf_struct.x	<error.h> "../flux.h" "../neberr.h" 
+	match_object.x	<tbset.h> "../neberr.h" 
+	neb_util.x	"../at.h" "../atom.h" "../neberr.h" 
+	params.x	<evvexpr.h> <lexnum.h> 
+	solve.x		<error.h> <mach.h> "../at.h" 
+	strcic.x	
+	tab_io.x	<tbset.h> <mach.h> "../atom.h" "../fivel.h" \
+			"../neberr.h" 
+	valid.x		"../at.h" "../atom.h" 
+	wtavg.x		
+	;
+
+$exit
+

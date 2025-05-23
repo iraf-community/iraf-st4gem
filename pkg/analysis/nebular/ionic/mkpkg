@@ -1,0 +1,14 @@
+#-------------------------------------------------------------------------------
+#  Update the "ionic" task in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	ionic_out.x	<mach.h> "../at.h" "../fivel.h" 
+	t_ionic.x	"../at.h" "../atom.h" "../neberr.h"
+	;
+
+$exit

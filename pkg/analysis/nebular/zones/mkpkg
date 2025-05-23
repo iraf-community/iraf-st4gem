@@ -1,0 +1,17 @@
+#-------------------------------------------------------------------------------
+#  Update the "zones" task in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	l_ratios.x	<error.h> <mach.h> "../atom.h" "../fivel.h" 
+	t_zones.x	<tbset.h> <error.h> "../fivel.h" "../neberr.h" \
+			"../neb_io.h" "../zones.h"
+	z_out.x		<tbset.h> <error.h> 
+	zones.x		<error.h> "../at.h" "../fivel.h" "../zones.h" 
+	;
+
+$exit

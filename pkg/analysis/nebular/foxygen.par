@@ -1,0 +1,16 @@
+# nebular.foxygen parameters (pset)
+
+o5577_col,s,h,"Oi(5577)",,,Flux of O I 5577 A 
+o6300_col,s,h,"Oi(6300)",,,Flux of O I 6300 A 
+o6363_col,s,h,"Oi(6363)",,,Flux of O I 6363 A 
+o3727_col,s,h,"Oii(3727)",,,Flux of O II 3726 + 3729 AA doublet
+r_o2_col,s,h,"R[Oii(3726/29)]",,,Ratio of O II I(3726)/I(3729)
+o7325_col,s,h,"Oii(7325)",,,Flux of O II 7320 + 7330 AA doublet
+o4363_col,s,h,"Oiii(4363)",,,Flux of O III 4363 A
+o4959_col,s,h,"Oiii(4959)",,,Flux of O III 4959 A
+o5007_col,s,h,"Oiii(5007)",,,Flux of O III 5007 A
+o1403_col,s,h,"Oiv(1403)",,,Flux of O IV 1401.2 + 1404.8 AA doublet
+r_o4_col,s,h,"R[Oiv(1401/05)]",,,Ratio of O IV I(1401.2)/I(1404.8)
+o1216_col,s,h,"Ov(1216)",,,Flux of O V 1216 A
+
+

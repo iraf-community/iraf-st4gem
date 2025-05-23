@@ -1,0 +1,14 @@
+#-------------------------------------------------------------------------------
+#  Update the "redcorr" task in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	redlaw.x	<error.h> <mach.h> 
+	t_redcorr.x	<error.h> <mach.h> "../fivel.h" "../neberr.h"
+	;
+
+$exit

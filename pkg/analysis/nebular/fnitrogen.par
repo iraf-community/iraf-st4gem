@@ -1,0 +1,13 @@
+# nebular.fnitrogen parameters (pset)
+
+n5200_col,s,h,"Ni(5200)",,,Flux of N I 5198+5200 A doublet
+r_n1_col,s,h,"R[Ni(5198/00)]",,,Ratio of N I I(5198)/I(5200)
+n10403_col,s,h,"Ni(10403)",,,Flux of N I 10403 A
+n5755_col,s,h,"Nii(5755)",,,Flux of N II 5755 A
+n6548_col,s,h,"Nii(6548)",,,Flux of N II 6548 A
+n6583_col,s,h,"Nii(6583)",,,Flux of N II 6583 A
+n1750_col,s,h,"Niii(1750)",,,Flux of N III 1749.7 + 1752.2 AA doublet
+r_n3_col,s,h,"R[Niii(1749/52)]",,,Ratio of N III I(1749.7)/I(1752.2)
+n1485_col,s,h,"Niv(1485)",,,Flux of N III 1483 + 1487 AA doublet
+r_n4_col,s,h,"R[Niv(1483/87)]",,,Ratio of N IV I(1483)/I(1487)
+

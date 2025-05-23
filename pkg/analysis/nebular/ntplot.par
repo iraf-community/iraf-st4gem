@@ -1,0 +1,32 @@
+#  nebular.ntplot task parameters				9-Jul-97
+
+fluxtab,s,a,"",,,Input table of emission line fluxes
+outtab,s,h,"",,,Output table of diagnostic curves
+object,s,h,"",,,Object for which to perform calculations
+region,s,h,"",,,Region within object 
+min_dens,r,h,10.,1.,1.e+6,Minimum N_e to plot
+max_dens,r,h,1.e+6,100.,1.e+8,Maximum N_e to plot
+min_temp,r,h,5000.,1000.,3.0e+4,Minimum T_e to plot
+max_temp,r,h,2.e+4,1.e+4,1.e+5,Maximum T_e to plot
+log_ne,b,h,yes,,,Plot log of density?
+log_te,b,h,no,,,Plot log of temperature?
+resolution,i,h,101,,,No. calculated points per curve
+#
+fluxcols,pset,h,"",,,Column names for table of emission line fluxes
+faluminum,pset,h,"",,,Aluminum line column names
+fargon,pset,h,"",,,Argon line column names
+fcalcium,pset,h,"",,,Calcium line column names
+fcarbon,pset,h,"",,,Carbon line column names
+fchlorine,pset,h,"",,,Chlorine line column names
+fmagnesium,pset,h,"",,,Magnesium line column names
+fneon,pset,h,"",,,Neon line column names
+fnitrogen,pset,h,"",,,Nitrogen line column names
+foxygen,pset,h,"",,,Oxygen line column names
+fpotassium,pset,h,"",,,Potassium line column names
+fsilicon,pset,h,"",,,Silicon line column names
+fsodium,pset,h,"",,,Sodium line column names
+fsulfur,pset,h,"",,,Sulfur line column names
+#
+device,s,h,"stdgraph",,,Output device for plot
+at_data,s,h,"at_data",,,"Atomic reference data directory"
+mode,s,h,"ql",,,

@@ -1,0 +1,6 @@
+# nebular.faluminum parameters (pset)
+
+al1671_col,s,h,"ALii(1671)",,,Flux of Al II 1671 A
+al2666_col,s,h,"ALii(2666)",,,Flux of Al II 2661+70 AA doublet
+r_al2_col,s,h,"R[ALii(2661/70)]",,,Ratio of Al II I(2661)/I(2670)
+

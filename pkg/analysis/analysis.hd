@@ -5,6 +5,7 @@ $dither		= "st4gem$pkg/analysis/dither/"
 $fitting	= "st4gem$pkg/analysis/fitting/"
 $fourier	= "st4gem$pkg/analysis/fourier/"
 $isophote	= "st4gem$pkg/analysis/isophote/"
+$nebular	= "st4gem$pkg/analysis/nebular/"
 
 dither		men=dither$dither.men,
 		hlp=..,
@@ -29,3 +30,10 @@ isophote	men=isophote$isophote.men,
 		sys=isophote$isophote.hlp,
 		pkg=isophote$isophote.hd,
 		src=isophote$isophote.cl
+
+nebular		men=nebular$nebular.men,
+		hlp = ..,
+		sys=nebular$nebular.hlp,
+		pkg=nebular$nebular.hd,
+		src=nebular$nebular.cl
+

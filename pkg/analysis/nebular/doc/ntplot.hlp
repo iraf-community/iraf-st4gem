@@ -1,0 +1,260 @@
+.help ntplot Jul97 st4gem.analysis.nebular
+.ih
+NAME
+ntplot -- Plot curves on the N_e, T_e plane for observed diagnostic line ratios
+.ih
+USAGE	
+ntplot intable
+.ih
+DESCRIPTION
+This task computes and plots curves that show the range of electron 
+temperatures (T_e) and electron densities (N_e) that are consistent 
+with various observed diagnostic line ratios.  The diagnostics from 
+an ionized nebular gas are computed within the N-level atom 
+approximation.  (For more details about this approximation, type 
+"help nlevel".)  The user specifies the name of the STSDAS binary 
+table containing the observed line fluxes and ratios, and the task 
+plots one curve in the N_e, T_e plane for each diagnostic.  An 
+optional output table will contain each of the computed curves, one 
+per column.  The output table is useful for identifying the 
+individual curves, and for customized plotting (with, e.g., the 
+`stplot.igi' task).  This task is particularly useful for flagging 
+unreasonable input line ratios, and for determining whether a 
+detailed photoionization model is necessary for calculating the 
+physical conditions and ionic abundances.  If a detailed model is 
+necessary, the output from this task will be useful for specifying 
+the initial conditions; if not, the `zones' and `abund' tasks may 
+be sufficient for determining the physical conditions and the ionic 
+abundances.  
+
+The input table may contain line fluxes for many nebulae and/or 
+many regions within a nebula, one object/region per row. A 
+particular object in the table is selected with the "object" 
+parameter. The flux for each emission line or line ratio must be 
+given in separate columns.  The task locates particular emission 
+line fluxes via names of specific columns in the input table. 
+These columns have suggestive default names, but are entirely 
+user-definable; type "help fluxcols" for more details. (An example 
+of an input table can be found in the file "nebular$data/flux.fits".) 
+Note that the input table need not actually contain all the 
+diagnostic lines specified in this p-set: if a named column is not 
+found, the corresponding curve will be skipped. The plot limits 
+can also be specified. 
+
+The diagnostic line ratios are derived from the input line fluxes, 
+corrected for interstellar reddening.  The reddening corrected line 
+flux "I" is derived from the input line flux "F" by: 
+
+.nf
+			           {-c * f(lambda)}
+	     I(line) = F(line) * 10
+.fi
+
+where "c" is the extinction constant (i.e. the logarithmic 
+extinction at H-beta, 4861 Ang), and "f(lambda)" is derived from 
+one of a few possible extinction functions.  The choices for 
+Galactic extinction are: Savage & Mathis (1979), Cardelli, Clayton, 
+& Mathis (1989), and the function of Kaler (1976), which is based 
+on Whitford (1958).  The choices for extra-Galactic extinction laws 
+are Howarth (1983) for the LMC, and Prevot et al. (1984) for the 
+SMC.  The value of "c" must be given in the input table if a 
+correction for reddening is desired.  However, the correction may 
+be disabled if a correction flag (stored in another table column), 
+is set to "yes".  By default no reddening correction is performed 
+unless a valid value for "c" is available, and unless the correction 
+flag is set to "no" or is not present.  The extinction law will 
+default to that of Savage & Mathis ("gal") unless another choice is 
+specified (one of "gal", "ccm", "jbk", "lmc", or "smc") in the 
+input table.  
+
+The available diagnostic line ratios and the ionization potential of 
+the associated ion are listed by ion below.  The line ratio is in 
+the form I(wave1)/I(wave2), where "wave1" and "wave2" are in units 
+of Angstroms; ratios involving sums of line strengths are given as 
+I(wave1+wave2)/I(wave3+wave4).  
+
+.nf
+              Table 1. Electron Density Diagnostics
+
+    Ion    Spectrum       Line Ratio              I.P.   Zone
+  -------------------------------------------------------------
+    C(+1)    C ii]        I(2326) / I(2328)       11.3   Low
+    C(+2)    C iii]       I(1907) / I(1909)       24.4   Med
+    N(0)    [N i]         I(5198) / I(5200)        0.0   Low
+    N(+2)    N iii]       I(1749) / I(1752)       29.6   Med
+    O(+1)   [O ii]        I(3726) / I(3729)       13.6   Low
+    O(+3)    O iv]        I(1401) / I(1405)       54.9   High
+   Ne(+3)  [Ne iv]        I(2423) / I(2425)       63.5   High
+   Al(+1)  [Al ii]        I(2661) / I(2670)              Low
+   Si(+2)   Si iii]       I(1883) / I(1892)       16.3   Low
+    S(+1)   [S ii]        I(6716) / I(6731)       10.4   Low
+   Cl(+2)  [Cl iii]       I(5517) / I(5537)       23.8   Med
+   Ar(+3)  [Ar iv]        I(4711) / I(4740)       40.9   Med
+    K(+4)   [K v]         I(6223) / I(6349)              High
+   -------------------------------------------------------------
+.fi
+
+.nf
+             Table 2. Electron Temperature Diagnostics
+
+    Ion    Spectrum       Line Ratio              I.P.   Zone
+  -------------------------------------------------------------
+    N(+1)   [N ii]   I(6548+6583) / I(5755)       14.5   Low
+    O(+0)   [O i]    I(6300+6363) / I(5577)        0.0   Low
+    O(+1)   [O ii]   I(3726+3729) / I(7320+7330)  13.6   Low
+    O(+2)   [O iii]  I(4959+5007) / I(4363)       35.1   Med
+   Ne(+2)  [Ne iii]  I(3869+3969) / I(3342)       41.1   Med
+   Ne(+3)  [Ne iv]   I(2422+2425) / I(1601+1602)  63.5   High
+   Ne(+4)  [Ne v]    I(3426+3346) / I(2975)       97.0   High
+   Al(+1)  [Al ii]   I(2661+2670) / I(1671)        6.0   Low
+   Si(+2)   Si iii]  I(1883+1892) / I(1206)       16.3   Low 
+    S(+1)   [S ii]   I(6716+6731) / I(4068+4076)  10.4   Low
+    S(+2)   [S iii]  I(9069+9532) / I(6312)       23.4   Med
+   Cl(+3)  [Cl iv]   I(7530+8045) / I(5323)       39.9   Med 
+   Ar(+2)  [Ar iii]  I(7136+7751) / I(5192)       27.6   Med
+   Ar(+3)  [Ar iv]   I(4711+4740) / I(2854+2868)  40.9   Med 
+   Ar(+4)  [Ar v]    I(6435+7006) / I(4626)       59.8   High
+    K(+3)   [K iv]   I(6102+6796) / I(4511)       46.0   Med
+  -------------------------------------------------------------
+.fi
+
+Different line types in the plot are used to denote diagnostics 
+from ions with different ionization potential, organized into three 
+zones.  Solid lines are used for low ionization species (I.P. < 20 
+eV), dashed lines for intermediate ionization (20 < I.P. < 50 eV), 
+and dotted lines for the highest ionization diagnostics (I.P. > 50 
+eV).
+.ih
+PARAMETERS
+.ls fluxtab = "" [string]
+Input table of diagnostic line fluxes. 
+.le
+.ls (outtab = "") [string]
+Optional output table of computed diagnostic curves.  If blank, no 
+output table will be produced. 
+.le
+.ls (object = "") [string]
+Object to select within the input table, if more than one is 
+present.  Individual objects, and regions within objects, must be 
+stored one per row in the input table. 
+.le
+.ls (min_dens = 10.) [real]
+Minimum density for plot, in units of 1/cm^3; must lie in the range 
+1. to 1.e+6, and must be less than "max_dens".  
+.le
+.ls (max_dens = 1.e+6) [real]
+Maximum density for plot, in units of 1/cm^3; must lie in the range 
+100. to 1.e+8, and must exceed "min_dens".  
+.le
+.ls (min_temp = 5000.) [real]
+Minimum temperature for plot, in units of Kelvins; must lie in the 
+range 1000. to 30,000 K, and must be less than "max_temp".  
+.le
+.ls (max_temp = 2.0e+4) [real]
+Maximum temperature for plot, in units of Kelvins; must lie in the 
+range 10,000. to 100,000 K, and must exceed "min_temp".  
+.le
+.ls (log_ne = yes) [boolean] 
+Plot the electron density (X-axis) with a log scale? 
+.le
+.ls (log_te = no) [boolean] 
+Plot the electron temperature (Y-axis) with a log scale? 
+.le
+.ls (resolution = 201) [int]
+Max number of data points to plot per curve.  Increasing this 
+number improves the fidelity of the curve, at the expense of 
+execution time.  
+.le
+.ls (fluxcols = "") [pset]
+Parameter set to specify column names for certain line fluxes, 
+the nebula name and the region code (which must both be present) 
+in the input table.  Otherwise, no error is generated if a 
+named column does not exist in the input table; rather, the 
+calculation proceeds as if the associated line flux is INDEF.
+.le
+.ls (faluminum = "") [pset]
+Parameter set to specify column names for aluminum line fluxes.  
+.le
+.ls (fargon = "") [pset]
+Parameter set to specify column names for argon line fluxes.  
+.le
+.ls (fcalcium = "") [pset]
+Parameter set to specify column names for calcium line fluxes.  
+.le
+.ls (fcarbon = "") [pset]
+Parameter set to specify column names for carbon line fluxes.  
+.le
+.ls (fchlorine = "") [pset]
+Parameter set to specify column names for chlorine line fluxes.  
+.le
+.ls (fmagnesium = "") [pset]
+Parameter set to specify column names for magnesium line fluxes.  
+.le
+.ls (fneon = "") [pset]
+Parameter set to specify column names for neon line fluxes.  
+.le
+.ls (fnitrogen = "") [pset]
+Parameter set to specify column names for nitrogen line fluxes.  
+.le
+.ls (foxygen = "") [pset]
+Parameter set to specify column names for oxygen line fluxes.  
+.le
+.ls (fpotassium = "") [pset]
+Parameter set to specify column names for potassium line fluxes.  
+.le
+.ls (fsilicon = "") [pset]
+Parameter set to specify column names for silicon line fluxes.  
+.le
+.ls (fsodium = "") [pset]
+Parameter set to specify column names for sodium line fluxes.  
+.le
+.ls (fsulfur = "") [pset]
+Parameter set to specify column names for sulfur line fluxes.  
+.le
+.ls (device = stdgraph) [string]
+Output device for plot. 
+.le
+.ls (at_data = at_data) [string]
+Atomic reference data directory name.  
+.le
+.ih
+EXAMPLES
+1. Plot the range of electron densities and temperatures that 
+are consistent with the diagnostic ratios found in the example 
+input table for the object "Test_123". Adjust the density 
+limits to 500 < N_e < 1.e4. 
+
+.nf
+    cl> tcopy nebular$data/flux.fits .
+    cl> ntplot flux.tab object=Test_123 min_dens=500. max_dens=1.e4
+.fi
+
+2. Plot curves in the N_e, T_e plane that are consistent with the 
+diagnostic ratios found in the table nebula.tab, and store the 
+results in the table curves.tab.  Adjust the default plot limits to 
+100 < N_e < 1.e+6/cm^3 and 5000 < T_e < 30,000 K. 
+
+.nf
+    cl> ntplot nebula.tab outtab=curves.tab min_dens=100. \ 
+    >>> max_temp=3.e+4
+.fi
+.ih
+BUGS
+.ih
+REFERENCES
+The 5-level atom program, upon which this package is based, was 
+originally written by M.M. DeRobertis, R. Dufour, and R. Hunt.  
+This package was written by R.A. Shaw (STScI); a description was 
+published by R.A. Shaw & R.J. Dufour (1994).  Type "help nlevel" 
+for additional information about the N-level atom approximation, 
+and for references to the atomic parameters and the other 
+literature references.  Support for this software development was 
+provided by the Astrophysics Data Program through NASA grant 
+NAG5-1432, and through STScI internal research funds.  
+.ih
+SEE ALSO
+nlevel, temden, zones 
+
+For general information about this package, type "help nebular 
+opt=sysdoc".  
+.endhelp

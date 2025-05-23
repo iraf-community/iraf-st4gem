@@ -23,12 +23,8 @@ can be found in the following sections.
     | dither     | Combine images using the "drizzle" algorithm |
     | fitting    | General image and spectrum feature fitting   |
     | fourier    | Utilities for Fourier analysis               |
-    | gasp       | Guide-Star Astrometric Support Package       |
     | isophote   | Elliptical isophote fitting                  |
     | nebular    | Tasks for analyzing nebular emission lines   |
-    | restore    | Image deconvolution & restoration tasks      |
-    | slitless   | Extracting and simulating slitless data      |
-    | statistics | Statistics for censored data (ASURV V1.2)    |
     +-----------------------------------------------------------+
 .fi
 
@@ -77,16 +73,6 @@ find the prime factors of a number, perform complex image arithmetic,
 or taper image edges.  At present, these tasks operate only on images, 
 not on tables or lists.  
 
-GUIDE STAR ANALYSIS
-
-The `gasp' package contains utilities for searching the HST Guide 
-Star Catalog index (on CD-ROM), building ST4GEM tables with extracted 
-portions, and producing charts of guide stars.  It is also possible 
-to use guide stars to derive a plate solution for an image, determine 
-the celestial coordinates of astronomical objects in that image, and 
-write FITS-style World Coordinate System descriptors into an image 
-header based up the plate solution.  
-
 NEBULAR ANALYSIS
 
 Tasks in the `nebular' package can be used to derive various 
@@ -96,39 +82,6 @@ physical quantities from the emission line fluxes of a low-density
 and level populations, critical densities, line emissivities and 
 abundances for most common ions.  
 
-IMAGE RESTORATION
-
-Ever since spherical aberration was discovered in the HST primary 
-mirror, interest has grown in the optical-UV community in image 
-deconvolution and restoration techniques.  The `restore' package 
-contains several tasks for performing restorations with various 
-methods, including the standard "Weiner" filter, the "Lucy" method, 
-a "Sigma-clean", and a public-domain Maximum-Entropy algorithm.  All 
-of these tasks have been tailored to be useful for restoring HST 
-data, and some have been substantially enhanced for greater 
-performance, features, and reliability.  Each task is more or less 
-appropriate for a given type of data, depending upon the scientific 
-goals, computing resources, and patience of the user.  
-
-SLITLESS SPECTROSCOPY DATA
-
-Details still to be written......
-
-STATISTICS OF CENSORED DATA
-
-Very often in astronomical analysis one is faced with 
-the job of performing some 
-statistical analysis on a dataset that contains upper or lower 
-detection limits.  Often there is important information in, e.g., 
-the failure to detect an object in a survey, but the simple and 
-familiar statistical methods require that these data be excluded from 
-the analysis.  The proper techniques for dealing with these so-called 
-"censored" data are collectively referred to as "survival analysis".  
-The `statistics' package is a collection of tasks from the ASURV V1.2 
-package, which was developed by Isobe, LaValley, and Feigelson 
-at Penn State Univ.  These tasks all make use of binary or ASCII 
-tables for input.  
-
 OTHER ANALYSIS TASKS
 
 Some analysis tasks have been written outside the ST4GEM group, but 
@@ -137,7 +90,6 @@ tasks available in the `contrib' package, although the responsibility
 for the accuracy and utility of these tasks rests with the authors.  
 .ih
 SEE ALSO
-dither, fitting, fourier, gasp, isophote, nebular, restore, statistics, 
-toolbox.ttools, contrib.  
+dither, fitting, fourier, isophote, nebular, toolbox.ttools
 .endhelp
 

@@ -1,0 +1,296 @@
+.help ionic Apr97 st4gem.analysis.nebular
+.ih
+NAME
+ionic -- Compute level populations, critical densities, line emissivities & ionic abundance
+.ih
+USAGE	
+ionic atom spectrum
+.ih
+DESCRIPTION
+
+This task computes atomic energy-level populations, critical 
+densities, and line emissivities for a nebular (i.e., low density) 
+gas, within the N-level atom approximation, given the electron 
+temperature (T_e) and density (N_e).  The user specifies the name 
+and the spectrum of the atom, the assumed values for T_e and 
+N_e, and (optionally) the wavelength and relative flux of a 
+particular emission line (or range of lines) of interest.  The task 
+output lists the level populations, critical densities, line 
+emissivities, and optionally the ionic abundance relative to 
+ionized hydrogen.  
+
+The critical density for a level "i" is defined as the density at 
+which the collisional de-excitation rate balances the radiative 
+transition rate:
+
+.nf
+                          ___
+                          \    A    
+	                  /__   ij
+                          j<i
+            N_crit(i) =  ----------
+	                  ___
+	                  \   q
+	                  /__  ij
+                          j!=i
+.fi
+
+In the low density limit the emissivity is proportional to the 
+product N_e * N_ion, whereas for densities exceeding the critical 
+density, the emissivity is proportional to N_ion.  Thus, line 
+emission in a nebula occurs most efficiently near the critical 
+density.  
+
+Note that the output line emissivities are per unit ion density per 
+unit electron density.  That is, true volume emissivity is related 
+to the output emissivities by:
+
+.nf
+            4 * pi * j(true) = N_e * N_ion * j(output)
+.fi
+
+The emissivities are listed by atomic transition, as are the 
+calculated wavelengths.  If the wavelength of a particular line 
+of interest and the observed line flux are also provided, the 
+task will compute the ionic abundance, relative to ionized 
+hydrogen, as: 
+
+.nf
+            N(X_i)    I(line)    j(H-beta)
+            ------ = --------- * ---------
+            N(H+)    I(H-beta)    j(lines)
+.fi
+
+In this case the calculated wavelength is really the sum of all 
+lines lying within a specified range of the wavelength of interest; 
+that range is specified with the "wv_toler" parameter. The H-beta 
+emissivity is derived from a formula by Aller (1984):
+
+.nf
+    4 * PI * j(H-beta) = 1.387E-25 * N_e N_(H+) * T_4 ^(-0.983)
+                              * dex (-0.0424/T_4),   erg/s/cm^3
+.fi
+
+Where T_4 = T_e / 10^4 K.  This formula is accurate to within 4% 
+for densities less than 10^6.  The result of the abundance 
+calculation is stored in the task parameter "result" for ease of 
+use in CL scripts.  
+
+The available combinations of atoms and spectra are listed below:  
+
+.nf
+	 C I        C II       C III 
+	 N I        N II       N III     N IV
+	 O I        O II       O III     O IV    O V
+	Ne III     Ne IV      Ne V      Ne VI 
+	Na IV                 Na VI
+	Mg V                  Mg VII
+	Al II
+	Si II      Si III     
+	 S II       S III      S IV 
+	Cl II      Cl III     Cl IV    
+	Ar III     Ar IV      Ar V     
+	 K IV       K V       
+	           Ca V       
+.fi
+
+A CAUTION ABOUT THE WAVELENGTHS:  Please note that the wavelengths 
+used throughout these help files are those commonly used in the 
+astronomical literature.  However, the wavelengths used in the 
+program are derived from the published atomic data for each ion.  
+These derived wavelengths are used partly for consistency with the 
+models, and partly because there is as yet no good reference for 
+ALL the wavelengths of all the ions used in these tasks.  But be 
+aware that there are differences with the accepted values (usually 
+around +1 Angstroms).  The wavelength discrepancy is only likely 
+to cause confusion when using the "ionic" task to compute an ionic 
+abundance from a particular line.  In this case, be sure the 
+"wave" or "wv_toler" parameters are set appropriately.  
+
+These wavelength discrepancies (in the fourth decimal place) are a 
+reminder of the imperfections inherent in all the models from 
+which the atomic data are derived, although the uncertainties in 
+the cross-sections range from 5% to 50%.  
+.ih
+PARAMETERS
+.ls atom = "oxygen" [string]
+Name of the atom, which is one of: carbon, nitrogen, oxygen, 
+neon, sodium, magnesium, aluminum, silicon, sulfur, chlorine, 
+argon, potassium, or calcium. 
+.le
+.ls spectrum = 2 [int]
+Spectrum number of the atom, e.g. "3" for [O iii], "2" for [S ii], 
+etc.  Must lie in the range 1 <= spectrum <= 8.  
+.le
+.ls (temperature = 10000.) [real]
+Assumed nebular electron temperature, in Kelvins.  Must lie in 
+the range 500. <= T_e <= 1.e+5.  (NB: some collision strengths 
+in the literature are only given between 5000 K and 20,000 K, so 
+use caution.)  
+.le
+.ls (density = 1000.) [real]
+Assumed nebular electron density, in units of 1/cm^3.  Must lie 
+in the range 1. <= N_e <= 1.E+8.    
+.le
+.ls (wave = INDEF) [real]
+Wavelength for a (semi-) forbidden line of interest, in Angstroms.  
+When this and the "flxratio" parameter are specified, the ionic 
+abundance relative to ionized hydrogen is calculated and stored in 
+the "result" parameter.  
+.le
+.ls (wv_toler = 1.0) [real]
+Tolerance for "wave" parameter: all emission lines with wavelengths 
+within "wv_toler" of "wave" will be included in the abundance 
+calculation when both "wave" and "flxratio" are specified.  This 
+parameter can be used to calculate an accurate abundance even when 
+the observed line flux is really a blend of two or more closely 
+spaced lines.  If the tolerance is zero, the "wave" parameter must 
+match the calculated wavelength exactly, or the calculated 
+abundance will be given as zero.  
+.le
+.ls (flxratio = INDEF) [real]
+Emission line flux, relative to I(H-beta) = 100.  When this and 
+the "wave" parameter are specified, the ionic abundance relative 
+to ionized hydrogen is calculated and stored in the "result" 
+parameter.  
+.le
+.ls (result = INDEF) [real]
+Ionic abundance relative to H+.  Calculated only if the "flxratio" 
+and "wave" parameters are both specified.  
+.le
+.ls (verbose = yes) [boolean]
+Print level populations and critical densities as well?  The 
+critical density for a level "i" is the density at which the 
+collisional de-excitation rate from this upper level balances the 
+radiative transition rate. 
+.le
+.ls (at_data = at_data) [real]
+Atomic reference data directory name.  
+.le
+
+.ih
+EXAMPLES
+1. Find the level populations, critical densities, and line 
+emissivities for the S+ ion, assuming an electron temperature of 
+9200 K and a density of 1500/cm^3.  
+
+.nf
+   cl> ionic sulfur 2 temper=9200 density=1500. verb+
+
+   # Volume Emissivities for: S^1+
+      T_e:   9200.0;  N_e: 1.500E3
+
+   # Level Populations - Critical Densities (/cm^3)
+
+    Level 1:   9.6E-1 
+    Level 2: 1.200E-2       1.413E4
+    Level 3: 3.025E-2       1.551E3
+    Level 4: 4.481E-6       1.252E6
+    Level 5: 5.341E-6       1.678E6
+    Level 6: 1.16E-17      4.245E14
+    Level 7: 7.10E-18      1.798E14
+    Level 8: 3.37E-18      1.297E14
+
+     6730.87   # Wavelength
+     (2-->1)   # Upper->Lower Level
+   1.079E-20   # Volume Emissivity
+
+     6716.42   3148614.6   
+     (3-->1)     (3-->2)   
+   1.628E-20   4.262E-26   
+
+     4076.35    10336.31    10370.36   
+     (4-->1)     (4-->2)     (4-->3)   
+   1.319E-21   8.096E-22   3.588E-22   
+
+     4068.60    10286.63    10320.34   2139952.9   
+     (5-->1)     (5-->2)     (5-->3)     (5-->4)   
+   3.912E-21   8.321E-22   1.042E-21   3.405E-29   
+
+     1259.52     1549.47     1550.23     1822.70     1824.25   
+     (6-->1)     (6-->2)     (6-->3)     (6-->4)     (6-->5)   
+   5.290E-24       INDEF       INDEF       INDEF       INDEF   
+
+     1253.81     1540.84     1541.59     1810.77     1812.30   276663.44   
+     (7-->1)     (7-->2)     (7-->3)     (7-->4)     (7-->5)     (7-->6)   
+   3.294E-24       INDEF       INDEF       INDEF       INDEF       INDEF   
+
+     1250.58     1535.97     1536.72     1804.05     1805.57   176289.11   485908.65   
+     (8-->1)     (8-->2)     (8-->3)     (8-->4)     (8-->5)     (8-->6)     (8-->7)   
+   1.581E-24       INDEF       INDEF       INDEF       INDEF       INDEF       INDEF   
+
+   # H-beta Volume Emissivity:
+    1.354E-25 N(H+) * N(e-) ergs/s
+
+    Log10(x) =   1.194E0
+.fi
+
+2. Find the abundance of the O(+) ion, relative to ionized 
+hydrogen.  The observed flux in the [O ii] 3727.1 + 3729.8 AA 
+emission line doublet (relative to I(H-beta) = 100) is provided, 
+along with a wavelength tolerance large enough to accomodate both 
+lines in the pair, to relate volume emissivities to ionic abundance.
+
+.nf
+   cl> ionic oxygen 2 temper=1.e4 dens=1000. wave=3728 wv_tol=2.0 \
+   >>> flx=0.7 verb-
+
+# Volume Emissivities for: O^1+ 
+   T_e:  10000.0; N_e:  1.000E3
+
+  3728.80   # Wavelength
+  (2-->1)   # Upper->Lower Level
+1.156E-21   # Volume Emissivity
+
+  3726.05   5053057.1   
+  (3-->1)     (3-->2)   
+1.670E-21   8.995E-28   
+
+  2470.33     7319.50     7330.12   
+  (4-->1)     (4-->2)     (4-->3)   
+6.706E-23   4.297E-23   2.312E-23   
+
+  2470.21     7318.44     7329.06   50761421.3   
+  (5-->1)     (5-->2)     (5-->3)     (5-->4)   
+1.663E-23   1.374E-23   2.293E-23   5.383E-36   
+
+   834.47     1075.05     1075.28     1260.13     1260.17   
+  (6-->1)     (6-->2)     (6-->3)     (6-->4)     (6-->5)   
+2.002E-26       INDEF       INDEF       INDEF       INDEF   
+
+   833.33     1073.17     1073.40     1257.55     1257.58   612745.10   
+  (7-->1)     (7-->2)     (7-->3)     (7-->4)     (7-->5)     (7-->6)   
+1.306E-26       INDEF       INDEF       INDEF       INDEF       INDEF   
+
+   832.76     1072.22     1072.45     1256.25     1256.28   407664.08   1218026.8   
+  (8-->1)     (8-->2)     (8-->3)     (8-->4)     (8-->5)     (8-->6)     (8-->7)   
+6.456E-27       INDEF       INDEF       INDEF       INDEF       INDEF       INDEF   
+
+# H-beta Volume Emissivity:
+ 1.258E-25 N(H+) * N(e-)  (erg/s)
+
+ Log10(x) =   1.000E0
+
+ Ionic Abundance: N(O^1+) / N(H+) =  3.116E-7 
+.fi
+.ih
+BUGS
+Extremely small volume emissivities, those less than about 1.E-36, 
+are treated as INDEF.  
+.ih
+REFERENCES
+The 5-level atom program, upon which this package is based, was 
+originally written by M.M. DeRobertis, R. Dufour, and R. Hunt.  
+This package was written by R.A. Shaw (STScI).  A description was 
+published by R.A. Shaw & R.J. Dufour (1994).  Type "help nlevel" 
+for additional information about the N-level atom approximation, 
+and for references to the atomic parameters and the other 
+literature references.  Support for this software development was 
+provided by the Astrophysics Data Program through NASA grant 
+NAG5-1432, and through STScI internal research funds.  
+.ih
+SEE ALSO
+nlevel, temden, zones 
+
+For further information type "help nebular opt=sysdoc".  
+.endhelp

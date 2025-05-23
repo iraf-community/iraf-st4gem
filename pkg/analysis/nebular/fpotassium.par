@@ -1,0 +1,10 @@
+# nebular.fpotassium parameters (pset)
+
+k4511_col,s,h,"Kiv(4511)",,,Flux of K IV 4511 A
+k6102_col,s,h,"Kiv(6102)",,,Flux of K IV 6102 A
+k6796_col,s,h,"Kiv(6796)",,,Flux of K IV 6796 A
+k2495_col,s,h,"Kv(2495)",,,Flux of K V 2495 A
+k2515_col,s,h,"Kv(2515)",,,Flux of K V 2515 A
+k4123_col,s,h,"Kv(4123)",,,Flux of K V 4123 A
+k4163_col,s,h,"Kv(4163)",,,Flux of K V 4163 A
+

@@ -1,0 +1,26 @@
+#  nebular.abund task parameters				25-Aug-08 
+
+intable,s,a,"",,,Input table of emission line fluxes
+diagtab,s,a,"",,,"Input/output table of T_e, N_e, & ionic abundances" 
+diagcols,pset,h,"",,,"Column names for electron temperatures & densities"
+#
+fluxcols,pset,h,"",,,Column names for input flux table
+faluminum,pset,h,"",,,Aluminum line column names
+fargon,pset,h,"",,,Argon line column names
+fcalcium,pset,h,"",,,Calcium line column names
+fcarbon,pset,h,"",,,Carbon line column names
+fchlorine,pset,h,"",,,Chlorine line column names
+fmagnesium,pset,h,"",,,Magnesium line column names
+fneon,pset,h,"",,,Neon line column names
+fnitrogen,pset,h,"",,,Nitrogen line column names
+foxygen,pset,h,"",,,Oxygen line column names
+fpotassium,pset,h,"",,,Potassium line column names
+fsilicon,pset,h,"",,,Silicon line column names
+fsodium,pset,h,"",,,Sodium line column names
+fsulfur,pset,h,"",,,Sulfur line column names
+#
+constant,b,h,no,,,"Use constant T_e, N_e for abundances?"
+t_e,r,h,10000.,1000.,36000.,Assumed constant T_e if not from a table
+n_e,r,h,1000.,1.,1.e+8,Assumed constant N_e if not from a table
+at_data,s,h,"at_data",,,"Atomic reference data directory"
+mode,s,h,"ql",,,

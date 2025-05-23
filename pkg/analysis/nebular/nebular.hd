@@ -1,0 +1,34 @@
+# Help directory for the NEBULAR package.
+
+$nebular	= "st4gem$pkg/analysis/nebular/"
+$doc		= "st4gem$pkg/analysis/nebular/doc/"
+
+abund	 	hlp = doc$abund.hlp,
+		src = nebular$t_abund.x
+
+at_data	 	hlp = doc$at_data.hlp
+
+diagcols 	hlp = doc$diagcols.hlp
+
+fluxcols 	hlp = doc$fluxcols.hlp
+
+ionic	 	hlp = doc$ionic.hlp,
+		src = nebular$t_ionic.x
+
+nlevel	 	hlp = doc$nlevel.hlp
+
+ntcontour 	hlp = doc$ntcontour.hlp,
+		src = nebular$t_ntcontour.x
+
+ntplot	 	hlp = doc$ntplot.hlp,
+		src = nebular$t_ntplot.x
+
+redcorr		hlp = doc$redcorr.hlp,
+		src = nebular$t_redcorr.x
+
+temden 		hlp = doc$temden.hlp,
+		src = nebular$t_temden.x
+
+zones 		hlp = doc$zones.hlp,
+		src = nebular$t_zones.x
+

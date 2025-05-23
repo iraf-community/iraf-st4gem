@@ -1,0 +1,16 @@
+#-------------------------------------------------------------------------------
+#  Update the "temden" task in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	calc_nt.x	"../at.h" 
+	temden.x	<error.h> <mach.h> "../at.h" "../atom.h" \
+			"../flerr.com" "../neberr.h" 
+	t_temden.x	<evexpr.h> <error.h> "../at.h" "../neberr.h" 
+	;
+
+$exit

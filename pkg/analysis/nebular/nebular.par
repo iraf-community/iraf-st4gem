@@ -1,0 +1,5 @@
+# NEBULAR package parameters.
+
+at_data,s,h,"at_data",,,"Atomic reference data directory"
+version,s,h,"Aug08",,,Date of last software update
+mode,s,h,ql

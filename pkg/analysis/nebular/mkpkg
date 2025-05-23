@@ -1,0 +1,55 @@
+#-------------------------------------------------------------------------------
+#  Update the personal.NEBULAR package
+#	Author: RAShaw	6-Feb-97
+#
+#  Special keywords recognized by IRAF mkpkg files:
+#
+#	mkpkg relink		update object library and link
+#	mkpkg linkonly		skip object library updates and just link
+#	mkpkg install		move executable to lib$
+#	mkpkg update		update object library, link, and move to lib$
+
+$call	relink
+$exit
+
+update:
+	$call	relink
+	$call	install
+	;
+
+debug:
+	$set XFLAGS = "-fgq $(XFLAGS)"
+	$set LFLAGS = "-xz $(LFLAGS)"
+	$call relink
+	;
+
+relink:
+#	$set LFLAGS = "-p tables $(LFLAGS)"
+	$update nebular.a
+	$call	linkonly
+	;
+
+install:
+	$move	xx_nebular.e st4gembin$x_nebular.e
+	;
+
+linkonly:
+	$set    LIBS = "-lxtools -lstxtools -ltbtables -lcurfit"
+	$omake	x_nebular.x
+
+	$link	x_nebular.o nebular.a $(LIBS) -o xx_nebular.e
+	;
+
+nebular.a:
+	@abund
+	@at_struct
+	@ionic
+	@lib
+	@plot
+	@redcorr
+	@temden
+	@zones
+	;
+
+#	$set LFLAGS = "-xz"
+#	$link	-p tables x_nebular.o nebular.a $(LIBS) -o xx_nebular.e

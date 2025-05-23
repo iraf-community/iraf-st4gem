@@ -1,0 +1,23 @@
+#-------------------------------------------------------------------------------
+#  Update the "ntcontour" and "ntplot" tasks in the NEBULAR package.
+
+$checkout	nebular.a ../
+$update		nebular.a 
+$checkin	nebular.a ../
+$exit
+
+nebular.a:
+	curve_plot.x	"../atom.h" "ntplot.h" 
+	curve_ref.x	<tbset.h> "../atom.h" "../neberr.h" 
+	diagplot.x	<gset.h> <tbset.h> "../atom.h" "../fivel.h" \
+			"../neberr.h" "ntplot.h" "../zones.h" 
+	plot_struct.x	"ntplot.h" 
+	plot_util.x	<evvexpr.h> <mach.h> "../at.h" "../neberr.h" "ntplot.h" 
+	ntcl_init.x	"../atom.h" "../neberr.h" "ntplot.h" 
+	nt_colon.x	<gset.h> "../at.h" "../neberr.h" "ntplot.h" 
+	ntcontour.x	<gset.h> <mach.h> "../atom.h" "../neberr.h" "ntplot.h" 
+	t_ntcontour.x	<evexpr.h> "../atom.h" "../neberr.h" 
+	t_ntplot.x	<tbset.h> "../fivel.h" "../neberr.h" 
+	;
+
+$exit

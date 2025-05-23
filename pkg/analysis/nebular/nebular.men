@@ -1,0 +1,14 @@
+Menu for the package `st4gem.analysis.nebular':
+	Fivel-Level Atom Diagnostics Package
+
+    abund - Derive ionic abundances relative to H+ in 3-zone nebula
+  at_data - Documentation on the atomic reference data
+ diagcols - Pset for zone temperature & density column names
+ fluxcols - Pset for line flux column names
+    ionic - Determine ionic abundance relative to H+ 
+   nlevel - Documentation on the N-level atom approximation
+ntcontour - Plot contours of N_e- or T_e-sensitive line ratios
+   ntplot - Construct N_e vs. T_e plot for observed diagnostic ratios
+  redcorr - Correct line flux for interstellar reddening
+   temden - Determine electron temperature or density from diagnostic ratio
+    zones - Determine electron temps & densities in 3-zone nebula

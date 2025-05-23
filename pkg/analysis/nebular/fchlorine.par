@@ -1,0 +1,12 @@
+# nebular.fchlorine parameters (pset)
+
+cl3679_col,s,h,"CLii(3679)",,,Flux of Cl II 3679 A
+cl5807_col,s,h,"CLii(5807)",,,Flux of Cl II 5807 A
+cl9383_col,s,h,"CLii(9383)",,,Flux of Cl II 9383 A
+cl3348_col,s,h,"CLiii(3348)",,,Flux of Cl III 3348 A
+cl5527_col,s,h,"CLiii(5527)",,,Flux of Cl III 5517 + 5537 AA doublet
+r_cl3_col,s,h,"R[CLiii(5517/37)]",,,Ratio of Cl III I(5517)/I(5537)
+cl5323_col,s,h,"CLiv(5323)",,,Flux of Cl IV 5323 A
+cl7531_col,s,h,"CLiv(7531)",,,Flux of Cl IV 7531 A
+cl8045_col,s,h,"CLiv(8045)",,,Flux of Cl IV 8045 A
+

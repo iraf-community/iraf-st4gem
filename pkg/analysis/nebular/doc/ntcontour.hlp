@@ -1,0 +1,295 @@
+.help ntcontour Jul97 st4gem.analysis.nebular
+.ih
+NAME
+ntcontour -- Plot contours of N_e- or T_e-sensitive line ratios
+.ih
+USAGE	
+ntcontour atom spectrum primary
+.ih
+DESCRIPTION
+This task computes and plots curves that show the range of electron 
+temperatures (T_e), electron densities (N_e), and/or intensity 
+ratios that are consistent with a specified diagnostic. A family of 
+secondary curves may optionally be plotted, where each curve may be 
+specified explicitly or as a set of successive, small differences 
+from the reference ratio, giving the appearance of contours. Though 
+for most ions there are default diagnostics for N_e and T_e, it is 
+possible to customize the diagnostic to the ratio of any of the 
+supported transitions. This task may be run interactively, so that 
+it is possible to investigate any number of diagnostics quickly.
+This task is particularly useful for determining the range of N_e 
+and T_e where a particular diagnostic is sensitive, for 
+investigating non-traditional diagnostics, and for estimating the 
+consequences of a given level of uncertainty in an observed line 
+ratio. The diagnostics are computed within the N-level atom 
+approximation. For more details about this approximation, type 
+"help nlevel". 
+
+The user specifies the name and the spectrum number of the ion, and 
+an expression for the fixed value of interest (i.e., the N_e, T_e, 
+or the reddening-corrected diagnostic line ratio, as appropriate). 
+The output will be a plot with a curve of the specified type, with 
+the abscissa axis being either N_e or T_e, and the ordinate axis 
+being either T_e or the intensity ratio depending upon the setting 
+of the "plot_type" parameter. For plot_types of "IN" or "IT" the 
+intended type of diagnostic is apparent (density or temperature, 
+respectively) and the default ratio can be determined, but for 
+plot_type=TN it is possible that the selected ion could serve as 
+either a density or a temperature indicator. In this case the type 
+of diagnostic will be determined from the value of the "diag_type" 
+parameter. The default diagnostic line ratios for the various ions 
+can be viewed in the on-line help for "nlevel". It is possible to 
+customize the line ratio using the "transition" parameter and an 
+expression for the ratio of interest. For details, see the 
+explanation for this parameter and the examples below. 
+
+Secondary curves may in addition be plotted, and are specified in 
+one of two ways. The most direct way is to provide a list of values 
+in the "clist" parameter which (like the "primary" value) specify 
+the fixed quantities for the curves. The user may alternatively 
+specify both a multiplicative increment (in dex, the decimal 
+exponent) to the primary (or reference) ratio, and the number of 
+desired contour pairs above/below the reference curve. In this case 
+the task will plot a pair of curves for each value/increment of the 
+diagnostic. The number of pairs plotted is set with the "ncontours" 
+task parameter. 
+
+A number of optional parameters specify the appearance of the 
+initial plot. A dotted curve denotes the reference value of 
+interest, and the solid curves denote secondary contours.  The user 
+may specify the color of each type of curve, provided the output 
+device supports color. Note that if the reference ratio falls out 
+of bounds (i.e., is unphysical), those points on the curve(s) will 
+not be plotted; if no points can be plotted on the reference curve, 
+the task will report an error. 
+.ih
+CURSOR COMMANDS
+This task will by default run interactively, allowing the plot 
+axes, the appearance, and the selected ion to be changed with a set 
+of simple cursor and colon commands. 
+.ls NTCONTOUR CURSOR KEYS
+.nf
+c    Report the world coordinates of the cursor
+q    Quit the task
+r    Redraw the graph
+I    Interrupt task immediately
+?    Display this help document
+:    Enter command/value pairs
+.fi
+.le
+.ls NTCONTOUR COLON COMMANDS
+Each colon command takes one argument and may be abbreviated. 
+Multiple command/value pairs may be entered at a time. If no 
+argument is given then the current value is printed. String 
+values must be quoted if they contain spaces or special 
+characters.
+
+.nf
+:atom       [string]	Set the atom
+:clist      [string]	Set the list of secondary contours
+:diagtype   [string]	Set the diagnostic type (density|temperature)
+:dmin	    [real]	Set the minimum density plot limit
+:dmax	    [real]	Set the maximum density plot limit
+:dscale	    [string]	Select log/linear plot scale for N_e 
+:imin	    [real]	Set the minimum intensity plot limit
+:imax	    [real]	Set the maximum intensity plot limit
+:iscale	    [string]	Select log/linear plot scale for intensity 
+:interval   [real]	Set the interval (in dex) between contours
+:ion        [int]	Set the ion
+:ncontours  [int]	Set no. contours above/below primary curve
+:plottype   [string]	Set the type of plot: TN, IN, IT
+:primary    [string]	Set the expression for the primary contour
+:refcolor   [int]	Set color of the reference curve 
+:resolution [int]	Set the curve resolution
+:title	    [string]	Set the title ("default" selects default title)
+:tmin	    [real]	Set the minimum temperature plot limit
+:tmax	    [real]	Set the maximum temperature plot limit
+:tscale	    [string]	Select log/linear plot scale for T_e  
+:transition [string]	Set the transition for a custom diagnostic 
+
+.fi
+.le
+.ih
+PARAMETERS
+.ls atom = "oxygen" [string]
+Name of ion, which is one of: carbon, nitrogen, oxygen, neon, 
+sodium, magnesium, aluminum, silicon, sulfur, chlorine, argon, 
+potassium, or calcium.
+.le
+.ls spectrum = 2 [int]
+Spectrum number of the atom, e.g. "3" for [O III], "2" for [S II], 
+etc.  Must lie in the range 1 <= spectrum <= 8.  
+.le
+.ls primary = "" [string]
+Algebraic expression for the ratio of the diagnostic line flux. 
+The expression is evaluated with FORTRAN-like rules for 
+supported operators and the order of their evaluation.  
+.le
+.ls (output = "") [string]
+Name of an output table to contain the computed curves (NOT YET 
+IMPLEMENTED). 
+.le
+.ls plot_type = "TN" [string]
+Type of plot to generate: "TN" for T_e vs. N_e, "IN" for intensity 
+vs. N_e, "IT" for intensity vs. T_e.
+.le
+.ls (diag_type = "density") [string]
+If plotting T_e vs. N_e, select the type of diagnostic ("density" 
+or "temperature") corresponding to the transition. That is, if the 
+diagnostic is density-sensitive, solve for T_e, and vice versa.
+.le
+.ls (transition = "default") [string]
+Expression for the transition, if not the "default". Transitions
+are specified with the special function "J" (for the emissivity): 
+the arguments are the upper and lower levels of the transition. For 
+example, the traditional density diagnostic of [O II] is the ratio 
+of the intensities for the transition I(3->1) to that of 
+I(2->1)--i.e., I(3726)/I(3729). The corresponding expression for 
+would be "J(3,1)/J(2,1)". The expression is evaluated with 
+FORTRAN-like expression rules.
+.le
+.ls (clist = "") [string]
+List of diagnostic values for secondary curves. 
+.le
+.ls (interval = 0.) [real]
+If "clist" is blank and "ncontours" is non-zero, the secondary 
+contour intervals will be derived from this parameter, which 
+is a multiplicative deviation from the primary diagnostic 
+value, in dex. 
+.le
+.ls (ncontours = 0) [int]
+If "clist" is blank and "interval" is non-zero, this parameter 
+specifies the number of contour pairs to plot on the high/low sides 
+of the reference curve.  
+.le
+.ls (min_dens = 10.) [real]
+Minimum density for initial plot, in units of 1/cm^3; must lie in 
+the range 1 to 1.e+7, and must be less than "max_dens".  
+.le
+.ls (max_dens = 1.e+8) [real]
+Maximum density for initial plot, in units of 1/cm^3; must lie in 
+the range 10 to 1.e+8, and must exceed "min_dens".  
+.le
+.ls (log_ne = yes) [boolean] 
+Plot the electron density with a log scale? 
+.le
+.ls (min_temp = 2000.) [real]
+Minimum temperature for initial plot, in units of Kelvins; must 
+lie in the range 500 to 50,000 K, and must be less than "max_temp".
+.le
+.ls (max_temp = 3.0e+4) [real]
+Maximum temperature for initial plot, in units of Kelvins; must 
+lie in the range 1,000 to 100,000 K, and must exceed "min_temp".  
+.le
+.ls (log_te = no) [boolean] 
+Plot the electron temperature with a log scale? 
+.le
+.ls (min_intens = 1.e-2) [real]
+Minimum intensity for initial plot, in arbitrary units; must 
+exceed 1.e-7 and must be less than "max_intens".  
+.le
+.ls (max_intens = 10.) [real]
+Maximum intensity for initial plot, in arbitrary units; must 
+exceed 1.e-7 and "min_intens". 
+.le
+.ls (log_intens = no) [boolean] 
+Plot the line intensity ratio with a log scale? 
+.le
+.ls (resolution = 51) [int]
+Max number of data points to plot for the range of abscissae.  
+Increasing this number improves the fidelity of the curve, at 
+the expense of execution time.  
+.le
+.ls (ref_color = 3) [int]
+Color for the curve corresponding to the primary, or reference 
+value of the diagnostic ratio.  Even if the output device supports 
+color, the rendered color may vary with different output hardware.
+.le
+.ls (delta_color = 1) [int]
+Color for the secondary, or "delta" curves; the default value is 
+the "foreground" color, which is often rendered as either black or 
+white.  Even if the output device supports color, the rendered 
+color may vary with different output hardware.
+.le
+.ls (title = "default") [string]
+Optional plot title. 
+.le
+.ls (interactive = yes) [boolean] 
+Run this task interactively? 
+.le
+.ls (device = stdgraph) [string]
+Output device for the plot. 
+.le
+.ls (cursor = "") [*gcur]
+Input for list-directed cursor commands. 
+.le
+.ls (append = no) [boolean] 
+Append next plot to previous? 
+.le
+.ls (at_data = "at_data") [string]
+Pathname for atomic data reference tables. 
+.le
+.ih
+EXAMPLES
+1. Plot 5 curves in the N_e, T_e plane that are consistent with the 
+[S II] density diagnostic ratio centered at ~0.7, in increments of 
+dex(0.05), and adjust the default plot limits such that N_e < 
+1.e+6/cm^3 and T_e < 50,000 K. 
+
+.nf
+    cl> ntcontour sulfur 2 3.2/4.51 diag_type=density delta=0.05 \
+    >>> ncont=2 max_dens=1.E6 max_temp=5.e+4 interact-
+.fi
+
+2. Plot curves in the N_e, intensity plane that are consistent 
+with the [O II] density diagnostic ratio for T_e=10000. K, with 
+secondary curves corresponding to T_e=5000 and T_e=15000. 
+
+.nf
+    cl> ntcontour oxygen 2 1.e4 plot_type=IN clist="5000. 1.5e4"
+.fi
+
+Once in interactive mode, change the plot limits to intensity < 4,
+1.e2 < N_e < 1.e6, then replot:
+
+.nf
+    :imax 4 dmin 1.e2 dmax 1.e6
+    r
+.fi
+
+Now change the plot to T_e vs. N_e; set the diagnostic ratio to 
+2.0 and the secondary curves to 1.0 and 3.0, then replot:
+
+.nf
+    :plottype TN primary 2. clist "1. 3."
+    r
+.fi
+
+3. Investigate the utility of a custom temperature diagnostic for   
+O III. Plot curves in the N_e, T_e plane that are consistent with 
+the ratio I(1661+1666)/I(4363) for values of 1.0 (primary), 0.5 and
+1.5 (secondary). (Note that the transitions corresponding to these 
+wavelengths can be found by running the "ionic" task first.) 
+
+.nf
+    cl> ntcont oxygen 3 1. diag_type=temperature clist="0.5 1.5" \
+    >>> transition="(j(6,3)+j(6,2))/j(5,4)" interact-
+.fi
+.ih
+REFERENCES
+The 5-level atom program, upon which this package is based, was 
+originally written by M.M. DeRobertis, R. Dufour, and R. Hunt.  
+This package was written by R.A. Shaw (STScI).  A description was 
+published by R.A. Shaw & R.J. Dufour (1994).  Type "help nlevel" 
+for additional information about the N-level atom approximation, 
+and for references to the atomic parameters and the other 
+literature references.  Support for this software development was 
+provided by the Astrophysics Data Program through NASA grant 
+NAG5-1432, and through STScI internal research funds.  
+.ih
+SEE ALSO
+nlevel, temden, ntplot 
+
+For general information about this package, type "help nebular 
+opt=sysdoc".  
+.endhelp

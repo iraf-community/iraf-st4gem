@@ -1,0 +1,40 @@
+# Key to Atomic data tables:	nebular$atomic_data/at_refer.tab
+
+# Atom	Ion	Atomic data	 Collision cross sections
+    6    0      c_i_atom.fits	 c_i_coll.fits
+    6	 1	c_ii_atom.fits	 c_ii_coll.fits
+    6	 2	c_iii_atom.fits	 c_iii_coll.fits
+    7	 0	n_i_atom.fits	 n_i_coll.fits
+    7	 1	n_ii_atom.fits	 n_ii_coll.fits
+    7	 2	n_iii_atom.fits	 n_iii_coll.fits
+    7    3      n_iv_atom.fits	 n_iv_coll.fits
+    8	 0	o_i_atom.fits	 o_i_coll.fits
+    8	 1	o_ii_atom.fits	 o_ii_coll.fits
+    8	 2	o_iii_atom.fits	 o_iii_coll.fits
+    8	 3	o_iv_atom.fits	 o_iv_coll.fits
+    8    4      o_v_atom.fits    o_v_coll.fits
+   10	 1	ne_ii_atom.fits  ne_ii_coll.fits
+   10	 2	ne_iii_atom.fits ne_iii_coll.fits
+   10	 3	ne_iv_atom.fits	 ne_iv_coll.fits
+   10	 4	ne_v_atom.fits	 ne_v_coll.fits
+   10    5      ne_vi_atom.fits  ne_vi_coll.fits
+   11	 3	na_iv_atom.fits	 na_iv_coll.fits
+   11    5      na_vi_atom.fits  na_vi_coll.fits
+   12	 4	mg_v_atom.fits	 mg_v_coll.fits
+   12    6      mg_vii_atom.fits mg_vii_coll.fits
+   13    1      al_ii_atom.fits  al_ii_coll.fits
+   14	 1	si_ii_atom.fits	 si_ii_coll.fits
+   14	 2	si_iii_atom.fits si_iii_coll.fits
+   16	 1	s_ii_atom.fits	 s_ii_coll.fits
+   16	 2	s_iii_atom.fits	 s_iii_coll.fits
+   16	 3	s_iv_atom.fits	 s_iv_coll.fits
+   17	 1	cl_ii_atom.fits	 cl_ii_coll.fits
+   17	 2	cl_iii_atom.fits cl_iii_coll.fits
+   17	 3	cl_iv_atom.fits	 cl_iv_coll.fits
+   18	 1	ar_ii_atom.fits  ar_ii_coll.fits
+   18	 2	ar_iii_atom.fits ar_iii_coll.fits
+   18	 3	ar_iv_atom.fits	 ar_iv_coll.fits
+   18	 4	ar_v_atom.fits	 ar_v_coll.fits
+   19	 3	k_iv_atom.fits	 k_iv_coll.fits
+   19	 4	k_v_atom.fits	 k_v_coll.fits
+   20	 4	ca_v_atom.fits	 ca_v_coll.fits
