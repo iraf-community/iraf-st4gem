@@ -180,8 +180,8 @@ int	i		# generic
 
 begin
 	call strcpy ("\n", s_wave,  sz_label)
-	call strcpy (EOS, s_label, sz_label)
-	call strcpy (EOS, s_emis,  sz_label)
+	call strcpy ("", s_label, sz_label)
+	call strcpy ("", s_emis,  sz_label)
 
 	do i = 1, n_report {
 	    call strcat ("%9.2f   ", s_wave, sz_label)
