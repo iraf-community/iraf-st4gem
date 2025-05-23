@@ -100,7 +100,7 @@ begin
 	# Fetch transition description.
 	call clgstr ("transition", transition, SZ_FNAME)
 	call strupr (transition)
-	if ( streq (transition, "DEFAULT") || transition[1] == EOS) 
+	if ( streq (transition, "DEFAULT") || streq (transition, "")) 
 	    call set_diag_expr (at, diag_type, diag_expr, SZ_FNAME)
 
 	else
@@ -155,7 +155,7 @@ char	sx[SZ_LINE]		# generic
 begin
 	# Fetch the appropriate ion string. 
 	nchars = get_ion_str (at, diag_type, ion_string, SZ_FNAME)
-	if ( !(streq (transition, "DEFAULT") || transition[1] == EOS) ) {
+	if ( !(streq (transition, "DEFAULT") || streq (transition, "")) ) {
 	    nchars = get_atom_str (AT_ATOM(at), AT_ION(at), sx, SZ_LINE)
 	    call sprintf (ion_string, SZ_LINE, "%s: %s")
 		call pargstr (sx)
