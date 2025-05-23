@@ -200,7 +200,7 @@ bool	streq()			# are two strings equal?
 
 begin
 	call strupr (expression)
-	if ( streq (expression, "DEFAULT") || expression[1] == EOS) {
+	if ( streq (expression, "DEFAULT") || streq (expression, "")) {
 	    if (PL_TYPE(pl) == INTENS_VS_NE)
 		dtype = DENSITY
 
@@ -260,7 +260,7 @@ char	sx[SZ_LINE]		# generic
 
 begin
 	if ( streq (USER_TRANSITION(pl), "DEFAULT") || 
-	     streq (USER_TRANSITION(pl), EOS) ) {
+	     streq (USER_TRANSITION(pl), "") ) {
 	    if (PL_TYPE(pl) == INTENS_VS_NE)
 	    	nchars = get_ion_str (PL_AT(pl), DENSITY, ion_str, SZ_LINE)
 
@@ -310,7 +310,7 @@ begin
 	# Third line: 
 	call sprintf (title3, SZ_LINE, "Primary = %g; Secondary = %s")
 	    call pargr (ratio)
-	if (streq (list, EOS) ) 
+	if (streq (list, "") ) 
 	    call pargstr ("[none]")
 	else
 	    call pargstr (list)
@@ -320,7 +320,7 @@ begin
 	call pargstr (title1)
 
 	# Construct default diagnostic expression...
-	if (streq (title2, "default") || streq (title2, EOS) ) 
+	if (streq (title2, "default") || streq (title2, "") ) 
 	    call pargstr (ion_str)
 
 	# ...or user expression.
