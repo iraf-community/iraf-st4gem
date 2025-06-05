@@ -18,6 +18,8 @@ $echo "------------------------  GILIB    --------------------------"
 $update libgilib.a
 $echo "------------------------  SYNPHOT ---------------------------"
 $update libsynphot.a
+$echo "------------------------  UTTABLES    --------------------------"
+$update libuttables.a
 
 $iffile (iraf$bin$(arch)/libtbtables.a)
     # Use the core library if it exists.
@@ -52,4 +54,7 @@ libsynphot.a:
         ;
 libtbtables.a:
 	@tbtables
+	;
+libuttables.a:
+	@uttables
 	;
