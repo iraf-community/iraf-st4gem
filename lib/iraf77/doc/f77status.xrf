@@ -1,0 +1,122 @@
+% IRAF77 -- Symbolic parameter definitions for F77/VOS interface
+%
+# This is a cross-reference file for the F77/VOS interface symbolic parameter
+# definitions.  It has a syntax that enables it to be preprocessed into SPP
+# definitions as well as Fortran-77 parameters.  There are four items on each
+# parm definition line : the SPP parameter name, the Fortran-77 parameter name,
+# the integer value of the parameter, and a description.  Null records and
+# records that contain a `!' or `#' in column 1 are comments as far as the
+# little preprocessor is concerned.  Records that contain `%' in column 1 are
+# records you identify as "intervening" comments that you want added to the
+# output files.
+%
+% Status return codes that match in SPP and Fortran includes
+%
+ER_EOF                  USEOF     -2    End-of-file indicator; same as IRAF
+ER_OK                   USOK       0    Successful return
+%
+% CL parameter access status messages : codes 1-9
+%
+ER_CLEOF                USCEOF    -1    End of file on CL string
+ER_LSTEOF               USCEOL    -1    CL end of list
+ER_CLNOTFND             USCPNF     1    CL parameter not found
+ER_CLBADTYP             USCPDT     2    CL parameter has bad data type
+ER_CLUNDF               USCPUD     3    CL parameter is undefined
+ER_CLPUT                USCPUT     5    Error putting parameter into CL
+ER_CLBADFELEM           USCBFE     6    First element is bad (must be > 0)
+ER_CLBADNELEMS          USCBNE     7    Number of elements is bad (must be > 0)
+%
+% Image access status messages : codes 10-29
+%
+ER_IMOPOLD              USIOPO    10    Error opening existing file
+ER_IMOPNEW              USIOPN    11    Error opening new file
+ER_IMOPCOP              USIOPC    12    Error opening new copy file
+ER_IMBADNAXIS           USINAX    13    Invalid NAXIS parameter
+ER_IMBADDIMEN           USIDIM    14    Invalid axis length parameter
+ER_IMBADTYPE            USIPDT    15    Invalid image pixel data type
+ER_IMOFFSET             USIOFS    16    Error returning offset to image data
+ER_IMBADACCMOD          USIACM    17    Invalid image access mode
+ER_IMCLOS               USICLO    18    Error closing existing file
+ER_IMNOTIMAG            USIBIM    19    Not an image !
+ER_IMBADSEC             USISEC    20    Bad section specification for image
+ER_IMBADEXTN            USIEXT    21    Bad extension for image
+ER_IMILLSEC             USIISC    22    Illegal section on new image/new copy
+ER_IMREAD               USIPRD    23    Error reading pixel file
+ER_IMWRITE              USIPWR    24    Error writing to pixel file
+ER_IMSTATUNKPAR         USIGUP    25    Get unknown image parameter
+ER_IMSETUNKPAR          USISUP    26    Set unknown image parameter
+%
+% Terminal I/O status messages : codes 30-39
+%
+ER_UPTOUT               USWOWR    30    Error writing to STDOUT
+ER_UPTLOG               USWLWR    31    Error writing to the log file
+ER_UPTBADDEST           USWBMD    32    Invalid message destination
+ER_UPTBADPRIO           USWBMP    33    Invalid message priority
+%
+% Header I/O status messages : 40-59
+%
+ER_HDRPARNF             USHPNF    40    Header parameter not found
+ER_HDRPARTY             USHPDT    41    Illegal data type for header parameter
+ER_HDRNOSP              USHOOS    42    Out of space in image header
+ER_HDRPARRDF            USHPDF    43    Illegal attempt to redefine parameter
+ER_BADINPAT             USTBIT    45    Bad input template (for parm tpt ??)
+ER_HDBADFELEM           USHBFE    46    Bad input first element
+ER_HDBADNELEM           USHBNE    47    Bad input number of elements
+ER_HDNODEL              USHPDE    48    Cannot delete standard keyword
+ER_HDDELNXKW            USHPNX    49    Cannot delete nonexistent keyword
+ER_IMNEX                USINF     50    Image does not exist
+ER_IMDELETE             USIDEL    51    Error deleting image
+ER_IMRENAME             USIREN    52    Error renaming image
+ER_HDRIMNF              USIBIH    53    Illegal image header
+ER_HDRIMDSCR		USIDMM    54	Image descriptor mismatch
+%
+% Template processing status messages : codes 60-69
+%
+ER_IMTOPN               USTOPE    60    Error opening template
+ER_IMTGETNEXT           USTGNX    61    Error getting next image from template
+ER_IMTMAXPAT            USTMXP    62    Too many patterns in template filename
+ER_IMTILLPAT            USTBFT    63    Illegal filename template
+ER_IMTCLST              USTCLS    64    Error closing template
+%
+% Graphics processing status messages : codes 70-99
+%
+ER_BADGRAPHDEV          USGDEV    70    Bad graphics device
+ER_BADGRAPHMODE         USGMOD    71    Bad graphics mode
+ER_GRAPHOPEN            USGOPE    72    Error opening graphics device
+ER_GRAPHCLOSE           USGCLO    73    Error closing graphics device
+ER_GRAPHCLEAR           USGCLR    74    Error clearing graphics device
+ER_GRAPHSETWND          USGSWN    75    Error setting window
+ER_GRAPHGETWND          USGGWN    76    Error getting window
+ER_GRAPHLINE            USGPLN    77    Error plotting a polyline
+ER_GRAPHMARKER          USGMRK    78    Error plotting a sequence of markers
+ER_GRAPHBADNPTS         USGBNP    79    Invalid number of points
+ER_GRAPHBADMARK         USGBMK    80    Bad marker (size is incorrect)
+ER_GRAPHBADAXES         USGBAX    81    Bad axes specification
+ER_GRAPHBADJUST         USGBJS    82    Bad justification for test
+ER_GRAPHBADSIZE         USGBCS    83    Bad character size
+ER_GRAPHBADORIENT       USGBOR    84    Bad orientation (for text)
+ER_GRAPHLABEL           USGLAB    85    Error writing label
+ER_GRAPHTEXT            USGTXT    86    Error writing text
+ER_GRAPHSETVP           USGSVP    87    Error setting viewport
+ER_GRAPHGETVP           USGGVP    88    Error getting viewport
+ER_GRAPHSETPAR          USGPP     89    Error setting GIO parameter
+ER_GRAPHGETPAR          USGGP     90    Error getting GIO parameter
+ER_GRAPHILLCODE         USGBRC    91    Bad reset code (in reset function)
+ER_GRAPHCURWR           USGCWR    92    Error writing cursor
+ER_GRAPHPLOT            USGPLT    93    Error in high level plot routine
+ER_GRAPHERRBAR          USGERB    94    Error in high level error bar routine
+ER_GRAPHISTGM           USGHGM    95    Error in high level histogram plot
+ER_BADCURSOR            USGBCC    96    Bad cursor call
+ER_GRAPHSCALE           USGSCA    97    Error in scale procedure
+%
+% Dynamic memory status messages : codes 100-109
+%
+ER_DMINVDTYP            USMDT    100    Invalid dynamic memory data type
+ER_DYNMEMALC            USMALL   101    Error allocating dynamic memory
+ER_FREEDYNMEM           USMFRE   102    Error freeing dynamic memory
+%
+% Utility character/number conversion status messages : 110-119
+%
+ER_NOTNUMBER            USUNAN   110    Not a number
+ER_OVFNUMBER            USUOVF   111    Overflow
+ER_NOSPACE              USUNSP   112    Field width not wide enough

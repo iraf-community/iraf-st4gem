@@ -1,0 +1,48 @@
+1 entries
+                           IRAF77 Software Notebook
+                           ------------------------
+===============================================================================
+Entry #1    C.D.Biemesderfer  02/01/88  SPP/Fortran include file cross reference
+
+
+	We have to be sure that the symbolic parameters that are defined in
+the SPP include file IRAF77.H used by the interface routines match those in
+the Fortran include file IRAF77.INC used by F77/VOS programmers.  To ensure
+that the definitions are the same, I have invented a meta-include file that
+contains combined definitions for both SPP and Fortran parameters.  The
+definitions that are critical (mostly, just the status codes) should be
+specified in the cross-reference file, which is then preprocessed into SPP
+and Fortran include files.
+
+	The syntax is pretty obvious and simple.  Null records and records
+that contain a `!' or `#' in column 1 are comments as far as the preprocessor
+is concerned.  Records that contain `%' in column 1 are records that are
+identified as "intervening" comments that you want added to the output files.
+All the other records are assumed to define parameters for the include files.
+
+	There are four things on each parameter definition line.  They are
+(in order of appearance) : the SPP parameter name, the Fortran-77 parameter
+name, the integer value of the parameter, and a short description of the
+parameter (which becomes a comment).  Here is an example.
+
+ER_OK                   USOK       0    Successful return
+
+Please note that I use this file when making documentation, also, so be careful
+that your descriptions are useful for end-users reading some programmer's guide
+(and that there are no typos!).  The cross-reference file should have a filetype
+(extension) of .XRF.
+
+	The preprocessor is a DCL command procedure called XRF2INC.  It accepts
+two input parameters, namely, the .XRF file root name, and an alternate root
+for the output files.  If no second parameter is specified, the output include
+files have the same rootname as the input .XRF file and have extensions of
+.H and .INC.
+
+	If you want to see an example of an entire .XRF file, I have made one
+for the status return codes; it is called F77STATUS.XRF.  The accompanying
+include files F77STATUS.H and F77STATUS.INC should exist also.
+
+	I think it would be a good idea to keep copies of IRAF77.H and
+IRAF77.INC on this directory for purposes of merging in the preprocessed .XRF
+data.  After this has been done, IRAF77.H can be copied to IRAFLIB and
+IRAF77.INC can be copied to SDASINC.

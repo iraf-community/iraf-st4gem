@@ -1,0 +1,122 @@
+# Update the iraf77 systems code in the iraf77 system library
+# Author: BALL, 2-DEC-1987
+
+$checkout libiraf77.a ../
+$update   libiraf77.a
+$checkin  libiraf77.a ../
+$exit
+
+generic:
+	$set	GEN = "$$generic -k -p gen/"
+
+	$ifolder (gen/uclgsr.x, uclgs.gx) $(GEN) -t dilrsx uclgs.gx $endif
+	$ifolder (gen/uclgvr.x, uclgv.gx) $(GEN) -t dilrsx uclgv.gx $endif
+	$ifolder (gen/uclpsr.x, uclps.gx) $(GEN) -t bdilrsx uclps.gx $endif
+	$ifolder (gen/uclpvr.x, uclpv.gx) $(GEN) -t dilrsx uclpv.gx $endif
+	$ifolder (gen/ugggpr.x, ugggp.gx) $(GEN) -t ir ugggp.gx $endif
+	$ifolder (gen/ugpgpr.x, ugpgp.gx) $(GEN) -t ir ugpgp.gx $endif
+	$ifolder (gen/uhdasr.x, uhdas.gx) $(GEN) -t bdilrs uhdas.gx $endif
+	$ifolder (gen/uhdavr.x, uhdav.gx) $(GEN) -t bdilrs uhdav.gx $endif
+	$ifolder (gen/uhdgsr.x, uhdgs.gx) $(GEN) -t bdilrs uhdgs.gx $endif
+	$ifolder (gen/uhdgvr.x, uhdgv.gx) $(GEN) -t bdilrs uhdgv.gx $endif
+	$ifolder (gen/uhdpsr.x, uhdps.gx) $(GEN) -t bdilrs uhdps.gx $endif
+	$ifolder (gen/uhdpvr.x, uhdpv.gx) $(GEN) -t bdilrs uhdpv.gx $endif
+	$ifolder (gen/uigl1r.x, uigl1.gx) $(GEN) -t dilrsx uigl1.gx $endif
+	$ifolder (gen/uigl2r.x, uigl2.gx) $(GEN) -t dilrsx uigl2.gx $endif
+	$ifolder (gen/uigl3r.x, uigl3.gx) $(GEN) -t dilrsx uigl3.gx $endif
+	$ifolder (gen/uigs1r.x, uigs1.gx) $(GEN) -t dilrsx uigs1.gx $endif
+	$ifolder (gen/uigs2r.x, uigs2.gx) $(GEN) -t dilrsx uigs2.gx $endif
+	$ifolder (gen/uigs3r.x, uigs3.gx) $(GEN) -t dilrsx uigs3.gx $endif
+	$ifolder (gen/uimglr.x, uimgl.gx) $(GEN) -t dilrsx uimgl.gx $endif
+	$ifolder (gen/uimgsr.x, uimgs.gx) $(GEN) -t dilrsx uimgs.gx $endif
+	$ifolder (gen/uimplr.x, uimpl.gx) $(GEN) -t dilrsx uimpl.gx $endif
+	$ifolder (gen/uimpsr.x, uimps.gx) $(GEN) -t dilrsx uimps.gx $endif
+	$ifolder (gen/uipl1r.x, uipl1.gx) $(GEN) -t dilrsx uipl1.gx $endif
+	$ifolder (gen/uipl2r.x, uipl2.gx) $(GEN) -t dilrsx uipl2.gx $endif
+	$ifolder (gen/uipl3r.x, uipl3.gx) $(GEN) -t dilrsx uipl3.gx $endif
+	$ifolder (gen/uips1r.x, uips1.gx) $(GEN) -t dilrsx uips1.gx $endif
+	$ifolder (gen/uips2r.x, uips2.gx) $(GEN) -t dilrsx uips2.gx $endif
+	$ifolder (gen/uips3r.x, uips3.gx) $(GEN) -t dilrsx uips3.gx $endif
+	$ifolder (gen/uimgmp.x, uimgmp.gx) $generic uimgmp.gx -k -o gen/uimgmp.x $endif
+	$ifolder (gen/uimpmp.x, uimpmp.gx) $generic uimpmp.gx -k -o gen/uimpmp.x $endif
+	;
+
+libiraf77.a:
+        $set XFLAGS = "$(XFLAGS) -I."
+
+	$ifeq (USE_GENERIC, yes) $call generic $endif
+	@gen
+
+	fhglin.x       		<gset.h> 
+	hgline.x       		
+	imadcf.x       		<imhdr.h> <imio.h> <mach.h> <iraf77.h> 
+	makeimname.x   		
+	sdasparse.x    		<ctype.h> <iraf77.h> 
+	uclgsb.x       		<iraf77.h> 
+	uclgst.x       		<iraf77.h> 
+	uclgvb.x       		<iraf77.h> 
+	uclpst.x       		<iraf77.h> 
+	uclpvb.x       		<iraf77.h> 
+	uclrcu.x       		<iraf77.h> 
+	udmfre.x       		<iraf77.h> 
+	udmget.x       		<iraf77.h> 
+	uerget.x       		<ctype.h> 
+	uerror.x
+	ufclos.x
+	ufdele.x
+	ufglin.x
+	ufopen.x
+	ufplin.x
+	ufsbof.x
+	ufseof.x
+	ugascl.x       		<iraf77.h> 
+	ugclos.x       		<iraf77.h> 
+	ugclrs.x       		<iraf77.h> 
+	ugerba.x       		<iraf77.h> <gset.h> 
+	ugerbs.x       		<iraf77.h> <gset.h> 
+	uggvpt.x       		<iraf77.h> 
+	uggwnd.x       		<iraf77.h> 
+	ughist.x       		<iraf77.h> 
+	uglabl.x       		<iraf77.h> <gset.h> 
+	ugline.x       		<iraf77.h> 
+	ugmark.x       		<iraf77.h> 
+	ugopen.x       		<iraf77.h> 
+	ugplot.x       		<iraf77.h> 
+	ugpvpt.x       		<iraf77.h> 
+	ugpwnd.x       		<iraf77.h> 
+	ugrset.x       		<iraf77.h> 
+	ugtext.x       		<iraf77.h> <gset.h> 
+	uhdahs.x       		<imio.h> <iraf77.h> 
+	uhdast.x       		<imio.h> <iraf77.h> 
+	uhdavt.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdckl.x       		<iraf77.h> 
+	uhdcpy.x       		<imio.h> <imhdr.h> <iraf77.h> 
+	uhddsp.x       		<imio.h> <iraf77.h> 
+	uhddvp.x       		<imio.h> <iraf77.h> 
+	uhdgnk.x       		<iraf77.h> 
+	uhdgst.x       		<iraf77.h> 
+	uhdgtp.x       		<iraf77.h> 
+	uhdgvt.x       		<iraf77.h> 
+	uhdokl.x       		<iraf77.h> 
+	uhdpst.x       		<imio.h> <iraf77.h> 
+	uhdpvt.x       		<imio.h> <iraf77.h> 
+	uigipi.x       		<imio.h> <imset.h> <iraf77.h> 
+	uigipr.x       		<imio.h> <imset.h> <iraf77.h> 
+	uigipt.x       		<imio.h> <imset.h> <iraf77.h> 
+	uimclo.x       		<iraf77.h> 
+	uimcre.x       		<imhdr.h> <iraf77.h> 
+	uimctp.x       		<iraf77.h> 
+	uimdel.x       		<iraf77.h> 
+	uimgid.x       		<imhdr.h> <iraf77.h> 
+	uimopc.x       		<iraf77.h> <imio.h> 
+	uimopn.x       		<iraf77.h> 
+	uimotp.x       		<iraf77.h> 
+	uimrnm.x       		<iraf77.h> 
+	uimxtp.x       		<imio.h> <iraf77.h> 
+	uipipi.x       		<imio.h> <imset.h> <iraf77.h> 
+	uipipr.x       		<imio.h> <imset.h> <iraf77.h> 
+	uipipt.x       		<imset.h> <imio.h> <iraf77.h> 
+	umsput.x       		<iraf77.h> <fset.h>
+	uprint.x
+	uptlog.x       		<iraf77.h> 
+	;

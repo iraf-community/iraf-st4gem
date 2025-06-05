@@ -16,6 +16,8 @@ $echo "------------------------  GFLIB    --------------------------"
 $update libgflib.a
 $echo "------------------------  GILIB    --------------------------"
 $update libgilib.a
+$echo "------------------------  IRAF77 ----------------------------"
+$update libiraf77.a
 $echo "------------------------  SYNPHOT ---------------------------"
 $update libsynphot.a
 $echo "------------------------  UTTABLES    --------------------------"
@@ -46,6 +48,9 @@ libgflib.a:
 libgilib.a:
 	@gilib
 	;
+libiraf77.a:
+        @iraf77
+        ;
 libstxtools.a:
 	@stxtools
 	;

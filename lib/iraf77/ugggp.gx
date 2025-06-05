@@ -1,0 +1,22 @@
+include <iraf77.h>
+
+# UGGGP[IR]-- Get a GIO parameter.
+# GIO parameters are of type integer or real.
+# The only character string GIO parameter is xtickformat, and we do not 
+# support it!
+
+procedure ugggp$t (gp, param, value, istat)
+
+pointer	gp			# graphics descriptor
+int	param			# parameter to be gotten
+PIXEL	value			# real value of parameter
+int	istat
+
+PIXEL	gstat$t()		# function to return GIO parameter
+
+begin
+	istat = ER_OK
+
+	iferr (value = gstat$t (gp, param))
+	    istat = ER_GRAPHGETPAR
+end

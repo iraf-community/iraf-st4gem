@@ -1,0 +1,173 @@
+# Update the generic system code in the iraf77 system library
+# Author: BALL, 2-DEC-1987
+
+$checkout libiraf77.a ../../
+$update   libiraf77.a
+$checkin  libiraf77.a ../../
+$exit
+
+libiraf77.a:
+	uclgsd.x       		<iraf77.h> 
+	uclgsi.x       		<iraf77.h> 
+	uclgsl.x       		<iraf77.h> 
+	uclgsr.x       		<iraf77.h> 
+	uclgss.x       		<iraf77.h> 
+	uclgsx.x       		<iraf77.h> 
+	uclgvd.x       		<iraf77.h> 
+	uclgvi.x       		<iraf77.h> 
+	uclgvl.x       		<iraf77.h> 
+	uclgvr.x       		<iraf77.h> 
+	uclgvs.x       		<iraf77.h> 
+	uclgvx.x       		<iraf77.h> 
+	uclpsb.x       		<iraf77.h> 
+	uclpsd.x       		<iraf77.h> 
+	uclpsi.x       		<iraf77.h> 
+	uclpsl.x       		<iraf77.h> 
+	uclpsr.x       		<iraf77.h> 
+	uclpss.x       		<iraf77.h> 
+	uclpsx.x       		<iraf77.h> 
+	uclpvd.x       		<iraf77.h> 
+	uclpvi.x       		<iraf77.h> 
+	uclpvl.x       		<iraf77.h> 
+	uclpvr.x       		<iraf77.h> 
+	uclpvs.x       		<iraf77.h> 
+	uclpvx.x       		<iraf77.h> 
+	ugggpi.x       		<iraf77.h> 
+	ugggpr.x       		<iraf77.h> 
+	ugpgpi.x       		<iraf77.h> 
+	ugpgpr.x       		<iraf77.h> 
+	uhdasb.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdasd.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdasi.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdasl.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdasr.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdass.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdavb.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdavd.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdavi.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdavl.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdavr.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdavs.x       		<imhdr.h> <imio.h> <iraf77.h> 
+	uhdgsb.x       		<iraf77.h> 
+	uhdgsd.x       		<iraf77.h> 
+	uhdgsi.x       		<iraf77.h> 
+	uhdgsl.x       		<iraf77.h> 
+	uhdgsr.x       		<iraf77.h> 
+	uhdgss.x       		<iraf77.h> 
+	uhdgvb.x       		<iraf77.h> 
+	uhdgvd.x       		<iraf77.h> 
+	uhdgvi.x       		<iraf77.h> 
+	uhdgvl.x       		<iraf77.h> 
+	uhdgvr.x       		<iraf77.h> 
+	uhdgvs.x       		<iraf77.h> 
+	uhdpsb.x       		<imio.h> <iraf77.h> 
+	uhdpsd.x       		<imio.h> <iraf77.h> 
+	uhdpsi.x       		<imio.h> <iraf77.h> 
+	uhdpsl.x       		<imio.h> <iraf77.h> 
+	uhdpsr.x       		<imio.h> <iraf77.h> 
+	uhdpss.x       		<imio.h> <iraf77.h> 
+	uhdpvb.x       		<imio.h> <iraf77.h> 
+	uhdpvd.x       		<imio.h> <iraf77.h> 
+	uhdpvi.x       		<imio.h> <iraf77.h> 
+	uhdpvl.x       		<imio.h> <iraf77.h> 
+	uhdpvr.x       		<imio.h> <iraf77.h> 
+	uhdpvs.x       		<imio.h> <iraf77.h> 
+	uigl1d.x       		<imhdr.h> <iraf77.h> 
+	uigl1i.x       		<imhdr.h> <iraf77.h> 
+	uigl1l.x       		<imhdr.h> <iraf77.h> 
+	uigl1r.x       		<imhdr.h> <iraf77.h> 
+	uigl1s.x       		<imhdr.h> <iraf77.h> 
+	uigl1x.x       		<imhdr.h> <iraf77.h> 
+	uigl2d.x       		<imhdr.h> <iraf77.h> 
+	uigl2i.x       		<imhdr.h> <iraf77.h> 
+	uigl2l.x       		<imhdr.h> <iraf77.h> 
+	uigl2r.x       		<imhdr.h> <iraf77.h> 
+	uigl2s.x       		<imhdr.h> <iraf77.h> 
+	uigl2x.x       		<imhdr.h> <iraf77.h> 
+	uigl3d.x       		<imhdr.h> <iraf77.h> 
+	uigl3i.x       		<imhdr.h> <iraf77.h> 
+	uigl3l.x       		<imhdr.h> <iraf77.h> 
+	uigl3r.x       		<imhdr.h> <iraf77.h> 
+	uigl3s.x       		<imhdr.h> <iraf77.h> 
+	uigl3x.x       		<imhdr.h> <iraf77.h> 
+	uigs1d.x       		<imhdr.h> <iraf77.h> 
+	uigs1i.x       		<imhdr.h> <iraf77.h> 
+	uigs1l.x       		<imhdr.h> <iraf77.h> 
+	uigs1r.x       		<imhdr.h> <iraf77.h> 
+	uigs1s.x       		<imhdr.h> <iraf77.h> 
+	uigs1x.x       		<imhdr.h> <iraf77.h> 
+	uigs2d.x       		<imhdr.h> <iraf77.h> 
+	uigs2i.x       		<imhdr.h> <iraf77.h> 
+	uigs2l.x       		<imhdr.h> <iraf77.h> 
+	uigs2r.x       		<imhdr.h> <iraf77.h> 
+	uigs2s.x       		<imhdr.h> <iraf77.h> 
+	uigs2x.x       		<imhdr.h> <iraf77.h> 
+	uigs3d.x       		<imhdr.h> <iraf77.h> 
+	uigs3i.x       		<imhdr.h> <iraf77.h> 
+	uigs3l.x       		<imhdr.h> <iraf77.h> 
+	uigs3r.x       		<imhdr.h> <iraf77.h> 
+	uigs3s.x       		<imhdr.h> <iraf77.h> 
+	uigs3x.x       		<imhdr.h> <iraf77.h> 
+	uimgld.x       		<imhdr.h> <iraf77.h> 
+	uimgli.x       		<imhdr.h> <iraf77.h> 
+	uimgll.x       		<imhdr.h> <iraf77.h> 
+	uimglr.x       		<imhdr.h> <iraf77.h> 
+	uimgls.x       		<imhdr.h> <iraf77.h> 
+	uimglx.x       		<imhdr.h> <iraf77.h> 
+	uimgmp.x       		<imhdr.h> <iraf77.h> 
+	uimgsd.x       		<imhdr.h> <iraf77.h> 
+	uimgsi.x       		<imhdr.h> <iraf77.h> 
+	uimgsl.x       		<imhdr.h> <iraf77.h> 
+	uimgsr.x       		<imhdr.h> <iraf77.h> 
+	uimgss.x       		<imhdr.h> <iraf77.h> 
+	uimgsx.x       		<imhdr.h> <iraf77.h> 
+	uimpld.x       		<imhdr.h> <iraf77.h> 
+	uimpli.x       		<imhdr.h> <iraf77.h> 
+	uimpll.x       		<imhdr.h> <iraf77.h> 
+	uimplr.x       		<imhdr.h> <iraf77.h> 
+	uimpls.x       		<imhdr.h> <iraf77.h> 
+	uimplx.x       		<imhdr.h> <iraf77.h> 
+	uimpmp.x       		<imhdr.h> <iraf77.h> 
+	uimpsd.x       		<imhdr.h> <iraf77.h> 
+	uimpsi.x       		<imhdr.h> <iraf77.h> 
+	uimpsl.x       		<imhdr.h> <iraf77.h> 
+	uimpsr.x       		<imhdr.h> <iraf77.h> 
+	uimpss.x       		<imhdr.h> <iraf77.h> 
+	uimpsx.x       		<imhdr.h> <iraf77.h> 
+	uipl1d.x       		<imhdr.h> <iraf77.h> 
+	uipl1i.x       		<imhdr.h> <iraf77.h> 
+	uipl1l.x       		<imhdr.h> <iraf77.h> 
+	uipl1r.x       		<imhdr.h> <iraf77.h> 
+	uipl1s.x       		<imhdr.h> <iraf77.h> 
+	uipl1x.x       		<imhdr.h> <iraf77.h> 
+	uipl2d.x       		<imhdr.h> <iraf77.h> 
+	uipl2i.x       		<imhdr.h> <iraf77.h> 
+	uipl2l.x       		<imhdr.h> <iraf77.h> 
+	uipl2r.x       		<imhdr.h> <iraf77.h> 
+	uipl2s.x       		<imhdr.h> <iraf77.h> 
+	uipl2x.x       		<imhdr.h> <iraf77.h> 
+	uipl3d.x       		<imhdr.h> <iraf77.h> 
+	uipl3i.x       		<imhdr.h> <iraf77.h> 
+	uipl3l.x       		<imhdr.h> <iraf77.h> 
+	uipl3r.x       		<imhdr.h> <iraf77.h> 
+	uipl3s.x       		<imhdr.h> <iraf77.h> 
+	uipl3x.x       		<imhdr.h> <iraf77.h> 
+	uips1d.x       		<imhdr.h> <iraf77.h> 
+	uips1i.x       		<imhdr.h> <iraf77.h> 
+	uips1l.x       		<imhdr.h> <iraf77.h> 
+	uips1r.x       		<imhdr.h> <iraf77.h> 
+	uips1s.x       		<imhdr.h> <iraf77.h> 
+	uips1x.x       		<imhdr.h> <iraf77.h> 
+	uips2d.x       		<imhdr.h> <iraf77.h> 
+	uips2i.x       		<imhdr.h> <iraf77.h> 
+	uips2l.x       		<imhdr.h> <iraf77.h> 
+	uips2r.x       		<imhdr.h> <iraf77.h> 
+	uips2s.x       		<imhdr.h> <iraf77.h> 
+	uips2x.x       		<imhdr.h> <iraf77.h> 
+	uips3d.x       		<imhdr.h> <iraf77.h> 
+	uips3i.x       		<imhdr.h> <iraf77.h> 
+	uips3l.x       		<imhdr.h> <iraf77.h> 
+	uips3r.x       		<imhdr.h> <iraf77.h> 
+	uips3s.x       		<imhdr.h> <iraf77.h> 
+	uips3x.x       		<imhdr.h> <iraf77.h> 
+	;

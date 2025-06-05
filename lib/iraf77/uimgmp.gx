@@ -1,0 +1,50 @@
+include	<imhdr.h>
+include	<iraf77.h>
+
+# UIMGMP -- Gets the data portion of the selected image into virtual memory
+# and return an offset into a buffer for the selected data type.
+
+procedure uimgmp (im_id, offset, istat)
+
+pointer im_id			# image descriptor
+pointer offset			# pointer into virtual memory
+int	istat			# return status
+
+int	naxis			# image dimensionnality
+long	vs[IM_MAXDIM]		# section starting vector
+long	ve[IM_MAXDIM]		# section ending vector
+int	i
+pointer sp, msg
+
+$for(silrdx)
+pointer imggs$t()
+$endfor
+
+begin
+
+	istat = ER_OK
+	# Set up section to get the whole image
+	naxis = IM_NDIM(im_id)
+	do i = 1, naxis  {
+	   vs[i] = 1
+	   ve[i] = IM_LEN(im_id,i)
+	}
+
+	switch (IM_PIXTYPE(im_id)) {
+$for(silrdx)
+	case TY_PIXEL:
+	# get the image into virtual memory.
+	iferr ( offset = imggs$t (im_id, vs, ve, naxis) )
+	   istat = ER_IMOFFSET
+$endfor
+	default:
+	   # error handling for unsupported datatype
+	   call smark (sp)
+	   call salloc (msg, SZ_LINE, TY_CHAR)
+	   call sprintf (Memc[msg], SZ_LINE,
+			    "uimgmp - unsupported data type %d")
+	   call pargi (IM_PIXTYPE(im_id))
+	   call error (0, Memc[msg])
+	   call sfree (sp)
+	}
+end

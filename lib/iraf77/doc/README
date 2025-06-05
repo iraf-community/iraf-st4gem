@@ -1,0 +1,15 @@
+This directory contains reference files for maintaining the correspondence
+between status codes used in the SPP F77VOS include file and the
+equivalent F77VOS Fortran include file:
+
+f77status.h	- the SPP version of the status include file
+f77status.inc	- the Fortran version of the status include file
+f77status.xrf	- the cross-reference file containing both SPP and Fortran names
+iraf77.mem	- a memo file describing the preprocessor used to make
+		  the .h and .inc files from the .xrf file
+
+NOTE:  the status return codes are only a PART of the information in 
+lib$iraf77.h (and stsdaslib$iraf77/iraf77.h -- they should be the same
+file) and stsdaslib$iraf77.inc; NEVER, NEVER, NEVER replace lib$iraf77.h
+or stsdaslib$iraf77.inc with the corresponding f77status file! 
+Edit and include the relevant files instead.
