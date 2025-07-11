@@ -9,6 +9,7 @@ begin
 	set fourier    = "analysis$fourier/"
 	set isophote   = "analysis$isophote/"
         set nebular    = "analysis$nebular/"
+        set at_data    = "nebular$atomic_data/"
 
 	package analysis
 
