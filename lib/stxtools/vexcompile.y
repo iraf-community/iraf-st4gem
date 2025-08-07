@@ -181,6 +181,7 @@ pointer	sp, pcode
 data	debug	/ false /
 
 int	open(), stropen(), strlen(), fstati(), yyparse()
+int     vex_gettok()
 
 extern	vex_gettok
 
