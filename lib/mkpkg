@@ -23,24 +23,13 @@ $update libsynphot.a
 $echo "------------------------  UTTABLES    --------------------------"
 $update libuttables.a
 
-$iffile (iraf$bin$(arch)/libtbtables.a)
-    # Use the core library if it exists.
-    ;
-$else
-    $echo "------------------------  TBTABLES --------------------------"
-    $update libtbtables.a
-$endif
+# For the TBTABLES and STXTOOLS libraries we'll use the version in the core
+# system to avoid possibly divergent code.
 
-$iffile (iraf$bin$(arch)/libstxtools.a)
-    # Use the core library if it exists.
-    ;
-$else
-    $echo "------------------------  STXTOOLS --------------------------"
-    $update libstxtools.a
-$endif
-
-$ifeq (hostid, unix)  !(date)  $endif
-$exit
+libstxtools.a:
+	;
+libtbtables.a:
+	;
 
 libgflib.a:
 	@gflib
@@ -51,15 +40,13 @@ libgilib.a:
 libiraf77.a:
         @iraf77
         ;
-libstxtools.a:
-	@stxtools
-	;
 libsynphot.a:
         @synphot
         ;
-libtbtables.a:
-	@tbtables
-	;
 libuttables.a:
 	@uttables
 	;
+
+$ifeq (hostid, unix)  !(date)  $endif
+$exit
+
