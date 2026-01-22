@@ -22,6 +22,5 @@ if ( deftask("tables")) {
       headers
       imgtools
       tools
-      nttools
 
 keep
